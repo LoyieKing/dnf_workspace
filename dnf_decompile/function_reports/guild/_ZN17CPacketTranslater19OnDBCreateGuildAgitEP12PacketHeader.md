@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082902` | `0x2e3` | `0x8078d98` | `0x2e1` |
+| guild | DIFF | `0x8082902` | `0x2e3` | `0x80787e4` | `0x2d7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,183 +1,185 @@
+@@ -1,183 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -40,12 +40,12 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
 -mov    0x8(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d6>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2cc>
 +mov    -0x28(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x1a1>
++jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x197>
 +mov    -0x28(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -88,7 +88,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d6>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2cc>
 +movl   $0x1,0x4(%esp)
  mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
@@ -144,11 +144,8 @@
  lea    -0x192c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
--movl   $0x8,-0x54(%ebp)
+ movl   $0x8,-0x54(%ebp)
 -mov    -0x24(%ebp),%eax
-+lea    -0x192c(%ebp),%eax
-+add    $0x18d8,%eax
-+movl   $0x8,(%eax)
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildCargoEv>
@@ -176,7 +173,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d6>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2cc>
 +mov    -0x28(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%edi
@@ -199,10 +196,10 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d6>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2cc>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x27e>
-+jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x27c>
++jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x272>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -226,7 +223,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x277>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x275>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x26b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -236,7 +233,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d6>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2cc>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x16c9,0x8(%esp)
@@ -250,7 +247,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d3>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d1>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2c7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -346,7 +343,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4271 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4258 行）：
 
 ```cpp
 void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
@@ -373,7 +370,7 @@ void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
                 guild->GetGuildCargo()->SetGuildInfo(guild->GetGuildKey());
                 STGuildCargoDBInfo cargoInfo;
                 memset(&cargoInfo, 0, 0x18dc);
-                *(unsigned int*)((char*)&cargoInfo + 0x18d8) = 8;
+                cargoInfo.m_capacity = 8;
                 guild->GetGuildCargo()->SetGuildCargoDBInfo(cargoInfo);
                 guild->NotifyCreateGuildAgitToGuildMember(*(unsigned int*)(pb + 0xe));
                 guild->SendGuildAgitInfoToMembers();

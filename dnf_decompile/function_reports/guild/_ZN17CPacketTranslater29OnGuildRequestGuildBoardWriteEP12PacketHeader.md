@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8086af6` | `0x2b7` | `0x807c8de` | `0x200` |
+| guild | DIFF | `0x8086af6` | `0x2b7` | `0x807c23a` | `0x1f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,170 +1,124 @@
+@@ -1,170 +1,118 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -41,7 +41,7 @@
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x2ad>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x1fe>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x1ef>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -75,7 +75,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x2ad>
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x1fe>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x1ef>
  mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%eax
 +add    $0xe,%eax
@@ -107,34 +107,28 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x2ad>
 -lea    -0x100(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x1fe>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x1ef>
 +lea    -0xe8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_DB_Load_Request_Guild_Board_WriteC1Ev>
-+lea    -0xe8(%ebp),%eax
-+lea    0xb(%eax),%edx
  mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,-0xf5(%ebp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0xe8(%ebp),%eax
-+lea    0xf(%eax),%edx
++mov    %eax,-0xdd(%ebp)
  mov    -0x14(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    %eax,-0xf1(%ebp)
 +add    $0xe,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0xe8(%ebp),%eax
-+lea    0x13(%eax),%edx
++mov    %eax,-0xd9(%ebp)
  mov    -0x14(%ebp),%eax
 -mov    0x12(%eax),%eax
 -mov    %eax,-0xed(%ebp)
 +add    $0x12,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0xd5(%ebp)
  mov    -0x14(%ebp),%eax
 -movzbl 0x16(%eax),%eax
 -mov    %al,-0x65(%ebp)
@@ -325,7 +319,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5302 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5289 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
@@ -352,10 +346,10 @@ void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
         return;
     }
     Packet_DB_Load_Request_Guild_Board_Write dbPkt;
-    *(unsigned int*)((char*)&dbPkt + 0xb) = *(unsigned int*)(pb + 0xa);
-    *(unsigned int*)((char*)&dbPkt + 0xf) = *(unsigned int*)(pb + 0xe);
-    *(unsigned int*)((char*)&dbPkt + 0x13) = *(unsigned int*)(pb + 0x12);
-    memcpy((char*)&dbPkt + 0x17, pb + 0x18, 0x78);
+    dbPkt.m_b = *(unsigned int*)(pb + 0xa);
+    dbPkt.m_c = *(unsigned int*)(pb + 0xe);
+    dbPkt.m_d = *(unsigned int*)(pb + 0x12);
+    memcpy(&dbPkt.m_info, pb + 0x18, 0x78);
     *(unsigned char*)((char*)&dbPkt + 0x9b) = *(unsigned char*)(pb + 0x16);
     *(unsigned char*)((char*)&dbPkt + 0x9c) = *(unsigned char*)(pb + 0x17);
     memcpy((char*)&dbPkt + 0x9e, user->GetCharName(), 0x1e);

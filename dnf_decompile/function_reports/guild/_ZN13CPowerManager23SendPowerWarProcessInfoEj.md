@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809b766` | `0x252` |
+| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809afbe` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,152 +1,153 @@
--push   %ebp
--mov    %esp,%ebp
--push   %ebx
--sub    $0x74,%esp
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication15Get_UserManagerEv>
+@@ -1,152 +1,152 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x74,%esp
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication15Get_UserManagerEv>
  mov    0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -169,15 +169,6 @@
  pop    %ebx
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+pop    %ebp
-+ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x28,%esp
-+movl   $0x419,0x8(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -271,7 +262,7 @@ CPowerManager::_ZN13CPowerManager23SendPowerWarProcessInfoEj(CPowerManager *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 522 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 520 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)

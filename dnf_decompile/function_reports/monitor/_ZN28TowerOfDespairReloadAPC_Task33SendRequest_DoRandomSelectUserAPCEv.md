@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x805ca94` | `0xd0` | `0x80a7112` | `0xd0` |
+| monitor | NEAR | `0x805ca94` | `0xd0` | `0x80a7104` | `0xd0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,53 @@
--push   %ebp
--mov    %esp,%ebp
--sub    $0x48,%esp
--movl   $0x37,0x8(%esp)
+@@ -1,51 +1,51 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x48,%esp
+ movl   $0x37,0x8(%esp)
  movl   $&_ZZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x18(%ebp),%eax
@@ -71,12 +71,6 @@
  nop
  leave
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

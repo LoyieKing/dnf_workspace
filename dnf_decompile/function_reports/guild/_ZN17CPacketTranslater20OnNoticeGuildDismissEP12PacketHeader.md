@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073948` | `0x328` | `0x8069f1c` | `0x33f` |
+| guild | DIFF | `0x8073948` | `0x328` | `0x8069d7a` | `0x321` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,213 +1,222 @@
+@@ -1,213 +1,210 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -82,7 +82,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x218>
 -lea    -0x3d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x231>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x213>
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -114,21 +114,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN15Packet_No_CacheC1Ev>
 -movl   $0x0,-0x50(%ebp)
-+lea    -0x4a(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x0,(%eax)
-+lea    -0x4a(%ebp),%eax
-+lea    0xe(%eax),%ebx
++movl   $0x0,-0x40(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
  movzbl %al,%eax
 -mov    %eax,-0x4c(%ebp)
 -movl   $0x1,-0x48(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x4a(%ebp),%eax
-+add    $0x12,%eax
-+movl   $0x1,(%eax)
++mov    %eax,-0x3c(%ebp)
++movl   $0x1,-0x38(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -138,21 +132,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -movl   $0x0,-0x50(%ebp)
-+lea    -0x4a(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x0,(%eax)
-+lea    -0x4a(%ebp),%eax
-+lea    0xe(%eax),%ebx
++movl   $0x0,-0x40(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
  movzbl %al,%eax
 -mov    %eax,-0x4c(%ebp)
 -movl   $0x2,-0x48(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x4a(%ebp),%eax
-+add    $0x12,%eax
-+movl   $0x2,(%eax)
++mov    %eax,-0x3c(%ebp)
++movl   $0x2,-0x38(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -176,7 +164,7 @@
 -je     <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x320>
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x337>
++je     <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x319>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
@@ -194,10 +182,10 @@
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager12GuildDismissEP6CGuild>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x320>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x337>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x319>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x2ba>
-+jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x2d1>
++jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x2b3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -238,7 +226,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x2b3>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x2ca>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x2ac>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -248,7 +236,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x320>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x337>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x319>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildDismiss() Exception Break",(%esp)
@@ -266,7 +254,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x31b>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x332>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader+0x314>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -354,7 +342,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 940 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 937 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildDismiss(PacketHeader* pkt)
@@ -366,15 +354,13 @@ void CPacketTranslater::OnNoticeGuildDismiss(PacketHeader* pkt)
     DNF_LOG_SCOPE_LINE(0x3a9,"./log/Web", "Packet_Monitor_Notice_Guild_Dismiss: guildkey : %d\n",
         pb->m_guildKey);
     Packet_No_Cache noCache;
-    *(unsigned int*)((char*)&noCache + 0xa) = 0;
-    *(unsigned int*)((char*)&noCache + 0xe) =
-        (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
-    *(unsigned int*)((char*)&noCache + 0x12) = 1;
+    noCache.ma = 0;
+    noCache.me = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
+    noCache.m12 = 1;
     m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&noCache);
-    *(unsigned int*)((char*)&noCache + 0xa) = 0;
-    *(unsigned int*)((char*)&noCache + 0xe) =
-        (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
-    *(unsigned int*)((char*)&noCache + 0x12) = 2;
+    noCache.ma = 0;
+    noCache.me = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
+    noCache.m12 = 2;
     m_pclApp->Get_ServerHandler()->SendTcpGameServerFirst(&noCache);
     CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(pb->m_guildKey);
     if (guild != 0)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087c5c` | `0x374` | `0x807d57e` | `0x29c` |
+| guild | DIFF | `0x8087c5c` | `0x374` | `0x807ce84` | `0x288` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,227 +1,174 @@
+@@ -1,227 +1,166 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -41,7 +41,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x369>
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x295>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -81,7 +81,7 @@
 -mov    0xe(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x295>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
 +mov    -0x24(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
@@ -124,7 +124,7 @@
 -mov    -0x28(%ebp),%eax
 -movzbl 0x12(%eax),%ebx
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x295>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
 +mov    -0x24(%ebp),%eax
 +add    $0x12,%eax
 +movzbl (%eax),%eax
@@ -188,7 +188,7 @@
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1dc>
 -movb   $0x2,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x295>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
 +cmpb   $0x3,-0xe(%ebp)
 +jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1c7>
 +mov    $0x1,%eax
@@ -233,8 +233,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Guild_Apply_Origial_Power_Side_ReplyC1Ev>
 -mov    -0x30(%ebp),%eax
-+lea    -0x5b(%ebp),%eax
-+lea    0xa(%eax),%ebx
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -248,19 +246,13 @@
 -movzbl -0x1d(%ebp),%eax
 -mov    %al,-0x61(%ebp)
 -lea    -0x77(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x5b(%ebp),%eax
-+lea    0xe(%eax),%edx
++mov    %eax,-0x51(%ebp)
 +mov    -0x20(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x5b(%ebp),%eax
-+lea    0x12(%eax),%edx
++mov    %eax,-0x4d(%ebp)
 +mov    -0x18(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x5b(%ebp),%eax
-+lea    0x16(%eax),%edx
++mov    %eax,-0x49(%ebp)
 +movzbl -0xd(%ebp),%eax
-+mov    %al,(%edx)
++mov    %al,-0x45(%ebp)
 +lea    -0x5b(%ebp),%eax
  movl   $0x17,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -436,7 +428,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5551 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5538 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)
@@ -476,10 +468,10 @@ void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)
     guild->DBGuildSave(gs->GetGroupNo(), m_pclApp->Get_ServerHandler(), 0);
     guild->SendGuildInfoToMembers(false);
     Packet_Guild_Apply_Origial_Power_Side_Reply reply;
-    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
-    *(unsigned int*)((char*)&reply + 0xe) = charNo;
-    *(unsigned int*)((char*)&reply + 0x12) = guildKey;
-    *(unsigned char*)((char*)&reply + 0x16) = newSide;
+    reply.ma = user->GetIdByChannel();
+    reply.me = charNo;
+    reply.m12 = guildKey;
+    reply.m16 = newSide;
     user->SendToGameserver((char*)&reply, 0x17);
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808cf32` | `0x1a9` | `0x80785de` | `0x1ad` |
+| monitor | DIFF | `0x808cf32` | `0x1a9` | `0x80785d2` | `0x1ad` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,16 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,127 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
--mov    0x8(%ebp),%eax
+@@ -1,129 +1,128 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
+ mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
 -mov    -0x18(%ebp),%eax
 -mov    0x6(%eax),%edx
++mov    0xa(%eax),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -219,12 +220,6 @@
  pop    %esi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %ebx
-+sub    $0x54,%esp
-+movl   $0x16,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

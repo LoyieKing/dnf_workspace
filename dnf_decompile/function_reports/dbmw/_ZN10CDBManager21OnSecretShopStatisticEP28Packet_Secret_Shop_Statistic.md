@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8083f2a` | `0x2a6` | `0x80638ce` | `0x230` |
+| dbmw | DIFF | `0x8083f2a` | `0x2a6` | `0x8063ae4` | `0x211` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,211 +1,170 @@
+@@ -1,211 +1,158 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,42 +22,54 @@
  sub    $0x7c,%esp
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
--mov    %eax,-0x20(%ebp)
++mov    %eax,-0x2c(%ebp)
++mov    0xc(%ebp),%eax
++mov    %eax,-0x28(%ebp)
++movl   $0x0,-0x24(%ebp)
++jmp    <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x1f0>
++mov    -0x24(%ebp),%edx
++mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    $0x4,%eax
++shl    $0x2,%eax
++add    -0x28(%ebp),%eax
++add    $0x2,%eax
+ mov    %eax,-0x20(%ebp)
 -movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x285>
 -mov    -0x20(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%eax
++mov    -0x2c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%eax
 -mov    %eax,-0x4c(%ebp)
 -mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    %eax,-0x48(%ebp)
 -mov    -0x1c(%ebp),%edx
-+mov    %eax,-0x2c(%ebp)
-+movl   $0x0,-0x28(%ebp)
-+jmp    <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x20d>
- mov    0xc(%ebp),%ecx
-+mov    -0x28(%ebp),%edx
- mov    %edx,%eax
- shl    $0x2,%eax
- add    %edx,%eax
- shl    $0x2,%eax
-+add    $0x10,%eax
- lea    (%ecx,%eax,1),%eax
--add    $0x10,%eax
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-shl    $0x2,%eax
+-lea    (%ecx,%eax,1),%eax
++mov    %eax,-0x50(%ebp)
++mov    -0x28(%ebp),%eax
++mov    0xe(%eax),%edi
++mov    -0x20(%ebp),%eax
++mov    (%eax),%esi
++mov    -0x20(%ebp),%eax
+ add    $0x10,%eax
 -mov    0x2(%eax),%eax
 -mov    %eax,-0x44(%ebp)
 -mov    -0x1c(%ebp),%edx
-+mov    %eax,-0x24(%ebp)
- mov    0xc(%ebp),%ecx
-+mov    -0x28(%ebp),%edx
- mov    %edx,%eax
- shl    $0x2,%eax
- add    %edx,%eax
- shl    $0x2,%eax
-+add    $0x20,%eax
- lea    (%ecx,%eax,1),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-shl    $0x2,%eax
+-lea    (%ecx,%eax,1),%eax
 -add    $0x20,%eax
 -mov    0x2(%eax),%edi
 -mov    -0x1c(%ebp),%edx
@@ -94,29 +106,15 @@
 -mov    %edi,0x18(%esp)
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
-+mov    %eax,-0x20(%ebp)
-+mov    -0x2c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x50(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edi
-+mov    -0x24(%ebp),%eax
-+add    $0x2,%eax
-+mov    (%eax),%esi
-+mov    -0x20(%ebp),%eax
-+add    $0x2,%eax
 +mov    (%eax),%ebx
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
++mov    -0x20(%ebp),%eax
++add    $0xc,%eax
 +mov    (%eax),%ecx
-+mov    -0x24(%ebp),%eax
-+add    $0xa,%eax
++mov    -0x20(%ebp),%eax
++add    $0x8,%eax
 +mov    (%eax),%edx
-+mov    -0x24(%ebp),%eax
-+add    $0x6,%eax
++mov    -0x20(%ebp),%eax
++add    $0x4,%eax
 +mov    (%eax),%eax
 +mov    %edi,0x20(%esp)
 +mov    %esi,0x1c(%esp)
@@ -146,7 +144,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x142>
-+je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x11c>
++je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x104>
  movl   $0x21bd,0x8(%esp)
  movl   $&_ZZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -174,7 +172,7 @@
  test   %al,%al
 -je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x281>
 -mov    -0x20(%ebp),%eax
-+je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x209>
++je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x1ec>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -197,7 +195,9 @@
 -add    %edx,%eax
 -shl    $0x2,%eax
 -lea    (%ecx,%eax,1),%eax
--add    $0x10,%eax
++mov    %eax,-0x4c(%ebp)
++mov    -0x20(%ebp),%eax
+ add    $0x10,%eax
 -mov    0xe(%eax),%edi
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -226,31 +226,26 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x2(%eax),%edx
-+mov    %eax,-0x4c(%ebp)
-+mov    -0x20(%ebp),%eax
-+add    $0x2,%eax
+-mov    0xc(%ebp),%eax
 +mov    (%eax),%edi
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
++mov    -0x20(%ebp),%eax
++add    $0xc,%eax
 +mov    (%eax),%esi
-+mov    -0x24(%ebp),%eax
-+add    $0xa,%eax
++mov    -0x20(%ebp),%eax
++add    $0x8,%eax
 +mov    (%eax),%ebx
-+mov    -0x24(%ebp),%eax
-+add    $0x6,%eax
++mov    -0x20(%ebp),%eax
++add    $0x4,%eax
 +mov    (%eax),%ecx
-+mov    -0x24(%ebp),%eax
-+add    $0x2,%eax
++mov    -0x20(%ebp),%eax
 +mov    (%eax),%edx
- mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
++mov    -0x28(%ebp),%eax
+ mov    0xe(%eax),%eax
 -mov    -0x3c(%ebp),%ecx
 -mov    %ecx,0x20(%esp)
 -mov    %edi,0x1c(%esp)
 -mov    %esi,0x18(%esp)
 -mov    %ebx,0x14(%esp)
-+add    $0xe,%eax
-+mov    (%eax),%eax
 +mov    %edi,0x20(%esp)
 +mov    %esi,0x1c(%esp)
 +mov    %ebx,0x18(%esp)
@@ -279,7 +274,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x281>
-+je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x209>
++je     <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x1ec>
  movl   $0x21cb,0x8(%esp)
  movl   $&_ZZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -293,16 +288,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -addl   $0x1,-0x1c(%ebp)
-+addl   $0x1,-0x28(%ebp)
- mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
+-mov    0xc(%ebp),%eax
++addl   $0x1,-0x24(%ebp)
++mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
 -cmp    -0x1c(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+cmp    -0x28(%ebp),%eax
++cmp    -0x24(%ebp),%eax
  setg   %al
  test   %al,%al
- jne    <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x1e>
+-jne    <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x1e>
++jne    <T> <_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic+0x24>
  mov    $0x1,%eax
  add    $0x7c,%esp
  pop    %ebx
@@ -369,24 +364,24 @@ CDBManager::_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statist
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6462 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6638 行）：
 
 ```cpp
 char CDBManager::OnSecretShopStatistic(Packet_Secret_Shop_Statistic* packet)
 {
     CDBHandle* h = m_handles[4];    // log db
-    for (int i = 0; i < *(int*)((char*)packet + 0xa); i++)
+    SecretShopStatisticView* view = (SecretShopStatisticView*)packet;
+    for (int i = 0; i < view->m_count; i++)
     {
-        char* rec = (char*)packet + i * 0x14 + 0x10;
-        char* rec20 = (char*)packet + i * 0x14 + 0x20;
+        int* rec = &view->m_data[i * 5];
         h->set_query(0x4efc,
                      "upDate log_secret_shop set show_count=show_count+%d,show_charac_count=show_charac_count+%d,buy_count=buy_count+%d,price=price+%d where occ_date=cast(now() as date) and dungeon_idx=%d and npc_idx=%d",
-                     *(int*)(rec + 0x6),
-                     *(int*)(rec + 0xa),
-                     *(int*)(rec + 0xe),
-                     *(int*)(rec20 + 0x2),
-                     *(int*)(rec + 0x2),
-                     *(int*)((char*)packet + 0xe));
+                     rec[1],
+                     rec[2],
+                     rec[3],
+                     rec[4],
+                     rec[0],
+                     view->m_shopIdx);
         bool cVar1 = h->exec(0x4efc);
         if (!cVar1)
         {
@@ -399,12 +394,12 @@ char CDBManager::OnSecretShopStatistic(Packet_Secret_Shop_Statistic* packet)
             h->set_query(
                 0x4efb,
                 "inSert into log_secret_shop(occ_date,npc_idx,dungeon_idx,show_count,show_charac_count,buy_count,price) values(cast(now() as date), %d, %d, %d, %d, %d, %d)",
-                *(int*)((char*)packet + 0xe),
-                *(int*)(rec + 0x2),
-                *(int*)(rec + 0x6),
-                *(int*)(rec + 0xa),
-                *(int*)(rec + 0xe),
-                *(int*)(rec20 + 0x2));
+                view->m_shopIdx,
+                rec[0],
+                rec[1],
+                rec[2],
+                rec[3],
+                rec[4]);
             cVar1 = h->exec(0x4efb);
             if (!cVar1)
             {

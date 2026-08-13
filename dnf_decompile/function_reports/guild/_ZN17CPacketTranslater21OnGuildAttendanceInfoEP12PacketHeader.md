@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808902a` | `0x287` | `0x807e59a` | `0x286` |
+| guild | DIFF | `0x808902a` | `0x287` | `0x807de56` | `0x277` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,161 +1,167 @@
+@@ -1,161 +1,161 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -42,7 +42,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x280>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27f>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x270>
 +mov    -0x20(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -81,7 +81,7 @@
 -mov    0xe(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x10,%edx
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27f>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x270>
 +mov    -0x20(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
@@ -114,19 +114,15 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x280>
 -lea    -0x73(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27f>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x270>
 +lea    -0x77(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_Guild_Attendance_Info_ReplyC1Ev>
 -mov    -0x14(%ebp),%eax
-+lea    -0x77(%ebp),%eax
-+lea    0xa(%eax),%ebx
 +mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,(%ebx)
-+lea    -0x77(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    %eax,-0x6d(%ebp)
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -134,14 +130,11 @@
 -mov    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x69(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x77(%ebp),%eax
-+lea    0x12(%eax),%edx
+ mov    %eax,-0x69(%ebp)
 +mov    -0x20(%ebp),%eax
 +add    $0x12,%eax
 +movzbl (%eax),%eax
-+mov    %al,(%edx)
++mov    %al,-0x65(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
 +lea    -0x77(%ebp),%eax
@@ -169,10 +162,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x280>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27f>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x270>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x226>
-+jne    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x225>
++jne    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x216>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -203,7 +196,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x21f>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x21e>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x20f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -213,7 +206,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x280>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27f>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x270>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x202e,0x8(%esp)
@@ -229,7 +222,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27b>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x27a>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader+0x26b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -308,7 +301,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5839 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5826 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
@@ -336,11 +329,11 @@ void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
             return;
         }
         Packet_Guild_Attendance_Info_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = user->GetUniqCharNo();
-        *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
-        *(unsigned char*)((char*)&reply + 0x12) = *(unsigned char*)(pb + 0x12);
+        reply.m_a = user->GetUniqCharNo();
+        reply.m_b = user->GetIdByChannel();
+        reply.m_c = *(unsigned char*)(pb + 0x12);
         (&m_pclApp->m_guildManager)->GetAttendanceInfo(
-            guildKey, *(STAttendanceInfo*)((char*)&reply + 0x13));
+            guildKey, reply.m_info);
         user->SendToGameserver((char*)&reply, 0x2f);
     }
     catch (CDNFException& e)

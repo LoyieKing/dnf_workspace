@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80532b0` | `0x2f1` | `0x80a857e` | `0x2f1` |
+| guild | NEAR | `0x80532b0` | `0x2f1` | `0x80a7db8` | `0x2f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,15 +14,15 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,207 +1,207 @@
--push   %ebp
--mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
--sub    $0x6c,%esp
--mov    0x8(%ebp),%eax
--add    $0xe8,%eax
--mov    %eax,0x4(%esp)
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x6c,%esp
+ mov    0x8(%ebp),%eax
+ add    $0xe8,%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
@@ -247,15 +247,6 @@
  pop    %edi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %esi
-+push   %ebx
-+sub    $0x20,%esp
-+mov    0x8(%ebp),%eax
-+add    $0xe8,%eax
-+mov    %eax,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -415,7 +406,8 @@ int CTcpNetSystem::SendPacket()
                 goto done;
             }
             b2 = buf;
-            std::map<unsigned int, CPeer*>::iterator it = m_peers.find(*(unsigned int*)((char*)b2 + 6));
+            std::map<unsigned int, CPeer*>::iterator it =
+                m_peers.find(*(unsigned int*)((char*)b2 + 6));
             if (it == m_peers.end())
             {
                 DNF_LOG_SCOPE_LINE(0xba, "./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",

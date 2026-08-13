@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080e48` | `0x384` | `0x805e6aa` | `0x2d5` |
+| dbmw | DIFF | `0x8080e48` | `0x384` | `0x805e72a` | `0x2d3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,286 +1,215 @@
+@@ -1,286 +1,214 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -122,9 +122,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x37a>
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    0x10(%ebp),%eax
-+lea    0xe(%eax),%ebx
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
@@ -132,13 +130,12 @@
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    0x10(%ebp),%edx
--mov    %eax,0xe(%edx)
-+mov    %eax,(%ebx)
+ mov    0x10(%ebp),%edx
+ mov    %eax,0xe(%edx)
  movl   $0x0,-0x10(%ebp)
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x355>
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2a6>
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2a4>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -157,15 +154,118 @@
 -add    $0x34,%eax
 -mov    (%eax),%ecx
 -mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--add    $0x1,%eax
--shl    $0x4,%eax
--add    0x10(%ebp),%eax
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x143>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
++mov    -0x10(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ add    $0x1,%eax
+ shl    $0x4,%eax
+ add    0x10(%ebp),%eax
 -lea    0x2(%eax),%edx
 -mov    -0x10(%ebp),%eax
--addl   $0x1,-0x10(%ebp)
++add    $0x2,%eax
++mov    %eax,-0xc(%ebp)
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x34,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    %eax,0x8(%esp)
++movl   $0x0,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x18d>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x50,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x4,%eax
++mov    %eax,0x8(%esp)
++movl   $0x1,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x1c2>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x2c,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x5,%eax
++movl   $0x15,0xc(%esp)
++mov    %eax,0x8(%esp)
++movl   $0x2,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x1ff>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x34,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x1a,%eax
++mov    %eax,0x8(%esp)
++movl   $0x3,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x234>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x34,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x1e,%eax
++mov    %eax,0x8(%esp)
++movl   $0x4,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x266>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x30,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x22,%eax
++movl   $0xe,0xc(%esp)
++mov    %eax,0x8(%esp)
++movl   $0x5,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2a0>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2c9>
+ addl   $0x1,-0x10(%ebp)
 -mov    %edx,0x8(%esp)
 -mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
@@ -230,120 +330,15 @@
 -add    $0x34,%eax
 -mov    (%eax),%ecx
 -mov    -0xc(%ebp),%edx
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x145>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    0x10(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
- mov    %edx,%eax
- add    %eax,%eax
- add    %edx,%eax
- shl    $0x4,%eax
+-mov    %edx,%eax
+-add    %eax,%eax
+-add    %edx,%eax
+-shl    $0x4,%eax
 -add    $0x20,%eax
 -add    0x10(%ebp),%eax
 -lea    0xc(%eax),%edx
 -mov    -0x10(%ebp),%eax
-+add    $0x12,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x34,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x18f>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x50,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x1,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x1c4>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x2c,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0x5,%eax
-+movl   $0x15,0xc(%esp)
-+mov    %eax,0x8(%esp)
-+movl   $0x2,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x201>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x34,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0x1a,%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x3,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x236>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x34,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0x1e,%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x4,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x268>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x30,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0x22,%eax
-+movl   $0xe,0xc(%esp)
-+mov    %eax,0x8(%esp)
-+movl   $0x5,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2a2>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2cb>
- addl   $0x1,-0x10(%ebp)
+-addl   $0x1,-0x10(%ebp)
 -mov    %edx,0x8(%esp)
 -mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
@@ -416,7 +411,7 @@
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x173>
-+jne    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x122>
++jne    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x120>
  mov    $0x1,%eax
  add    $0x140,%esp
  pop    %ebx

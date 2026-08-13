@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054b7e` | `0x108` |
+| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054b30` | `0x108` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -39,15 +39,12 @@
  lea    -0x69(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_Monitor_Notice_Guild_Secede_ToUserC1Ev>
-+lea    -0x69(%ebp),%eax
-+lea    0x12(%eax),%edx
  movl   $0x43,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x69(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,(%esp)
-+mov    %edx,(%esp)
+ lea    -0x69(%ebp),%eax
+ add    $0x12,%eax
+ mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x8(%ebp),%edx
  lea    -0x14(%ebp),%eax
@@ -163,7 +160,7 @@ void __thiscall CGuild::_ZN6CGuild25NoticeSecedeToGuildMemberEPc(CGuild *this,ch
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1138 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1154 行）：
 
 ```cpp
 void CGuild::NoticeSecedeToGuildMember(char* info)
@@ -171,7 +168,7 @@ void CGuild::NoticeSecedeToGuildMember(char* info)
     if ((m_field1c & 4) != 0 && !m_members.empty())
     {
         Packet_Monitor_Notice_Guild_Secede_ToUser pkt;
-        memcpy((char*)&pkt + 0x12, info, 0x43);
+        memcpy(&pkt.m_info, info, 0x43);
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
         {

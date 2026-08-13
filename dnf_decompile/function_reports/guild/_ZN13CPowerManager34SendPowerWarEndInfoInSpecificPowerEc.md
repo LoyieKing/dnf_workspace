@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a5148` | `0x389` | `0x809ba58` | `0x395` |
+| guild | DIFF | `0x80a5148` | `0x389` | `0x809b2b0` | `0x391` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,226 +1,235 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0xa0,%esp
--mov    0xc(%ebp),%eax
--mov    %al,-0x6c(%ebp)
--movsbl -0x6c(%ebp),%ebx
+@@ -1,226 +1,233 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0xa0,%esp
+ mov    0xc(%ebp),%eax
+ mov    %al,-0x6c(%ebp)
+ movsbl -0x6c(%ebp),%ebx
  movl   $0x42a,0x8(%esp)
  movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
  lea    -0x60(%ebp),%eax
@@ -42,15 +42,10 @@
  movl   $0x0,-0x1c(%ebp)
  movl   $0x0,-0x18(%ebp)
 -movl   $0x0,-0x14(%ebp)
--movsbl -0x6c(%ebp),%eax
--imul   $0x6c,%eax,%eax
--add    0x8(%ebp),%eax
--add    $0x8,%eax
-+mov    0x8(%ebp),%eax
-+movsbl -0x6c(%ebp),%edx
-+imul   $0x6c,%edx,%edx
-+add    $0x8,%edx
-+add    %edx,%eax
+ movsbl -0x6c(%ebp),%eax
+ imul   $0x6c,%eax,%eax
+ add    0x8(%ebp),%eax
+ add    $0x8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CPower21GetPowerWarCharacInfoEv>
  mov    %eax,(%esp)
@@ -82,7 +77,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x312>
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x31e>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x31a>
  lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEdeEv>
@@ -93,7 +88,7 @@
 -mov    -0x18(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x158>
++jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x156>
 +movl   $0x463,0x8(%esp)
 +movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
 +lea    -0x4c(%ebp),%eax
@@ -104,7 +99,7 @@
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%ebx
  mov    0x8(%ebp),%eax
@@ -122,7 +117,7 @@
 -mov    -0xc(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
++je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
@@ -140,7 +135,7 @@
  cmpl   $0x0,-0x30(%ebp)
 -je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x303>
 -mov    -0xc(%ebp),%eax
-+je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
++je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -162,27 +157,28 @@
  movsbl %al,%eax
  cmp    %eax,%ebx
 -sete   %al
-+jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x1ff>
++jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x1fd>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x204>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x202>
 +mov    $0x0,%eax
  mov    %al,-0x29(%ebp)
+ movsbl -0x6c(%ebp),%eax
+ imul   $0x6c,%eax,%eax
+ add    0x8(%ebp),%eax
+ add    $0x8,%eax
++mov    %eax,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN18CPowerWarGuildInfo15GetGuildRankingEj>
+-mov    %eax,-0x20(%ebp)
 -movsbl -0x6c(%ebp),%eax
 -imul   $0x6c,%eax,%eax
 -add    0x8(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+movsbl -0x6c(%ebp),%edx
-+imul   $0x6c,%edx,%edx
-+add    $0x8,%edx
-+add    %edx,%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN18CPowerWarGuildInfo15GetGuildRankingEj>
 +mov    %eax,-0x28(%ebp)
 +mov    -0xc(%ebp),%eax
 +mov    %eax,(%esp)
@@ -193,20 +189,9 @@
 +call   <T> <_ZN18CPowerWarGuildInfo20GetSpecificGuildInfoEj>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x2ae>
++je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x2aa>
 +mov    -0x18(%ebp),%eax
  add    $0x8,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
--mov    -0x1c(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN18CPowerWarGuildInfo15GetGuildRankingEj>
--mov    %eax,-0x20(%ebp)
--movsbl -0x6c(%ebp),%eax
--imul   $0x6c,%eax,%eax
--add    0x8(%ebp),%eax
--add    $0x8,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
 -mov    -0x1c(%ebp),%edx
@@ -251,7 +236,7 @@
 -mov    -0x18(%ebp),%eax
 -mov    0x4(%eax),%esi
 -mov    -0xc(%ebp),%eax
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
 +mov    -0x1c(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%esi
@@ -306,7 +291,7 @@
  call   <T> <_ZN9__gnu_cxxneIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x10c>
-+jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x107>
++jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x105>
  movsbl -0x6c(%ebp),%ebx
  movl   $0x46b,0x8(%esp)
  movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
@@ -325,14 +310,6 @@
  pop    %esi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x58,%esp
-+mov    0x14(%ebp),%eax
-+mov    %al,-0x3c(%ebp)
-+lea    -0x33(%ebp),%eax
-+mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -454,7 +431,7 @@ CPowerManager::_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 587 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 585 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
@@ -469,7 +446,7 @@ void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
     STPowerWarCharacInfo* characInfo = 0;
     STPowerWarGuildInfo* guildInfo = 0;
     std::vector<STPowerWarCharacInfo*>* vec =
-        ((CPower*)((char*)this + side * 0x6c + 8))->GetPowerWarCharacInfo()
+        m_power[side].GetPowerWarCharacInfo()
             ->GetCharacInfoVector();
     std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin();
     {
@@ -485,18 +462,18 @@ void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
         }
         else
         {
-            CUser* user = (*(CApplication**)((char*)this + 4))->Get_UserManager()
+            CUser* user = (*(CApplication**)&m_field4)->Get_UserManager()
                 ->FindUser_CharNo(*(unsigned int*)characInfo->m_data);
             if (user != 0)
             {
-                guild = (*(CApplication**)((char*)this + 4))->Get_GuildManager()
+                guild = (*(CApplication**)&m_field4)->Get_GuildManager()
                     ->FindGuild(user->GetGuildKey());
                 if (guild != 0)
                 {
                     charNo = user->GetUniqCharNo();
                     guildKey = user->GetGuildKey();
                     isWinner = (guild->GetPowerSide() == GetWinnerSide()) ? 1 : 0;
-                    CPower* power = (CPower*)((char*)this + side * 0x6c + 8);
+                    CPower* power = &m_power[side];
                     guildRank = power->GetPowerWarGuildInfo()->GetGuildRanking(guildKey);
                     guildInfo = power->GetPowerWarGuildInfo()->GetSpecificGuildInfo(guildKey);
                     if (guildInfo != 0)

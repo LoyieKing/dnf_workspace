@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076258` | `0x4a8` | `0x806c7e8` | `0x4af` |
+| guild | DIFF | `0x8076258` | `0x4a8` | `0x806c5dc` | `0x4a5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,344 +1,346 @@
+@@ -1,344 +1,342 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -263,7 +263,7 @@
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3bc>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3c8>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3be>
  lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -280,7 +280,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN9CGuildWar17IsGuildWarEventOnEv>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x4a4>
++je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49a>
 +mov    0x8(%ebp),%eax
 +mov    %eax,-0x24(%ebp)
 +mov    -0x24(%ebp),%eax
@@ -356,7 +356,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3c8>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3be>
 +lea    -0x31(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
@@ -429,7 +429,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3c8>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3be>
 +lea    -0x29(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
@@ -445,27 +445,25 @@
 +lea    -0xcf(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Notice_DB_Guild_War_EndC1Ev>
-+lea    -0xcf(%ebp),%eax
-+lea    0xa(%eax),%edx
  movzbl -0x1d(%ebp),%eax
 -mov    %al,-0xc3(%ebp)
 -lea    -0xcd(%ebp),%eax
-+mov    %al,(%edx)
-+lea    -0xcf(%ebp),%eax
- add    $0x5b,%eax
-+lea    -0xcf(%ebp),%edx
-+lea    0x33(%edx),%ecx
-+lea    -0xcf(%ebp),%edx
-+add    $0xb,%edx
- mov    %eax,0xc(%esp)
+-add    $0x5b,%eax
+-mov    %eax,0xc(%esp)
 -lea    -0xcd(%ebp),%eax
 -add    $0x33,%eax
 -mov    %eax,0x8(%esp)
 -lea    -0xcd(%ebp),%eax
--add    $0xb,%eax
--mov    %eax,0x4(%esp)
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
++mov    %al,-0xc5(%ebp)
++lea    -0xcf(%ebp),%eax
++lea    0x5b(%eax),%ecx
++lea    -0xcf(%ebp),%eax
++lea    0x33(%eax),%edx
++lea    -0xcf(%ebp),%eax
+ add    $0xb,%eax
++mov    %ecx,0xc(%esp)
++mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
  mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt>
@@ -482,19 +480,16 @@
  call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
 -movl   $0x9,-0x54(%ebp)
 -lea    -0x5e(%ebp),%eax
-+lea    -0x4e(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x9,(%eax)
++movl   $0x9,-0x44(%ebp)
 +lea    -0x4e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49d>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x4a4>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49a>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
--jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x43c>
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x446>
+ jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x43c>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -524,8 +519,7 @@
 +lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x435>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x43f>
+ jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x435>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -537,7 +531,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49d>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x4a4>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49a>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x772,0x8(%esp)
@@ -552,8 +546,7 @@
 +lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x495>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49f>
+ jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x495>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -672,7 +665,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1522 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1516 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildWarEnd(PacketHeader* pkt)
@@ -697,13 +690,13 @@ void CPacketTranslater::OnNoticeGuildWarEnd(PacketHeader* pkt)
         }
         unsigned char group = m_pclApp->Get_ServerGroup();
         Packet_Notice_DB_Guild_War_End dbPkt;
-        *(unsigned char*)((char*)&dbPkt + 0xa) = group;
-        war->GetGuildWarInfo((unsigned int*)((char*)&dbPkt + 0xb),
-                             (unsigned int*)((char*)&dbPkt + 0x33),
-                             (unsigned short*)((char*)&dbPkt + 0x5b));
+        dbPkt.m_group = group;
+        war->GetGuildWarInfo((unsigned int*)dbPkt.m_fieldB,
+                             (unsigned int*)dbPkt.m_field33,
+                             (unsigned short*)dbPkt.m_field5b);
         m_pclApp->m_serverHandler->SendToDB(&dbPkt);
         Packet_Monitor_Event_End monPkt;
-        *(unsigned int*)((char*)&monPkt + 0xa) = 9;
+        monPkt.m_fieldA = 9;
         OnEventEnd(&monPkt);
     }
     }

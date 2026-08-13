@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80833f4` | `0x6f8` | `0x807068c` | `0x711` |
+| monitor | DIFF | `0x80833f4` | `0x6f8` | `0x8070680` | `0x711` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,456 +1,451 @@
--push   %ebp
--mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
+@@ -1,456 +1,449 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
 -sub    $0x9c,%esp
++sub    $0xbc,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader+0xe2>
@@ -763,14 +764,6 @@
  pop    %edi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %edi
-+push   %esi
-+push   %ebx
-+sub    $0x4c,%esp
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 ```
 ## 2. Ghidra 反编译 C
 

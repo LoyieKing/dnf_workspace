@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807bf9c` | `0x654` | `0x805d260` | `0x676` |
+| dbmw | DIFF | `0x807bf9c` | `0x654` | `0x805d21c` | `0x631` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,433 +1,481 @@
+@@ -1,433 +1,433 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,129 +25,94 @@
  mov    0x3c(%eax),%eax
 -mov    %eax,-0x2c(%ebp)
 -cmpl   $0x0,-0x2c(%ebp)
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
++mov    %eax,-0x24(%ebp)
++cmpl   $0x0,-0x24(%ebp)
  jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x25>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
 -movl   $0x20,-0x28(%ebp)
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x626>
++mov    0xc(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
 -mov    %eax,-0xb0(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x25(%eax),%eax
 +mov    %eax,-0xa0(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x25,%eax
-+movzwl (%eax),%eax
++mov    -0x20(%ebp),%eax
+ movzwl 0x25(%eax),%eax
  cwtl
-+mov    %eax,-0x9c(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x23,%eax
-+movzwl (%eax),%eax
-+cwtl
-+mov    %eax,-0x98(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x21,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,-0x94(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x1f,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,-0x90(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x1d,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,-0x8c(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x1b,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,-0x88(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x19,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,-0x84(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x17,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,-0x80(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0x15,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edi
-+mov    0xc(%ebp),%eax
-+add    $0x13,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%esi
-+mov    0xc(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%ebx
-+mov    0xc(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%ecx
-+mov    0xc(%ebp),%eax
-+add    $0x177,%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
- mov    %eax,-0xac(%ebp)
+-mov    %eax,-0xac(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x23(%eax),%eax
--cwtl
++mov    %eax,-0x9c(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x23(%eax),%eax
+ cwtl
 -mov    %eax,-0xa8(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x21(%eax),%eax
--movzwl %ax,%eax
++mov    %eax,-0x98(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x21(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0xa4(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x1f(%eax),%eax
--movzwl %ax,%eax
++mov    %eax,-0x94(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x1f(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0xa0(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x1d(%eax),%eax
--movzwl %ax,%eax
++mov    %eax,-0x90(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x1d(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0x9c(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x1b(%eax),%eax
--movzwl %ax,%eax
++mov    %eax,-0x8c(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x1b(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0x98(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x19(%eax),%eax
--movzwl %ax,%eax
++mov    %eax,-0x88(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x19(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0x94(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x17(%eax),%eax
--movzwl %ax,%eax
++mov    %eax,-0x84(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x17(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0x90(%ebp)
 -mov    0xc(%ebp),%eax
--movzwl 0x15(%eax),%eax
--movzwl %ax,%edi
++mov    %eax,-0x80(%ebp)
++mov    -0x20(%ebp),%eax
+ movzwl 0x15(%eax),%eax
+ movzwl %ax,%edi
 -mov    0xc(%ebp),%eax
--movzwl 0x13(%eax),%eax
--movzwl %ax,%esi
++mov    -0x20(%ebp),%eax
+ movzwl 0x13(%eax),%eax
+ movzwl %ax,%esi
 -mov    0xc(%ebp),%eax
--mov    0xf(%eax),%ebx
++mov    -0x20(%ebp),%eax
+ mov    0xf(%eax),%ebx
 -mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movsbl %al,%ecx
++mov    -0x20(%ebp),%eax
+ movzbl 0xa(%eax),%eax
+ movsbl %al,%ecx
 -mov    0xc(%ebp),%eax
--mov    0x177(%eax),%edx
++mov    -0x20(%ebp),%eax
+ mov    0x177(%eax),%edx
 -mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
++mov    -0x20(%ebp),%eax
+ mov    0xb(%eax),%eax
 -mov    %eax,-0xbc(%ebp)
 -mov    -0xac(%ebp),%eax
++mov    %eax,-0xac(%ebp)
 +mov    -0x9c(%ebp),%eax
  mov    %eax,0x40(%esp)
 -mov    -0xa8(%ebp),%eax
@@ -177,25 +142,24 @@
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
 -mov    -0xbc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    -0xac(%ebp),%ebx
-+mov    %ebx,0xc(%esp)
++mov    -0xac(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into common_index(spec_id,occ_time,server_group,share_rate,crash_village,crash_dungeon,crash_challenge,crash_wararea,crash_fight_village,crash_dead_tower,crash_channel,crash_load,village_to_dungeon_lag,dungeon_to_village_lag) values(%d,from_unixtime(%d),%hhd,%u,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hd,%hd)",0x8(%esp)
  movl   $0x4e8c,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *-0xb0(%ebp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *-0xa0(%ebp)
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e8c,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0x21(%ebp)
@@ -203,20 +167,20 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1ad>
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1b4>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x19f>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x626>
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x58e>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x56b>
  cmpl   $0x5,-0x1c(%ebp)
 -ja     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x285>
-+ja     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x28c>
++ja     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x277>
  mov    -0x1c(%ebp),%eax
  shl    $0x2,%eax
 -mov    &data#08ae5495(.rodata)(%eax),%eax
-+mov    &data#8bf604cd(.rodata)(%eax),%eax
++mov    &data#0c18cde0(.rodata)(%eax),%eax
  jmp    *%eax
  movl   $0x20,0x8(%esp)
  movl   $"village_lag_index",0x4(%esp)
@@ -224,68 +188,68 @@
 -mov    %eax,(%esp)
 -call   <T> <strncpy>
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a0>
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x292>
  movl   $0x20,0x8(%esp)
  movl   $"dungeon_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <strncpy>
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a0>
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x292>
  movl   $0x20,0x8(%esp)
  movl   $"challenge_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <strncpy>
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a0>
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x292>
  movl   $0x20,0x8(%esp)
  movl   $"wararea_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <strncpy>
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a0>
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x292>
  movl   $0x20,0x8(%esp)
  movl   $"fight_village_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <strncpy>
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a0>
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x292>
  movl   $0x20,0x8(%esp)
  movl   $"dead_tower_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <strncpy>
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a0>
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x292>
  movl   $0x20,0x8(%esp)
  movl   $"___MAX_FRAME_LAG_STATISTISCS_KIND over",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
@@ -309,20 +273,41 @@
 -mov    %eax,-0x88(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x40,%eax
--flds   0x13(%eax)
--mov    -0x1c(%ebp),%eax
++mov    %eax,-0x7c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
++shl    $0x3,%eax
++lea    0x0(,%eax,8),%edx
++sub    %eax,%edx
++lea    (%ecx,%edx,1),%eax
++add    $0x50,%eax
++flds   0xb(%eax)
++mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
++shl    $0x3,%eax
++lea    0x0(,%eax,8),%edx
++sub    %eax,%edx
++lea    (%ecx,%edx,1),%eax
++add    $0x50,%eax
++mov    0x7(%eax),%eax
++mov    %eax,-0x78(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x40,%eax
+ flds   0x13(%eax)
+ mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x40,%eax
--mov    0xf(%eax),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x40,%eax
+ mov    0xf(%eax),%eax
 -mov    %eax,-0x84(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
@@ -341,285 +326,156 @@
 -mov    %edx,-0x80(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x30,%eax
--flds   0x13(%eax)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x30,%eax
--mov    0xf(%eax),%eax
- mov    %eax,-0x7c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--lea    0x0(,%edx,8),%eax
--mov    %eax,%edx
--lea    0x0(,%edx,8),%eax
--sub    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x28,%eax
--flds   0x13(%eax)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--lea    0x0(,%edx,8),%eax
--mov    %eax,%edx
--lea    0x0(,%edx,8),%eax
--sub    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x28,%eax
--mov    0xf(%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x5b,%eax
-+lea    (%edx,%eax,1),%eax
-+flds   (%eax)
-+mov    0xc(%ebp),%edx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x57,%eax
-+lea    (%edx,%eax,1),%eax
-+mov    (%eax),%eax
- mov    %eax,-0x78(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x20,%eax
--flds   0x13(%eax)
-+mov    0xc(%ebp),%edx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x53,%eax
-+lea    (%edx,%eax,1),%eax
-+flds   (%eax)
-+mov    0xc(%ebp),%edx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x4f,%eax
-+lea    (%edx,%eax,1),%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x74(%ebp)
-+mov    0xc(%ebp),%edx
 +mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
 +shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x4b,%eax
-+lea    (%edx,%eax,1),%eax
-+flds   (%eax)
-+mov    0xc(%ebp),%edx
++lea    0x0(,%eax,8),%edx
++sub    %eax,%edx
++lea    (%ecx,%edx,1),%eax
++add    $0x40,%eax
++flds   0xb(%eax)
 +mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
 +shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x47,%eax
-+lea    (%edx,%eax,1),%eax
-+mov    (%eax),%eax
++lea    0x0(,%eax,8),%edx
++sub    %eax,%edx
++lea    (%ecx,%edx,1),%eax
++add    $0x40,%eax
++mov    0x7(%eax),%eax
 +mov    %eax,-0x70(%ebp)
-+mov    0xc(%ebp),%edx
 +mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x43,%eax
-+lea    (%edx,%eax,1),%eax
-+flds   (%eax)
-+mov    0xc(%ebp),%edx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x3f,%eax
-+lea    (%edx,%eax,1),%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x6c(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x3b,%eax
-+lea    (%ecx,%eax,1),%eax
-+flds   (%eax)
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x37,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x68(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x33,%eax
-+lea    (%ecx,%eax,1),%eax
-+flds   (%eax)
- fxch   %st(5)
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x30,%eax
+ flds   0x13(%eax)
+ mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x30,%eax
+ mov    0xf(%eax),%eax
+-mov    %eax,-0x7c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x20,%eax
++mov    %eax,-0x6c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
+ mov    %eax,%edx
+ lea    0x0(,%edx,8),%eax
+ mov    %eax,%edx
+ lea    0x0(,%edx,8),%eax
+ sub    %edx,%eax
+ lea    (%ecx,%eax,1),%eax
+-add    $0x28,%eax
+-flds   0x13(%eax)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
++add    $0x30,%eax
++flds   0xb(%eax)
++mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
+ mov    %eax,%edx
+ lea    0x0(,%edx,8),%eax
+ mov    %eax,%edx
+ lea    0x0(,%edx,8),%eax
+ sub    %edx,%eax
+ lea    (%ecx,%eax,1),%eax
+-add    $0x28,%eax
 -mov    0xf(%eax),%eax
+-mov    %eax,-0x78(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
++add    $0x30,%eax
++mov    0x7(%eax),%eax
++mov    %eax,-0x68(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x20,%eax
+ flds   0x13(%eax)
+ fxch   %st(5)
+ mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x20,%eax
+ mov    0xf(%eax),%eax
 -mov    %eax,-0x74(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x20,%eax
--movzwl 0xd(%eax),%eax
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x2f,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x64(%ebp)
-+mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x2d,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzwl (%eax),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x20,%eax
+ movzwl 0xd(%eax),%eax
  cwtl
 -mov    %eax,-0x70(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x20,%eax
--movzwl 0xb(%eax),%eax
 +mov    %eax,-0x60(%ebp)
-+mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x2b,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzwl (%eax),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x20,%eax
+ movzwl 0xb(%eax),%eax
  cwtl
 -mov    %eax,-0x6c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x20,%eax
--movzwl 0x9(%eax),%eax
 +mov    %eax,-0x5c(%ebp)
-+mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x29,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzwl (%eax),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x20,%eax
+ movzwl 0x9(%eax),%eax
  movswl %ax,%edi
--mov    -0x1c(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--shl    $0x3,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x20,%eax
--movzwl 0x7(%eax),%eax
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+shl    $0x3,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0x27,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzwl (%eax),%eax
++mov    -0x20(%ebp),%ecx
+ shl    $0x3,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    (%ecx,%edx,1),%eax
+ add    $0x20,%eax
+ movzwl 0x7(%eax),%eax
  movswl %ax,%esi
- mov    0xc(%ebp),%eax
--mov    0xf(%eax),%ebx
 -mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xf,%eax
-+mov    (%eax),%ebx
-+mov    0xc(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
++mov    -0x20(%ebp),%eax
+ mov    0xf(%eax),%ebx
+-mov    0xc(%ebp),%eax
++mov    -0x20(%ebp),%eax
+ movzbl 0xa(%eax),%eax
  movsbl %al,%ecx
- mov    0xc(%ebp),%eax
--mov    0x177(%eax),%edx
 -mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
++mov    -0x20(%ebp),%eax
+ mov    0x177(%eax),%edx
+-mov    0xc(%ebp),%eax
++mov    -0x20(%ebp),%eax
+ mov    0xb(%eax),%eax
 -mov    %eax,-0xbc(%ebp)
-+add    $0x177,%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0xac(%ebp)
  fstpl  0x70(%esp)
  fxch   %st(3)
@@ -659,11 +515,10 @@
  mov    %ecx,0x18(%esp)
  mov    %edx,0x14(%esp)
 -mov    -0xbc(%ebp),%eax
--mov    %eax,0x10(%esp)
++mov    -0xac(%ebp),%eax
+ mov    %eax,0x10(%esp)
 -lea    -0x5a(%ebp),%eax
-+mov    -0xac(%ebp),%ebx
-+mov    %ebx,0x10(%esp)
-+lea    -0x4e(%ebp),%eax
++lea    -0x52(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into %s(spec_id,occ_time,server_group,share_rate,win_fps,full_fps,full_win_fps,full_win_nosync_fps,frame1,time1,frame2,time2,frame3,time3,frame4,time4,frame5,time5,frame6,time6) values(%d,from_unixtime(%d),%hhd,%u,%hd,%hd,%hd,%hd,%d,%.3f,%d,%.3f,%d,%.3f,%d,%.3f,%d,%.3f,%d,%.3f)",0x8(%esp)
  movl   $0x4e8d,0x4(%esp)
@@ -671,16 +526,16 @@
 -mov    %eax,(%esp)
 -call   *-0x8c(%ebp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *-0x7c(%ebp)
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e8d,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0x21(%ebp)
@@ -688,40 +543,39 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x58a>
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5a3>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x567>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x626>
  addl   $0x1,-0x1c(%ebp)
  cmpl   $0x5,-0x1c(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1b9>
 -mov    -0x2c(%ebp),%eax
-+jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1c0>
-+mov    -0x20(%ebp),%eax
++jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1ab>
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
- mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x20(%ebp),%eax
+ mov    0xb(%eax),%eax
  mov    %eax,0xc(%esp)
  movl   $"select unique_id from monitoring_spec where spec_id = %d",0x8(%esp)
  movl   $0x4e8e,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e8e,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0x21(%ebp)
@@ -729,17 +583,17 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5f8>
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x60c>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5ce>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x626>
++mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
  mov    (%eax),%edx
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %eax,-0x20(%ebp)
@@ -749,26 +603,22 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x62e>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5f0>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
-+lea    -0x2e(%ebp),%eax
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x626>
++lea    -0x32(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Frame_Lag_Spec_Delete_NotifyC1Ev>
 -mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
++mov    -0x20(%ebp),%eax
+ mov    0xb(%eax),%eax
 -mov    %eax,-0x30(%ebp)
 -movzwl -0x38(%ebp),%eax
-+lea    -0x2e(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    0xc(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+movzwl -0x2c(%ebp),%eax
++mov    %eax,-0x28(%ebp)
++movzwl -0x30(%ebp),%eax
  movzwl %ax,%edx
 -lea    -0x3a(%ebp),%eax
-+lea    -0x2e(%ebp),%eax
++lea    -0x32(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x10(%ebp),%eax

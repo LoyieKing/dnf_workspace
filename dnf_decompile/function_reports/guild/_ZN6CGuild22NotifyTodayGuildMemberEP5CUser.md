@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092618` | `0xbb` | `0x80581f6` | `0x130` |
+| guild | DIFF | `0x8092618` | `0xbb` | `0x805812c` | `0xc2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,24 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,100 @@
+@@ -1,48 +1,61 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x58,%esp
-+push   %ebx
-+sub    $0x54,%esp
- lea    -0x45(%ebp),%eax
+-lea    -0x45(%ebp),%eax
++sub    $0x68,%esp
++lea    -0x49(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Notify_Today_Guild_MemberC1Ev>
-+lea    -0x45(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    0x8(%ebp),%eax
++add    $0x66ec,%eax
++mov    %eax,-0xc(%ebp)
++mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
 -mov    %eax,-0x3b(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x16(%eax),%edx
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    0x66ec(%eax),%edx
 -mov    %edx,-0x2f(%ebp)
 -mov    0x66f0(%eax),%edx
@@ -53,93 +51,58 @@
 -mov    %dx,-0xb(%ebp)
 -movzbl 0x6712(%eax),%eax
 -mov    %al,-0x9(%ebp)
-+add    $0x66ec,%eax
++mov    %eax,-0x3f(%ebp)
++mov    -0xc(%ebp),%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x1a(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x66f0,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x1e(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x66f4,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x22(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x66f8,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x26(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x66fc,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x2a(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x6700,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x2e(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x6704,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x32(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x6708,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x36(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x670c,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x45(%ebp),%eax
-+add    $0x3a,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x6710,%edx
-+movzwl (%edx),%edx
-+mov    %dx,(%eax)
-+lea    -0x45(%ebp),%eax
-+lea    0x3c(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x6712,%eax
-+movzbl (%eax),%eax
-+mov    %al,(%edx)
-+lea    -0x45(%ebp),%eax
-+lea    0x12(%eax),%ebx
++mov    %eax,-0x33(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %eax,-0x2f(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x8(%eax),%eax
++mov    %eax,-0x2b(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0xc(%eax),%eax
++mov    %eax,-0x27(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x10(%eax),%eax
++mov    %eax,-0x23(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x14(%eax),%eax
++mov    %eax,-0x1f(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x18(%eax),%eax
++mov    %eax,-0x1b(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x1c(%eax),%eax
++mov    %eax,-0x17(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0x20(%eax),%eax
++mov    %eax,-0x13(%ebp)
++mov    -0xc(%ebp),%eax
++movzwl 0x24(%eax),%eax
++mov    %ax,-0xf(%ebp)
++mov    -0xc(%ebp),%eax
++movzbl 0x26(%eax),%eax
++mov    %al,-0xd(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x33(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x45(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    %eax,-0x37(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x37(%ebp)
-+mov    %eax,(%ebx)
- lea    -0x45(%ebp),%eax
+-lea    -0x45(%ebp),%eax
++mov    %eax,-0x3b(%ebp)
++lea    -0x49(%ebp),%eax
  movl   $0x3d,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--leave
-+add    $0x54,%esp
-+pop    %ebx
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -189,26 +152,27 @@ void __thiscall CGuild::_ZN6CGuild22NotifyTodayGuildMemberEP5CUser(CGuild *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2369 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2382 行）：
 
 ```cpp
 void CGuild::NotifyTodayGuildMember(CUser* user)
 {
     Packet_Notify_Today_Guild_Member pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = m_guildKey;
-    *(unsigned int*)((char*)&pkt + 0x16) = *(unsigned int*)((char*)this + 0x66ec);
-    *(unsigned int*)((char*)&pkt + 0x1a) = *(unsigned int*)((char*)this + 0x66f0);
-    *(unsigned int*)((char*)&pkt + 0x1e) = *(unsigned int*)((char*)this + 0x66f4);
-    *(unsigned int*)((char*)&pkt + 0x22) = *(unsigned int*)((char*)this + 0x66f8);
-    *(unsigned int*)((char*)&pkt + 0x26) = *(unsigned int*)((char*)this + 0x66fc);
-    *(unsigned int*)((char*)&pkt + 0x2a) = *(unsigned int*)((char*)this + 0x6700);
-    *(unsigned int*)((char*)&pkt + 0x2e) = *(unsigned int*)((char*)this + 0x6704);
-    *(unsigned int*)((char*)&pkt + 0x32) = *(unsigned int*)((char*)this + 0x6708);
-    *(unsigned int*)((char*)&pkt + 0x36) = *(unsigned int*)((char*)this + 0x670c);
-    *(unsigned short*)((char*)&pkt + 0x3a) = *(unsigned short*)((char*)this + 0x6710);
-    *(char*)((char*)&pkt + 0x3c) = *(char*)((char*)this + 0x6712);
-    *(int*)((char*)&pkt + 0x12) = user->GetIdByChannel();
-    *(unsigned int*)((char*)&pkt + 0xe) = user->GetUniqCharNo();
+    CGuildTodayMemberBlock* todayBlock = (CGuildTodayMemberBlock*)((char*)this + 0x66ec);
+    pkt.m_guildKey = m_guildKey;
+    pkt.m_member0 = todayBlock->m_charNo;
+    pkt.m_member1 = todayBlock->m_name0;
+    pkt.m_member2 = todayBlock->m_name1;
+    pkt.m_member3 = todayBlock->m_name2;
+    pkt.m_member4 = todayBlock->m_name3;
+    pkt.m_member5 = todayBlock->m_name4;
+    pkt.m_member6 = todayBlock->m_name5;
+    pkt.m_member7 = todayBlock->m_name6;
+    pkt.m_member8 = todayBlock->m_name7;
+    pkt.m_memberA = todayBlock->m_field24;
+    pkt.m_memberC = (char)todayBlock->m_field26;
+    pkt.m_channel = user->GetIdByChannel();
+    pkt.m_charNo = user->GetUniqCharNo();
     user->SendToGameserver((char*)&pkt, 0x3d);
 }
 ```

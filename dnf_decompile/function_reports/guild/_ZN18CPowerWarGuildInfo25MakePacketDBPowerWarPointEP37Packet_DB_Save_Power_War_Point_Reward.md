@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a0b9c` | `0x188` |
+| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a03e6` | `0x188` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,16 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,113 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x60,%esp
--mov    0x8(%ebp),%eax
--add    $0x28,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt6vectorIP21STDBSavePowerWarPointSaIS1_EE4sizeEv>
+@@ -1,110 +1,115 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x60,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x28,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt6vectorIP21STDBSavePowerWarPointSaIS1_EE4sizeEv>
  mov    %eax,-0x1c(%ebp)
  movl   $0x0,-0x18(%ebp)
  movl   $0x0,-0x14(%ebp)
@@ -154,13 +154,6 @@
  pop    %esi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+add    $0x28,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt6vectorIP21STDBSavePowerWarPointSaIS1_EE4sizeEv>
 ```
 ## 2. Ghidra 反编译 C
 

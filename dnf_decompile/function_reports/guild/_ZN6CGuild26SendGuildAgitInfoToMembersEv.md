@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091d62` | `0xe4` | `0x8057908` | `0xc7` |
+| guild | DIFF | `0x8091d62` | `0xe4` | `0x805783e` | `0xc7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -140,7 +140,7 @@ void __thiscall CGuild::_ZN6CGuild26SendGuildAgitInfoToMembersEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2120 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2133 行）：
 
 ```cpp
 void CGuild::SendGuildAgitInfoToMembers()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x8071f08` | `0x41b` | `0x808c9a6` | `0x41b` |
+| monitor | NEAR | `0x8071f08` | `0x41b` | `0x808c998` | `0x41b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,13 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,259 +1,259 @@
--push   %ebp
--mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
--sub    $0xfc,%esp
--mov    0x10(%ebp),%eax
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0xfc,%esp
+ mov    0x10(%ebp),%eax
  mov    %al,-0xdc(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0xb8(%ebp),%eax
@@ -283,13 +283,6 @@
  pop    %edi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x38,%esp
-+mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

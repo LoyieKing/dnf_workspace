@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809afe4` | `0x13d` | `0x8062046` | `0x146` |
+| monitor | DIFF | `0x809afe4` | `0x13d` | `0x806203a` | `0x146` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,12 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,96 +1,96 @@
--push   %ebp
--mov    %esp,%ebp
+ push   %ebp
+ mov    %esp,%ebp
 -push   %ebx
 -sub    $0x24,%esp
--cmpl   $0x0,0x14(%ebp)
++sub    $0x38,%esp
+ cmpl   $0x0,0x14(%ebp)
 -je     <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x13>
++je     <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x12>
  cmpl   $0x0,0xc(%ebp)
 -jne    <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x1d>
 +jne    <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x1c>
@@ -148,11 +150,6 @@
 -pop    %ebp
 +leave
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x68,%esp
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

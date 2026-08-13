@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8057d26` | `0x265` | `0x80a5c68` | `0x264` |
+| guild | DIFF | `0x8057d26` | `0x265` | `0x80a54a2` | `0x264` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,192 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x60,%esp
--cmpl   $0x0,0x10(%ebp)
--je     <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x25a>
+@@ -1,191 +1,190 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x60,%esp
+ cmpl   $0x0,0x10(%ebp)
+ je     <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x25a>
  lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -206,15 +206,6 @@
  pop    %esi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %esi
-+push   %ebx
-+sub    $0x30,%esp
-+mov    0x8(%ebp),%ebx
-+lea    -0xd(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcEC1Ev>
 ```
 ## 2. Ghidra 反编译 C
 

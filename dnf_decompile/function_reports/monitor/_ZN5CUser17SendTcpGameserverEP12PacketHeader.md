@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d480` | `0x82` | `0x8088cae` | `0x82` |
+| monitor | DIFF | `0x806d480` | `0x82` | `0x8088ca2` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,42 +1,42 @@
--push   %ebp
--mov    %esp,%ebp
--sub    $0x28,%esp
--mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
  test   %eax,%eax
  je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
  mov    0xc(%ebp),%eax
@@ -64,11 +64,6 @@
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
  leave
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+mov    0x8(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 

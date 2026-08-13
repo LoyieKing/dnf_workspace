@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec5f6` | `0x443` |
+| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec7c2` | `0x441` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,289 +1,270 @@
+@@ -1,289 +1,269 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -80,7 +80,7 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -nop
 +mov    $0x1,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x43b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x439>
  mov    0x8(%ebp),%eax
  mov    0x1820(%eax),%eax
  test   %eax,%eax
@@ -143,7 +143,7 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%eax
 +mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x43b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x439>
 +mov    -0x28(%ebp),%eax
  cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
@@ -160,7 +160,7 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x39b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x399>
  mov    0x8(%ebp),%eax
  mov    0x182c(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -181,14 +181,13 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
- mov    -0x60(%ebp),%eax
+-mov    -0x60(%ebp),%eax
 -mov    %eax,%ebx
-+lea    0x6(%eax),%ebx
++mov    -0x60(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,0x6(%ebx)
-+mov    %eax,(%ebx)
+ mov    %eax,0x6(%ebx)
  mov    0x8(%ebp),%eax
  mov    0x1830(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -202,7 +201,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x295>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x2cf>
++jmp    <T> <_ZN5CPeer7parsingEi+0x2cd>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x64(%ebp),%eax
@@ -241,8 +240,8 @@
 -je     <T> <_ZN5CPeer7parsingEi+0x304>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x318>
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN5CPeer7parsingEi+0x33e>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x34f>
++je     <T> <_ZN5CPeer7parsingEi+0x33c>
++jmp    <T> <_ZN5CPeer7parsingEi+0x34d>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x68(%ebp),%eax
@@ -259,7 +258,7 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
 -cmpl   $0x9,-0x24(%ebp)
 -jg     <T> <_ZN5CPeer7parsingEi+0xe0>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x39b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x399>
 +cmpl   $0x9,-0x28(%ebp)
 +setg   %al
 +test   %al,%al
@@ -299,11 +298,11 @@
 -mov    -0x24(%ebp),%eax
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +cmpl   $0x0,-0x28(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x436>
++jle    <T> <_ZN5CPeer7parsingEi+0x434>
 +mov    -0x28(%ebp),%eax
  cmp    $0x1800,%eax
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
-+jbe    <T> <_ZN5CPeer7parsingEi+0x3f3>
++jbe    <T> <_ZN5CPeer7parsingEi+0x3f1>
  movl   $0x10e,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -321,7 +320,7 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%edx
 +mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x43b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x439>
 +mov    -0x28(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x181c(%eax),%eax
@@ -541,7 +540,7 @@ bool CPeer::parsing(int len)
             buf = new CTcpRecvBuffer;
         }
         memcpy(buf, m_sendBuf, size);
-        *(int*)((char*)buf + 6) = getHandle();
+        buf->m_header.reversed2 = getHandle();
         {
             CGuard<CMutex> guard(m_sendQLock);
             m_recvQ->push(buf);

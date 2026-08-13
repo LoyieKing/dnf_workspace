@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a034e` | `0x1e4` | `0x80d6c0e` | `0x1ee` |
+| dbmw | DIFF | `0x80a034e` | `0x1e4` | `0x80d6dda` | `0x1ee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -211,7 +211,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1797 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1796 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
@@ -226,8 +226,8 @@ void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
         unsigned char flag = 0;
         m_pclApp->m_dbManager.selectCollectItems(
             pkt->m_serverInfo,
-            *(int*)((char*)&reply + 0xe), *(int*)((char*)&reply + 0xa),
-            *(unsigned int*)((char*)&reply + 0x12), flag);
+            *(int*)&reply.m_fieldE, *(int*)&reply.m_fieldA,
+            *(unsigned int*)&reply.m_field12, flag);
         int diff = pkt->m_fieldA - reply.m_fieldE;
         m_pclApp->m_dbManager.updateCollectItems(
             pkt->m_serverInfo, diff,

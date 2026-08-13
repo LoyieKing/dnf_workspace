@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8071b74` | `0x216` | `0x808ba86` | `0x217` |
+| monitor | DIFF | `0x8071b74` | `0x216` | `0x808ba7a` | `0x215` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,143 +1,146 @@
--push   %ebp
--mov    %esp,%ebp
--push   %ebx
+@@ -1,143 +1,145 @@
+ push   %ebp
+ mov    %esp,%ebp
++push   %esi
+ push   %ebx
 -sub    $0x604,%esp
--cmpl   $0x0,0xc(%ebp)
++sub    $0x600,%esp
+ cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20c>
 -lea    -0x5ef(%ebp),%eax
 +je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20b>
@@ -232,13 +234,6 @@
 +pop    %esi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %ebx
-+sub    $0x64,%esp
-+mov    0x8(%ebp),%edx
-+lea    -0x28(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 

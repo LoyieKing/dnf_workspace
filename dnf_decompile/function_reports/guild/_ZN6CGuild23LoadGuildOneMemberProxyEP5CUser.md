@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090968` | `0x200` | `0x8056480` | `0x1e3` |
+| guild | DIFF | `0x8090968` | `0x200` | `0x80563d2` | `0x1e3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -70,10 +70,12 @@
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
- add    $0xd0,%eax
+-add    $0xd0,%eax
 -add    0x8(%ebp),%eax
+-add    $0x11,%eax
++add    $0xe0,%eax
 +lea    (%ebx,%eax,1),%eax
- add    $0x11,%eax
++add    $0x1,%eax
  movl   $0x1d,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -273,7 +275,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser(CGuild *this,CUser *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1613 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1629 行）：
 
 ```cpp
 bool CGuild::LoadGuildOneMemberProxy(CUser* user)
@@ -286,7 +288,7 @@ bool CGuild::LoadGuildOneMemberProxy(CUser* user)
     {
         unsigned short idx = m_field1e;
         ((CGuildMemberMainArray*)this)->m_members[idx].m_charNo = user->GetUniqCharNo();
-        memcpy((char*)&((CGuildMemberMainArray*)this)->m_members[idx] + 0x11,
+        memcpy(((CGuildMemberMainArray*)this)->m_members[idx].m_name,
                user->GetCharName(), 0x1d);
         ((CGuildMemberExtraArray*)this)->m_members[idx].m_job = (char)user->GetJob();
         ((CGuildMemberExtraArray*)this)->m_members[idx].m_growth = (char)user->GetGrowthType();

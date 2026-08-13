@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a08ba` | `0x14b` |
+| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a08ac` | `0x14b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,70 +1,83 @@
--push   %ebp
--mov    %esp,%ebp
--push   %ebx
+@@ -1,70 +1,84 @@
+ push   %ebp
+ mov    %esp,%ebp
++push   %edi
++push   %esi
+ push   %ebx
 -sub    $0x44,%esp
 -lea    -0x32(%ebp),%eax
--mov    %eax,(%esp)
++sub    $0x4c,%esp
++lea    -0x3a(%ebp),%eax
+ mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_ServerEvent_StartC1Ev>
 -movl   $0x1,-0x28(%ebp)
 -movw   $0x14,-0x24(%ebp)
@@ -116,13 +120,6 @@
 +pop    %edi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

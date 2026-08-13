@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082f12` | `0x45d` | `0x80616b4` | `0x42c` |
+| dbmw | DIFF | `0x8082f12` | `0x45d` | `0x8061864` | `0x40b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,288 +1,269 @@
+@@ -1,288 +1,252 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
  push   %esi
  push   %ebx
 -sub    $0x7c,%esp
-+sub    $0x60,%esp
++sub    $0x70,%esp
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
 -mov    %eax,-0x24(%ebp)
--movl   $0x0,-0x3c(%ebp)
-+mov    %eax,-0x18(%ebp)
++mov    %eax,-0x1c(%ebp)
++movl   $0x0,-0x2c(%ebp)
 +movl   $0x0,-0x28(%ebp)
 +movl   $0x0,-0x24(%ebp)
 +movl   $0x0,-0x20(%ebp)
-+movl   $0x0,-0x1c(%ebp)
+ movl   $0x0,-0x3c(%ebp)
  movl   $0x0,-0x38(%ebp)
 -movl   $0x0,-0x4c(%ebp)
 -movl   $0x0,-0x48(%ebp)
@@ -39,8 +39,7 @@
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x4c>
 +movl   $0x0,-0x34(%ebp)
 +movl   $0x0,-0x30(%ebp)
-+movl   $0x0,-0x2c(%ebp)
-+cmpl   $0x0,-0x18(%ebp)
++cmpl   $0x0,-0x1c(%ebp)
 +jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x59>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x455>
@@ -48,11 +47,13 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x441>
 -cmpl   $0x0,-0x20(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x7b>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x425>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x404>
++mov    0xc(%ebp),%eax
++mov    %eax,-0x18(%ebp)
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x411>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3f0>
 +cmpl   $0x0,-0x14(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x88>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x8e>
  movl   $0x7,0x8(%esp)
  movl   $"normal",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -61,12 +62,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xc3>
 -cmpl   $0x1,-0x20(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x9e>
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xc6>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xcc>
 +cmpl   $0x1,-0x14(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xab>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xb1>
  movl   $0x5,0x8(%esp)
  movl   $"high",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -75,10 +76,10 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xc3>
 -cmpl   $0x2,-0x20(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x43c>
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xc6>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xcc>
  movl   $0x5,0x8(%esp)
  movl   $"rare",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -88,13 +89,13 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x42b>
 -cmpl   $0x0,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xf5>
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3fe>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3dd>
 +cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xf8>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xfe>
  movl   $0x9,0x8(%esp)
  movl   $"headgear",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -103,12 +104,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x1,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x11b>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x1,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x11e>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x124>
  movl   $0x5,0x8(%esp)
  movl   $"hair",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -117,12 +118,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x2,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x141>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x2,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x144>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x14a>
  movl   $0x5,0x8(%esp)
  movl   $"face",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -131,12 +132,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x3,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x167>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x3,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x16a>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x170>
  movl   $0x7,0x8(%esp)
  movl   $"jacket",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -145,12 +146,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x4,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x18d>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x4,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x190>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x196>
  movl   $0x6,0x8(%esp)
  movl   $"pants",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -159,12 +160,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x5,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1b3>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x5,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1b6>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1bc>
  movl   $0x6,0x8(%esp)
  movl   $"shoes",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -173,12 +174,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x6,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1d6>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x6,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1d9>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1df>
  movl   $0x7,0x8(%esp)
  movl   $"breast",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -187,12 +188,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x7,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1f9>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x7,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x1fc>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x202>
  movl   $0x6,0x8(%esp)
  movl   $"waist",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -201,12 +202,12 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x8,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x21c>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
 +cmpl   $0x8,-0x10(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x21f>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x225>
  movl   $0x5,0x8(%esp)
  movl   $"skin",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -215,10 +216,10 @@
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x241>
 -cmpl   $0x9,-0x1c(%ebp)
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x426>
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x23a>
++jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x240>
  movl   $0x7,0x8(%esp)
  movl   $"aurora",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -231,38 +232,14 @@
 -mov    -0x20(%ebp),%edx
 -mov    -0x1c(%ebp),%ebx
 -mov    0xc(%ebp),%ecx
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +mov    -0x14(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
-+add    -0x10(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0x18(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%esi
-+mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x34,%edx
-+shl    $0x2,%edx
-+add    $0x12,%edx
-+add    %edx,%eax
-+mov    (%eax),%ecx
-+mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x34,%edx
-+shl    $0x3,%edx
-+add    $0xa,%edx
-+add    %edx,%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%ebx
-+shl    $0x3,%ebx
-+add    $0xe,%ebx
- add    %ebx,%eax
+-add    %ebx,%eax
 -add    $0x34,%eax
 -mov    0x12(%ecx,%eax,4),%esi
 -mov    -0x20(%ebp),%edx
@@ -290,10 +267,25 @@
 -mov    %edx,0x18(%esp)
 -mov    %esi,0x14(%esp)
 -mov    %ecx,0x10(%esp)
++add    -0x10(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
-+lea    -0x38(%ebp),%ebx
++add    $0x1c,%eax
++mov    (%eax),%esi
++mov    -0xc(%ebp),%edx
++mov    -0x18(%ebp),%eax
++add    $0x38,%edx
++mov    0x2(%eax,%edx,4),%ecx
++mov    -0xc(%ebp),%edx
++mov    -0x18(%ebp),%eax
++mov    0xa(%eax,%edx,8),%edx
++mov    -0xc(%ebp),%ebx
++mov    -0x18(%ebp),%eax
++mov    0xe(%eax,%ebx,8),%eax
++lea    -0x3c(%ebp),%ebx
 +mov    %ebx,0x1c(%esp)
-+lea    -0x28(%ebp),%ebx
++lea    -0x2c(%ebp),%ebx
 +mov    %ebx,0x18(%esp)
 +mov    %ecx,0x14(%esp)
 +mov    %edx,0x10(%esp)
@@ -304,41 +296,41 @@
 -mov    %eax,(%esp)
 -call   *%edi
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *%esi
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4f47,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x322>
-+je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x313>
++je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x304>
  movl   $0x1eb0,0x8(%esp)
  movl   $&_ZZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DBE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CDBManager::UpdateDisjointAvatarStatistic() upDate Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
  mov    (%eax),%edx
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  or     %edx,%eax
@@ -347,8 +339,8 @@
  test   %al,%al
 -je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x427>
 -mov    -0x24(%ebp),%eax
-+je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3fa>
-+mov    -0x18(%ebp),%eax
++je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3d9>
++mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
 -mov    (%eax),%edi
@@ -382,34 +374,25 @@
 -mov    0xa(%ebx,%eax,4),%eax
 -mov    %esi,0x1c(%esp)
 -mov    %ecx,0x18(%esp)
-+mov    (%eax),%ebx
-+mov    0xc(%ebp),%eax
++mov    (%eax),%esi
 +mov    -0xc(%ebp),%edx
-+add    $0x34,%edx
-+shl    $0x2,%edx
-+add    $0x12,%edx
-+add    %edx,%eax
-+mov    (%eax),%ecx
-+mov    0xc(%ebp),%eax
++mov    -0x18(%ebp),%eax
++add    $0x38,%edx
++mov    0x2(%eax,%edx,4),%ecx
 +mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0xa,%edx
-+add    %edx,%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%esi
-+shl    $0x3,%esi
-+add    $0xe,%esi
-+add    %esi,%eax
-+mov    (%eax),%eax
++mov    -0x18(%ebp),%eax
++mov    0xa(%eax,%edx,8),%edx
++mov    -0xc(%ebp),%ebx
++mov    -0x18(%ebp),%eax
++mov    0xe(%eax,%ebx,8),%eax
 +mov    %ecx,0x1c(%esp)
 +mov    %edx,0x18(%esp)
  mov    %eax,0x14(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,0x10(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into log_avatar_grind(cur_date, grade, body_part, avatar_emblem_grind, avatar_bindcube_grind, avatar_rechargestone_grind) values(CURDATE(), '%s', '%s', %d, %d, %d)",0x8(%esp)
  movl   $0x4ee8,0x4(%esp)
@@ -417,32 +400,32 @@
 -mov    %eax,(%esp)
 -call   *%edi
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
-+call   *%ebx
-+mov    -0x18(%ebp),%eax
++call   *%esi
++mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4ee8,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x427>
-+je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3fa>
++je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3d9>
  movl   $0x1ebe,0x8(%esp)
  movl   $&_ZZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DBE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CDBManager::UpdateDisjointAvatarStatistic(insert) upDate Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x427>
@@ -458,16 +441,16 @@
 -nop
 -addl   $0x1,-0x20(%ebp)
 -cmpl   $0x2,-0x20(%ebp)
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xd2>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0xd8>
 +addl   $0x1,-0x14(%ebp)
 +cmpl   $0x2,-0x14(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x58>
-+jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x65>
++jne    <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x6b>
  mov    $0x1,%eax
 -add    $0x7c,%esp
-+add    $0x60,%esp
++add    $0x70,%esp
  pop    %ebx
  pop    %esi
 -pop    %edi

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808478c` | `0x2fd` | `0x805ed0a` | `0x30e` |
+| dbmw | DIFF | `0x808478c` | `0x2fd` | `0x805ed88` | `0x2ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,216 +1,225 @@
+@@ -1,216 +1,207 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
- mov    %eax,-0x10(%ebp)
- mov    -0x10(%ebp),%eax
+-mov    %eax,-0x10(%ebp)
+-mov    -0x10(%ebp),%eax
++mov    %eax,-0x14(%ebp)
++mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
@@ -29,9 +31,9 @@
  mov    %eax,0xc(%esp)
  movl   $"seLect no, m_id, charac_no, charac_name, memo, unix_timestamp(create_time), job from guild_memo where guild_id=%d order by no desc limit %d",0x8(%esp)
  movl   $0x4f07,0x4(%esp)
- mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    -0x10(%ebp),%eax
 -mov    (%eax),%eax
 -add    $0x20,%eax
@@ -45,40 +47,43 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0xa8>
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x87>
  movl   $0x2292,0x8(%esp)
  movl   $&_ZZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfoE12__FUNCTION__,0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"OnLoadGuildBoard Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
 +mov    (%eax),%edx
 +movl   $0x4f07,0x4(%esp)
-+mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0xb2>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x6c,%eax
 +mov    (%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *%edx
 +mov    0x10(%ebp),%edx
@@ -88,51 +93,23 @@
 +test   %eax,%eax
 +jne    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0xdc>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2f4>
-+movl   $0x0,-0x1c(%ebp)
-+mov    -0x10(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++movl   $0x0,-0x10(%ebp)
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2b4>
++movl   $0x0,-0x20(%ebp)
++mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x24,%eax
 +mov    (%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x112>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    -0xc(%ebp),%ecx
-+imul   $0xa5,%ecx,%ecx
-+add    $0x7c,%ecx
-+add    %ecx,%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x152>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%edx
- lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
--mov    -0x10(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
+ mov    -0x10(%ebp),%eax
 -mov    (%eax),%eax
 -add    $0x6c,%eax
 -mov    (%eax),%edx
@@ -167,66 +144,18 @@
 -mov    (%eax),%eax
 -add    $0x38,%eax
 -mov    (%eax),%edx
-+mov    %eax,0x8(%esp)
-+movl   $0x1,0x4(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x184>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
+-mov    -0xc(%ebp),%eax
+ imul   $0xa5,%eax,%eax
+ add    0x14(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
 +mov    (%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    -0xc(%ebp),%ecx
-+imul   $0xa5,%ecx,%ecx
-+sub    $0xffffff80,%ecx
-+add    %ecx,%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x2,0x4(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x1c4>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x2c,%eax
-+mov    (%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    -0xc(%ebp),%ecx
-+imul   $0xa5,%ecx,%ecx
-+add    $0x87,%ecx
-+add    %ecx,%eax
-+movl   $0x1e,0xc(%esp)
-+mov    %eax,0x8(%esp)
-+movl   $0x3,0x4(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x20f>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x2c,%eax
-+mov    (%eax),%edx
-+mov    0x14(%ebp),%ecx
- mov    -0xc(%ebp),%eax
- imul   $0xa5,%eax,%eax
--add    0x14(%ebp),%eax
--add    $0x7c,%eax
--mov    %eax,0x8(%esp)
--movl   $0x0,0x4(%esp)
++mov    -0xc(%ebp),%eax
+ add    $0x7c,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x0,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -236,12 +165,21 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--lea    -0x20(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $0x1,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x156>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ lea    -0x20(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x1,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -257,9 +195,22 @@
 -mov    -0xc(%ebp),%eax
 -imul   $0xa5,%eax,%eax
 -add    0x14(%ebp),%eax
--sub    $0xffffff80,%eax
--mov    %eax,0x8(%esp)
--movl   $0x2,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x188>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
++mov    (%eax),%eax
++add    $0x38,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
+ sub    $0xffffff80,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x2,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -269,16 +220,25 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x2c,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x1bd>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x2c,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0xa5,%eax,%eax
 -add    0x14(%ebp),%eax
--add    $0x87,%eax
--movl   $0x1e,0xc(%esp)
--mov    %eax,0x8(%esp)
--movl   $0x3,0x4(%esp)
+ add    $0x87,%eax
+ movl   $0x1e,0xc(%esp)
+ mov    %eax,0x8(%esp)
+ movl   $0x3,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -288,21 +248,29 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x2c,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x1fc>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x2c,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0xa5,%eax,%eax
 -add    0x14(%ebp),%eax
-+lea    (%ecx,%eax,1),%eax
  movl   $0x78,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $0x4,0x4(%esp)
- mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
- xor    $0x1,%eax
- test   %al,%al
+-mov    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x243>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
@@ -313,78 +281,81 @@
 -mov    -0xc(%ebp),%eax
 -imul   $0xa5,%eax,%eax
 -add    0x14(%ebp),%eax
--add    $0x78,%eax
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x255>
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x236>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x10(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
 +mov    (%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    -0xc(%ebp),%ecx
-+imul   $0xa5,%ecx,%ecx
-+add    $0x78,%ecx
-+add    %ecx,%eax
++mov    -0xc(%ebp),%eax
+ add    $0x78,%eax
  mov    %eax,0x8(%esp)
  movl   $0x5,0x4(%esp)
- mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
- xor    $0x1,%eax
- test   %al,%al
+-mov    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x27e>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x292>
+-mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x268>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
- mov    -0x10(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
++mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
  mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    -0xc(%ebp),%eax
 -imul   $0xa5,%eax,%eax
 -add    0x14(%ebp),%eax
--add    $0x84,%eax
-+mov    0x14(%ebp),%eax
-+mov    -0xc(%ebp),%ecx
-+imul   $0xa5,%ecx,%ecx
-+add    $0x84,%ecx
-+add    %ecx,%eax
+ add    $0x84,%eax
  mov    %eax,0x8(%esp)
  movl   $0x6,0x4(%esp)
- mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
- xor    $0x1,%eax
- test   %al,%al
+-mov    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2bb>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2fb>
--mov    -0x20(%ebp),%eax
-+je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2d2>
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x29c>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x30c>
-+mov    -0x1c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2cc>
+ mov    -0x20(%ebp),%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2d8>
 -mov    -0xc(%ebp),%eax
 -imul   $0xa5,%eax,%eax
 -add    0x14(%ebp),%eax
--movl   $0x0,0x80(%eax)
++jne    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2b0>
++mov    -0xc(%ebp),%eax
+ movl   $0x0,0x80(%eax)
 -movl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0x2f0>
-+mov    0x14(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0xa5,%edx,%edx
-+sub    $0xffffff80,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
- addl   $0x1,-0xc(%ebp)
+-addl   $0x1,-0xc(%ebp)
++addl   $0x1,-0x10(%ebp)
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
- cmp    -0xc(%ebp),%eax
+-cmp    -0xc(%ebp),%eax
++cmp    -0x10(%ebp),%eax
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo+0xe7>

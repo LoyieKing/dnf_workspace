@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809821a` | `0xcb` | `0x806081c` | `0xcd` |
+| monitor | DIFF | `0x809821a` | `0xcb` | `0x8060810` | `0xcd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,64 @@
--push   %ebp
--mov    %esp,%ebp
--sub    $0x38,%esp
--mov    0x10(%ebp),%eax
--mov    %ax,-0x1c(%ebp)
+@@ -1,62 +1,63 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ mov    0x10(%ebp),%eax
+ mov    %ax,-0x1c(%ebp)
  mov    0x8(%ebp),%eax
  movzwl 0x4(%eax),%eax
  movzwl %ax,%eax
@@ -83,12 +83,6 @@
  call   <T> <_ZN7CMember23CheckMemberRegisterFlagEv>
  leave
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+movzwl 0x4(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 

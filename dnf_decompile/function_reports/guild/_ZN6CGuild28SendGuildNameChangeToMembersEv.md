@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808df68` | `0xe2` | `0x8053f1c` | `0xed` |
+| guild | DIFF | `0x808df68` | `0xe2` | `0x8053ef6` | `0xda` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,21 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,67 +1,71 @@
+@@ -1,67 +1,63 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x58,%esp
-+push   %ebx
-+sub    $0x54,%esp
+ sub    $0x58,%esp
  lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Guild_Notice_Guild_Name_ChangeC1Ev>
-+lea    -0x41(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
--mov    %eax,-0x37(%ebp)
-+mov    %eax,(%edx)
+ mov    %eax,-0x37(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x20,%eax
  movl   $0x16,0x8(%esp)
@@ -43,7 +38,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0xb1>
-+jmp    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0xb9>
++jmp    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0xa9>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -53,21 +48,15 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0xa5>
-+je     <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0xae>
-+lea    -0x41(%ebp),%eax
-+lea    0x12(%eax),%ebx
++je     <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0x9e>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x2f(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x41(%ebp),%eax
-+lea    0xe(%eax),%ebx
+ mov    %eax,-0x2f(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x33(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x33(%ebp)
  lea    -0x41(%ebp),%eax
  movl   $0x2d,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -91,9 +80,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0x51>
-+jne    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0x57>
-+mov    -0x4(%ebp),%ebx
+ jne    <T> <_ZN6CGuild28SendGuildNameChangeToMembersEv+0x51>
  leave
  ret
 ```
@@ -150,22 +137,22 @@ void __thiscall CGuild::_ZN6CGuild28SendGuildNameChangeToMembersEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 886 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 903 行）：
 
 ```cpp
 void CGuild::SendGuildNameChangeToMembers()
 {
     Packet_Guild_Notice_Guild_Name_Change pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = m_guildKey;
-    memcpy((char*)&pkt + 0x16, (char*)this + 0x20, 0x16);
+    pkt.m_guildKey = m_guildKey;
+    memcpy(pkt.m_name, m_dbInfo.m_info.m_guildName, 0x16);
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
         CUser* u = it->second;
         if (u != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0x12) = u->GetIdByChannel();
-            *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+            pkt.m_channel = u->GetIdByChannel();
+            pkt.m_charNo = u->GetUniqCharNo();
             u->SendToGameserver((char*)&pkt, 0x2d);
         }
     }

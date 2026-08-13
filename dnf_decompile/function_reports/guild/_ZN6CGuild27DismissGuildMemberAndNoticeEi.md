@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f0fa` | `0x143` | `0x8055146` | `0x1a8` |
+| guild | DIFF | `0x808f0fa` | `0x143` | `0x80550b4` | `0x1a3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,94 +1,124 @@
+@@ -1,94 +1,122 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x58,%esp
@@ -37,7 +37,7 @@
 +jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x33>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1a2>
++jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x19d>
 +lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN42Packet_Monitor_Notice_Guild_Dismiss_ToUserC1Ev>
@@ -50,7 +50,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x10f>
 -lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x171>
++jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x16c>
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -63,7 +63,7 @@
  test   %al,%al
 -jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x103>
 -mov    -0xc(%ebp),%eax
-+je     <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x166>
++je     <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x161>
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -115,12 +115,9 @@
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x34(%ebp)
 +mov    %eax,-0x30(%ebp)
-+lea    -0x3e(%ebp),%eax
-+lea    0x12(%eax),%edx
  mov    0xc(%ebp),%eax
--mov    %eax,-0x2c(%ebp)
+ mov    %eax,-0x2c(%ebp)
 -mov    -0xc(%ebp),%eax
-+mov    %eax,(%edx)
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -171,7 +168,7 @@
 -jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x53>
 -jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x141>
 +jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x60>
-+jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1a3>
++jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x19e>
  nop
 +mov    -0x4(%ebp),%ebx
  leave
@@ -245,7 +242,7 @@ void __thiscall CGuild::_ZN6CGuild27DismissGuildMemberAndNoticeEi(CGuild *this,i
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1242 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1258 行）：
 
 ```cpp
 void CGuild::DismissGuildMemberAndNotice(int group)
@@ -266,7 +263,7 @@ void CGuild::DismissGuildMemberAndNotice(int group)
             Packet_Guild_Exp_Book_Delete expDel;
             expDel.ma = it->second->GetIdByChannel();
             expDel.me = it->second->GetUniqCharNo();
-            *(int*)((char*)&expDel + 0x12) = group;
+            expDel.m_field12 = group;
             expDel.m16 = it->second->GetDBID();
             it->second->SendTcpGameserver(&expDel);
             it->second->ResetGuild();

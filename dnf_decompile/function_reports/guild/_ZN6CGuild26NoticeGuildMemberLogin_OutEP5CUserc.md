@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f23e` | `0x193` | `0x80552ee` | `0x1b7` |
+| guild | DIFF | `0x808f23e` | `0x193` | `0x8055258` | `0x19f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,48 +13,43 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,118 +1,133 @@
+@@ -1,118 +1,123 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x68,%esp
-+push   %ebx
-+sub    $0x64,%esp
+ sub    $0x68,%esp
  mov    0x10(%ebp),%eax
  mov    %al,-0x4c(%ebp)
  cmpl   $0x0,0xc(%ebp)
--je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x21>
-+je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x22>
+ je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x21>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  test   %eax,%eax
--jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x28>
-+jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x29>
+ jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x28>
  mov    $0x1,%eax
--jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x2d>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x2e>
+ jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x2d>
  mov    $0x0,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x18d>
-+jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x1ae>
++jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x199>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x191>
-+je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x56>
++je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x55>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x190>
-+je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x5d>
++je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x5c>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x62>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x61>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x1b1>
++jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x19c>
  lea    -0x46(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN44Packet_Monitor_Notice_Guild_Member_Login_outC1Ev>
@@ -65,7 +60,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x15c>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x17d>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x168>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -75,11 +70,11 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x14a>
-+je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x16b>
++je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x156>
  mov    -0xc(%ebp),%eax
  cmp    0xc(%ebp),%eax
 -je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x14d>
-+je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x16e>
++je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x159>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -91,35 +86,23 @@
 +setne  %al
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x150>
-+jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x171>
-+lea    -0x46(%ebp),%eax
-+lea    0xa(%eax),%edx
++jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x15c>
  movzbl -0x4c(%ebp),%eax
--mov    %al,-0x3c(%ebp)
-+mov    %al,(%edx)
-+lea    -0x46(%ebp),%eax
-+lea    0xb(%eax),%ebx
+ mov    %al,-0x3c(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x3b(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x46(%ebp),%eax
-+lea    0xf(%eax),%ebx
+ mov    %eax,-0x3b(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x37(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x46(%ebp),%eax
-+lea    0x13(%eax),%ebx
+ mov    %eax,-0x37(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
--mov    %al,-0x33(%ebp)
-+mov    %al,(%ebx)
+ mov    %al,-0x33(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -136,13 +119,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x151>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x172>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x15d>
  nop
 -jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x151>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x172>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x15d>
  nop
 -jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x151>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x172>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x15d>
  nop
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -161,13 +144,12 @@
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x82>
 -jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x191>
-+jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x8f>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x1b2>
++jne    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x8e>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x19d>
  nop
 -jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x191>
-+jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x1b2>
++jmp    <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x19d>
  nop
-+mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -249,7 +231,7 @@ CGuild::_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc(CGuild *this,CUser *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1268 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1284 行）：
 
 ```cpp
 void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)
@@ -275,11 +257,11 @@ void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)
         {
             continue;
         }
-        *(char*)((char*)&pkt + 0xa) = flag;
-        *(int*)((char*)&pkt + 0xb) = member->GetIdByChannel();
-        *(unsigned int*)((char*)&pkt + 0xf) = member->GetUniqCharNo();
-        *(char*)((char*)&pkt + 0x13) = (char)user->GetGameServer()->GetChannelNo();
-        memcpy((char*)&pkt + 0x14, user->GetCharName(), 0x1d);
+        pkt.m_flag = flag;
+        pkt.m_channel = member->GetIdByChannel();
+        pkt.m_charNo = member->GetUniqCharNo();
+        pkt.m_channelNo = (char)user->GetGameServer()->GetChannelNo();
+        memcpy(pkt.m_name, user->GetCharName(), 0x1d);
         member->SendToGameserver((char*)&pkt, 0x32);
     }
 }

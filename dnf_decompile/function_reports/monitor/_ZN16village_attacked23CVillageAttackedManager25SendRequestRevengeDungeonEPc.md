@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8f78` | `0x33` |
+| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8f6a` | `0x33` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,19 +14,21 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,16 +1,19 @@
--push   %ebp
--mov    %esp,%ebp
+ push   %ebp
+ mov    %esp,%ebp
 -sub    $0x28,%esp
++sub    $0x14,%esp
+ mov    0xc(%ebp),%eax
+-mov    %eax,-0xc(%ebp)
++mov    %eax,-0x8(%ebp)
+ mov    0x8(%ebp),%eax
+-mov    0x30(%eax),%edx
+-mov    -0xc(%ebp),%eax
 +mov    0x30(%eax),%eax
 +mov    %eax,%edx
 +mov    -0x8(%ebp),%eax
-+mov    %edx,0xa(%eax)
- mov    0xc(%ebp),%eax
--mov    %eax,-0xc(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x30(%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %edx,0xa(%eax)
+ mov    %edx,0xa(%eax)
++mov    0xc(%ebp),%eax
 +mov    %eax,-0x4(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -36,12 +38,6 @@
  mov    %eax,0xe(%edx)
  leave
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+movzbl 0x24(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 

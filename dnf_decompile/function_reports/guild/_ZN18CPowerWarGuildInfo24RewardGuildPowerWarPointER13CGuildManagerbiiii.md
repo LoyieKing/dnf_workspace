@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa1ea` | `0x24a` | `0x80a08b8` | `0x25c` |
+| guild | DIFF | `0x80aa1ea` | `0x24a` | `0x80a0102` | `0x25c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,169 +1,170 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
+@@ -1,169 +1,173 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
 -sub    $0x70,%esp
--mov    0x10(%ebp),%eax
++add    $0xffffff80,%esp
+ mov    0x10(%ebp),%eax
 -mov    %al,-0x4c(%ebp)
--mov    0x14(%ebp),%eax
++mov    %al,-0x5c(%ebp)
+ mov    0x14(%ebp),%eax
++mov    %eax,-0x34(%ebp)
 +mov    0x18(%ebp),%eax
 +mov    %eax,-0x30(%ebp)
 +mov    0x1c(%ebp),%eax
@@ -265,12 +268,6 @@
  pop    %esi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %ebx
-+sub    $0x24,%esp
-+movl   $0x0,-0xc(%ebp)
-+movl   $&_ZSt7nothrow,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

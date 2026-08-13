@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ea5a` | `0x120` | `0x8054a54` | `0x129` |
+| guild | DIFF | `0x808ea5a` | `0x120` | `0x8054a0c` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,85 +1,87 @@
+@@ -1,85 +1,85 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x88,%esp
@@ -42,19 +42,16 @@
 +jmp    <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0x49>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0x127>
++je     <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0x122>
  lea    -0x6e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_Monitor_Notice_Guild_Enter_ToUserC1Ev>
-+lea    -0x6e(%ebp),%eax
-+lea    0x14(%eax),%edx
  movl   $0x46,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x6e(%ebp),%eax
--add    $0x14,%eax
--mov    %eax,(%esp)
-+mov    %edx,(%esp)
+ lea    -0x6e(%ebp),%eax
+ add    $0x14,%eax
+ mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x8(%ebp),%edx
  lea    -0x14(%ebp),%eax
@@ -63,7 +60,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0xec>
-+jmp    <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0xf8>
++jmp    <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0xf3>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -73,7 +70,7 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0xe0>
-+je     <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0xed>
++je     <T> <_ZN6CGuild24NoticeEnterToGuildMemberEPc+0xe8>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -82,14 +79,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
  mov    %eax,-0x60(%ebp)
--mov    0x8(%ebp),%eax
--movzwl 0x42(%eax),%eax
--mov    %ax,-0x5c(%ebp)
-+lea    -0x6e(%ebp),%eax
-+add    $0x12,%eax
-+mov    0x8(%ebp),%edx
-+movzwl 0x42(%edx),%edx
-+mov    %dx,(%eax)
+ mov    0x8(%ebp),%eax
+ movzwl 0x42(%eax),%eax
+ mov    %ax,-0x5c(%ebp)
  lea    -0x6e(%ebp),%eax
  movl   $0x5a,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -180,7 +172,7 @@ void __thiscall CGuild::_ZN6CGuild24NoticeEnterToGuildMemberEPc(CGuild *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1114 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1131 行）：
 
 ```cpp
 void CGuild::NoticeEnterToGuildMember(char* info)
@@ -190,7 +182,7 @@ void CGuild::NoticeEnterToGuildMember(char* info)
         !m_members.empty())
     {
         Packet_Monitor_Notice_Guild_Enter_ToUser pkt;
-        memcpy((char*)&pkt + 0x14, info, 0x46);
+        memcpy(&pkt.m_info, info, 0x46);
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
         {
@@ -199,8 +191,7 @@ void CGuild::NoticeEnterToGuildMember(char* info)
             {
                 pkt.m_a = u->GetIdByChannel();
                 pkt.m_b = u->GetUniqCharNo();
-                *(unsigned short*)((char*)&pkt + 0x12) =
-                    m_dbInfo.m_info.m_totalCnt;
+                pkt.m_totalCnt = m_dbInfo.m_info.m_totalCnt;
                 u->SendToGameserver((char*)&pkt, 0x5a);
             }
         }

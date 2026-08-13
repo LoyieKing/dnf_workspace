@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807b35a` | `0x59e` | `0x805d8d6` | `0x5a4` |
+| dbmw | DIFF | `0x807b35a` | `0x59e` | `0x805d84e` | `0x58c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,414 +1,417 @@
+@@ -1,414 +1,408 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x118,%esp
@@ -27,7 +27,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x59c>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -64,7 +64,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x6f>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
@@ -79,7 +79,7 @@
 -lea    -0x105(%ebp),%eax
 +jg     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x94>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +lea    -0x101(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Frame_Lag_Statistic_Result_Load_SpecC1Ev>
@@ -114,8 +114,6 @@
 -je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0xf5>
 +je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0xf0>
 +addl   $0x1,-0x14(%ebp)
-+lea    -0x101(%ebp),%eax
-+lea    0xf(%eax),%edx
  mov    -0x14(%ebp),%eax
 -add    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0xf8>
@@ -124,15 +122,13 @@
 -mov    -0x14(%ebp),%eax
 -mov    %eax,-0xf6(%ebp)
 -movl   $0x1,-0xfa(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x101(%ebp),%eax
-+add    $0xb,%eax
-+movl   $0x1,(%eax)
++mov    %eax,-0xf2(%ebp)
++movl   $0x1,-0xf6(%ebp)
  movl   $0x0,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x502>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x4fb>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x4f0>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -158,21 +154,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x143>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x139>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
 +mov    (%eax),%edx
-+lea    -0x101(%ebp),%eax
 +mov    -0x10(%ebp),%ecx
++lea    -0x101(%ebp),%eax
  add    $0x4,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0x3,%eax
-+add    $0x3,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0x3,%eax
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -189,23 +183,20 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x186>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x17c>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
  mov    (%eax),%edx
--mov    -0x10(%ebp),%ecx
+ mov    -0x10(%ebp),%ecx
 -lea    -0x105(%ebp),%eax
 +lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
  add    $0x8,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0xb,%eax
-+add    $0xb,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0xb,%eax
  mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -227,21 +218,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x1c9>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x1bf>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
 +mov    (%eax),%edx
-+lea    -0x101(%ebp),%eax
 +mov    -0x10(%ebp),%ecx
++lea    -0x101(%ebp),%eax
  add    $0x10,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0x3,%eax
-+add    $0x3,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0x3,%eax
  mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -258,22 +247,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x20c>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x202>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
  mov    (%eax),%edx
--mov    -0x10(%ebp),%ecx
+ mov    -0x10(%ebp),%ecx
 -lea    -0x105(%ebp),%eax
--add    $0x50,%ecx
--add    %ecx,%eax
--add    $0xb,%eax
 +lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
-+add    $0x5b,%ecx
-+add    %ecx,%eax
+ add    $0x50,%ecx
+ add    %ecx,%eax
+ add    $0xb,%eax
  mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -290,22 +276,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x249>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x242>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
  mov    (%eax),%edx
--mov    -0x10(%ebp),%ecx
+ mov    -0x10(%ebp),%ecx
 -lea    -0x105(%ebp),%eax
--add    $0x60,%ecx
--add    %ecx,%eax
--add    $0x1,%eax
 +lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
-+add    $0x61,%ecx
-+add    %ecx,%eax
+ add    $0x60,%ecx
+ add    %ecx,%eax
+ add    $0x1,%eax
  mov    %eax,0x8(%esp)
  movl   $0x4,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -327,21 +310,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x286>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x282>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
 +mov    (%eax),%edx
-+lea    -0x101(%ebp),%eax
 +mov    -0x10(%ebp),%ecx
++lea    -0x101(%ebp),%eax
  add    $0x18,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0x7,%eax
-+add    $0x7,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0x7,%eax
  mov    %eax,0x8(%esp)
  movl   $0x5,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -363,21 +344,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x2c9>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x2c5>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
 +mov    (%eax),%edx
-+lea    -0x101(%ebp),%eax
 +mov    -0x10(%ebp),%ecx
++lea    -0x101(%ebp),%eax
  add    $0x1c,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0xf,%eax
-+add    $0xf,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0xf,%eax
  mov    %eax,0x8(%esp)
  movl   $0x6,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -394,23 +373,20 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x30c>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x308>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x40,%eax
  mov    (%eax),%edx
--mov    -0x10(%ebp),%ecx
+ mov    -0x10(%ebp),%ecx
 -lea    -0x105(%ebp),%eax
 +lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
  add    $0x48,%ecx
  add    %ecx,%ecx
--add    %ecx,%eax
--add    $0x7,%eax
-+add    $0x7,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0x7,%eax
  mov    %eax,0x8(%esp)
  movl   $0x7,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -432,21 +408,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x34e>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x34a>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
 +mov    (%eax),%edx
-+lea    -0x101(%ebp),%eax
 +mov    -0x10(%ebp),%ecx
++lea    -0x101(%ebp),%eax
  add    $0x28,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0x3,%eax
-+add    $0x3,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0x3,%eax
  mov    %eax,0x8(%esp)
  movl   $0x8,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -468,21 +442,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x391>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x38d>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
 +mov    (%eax),%edx
-+lea    -0x101(%ebp),%eax
 +mov    -0x10(%ebp),%ecx
++lea    -0x101(%ebp),%eax
  add    $0x2c,%ecx
  shl    $0x2,%ecx
--add    %ecx,%eax
--add    $0xb,%eax
-+add    $0xb,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0xb,%eax
  mov    %eax,0x8(%esp)
  movl   $0x9,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -499,23 +471,20 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x3d4>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x3d0>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x40,%eax
  mov    (%eax),%edx
--mov    -0x10(%ebp),%ecx
+ mov    -0x10(%ebp),%ecx
 -lea    -0x105(%ebp),%eax
 +lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
  add    $0x68,%ecx
  add    %ecx,%ecx
--add    %ecx,%eax
--add    $0x3,%eax
-+add    $0x3,%ecx
-+add    %ecx,%eax
+ add    %ecx,%eax
+ add    $0x3,%eax
  mov    %eax,0x8(%esp)
  movl   $0xa,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -532,22 +501,19 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x416>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x412>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
  mov    (%eax),%edx
--mov    -0x10(%ebp),%ecx
+ mov    -0x10(%ebp),%ecx
 -lea    -0x105(%ebp),%eax
--add    $0xd0,%ecx
--add    %ecx,%eax
--add    $0xf,%eax
 +lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
-+add    $0xdf,%ecx
-+add    %ecx,%eax
+ add    $0xd0,%ecx
+ add    %ecx,%eax
+ add    $0xf,%eax
  mov    %eax,0x8(%esp)
  movl   $0xb,0x4(%esp)
 -mov    -0x20(%ebp),%eax
@@ -563,9 +529,9 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x456>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x455>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x5a2>
++jmp    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x58a>
  addl   $0x1,-0x10(%ebp)
  mov    -0x10(%ebp),%ecx
  mov    $0x2aaaaaab,%edx
@@ -583,7 +549,7 @@
  test   %edx,%edx
 -jne    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x4fe>
 -movzwl -0x103(%ebp),%eax
-+jne    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x4f7>
++jne    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x4ec>
 +movzwl -0xff(%ebp),%eax
  movzwl %ax,%edx
 -lea    -0x105(%ebp),%eax
@@ -607,15 +573,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CStatisticsServer12SendToServerEPci>
 -mov    -0xfa(%ebp),%eax
--add    $0x1,%eax
++mov    -0xf6(%ebp),%eax
+ add    $0x1,%eax
 -mov    %eax,-0xfa(%ebp)
-+lea    -0x101(%ebp),%eax
-+add    $0xb,%eax
-+lea    -0x101(%ebp),%edx
-+add    $0xb,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
++mov    %eax,-0xf6(%ebp)
  movl   $0x0,-0x10(%ebp)
  addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
@@ -623,27 +584,21 @@
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x121>
-+jne    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x120>
++jne    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x116>
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x597>
-+je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x59d>
++je     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x585>
  cmpl   $0x0,-0x10(%ebp)
 -jle    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x536>
-+jle    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x53c>
++jle    <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x524>
  cmpl   $0x5,-0x10(%ebp)
 -jg     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x536>
--mov    -0x10(%ebp),%eax
--add    $0x4,%eax
++jg     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x524>
+ mov    -0x10(%ebp),%eax
+ add    $0x4,%eax
 -movl   $0xffffffff,-0x102(%ebp,%eax,4)
 -movzwl -0x103(%ebp),%eax
-+jg     <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer+0x53c>
-+lea    -0x101(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0x4,%edx
-+shl    $0x2,%edx
-+add    $0x3,%edx
-+add    %edx,%eax
-+movl   $0xffffffff,(%eax)
++movl   $0xffffffff,-0xfe(%ebp,%eax,4)
 +movzwl -0xff(%ebp),%eax
  movzwl %ax,%edx
 -lea    -0x105(%ebp),%eax

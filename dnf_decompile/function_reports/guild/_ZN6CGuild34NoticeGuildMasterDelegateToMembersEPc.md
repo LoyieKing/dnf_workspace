@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808dcb0` | `0x131` | `0x8053c74` | `0x137` |
+| guild | DIFF | `0x808dcb0` | `0x131` | `0x8053c6e` | `0x129` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,25 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,85 +1,88 @@
+@@ -1,85 +1,82 @@
  push   %ebp
  mov    %esp,%ebp
- push   %ebx
- sub    $0x64,%esp
+-push   %ebx
+-sub    $0x64,%esp
++sub    $0x68,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xec>
-+je     <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x131>
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++je     <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x126>
++lea    -0x4b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_Guild_Notice_Guild_Master_DelegateC1Ev>
  movl   $0x1d,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++lea    -0x4b(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -42,7 +45,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xbb>
-+jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xc0>
++jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xb5>
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -52,29 +55,26 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xaf>
-+je     <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xb4>
-+lea    -0x4c(%ebp),%eax
-+lea    0xe(%eax),%ebx
++je     <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xa9>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x3e(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x4c(%ebp),%eax
-+lea    0xa(%eax),%ebx
++mov    %eax,-0x3d(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x42(%ebp)
-+mov    %eax,(%ebx)
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++mov    %eax,-0x41(%ebp)
++lea    -0x4b(%ebp),%eax
  movl   $0x30,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xb0>
-+jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xb5>
++jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0xaa>
  nop
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -93,10 +93,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
- jne    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x5b>
+-jne    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x5b>
 -jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x12c>
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%ebx
++jne    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x5a>
  movl   $0x2bd,0x8(%esp)
  movl   $&_ZZN6CGuild34NoticeGuildMasterDelegateToMembersEPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
@@ -113,9 +114,9 @@
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x132>
+-mov    -0x4(%ebp),%ebx
++jmp    <T> <_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc+0x127>
 +nop
- mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -182,7 +183,7 @@ CGuild::_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc(CGuild *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 834 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 851 行）：
 
 ```cpp
 void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
@@ -192,7 +193,7 @@ void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
         return;
     }
     Packet_Guild_Notice_Guild_Master_Delegate pkt;
-    memcpy((char*)&pkt + 0x12, name, 0x1d);
+    memcpy(pkt.m_name, name, 0x1d);
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
@@ -201,8 +202,8 @@ void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
         {
             continue;
         }
-        *(int*)((char*)&pkt + 0xe) = member->GetIdByChannel();
-        *(unsigned int*)((char*)&pkt + 0xa) = member->GetUniqCharNo();
+        pkt.m_channel = member->GetIdByChannel();
+        pkt.m_charNo = member->GetUniqCharNo();
         member->SendToGameserver((char*)&pkt, 0x30);
     }
     CMyFileLog log(__FUNCTION__, 0x2bd);

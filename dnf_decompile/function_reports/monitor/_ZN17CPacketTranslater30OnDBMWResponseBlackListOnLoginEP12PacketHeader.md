@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80866d4` | `0x26d` | `0x80721a2` | `0x26a` |
+| monitor | DIFF | `0x80866d4` | `0x26d` | `0x8072196` | `0x26a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,14 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,171 +1,170 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x52>
 -movl   $0xdc4,0x8(%esp)
@@ -203,12 +203,6 @@
  pop    %esi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %esi
-+push   %ebx
-+sub    $0x60,%esp
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 ```
 ## 2. Ghidra 反编译 C
 

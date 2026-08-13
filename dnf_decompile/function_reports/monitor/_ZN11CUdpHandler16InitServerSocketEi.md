@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80501bc` | `0x1b8` | `0x8087b72` | `0x1ad` |
+| monitor | DIFF | `0x80501bc` | `0x1b8` | `0x8087b66` | `0x1ad` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,112 +1,105 @@
--push   %ebp
--mov    %esp,%ebp
+@@ -1,112 +1,103 @@
+ push   %ebp
+ mov    %esp,%ebp
 -push   %esi
 -push   %ebx
 -sub    $0x40,%esp
--movl   $0x11,0x8(%esp)
++sub    $0x58,%esp
+ movl   $0x11,0x8(%esp)
  movl   $0x2,0x4(%esp)
  movl   $0x2,(%esp)
  call   <T> <socket>
@@ -156,12 +157,6 @@
 -pop    %ebp
 +leave
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %ebx
-+sub    $0x24,%esp
-+movl   $0x11,0x8(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8050416` | `0x273` | `0x8087dc2` | `0x267` |
+| monitor | DIFF | `0x8050416` | `0x273` | `0x8087db6` | `0x267` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,13 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,165 +1,161 @@
--push   %ebp
--mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
--sub    $0x6c,%esp
--mov    0x8(%ebp),%eax
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x6c,%esp
+ mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0xffffffff,%eax
  jne    <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt+0x1d>
@@ -210,13 +210,6 @@
  pop    %edi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %ebx
-+sub    $0x74,%esp
-+mov    0x14(%ebp),%eax
-+mov    %ax,-0x4c(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

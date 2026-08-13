@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4bc0` | `0x85` | `0x809a3e8` | `0x82` |
+| monitor | DIFF | `0x80a4bc0` | `0x85` | `0x809a3da` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,41 @@
--push   %ebp
--mov    %esp,%ebp
--sub    $0x38,%esp
--mov    0x8(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,0x24(%eax)
+@@ -1,42 +1,40 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ mov    0x8(%ebp),%eax
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x24(%eax)
  mov    0x8(%ebp),%eax
  mov    0x10(%ebp),%edx
  mov    %edx,0x28(%eax)
@@ -58,13 +58,6 @@
 -nop
  leave
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x28,%esp
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN19COnTimeEventManager18SendEventIdxToDBMWEv+0x87>
 ```
 ## 2. Ghidra 反编译 C
 

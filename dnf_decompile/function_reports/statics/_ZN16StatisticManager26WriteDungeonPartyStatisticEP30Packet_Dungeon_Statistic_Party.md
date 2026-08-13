@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e5f0` | `0x2be` | `0x806e79c` | `0x2cf` |
+| statics | DIFF | `0x806e5f0` | `0x2be` | `0x806e640` | `0x2cf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -382,7 +382,7 @@ LAB_0806e77a:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 184 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 219 行）：
 
 ```cpp
 void StatisticManager::WriteDungeonPartyStatistic(Packet_Dungeon_Statistic_Party* pkt)

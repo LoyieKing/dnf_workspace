@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054c86` | `0x15e` |
+| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054c38` | `0x14f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,100 @@
+@@ -1,95 +1,94 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -39,7 +39,7 @@
 +jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x32>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x15b>
++jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x14c>
 +lea    -0x2e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN46Packet_Monitor_Notice_Guild_Mark_Change_ToUserC1Ev>
@@ -52,7 +52,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x10b>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x12a>
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x11b>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -65,7 +65,7 @@
 -mov    -0x1c(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x11e>
++je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x10f>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -77,22 +77,16 @@
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x30(%ebp)
 +mov    %eax,-0xc(%ebp)
-+lea    -0x2e(%ebp),%eax
-+lea    0xa(%eax),%edx
 +mov    -0x10(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x2e(%ebp),%eax
-+lea    0xe(%eax),%edx
++mov    %eax,-0x24(%ebp)
 +mov    -0xc(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x2e(%ebp),%eax
-+lea    0x12(%eax),%edx
++mov    %eax,-0x20(%ebp)
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 -mov    -0x2c(%ebp),%edi
 -mov    -0x30(%ebp),%esi
 -mov    -0x34(%ebp),%ebx
-+mov    %eax,(%edx)
++mov    %eax,-0x1c(%ebp)
  movl   $0x4bf,0x8(%esp)
  movl   $&_ZZN6CGuild29NoticeMarkChangeToGuildMemberEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
@@ -123,7 +117,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x100>
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x11f>
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x110>
  nop
 -lea    -0x44(%ebp),%eax
 +lea    -0x34(%ebp),%eax
@@ -147,7 +141,7 @@
 -jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x56>
 -jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x13d>
 +jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x5f>
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x15c>
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x14d>
  nop
 -lea    -0xc(%ebp),%esp
 -add    $0x0,%esp
@@ -226,7 +220,7 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1158 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1174 行）：
 
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
@@ -246,9 +240,9 @@ void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
         }
         int channel = member->GetIdByChannel();
         unsigned int memberNo = member->GetUniqCharNo();
-        *(int*)((char*)&pkt + 0xa) = channel;
-        *(unsigned int*)((char*)&pkt + 0xe) = memberNo;
-        *(unsigned int*)((char*)&pkt + 0x12) = charNo;
+        pkt.m_fieldA = channel;
+        pkt.m_fieldE = memberNo;
+        pkt.m_field12 = charNo;
         CMyFileLog log(__FUNCTION__, 0x4bf);
         log("./log/Web", "[GUILD MARK CHANGE] Send to game server. (channel:%d, character:%u, guildkey:%d)\n",
             channel, memberNo, charNo);

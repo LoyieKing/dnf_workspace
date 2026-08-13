@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e150` | `0x193` | `0x805415c` | `0x190` |
+| guild | DIFF | `0x808e150` | `0x193` | `0x8054122` | `0x182` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,109 +1,107 @@
+@@ -1,109 +1,101 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x168,%esp
-+push   %ebx
-+sub    $0x164,%esp
+ sub    $0x168,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x191>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x18b>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x180>
  lea    -0x14d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_Notice_Guild_InfoC1Ev>
@@ -56,7 +54,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x162>
-+jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x15c>
++jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x151>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -66,7 +64,7 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x153>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x151>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x146>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -77,7 +75,7 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x109>
-+jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xf8>
++jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xf7>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -88,28 +86,22 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x109>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xff>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xfe>
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x10e>
-+jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x104>
++jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x103>
  mov    $0x0,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x156>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x151>
-+lea    -0x14d(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x146>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x143(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x14d(%ebp),%eax
-+lea    0xe(%eax),%ebx
+ mov    %eax,-0x143(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x13f(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x13f(%ebp)
  lea    -0x14d(%ebp),%eax
  movl   $0x139,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -135,9 +127,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xa0>
-+jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xa1>
-+mov    -0x4(%ebp),%ebx
+ jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xa0>
  leave
  ret
 ```
@@ -216,7 +206,7 @@ LAB_0808e259:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 927 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 944 行）：
 
 ```cpp
 void CGuild::SendGuildInfoToManagers()
@@ -226,8 +216,8 @@ void CGuild::SendGuildInfoToManagers()
         Packet_Monitor_Notice_Guild_Info pkt;
         pkt.m_field12 = m_guildKey;
         pkt.m_padD3 = 1;
-        memcpy((char*)&pkt + 0x16, (char*)this + 0x20, 0xbd);
-        strncpy((char*)&pkt + 0xd4, (char*)this + 0x4d0a, 100);
+        memcpy(&pkt.m_info, &m_dbInfo.m_info, 0xbd);
+        strncpy(pkt.m_rest, m_field4d0a, 100);
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
         {
@@ -237,8 +227,8 @@ void CGuild::SendGuildInfoToManagers()
                 if (IsGuildMaster(u->GetUniqCharNo()) == 1 ||
                     IsSubGuildMaster(u->GetUniqCharNo()) == 1)
                 {
-                    *(unsigned int*)((char*)&pkt + 0xa) = u->GetIdByChannel();
-                    *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+                    pkt.m_fieldA = u->GetIdByChannel();
+                    pkt.m_fieldE = u->GetUniqCharNo();
                     u->SendToGameserver((char*)&pkt, 0x139);
                 }
             }

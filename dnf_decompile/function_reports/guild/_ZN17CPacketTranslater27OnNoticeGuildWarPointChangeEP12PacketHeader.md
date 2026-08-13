@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076014` | `0x23c` | `0x806c580` | `0x260` |
+| guild | DIFF | `0x8076014` | `0x23c` | `0x806c374` | `0x260` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -257,7 +257,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1483 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1477 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)

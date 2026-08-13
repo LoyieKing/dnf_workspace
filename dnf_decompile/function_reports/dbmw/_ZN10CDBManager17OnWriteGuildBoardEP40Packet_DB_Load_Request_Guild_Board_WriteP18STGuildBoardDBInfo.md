@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8084a8a` | `0x307` | `0x804d7b6` | `0x311` |
+| dbmw | DIFF | `0x8084a8a` | `0x307` | `0x804d7b6` | `0x312` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,211 +1,221 @@
+@@ -1,211 +1,220 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -150,7 +150,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x309>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
 +mov    -0x20(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
@@ -218,7 +218,7 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2ff>
 -mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x309>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -239,7 +239,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x215>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x309>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -264,7 +264,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x24a>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x309>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -290,41 +290,34 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x27f>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x309>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
 +mov    -0x1c(%ebp),%eax
 +add    $0xf,%eax
 +mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x296>
--mov    0x10(%ebp),%eax
--movl   $0x0,0x80(%eax)
++jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x29a>
+ mov    0x10(%ebp),%eax
+ movl   $0x0,0x80(%eax)
 -jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2a5>
 -mov    0xc(%ebp),%eax
 -mov    0x13(%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %edx,0x80(%eax)
--mov    0xc(%ebp),%eax
--movzbl 0x9b(%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %dl,0x84(%eax)
--mov    0xc(%ebp),%eax
-+jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x299>
-+mov    0x10(%ebp),%eax
-+sub    $0xffffff80,%eax
-+movl   $0x0,(%eax)
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x304>
-+mov    0x10(%ebp),%eax
-+lea    0x80(%eax),%edx
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x305>
 +mov    -0x1c(%ebp),%eax
 +add    $0x13,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+mov    0x10(%ebp),%eax
-+lea    0x84(%eax),%edx
++mov    %eax,%edx
+ mov    0x10(%ebp),%eax
+ mov    %edx,0x80(%eax)
+-mov    0xc(%ebp),%eax
+-movzbl 0x9b(%eax),%edx
 +mov    -0x1c(%ebp),%eax
 +add    $0x9b,%eax
 +movzbl (%eax),%eax
-+mov    %al,(%edx)
++mov    %eax,%edx
+ mov    0x10(%ebp),%eax
+ mov    %dl,0x84(%eax)
+-mov    0xc(%ebp),%eax
 +mov    -0x1c(%ebp),%eax
  lea    0x9e(%eax),%edx
  mov    0x10(%ebp),%eax

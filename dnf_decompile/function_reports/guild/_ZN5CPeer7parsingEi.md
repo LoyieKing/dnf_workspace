@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051228` | `0x489` | `0x8098980` | `0x44b` |
+| guild | DIFF | `0x8051228` | `0x489` | `0x809822e` | `0x44b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -185,16 +185,13 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    -0x60(%ebp),%eax
--mov    %eax,%ebx
-+lea    0x6(%eax),%ebx
+ mov    %eax,%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,0x6(%ebx)
--mov    0x8(%ebp),%eax
+ mov    %eax,0x6(%ebx)
+ mov    0x8(%ebp),%eax
 -mov    0x1830(%eax),%eax
-+mov    %eax,(%ebx)
-+mov    0x8(%ebp),%eax
 +add    $0x1830,%eax
 +mov    (%eax),%eax
  mov    %eax,0x4(%esp)
@@ -549,7 +546,7 @@ bool CPeer::parsing(int len)
             buf = new CTcpRecvBuffer;
         }
         memcpy(buf, m_buf, packetSize);
-        *(int*)((char*)buf + 6) = getHandle();
+        ((PacketHeader*)buf)->reversed2 = getHandle();
         {
             CGuard<CMutex> guard(*(CMutex**)&m_qLock);
             ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);

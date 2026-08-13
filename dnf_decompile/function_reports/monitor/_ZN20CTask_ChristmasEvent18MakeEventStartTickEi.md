@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c0b6` | `0x287` | `0x80a0626` | `0x293` |
+| monitor | DIFF | `0x809c0b6` | `0x287` | `0x80a0618` | `0x293` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,191 @@
--push   %ebp
--mov    %esp,%ebp
--push   %ebx
+@@ -1,184 +1,187 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
 -sub    $0xb4,%esp
--call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
++sub    $0xc4,%esp
+ call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
 -mov    %eax,-0x14(%ebp)
 +mov    %eax,-0x48(%ebp)
  movl   $0x0,(%esp)
@@ -301,15 +302,6 @@
  pop    %ebx
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %edi
-+push   %esi
-+push   %ebx
-+sub    $0x4c,%esp
-+lea    -0x3a(%ebp),%eax
-+mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

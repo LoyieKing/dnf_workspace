@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80836e6` | `0x2c3` | `0x8079a56` | `0x1d0` |
+| guild | DIFF | `0x80836e6` | `0x2c3` | `0x8079498` | `0x1c6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,120 @@
+@@ -1,184 +1,116 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -45,7 +45,7 @@
 -mov    %eax,-0x14(%ebp)
 -mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1ce>
++jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1c4>
 +mov    -0x1c(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -79,7 +79,7 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1ce>
++jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1c4>
 +mov    -0x1c(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
@@ -112,7 +112,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x2bc>
 -lea    -0x6f(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1ce>
++jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1c4>
 +lea    -0x5b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_DB_Write_Guild_Member_MemoC1Ev>
@@ -123,16 +123,12 @@
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x65(%ebp)
 -mov    -0x18(%ebp),%eax
-+lea    -0x5b(%ebp),%eax
-+lea    0xa(%eax),%edx
 +mov    -0x1c(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x5b(%ebp),%eax
-+lea    0xe(%eax),%edx
++mov    %eax,-0x51(%ebp)
 +mov    -0x14(%ebp),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0x4d(%ebp)
 +mov    -0x1c(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
@@ -328,7 +324,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4487 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4474 行）：
 
 ```cpp
 void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
@@ -354,10 +350,10 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
         return;
     }
     Packet_DB_Write_Guild_Member_Memo dbPkt;
-    *(unsigned int*)((char*)&dbPkt + 0xa) = *(unsigned int*)(pb + 0xa);
-    *(unsigned int*)((char*)&dbPkt + 0xe) = guildKey;
+    dbPkt.m_charNo = *(unsigned int*)(pb + 0xa);
+    dbPkt.m_guildKey = guildKey;
     size_t len = strlen(pb + 0x12);
-    memcpy((char*)&dbPkt + 0x12, pb + 0x12, len < 0x15 ? len : 0x14);
+    memcpy(dbPkt.m_memo, pb + 0x12, len < 0x15 ? len : 0x14);
     m_pclApp->m_serverHandler->SendToDB(&dbPkt);
     guild->WriteGuildMemberMemo(user, pb + 0x12);
     guild->NotifyMemoToGuildMember(user, pb + 0x12);

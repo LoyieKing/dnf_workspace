@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f568` | `0x3a7` |
+| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f40c` | `0x3a7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -425,7 +425,7 @@ StatisticManager::_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 394 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 429 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807e4a8` | `0x269` | `0x8074c84` | `0x277` |
+| guild | DIFF | `0x807e4a8` | `0x269` | `0x80747ec` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,164 +1,167 @@
+@@ -1,164 +1,157 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -39,7 +39,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x262>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x270>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x257>
 +mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
@@ -67,19 +67,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x270>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x257>
  lea    -0x65(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_Delete_To_BlackList_ResultC1Ev>
 -mov    -0x14(%ebp),%eax
-+lea    -0x65(%ebp),%eax
-+lea    0xa(%eax),%ebx
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x5b(%ebp)
+ mov    %eax,-0x5b(%ebp)
 -mov    -0x10(%ebp),%eax
-+mov    %eax,(%ebx)
 +mov    -0x14(%ebp),%eax
  add    $0xe,%eax
  movl   $0x1d,0x8(%esp)
@@ -93,15 +90,12 @@
  mov    0x2c(%eax),%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x120>
--movb   $0x3,-0x35(%ebp)
++jne    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x11d>
+ movb   $0x3,-0x35(%ebp)
 -movzwl -0x63(%ebp),%eax
 -movzwl %ax,%edx
-+jne    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x127>
  lea    -0x65(%ebp),%eax
 -mov    %edx,0x8(%esp)
-+add    $0x30,%eax
-+movb   $0x3,(%eax)
-+lea    -0x65(%ebp),%eax
 +movl   $0x31,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
@@ -110,7 +104,7 @@
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x262>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x270>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x257>
 +mov    -0x14(%ebp),%eax
  mov    0x2c(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -121,49 +115,38 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x15d>
--movb   $0x2,-0x35(%ebp)
++je     <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x157>
+ movb   $0x2,-0x35(%ebp)
 -movzwl -0x63(%ebp),%eax
 -movzwl %ax,%edx
-+je     <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x166>
  lea    -0x65(%ebp),%eax
 -mov    %edx,0x8(%esp)
-+add    $0x30,%eax
-+movb   $0x2,(%eax)
-+lea    -0x65(%ebp),%eax
 +movl   $0x31,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--movb   $0x1,-0x35(%ebp)
-+lea    -0x65(%ebp),%eax
-+add    $0x30,%eax
-+movb   $0x1,(%eax)
-+lea    -0x65(%ebp),%eax
-+lea    0x2c(%eax),%edx
+ movb   $0x1,-0x35(%ebp)
+-mov    -0x10(%ebp),%eax
 +mov    -0x14(%ebp),%eax
-+mov    0x2c(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x65(%ebp),%eax
-+movl   $0x31,0x8(%esp)
-+mov    %eax,0x4(%esp)
- mov    -0x10(%ebp),%eax
--mov    0x2c(%eax),%eax
--mov    %eax,-0x39(%ebp)
+ mov    0x2c(%eax),%eax
+ mov    %eax,-0x39(%ebp)
 -movzwl -0x63(%ebp),%eax
 -movzwl %ax,%edx
--lea    -0x65(%ebp),%eax
+ lea    -0x65(%ebp),%eax
 -mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
++movl   $0x31,0x8(%esp)
+ mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
++mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x270>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x257>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x208>
-+jne    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x216>
++jne    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x1fd>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -194,7 +177,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x201>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x20f>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x1f6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -204,7 +187,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x270>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x257>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xfcf,0x8(%esp)
@@ -220,7 +203,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x25d>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x26b>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader+0x252>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -299,7 +282,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3191 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3178 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
@@ -321,21 +304,21 @@ void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
         return;
     }
     Packet_Delete_To_BlackList_Result reply;
-    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
-    memcpy((char*)&reply + 0xe, pb->m_name, 0x1d);
+    reply.m_channel = user->GetIdByChannel();
+    memcpy(reply.m_name, pb->m_name, 0x1d);
     if (pb->m_charNo == (unsigned int)-1)
     {
-        *(unsigned char*)((char*)&reply + 0x30) = 3;
+        reply.m_result = 3;
         user->SendToGameserver((char*)&reply, 0x31);
         return;
     }
     if (user->DeleteToBlackList(pb->m_charNo) != 1)
     {
-        *(unsigned char*)((char*)&reply + 0x30) = 2;
+        reply.m_result = 2;
         user->SendToGameserver((char*)&reply, 0x31);
     }
-    *(unsigned char*)((char*)&reply + 0x30) = 1;
-    *(unsigned int*)((char*)&reply + 0x2c) = pb->m_charNo;
+    reply.m_result = 1;
+    reply.m2c = pb->m_charNo;
     user->SendToGameserver((char*)&reply, 0x31);
     }
     catch (CDNFException& e)

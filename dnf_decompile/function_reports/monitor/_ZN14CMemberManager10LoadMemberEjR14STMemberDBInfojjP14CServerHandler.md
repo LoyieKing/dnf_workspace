@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809acda` | `0x216` | `0x806218c` | `0x216` |
+| monitor | DIFF | `0x809acda` | `0x216` | `0x8062180` | `0x216` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,17 +14,25 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,134 +1,131 @@
--push   %ebp
--mov    %esp,%ebp
+ push   %ebp
+ mov    %esp,%ebp
 -push   %ebx
 -sub    $0x64,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CMemberManager10FindMemberEj>
++sub    $0x68,%esp
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CMemberManager10FindMemberEj>
+-mov    %eax,-0x10(%ebp)
+-cmpl   $0x0,-0x10(%ebp)
+-sete   %al
+-test   %al,%al
+-je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x6e>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
 +jne    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x68>
-+movl   $0x26d,0x8(%esp)
+ movl   $0x26d,0x8(%esp)
 +movl   $&_ZZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
@@ -38,17 +46,10 @@
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x214>
- mov    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN14CMemberManager10FindMemberEj>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x6e>
--movl   $0x26d,0x8(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
 +call   <T> <_ZN14CMemberManager14FindMemberUserEj>
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
@@ -198,19 +199,14 @@
 -mov    -0xc(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x10(%ebp),%eax
-+leave
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x38,%esp
-+lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
 -call   <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc>
 -mov    $0x1,%eax
 -add    $0x64,%esp
 -pop    %ebx
 -pop    %ebp
--ret
++leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

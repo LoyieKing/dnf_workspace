@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805a44c` | `0x457` | `0x8084dda` | `0x456` |
+| monitor | DIFF | `0x805a44c` | `0x457` | `0x8084dce` | `0x456` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,327 +1,327 @@
--push   %ebp
--mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
--sub    $0x4c,%esp
--movl   $0x0,-0x28(%ebp)
+@@ -1,327 +1,329 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x4c,%esp
+ movl   $0x0,-0x28(%ebp)
  movl   $0x0,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  movb   $0x1,0x2c(%eax)
@@ -392,11 +392,6 @@
  pop    %edi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+cmpl   $0x1,0x8(%ebp)
-+jne    <T> <_Z41__static_initialization_and_destruction_0ii+0x3e>
 ```
 ## 2. Ghidra 反编译 C
 

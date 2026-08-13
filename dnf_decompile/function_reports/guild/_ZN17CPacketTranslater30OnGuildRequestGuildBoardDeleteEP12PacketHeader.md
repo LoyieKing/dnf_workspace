@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80870e6` | `0x241` | `0x807cd44` | `0x170` |
+| guild | DIFF | `0x80870e6` | `0x241` | `0x807c676` | `0x161` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,147 +1,95 @@
+@@ -1,147 +1,89 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -41,7 +41,7 @@
 -jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x23a>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x16e>
++jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x15f>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -75,7 +75,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x23a>
-+jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x16e>
++jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x15f>
  mov    -0x14(%ebp),%eax
 -mov    0xe(%eax),%eax
 +add    $0xe,%eax
@@ -107,39 +107,33 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x23a>
 -lea    -0x5b(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x16e>
-+lea    -0x43(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader+0x15f>
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_DB_Load_Request_Guild_Board_DeleteC1Ev>
-+lea    -0x43(%ebp),%eax
-+lea    0xb(%eax),%edx
  mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x50(%ebp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x43(%ebp),%eax
-+lea    0xf(%eax),%edx
++mov    %eax,-0x38(%ebp)
  mov    -0x14(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    %eax,-0x4c(%ebp)
 +add    $0xe,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x43(%ebp),%eax
-+lea    0x13(%eax),%edx
++mov    %eax,-0x34(%ebp)
  mov    -0x14(%ebp),%eax
 -mov    0x12(%eax),%eax
 -mov    %eax,-0x48(%ebp)
 +add    $0x12,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0x30(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x5b(%ebp),%edx
-+lea    -0x43(%ebp),%edx
++lea    -0x44(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
@@ -271,7 +265,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5384 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5371 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildRequestGuildBoardDelete(PacketHeader* pkt)
@@ -298,9 +292,9 @@ void CPacketTranslater::OnGuildRequestGuildBoardDelete(PacketHeader* pkt)
         return;
     }
     Packet_DB_Load_Request_Guild_Board_Delete dbPkt;
-    *(unsigned int*)((char*)&dbPkt + 0xb) = *(unsigned int*)(pb + 0xa);
-    *(unsigned int*)((char*)&dbPkt + 0xf) = *(unsigned int*)(pb + 0xe);
-    *(unsigned int*)((char*)&dbPkt + 0x13) = *(unsigned int*)(pb + 0x12);
+    dbPkt.m_b = *(unsigned int*)(pb + 0xa);
+    dbPkt.m_c = *(unsigned int*)(pb + 0xe);
+    dbPkt.m_d = *(unsigned int*)(pb + 0x12);
     m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
 }
 ```

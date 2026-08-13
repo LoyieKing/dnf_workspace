@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8077142` | `0x20d` | `0x8064640` | `0x1f8` |
+| dbmw | DIFF | `0x8077142` | `0x20d` | `0x8064838` | `0x1e6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,158 +1,154 @@
+@@ -1,158 +1,145 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -45,7 +45,7 @@
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0xae>
 -movzbl -0x2c(%ebp),%ebx
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0xaf>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0xad>
  movl   $0xcec,0x8(%esp)
  movl   $&_ZZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_GuildE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -64,12 +64,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x14(%ebp),%eax
--movb   $0x0,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x207>
-+jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
++jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e4>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -83,14 +81,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0xe7>
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0xe3>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0xdf>
  mov    0x14(%ebp),%eax
--movb   $0x0,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x207>
-+jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
++jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e4>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -103,14 +99,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x118>
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x10f>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x109>
  mov    0x14(%ebp),%eax
--movb   $0x1,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x1,(%eax)
+ movb   $0x1,0xa(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x207>
-+jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
++jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e4>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x48,%eax
@@ -127,14 +121,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x15b>
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x14d>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x145>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x207>
-+jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
++jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e4>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
@@ -151,30 +143,25 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x19b>
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x188>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x17e>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x207>
-+jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
++jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e4>
  mov    -0xc(%ebp),%eax
--movzbl 0x44(%eax),%eax
-+add    $0x44,%eax
-+movzbl (%eax),%eax
+ movzbl 0x44(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1fb>
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e8>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1d8>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x30,%eax
  mov    (%eax),%ecx
  mov    -0xc(%ebp),%eax
--movzbl 0x44(%eax),%eax
-+add    $0x44,%eax
-+movzbl (%eax),%eax
- movzbl %al,%edx
+ movzbl 0x44(%eax),%eax
+-movzbl %al,%edx
++movsbl %al,%edx
  mov    %edx,%eax
  shl    $0x2,%eax
 -add    %edx,%eax
@@ -196,18 +183,14 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1fb>
-+je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e8>
++je     <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1d8>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x207>
-+jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
++jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1e4>
  mov    0x14(%ebp),%eax
--movb   $0x1,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x1,(%eax)
+ movb   $0x1,0xa(%eax)
  mov    $0x1,%eax
 -add    $0x54,%esp
 -pop    %ebx

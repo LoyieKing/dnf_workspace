@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087328` | `0x2ba` | `0x807ceb4` | `0x1f3` |
+| guild | DIFF | `0x8087328` | `0x2ba` | `0x807c7d8` | `0x1e4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,178 +1,129 @@
+@@ -1,178 +1,123 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -41,7 +41,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x2b2>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x1ed>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x1de>
 +mov    -0x1c(%ebp),%eax
 +add    $0x10,%eax
 +mov    (%eax),%eax
@@ -80,7 +80,7 @@
 -mov    0xc(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x1ed>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x1de>
 +mov    -0x1c(%ebp),%eax
 +add    $0xc,%eax
 +mov    (%eax),%eax
@@ -114,7 +114,7 @@
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x2b2>
 -mov    -0x24(%ebp),%eax
 -movzwl 0xa(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x1ed>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP12PacketHeader+0x1de>
 +mov    -0x1c(%ebp),%eax
 +add    $0xa,%eax
 +movzwl (%eax),%eax
@@ -165,28 +165,22 @@
 -movzwl 0xa(%eax),%eax
 -mov    %ax,-0x66(%ebp)
 -mov    -0x2c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0xa,%eax
-+mov    -0x1c(%ebp),%edx
-+add    $0xa,%edx
-+movzwl (%edx),%edx
-+mov    %dx,(%eax)
-+lea    -0x50(%ebp),%eax
-+lea    0xc(%eax),%ebx
++movzwl (%eax),%eax
++mov    %ax,-0x46(%ebp)
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x64(%ebp)
 -mov    -0x2c(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x50(%ebp),%eax
-+lea    0x10(%eax),%ebx
++mov    %eax,-0x44(%ebp)
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x60(%ebp)
 -lea    -0x70(%ebp),%eax
-+mov    %eax,(%ebx)
++mov    %eax,-0x40(%ebp)
 +lea    -0x50(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -337,7 +331,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5414 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5401 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
@@ -376,9 +370,9 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
             "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : Delete Fail!!");
     }
     Packet_Guild_Reply_Guild_Board_Delete reply;
-    *(unsigned short*)((char*)&reply + 0xa) = *(unsigned short*)(pb + 0xa);
-    *(unsigned int*)((char*)&reply + 0xc) = user->GetIdByChannel();
-    *(unsigned int*)((char*)&reply + 0x10) = user->GetUniqCharNo();
+    reply.m_result = *(unsigned short*)(pb + 0xa);
+    reply.m_channel = user->GetIdByChannel();
+    reply.m_charNo = user->GetUniqCharNo();
     user->SendTcpGameserver(&reply);
 }
 ```

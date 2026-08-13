@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80717c2` | `0x21a` | `0x804f73c` | `0x200` |
+| dbmw | DIFF | `0x80717c2` | `0x21a` | `0x804f73c` | `0x1ed` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,157 +1,153 @@
+@@ -1,157 +1,145 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
@@ -37,8 +37,7 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x94>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x96>
+ je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x94>
  movl   $0x180,0x8(%esp)
  movl   $&_ZZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -52,12 +51,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x14(%ebp),%eax
--movb   $0x0,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -71,14 +68,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0xcd>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0xca>
++je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0xc6>
  mov    0x14(%ebp),%eax
--movb   $0x0,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -91,14 +86,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0xfe>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0xf6>
++je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0xf0>
  mov    0x14(%ebp),%eax
--movb   $0x2,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x2,(%eax)
+ movb   $0x2,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -115,14 +108,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x141>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x134>
++je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x12c>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
@@ -140,14 +131,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x18c>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x17a>
++je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x16d>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
@@ -164,14 +153,12 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1cc>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1b5>
++je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1a6>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -188,18 +175,14 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x20c>
-+je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1f0>
++je     <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1df>
  mov    0x14(%ebp),%eax
--movb   $0x3,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
+ movb   $0x3,0xa(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x218>
-+jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1fe>
++jmp    <T> <_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member+0x1eb>
  mov    0x14(%ebp),%eax
--movb   $0x1,0xa(%eax)
-+add    $0xa,%eax
-+movb   $0x1,(%eax)
+ movb   $0x1,0xa(%eax)
  mov    $0x1,%eax
  leave
  ret

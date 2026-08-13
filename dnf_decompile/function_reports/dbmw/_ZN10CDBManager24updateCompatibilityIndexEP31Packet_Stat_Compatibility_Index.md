@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80867fc` | `0x2a7` | `0x806360c` | `0x2c1` |
+| dbmw | DIFF | `0x80867fc` | `0x2a7` | `0x8063844` | `0x29f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,194 +1,210 @@
+@@ -1,194 +1,192 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,104 +22,92 @@
  sub    $0x9c,%esp
  mov    0x8(%ebp),%eax
  mov    0x3c(%eax),%eax
- mov    %eax,-0x1c(%ebp)
- cmpl   $0x0,-0x1c(%ebp)
+-mov    %eax,-0x1c(%ebp)
+-cmpl   $0x0,-0x1c(%ebp)
++mov    %eax,-0x20(%ebp)
++cmpl   $0x0,-0x20(%ebp)
  jne    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x25>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x29c>
-+jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x2b6>
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x294>
++mov    0xc(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
  mov    %eax,-0x60(%ebp)
- mov    0xc(%ebp),%eax
--mov    0xa(%eax),%esi
 -mov    0xc(%ebp),%eax
--movzbl 0x1d(%eax),%eax
--movzbl %al,%edi
++mov    -0x1c(%ebp),%eax
+ mov    0xa(%eax),%esi
 -mov    0xc(%ebp),%eax
--movzbl 0x1c(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%esi
-+mov    0xc(%ebp),%eax
-+add    $0x1d,%eax
-+movzbl (%eax),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0x1d(%eax),%eax
+ movzbl %al,%edi
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0x1c(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x5c(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x1a(%eax),%eax
--movzwl %ax,%eax
-+add    $0x1c,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x1a(%eax),%eax
+ movzwl %ax,%eax
  mov    %eax,-0x58(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x18(%eax),%eax
-+add    $0x1a,%eax
-+movzwl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x18(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x54(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x16(%eax),%eax
-+add    $0x18,%eax
-+movzwl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x16(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x50(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x14(%eax),%eax
-+add    $0x16,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edi
-+mov    0xc(%ebp),%eax
-+add    $0x14,%eax
-+movzwl (%eax),%eax
- movzwl %ax,%ebx
- mov    0xc(%ebp),%eax
--mov    0x10(%eax),%ecx
 -mov    0xc(%ebp),%eax
--movzbl 0xf(%eax),%eax
-+add    $0x10,%eax
-+mov    (%eax),%ecx
-+mov    0xc(%ebp),%eax
-+add    $0xf,%eax
-+movzbl (%eax),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x14(%eax),%eax
+ movzwl %ax,%ebx
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ mov    0x10(%eax),%ecx
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0xf(%eax),%eax
  movzbl %al,%edx
- mov    0xc(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0xe(%eax),%eax
  movzbl %al,%eax
  mov    %esi,0x30(%esp)
--mov    %edi,0x2c(%esp)
+ mov    %edi,0x2c(%esp)
  mov    -0x5c(%ebp),%esi
-+mov    %esi,0x2c(%esp)
-+mov    -0x58(%ebp),%esi
  mov    %esi,0x28(%esp)
--mov    -0x58(%ebp),%esi
-+mov    -0x54(%ebp),%esi
+ mov    -0x58(%ebp),%esi
  mov    %esi,0x24(%esp)
--mov    -0x54(%ebp),%esi
-+mov    -0x50(%ebp),%esi
+ mov    -0x54(%ebp),%esi
  mov    %esi,0x20(%esp)
--mov    -0x50(%ebp),%esi
--mov    %esi,0x1c(%esp)
-+mov    %edi,0x1c(%esp)
+ mov    -0x50(%ebp),%esi
+ mov    %esi,0x1c(%esp)
  mov    %ebx,0x18(%esp)
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
  movl   $"upDate ting_user_spec set reg_datetime=now(), cpu_vendor=%d, cpu_num=%d, cpu_clock=%d, ram=%d, video_vendor=%d, video_device=%d, video_ram=%d, os=%d, os_bit=%d where m_id=%u",0x8(%esp)
  movl   $0x4f4b,0x4(%esp)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   *-0x60(%ebp)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4f4b,0x4(%esp)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0x1d(%ebp)
@@ -127,27 +115,29 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x14f>
-+je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x15c>
++je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x14e>
  movl   $0x2916,0x8(%esp)
  movl   $&_ZZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_IndexE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"upDate ting_user_spec Query(exec) Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x29c>
-+jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x2b6>
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x294>
++mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
  mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  or     %edx,%eax
@@ -155,98 +145,83 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x297>
-+je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x2b1>
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x28f>
++mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
  mov    %eax,-0x4c(%ebp)
- mov    0xc(%ebp),%eax
--movzbl 0x1d(%eax),%eax
-+add    $0x1d,%eax
-+movzbl (%eax),%eax
- movzbl %al,%esi
- mov    0xc(%ebp),%eax
--movzbl 0x1c(%eax),%eax
--movzbl %al,%edi
 -mov    0xc(%ebp),%eax
--movzwl 0x1a(%eax),%eax
--movzwl %ax,%eax
-+add    $0x1c,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0x1d(%eax),%eax
+ movzbl %al,%esi
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0x1c(%eax),%eax
+ movzbl %al,%edi
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x1a(%eax),%eax
+ movzwl %ax,%eax
  mov    %eax,-0x48(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x18(%eax),%eax
-+add    $0x1a,%eax
-+movzwl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x18(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x44(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x16(%eax),%eax
-+add    $0x18,%eax
-+movzwl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x16(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x40(%ebp)
- mov    0xc(%ebp),%eax
--movzwl 0x14(%eax),%eax
-+add    $0x16,%eax
-+movzwl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x14(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x3c(%ebp)
- mov    0xc(%ebp),%eax
--mov    0x10(%eax),%ebx
 -mov    0xc(%ebp),%eax
--movzbl 0xf(%eax),%eax
-+add    $0x14,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edi
-+mov    0xc(%ebp),%eax
-+add    $0x10,%eax
-+mov    (%eax),%ebx
-+mov    0xc(%ebp),%eax
-+add    $0xf,%eax
-+movzbl (%eax),%eax
++mov    -0x1c(%ebp),%eax
+ mov    0x10(%eax),%ebx
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0xf(%eax),%eax
  movzbl %al,%ecx
- mov    0xc(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzbl 0xe(%eax),%eax
  movzbl %al,%edx
- mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+-mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ mov    0xa(%eax),%eax
  mov    %esi,0x30(%esp)
--mov    %edi,0x2c(%esp)
+ mov    %edi,0x2c(%esp)
  mov    -0x48(%ebp),%esi
-+mov    %esi,0x2c(%esp)
-+mov    -0x44(%ebp),%esi
  mov    %esi,0x28(%esp)
--mov    -0x44(%ebp),%esi
-+mov    -0x40(%ebp),%esi
+ mov    -0x44(%ebp),%esi
  mov    %esi,0x24(%esp)
--mov    -0x40(%ebp),%esi
-+mov    -0x3c(%ebp),%esi
+ mov    -0x40(%ebp),%esi
  mov    %esi,0x20(%esp)
--mov    -0x3c(%ebp),%esi
--mov    %esi,0x1c(%esp)
-+mov    %edi,0x1c(%esp)
+ mov    -0x3c(%ebp),%esi
+ mov    %esi,0x1c(%esp)
  mov    %ebx,0x18(%esp)
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
  movl   $"inSert into ting_user_spec (m_id, reg_datetime, cpu_vendor, cpu_num, cpu_clock, ram, video_vendor, video_device, video_ram, os, os_bit) values(%u, now(), %d, %d, %d, %d, %d, %d, %d, %d, %d)",0x8(%esp)
  movl   $0x4f4a,0x4(%esp)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   *-0x4c(%ebp)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4f4a,0x4(%esp)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0x1d(%ebp)
@@ -254,22 +229,22 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x297>
-+je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x2b1>
++je     <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x28f>
  movl   $0x292d,0x8(%esp)
  movl   $&_ZZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_IndexE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"inSert ting_user_spec Query(exec) Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x29c>
-+jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x2b6>
++jmp    <T> <_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index+0x294>
  mov    $0x1,%eax
  add    $0x9c,%esp
  pop    %ebx

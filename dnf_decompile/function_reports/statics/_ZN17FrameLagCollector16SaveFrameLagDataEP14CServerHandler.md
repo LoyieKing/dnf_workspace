@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80675dc` | `0x63e` | `0x806087a` | `0x5af` |
+| statics | DIFF | `0x80675dc` | `0x63e` | `0x80607b0` | `0x580` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,433 +1,431 @@
+@@ -1,433 +1,414 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
 -push   %esi
  push   %ebx
 -sub    $0x1fc,%esp
-+sub    $0x1e4,%esp
++sub    $0x1f4,%esp
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  cmp    $0x2,%eax
@@ -28,7 +28,7 @@
 +je     <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x1f>
  mov    $0x2,%eax
 -jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x633>
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5aa>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x57b>
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
  lea    0x1(%eax),%edx
@@ -45,7 +45,7 @@
 -jl     <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5f6>
 +jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x4b>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5aa>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x57b>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x10(%eax)
  mov    0x8(%ebp),%eax
@@ -56,11 +56,11 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x633>
 -lea    -0x1af(%ebp),%eax
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5aa>
-+lea    -0x1a7(%ebp),%eax
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x57b>
++lea    -0x1ab(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN42Packet_Frame_Lag_Statistic_Write_Lag_IndexC1Ev>
-+lea    -0x1a7(%ebp),%eax
++lea    -0x1ab(%ebp),%eax
 +mov    %eax,-0x24(%ebp)
 +mov    -0x24(%ebp),%eax
 +lea    0xa(%eax),%ebx
@@ -68,25 +68,25 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
 -mov    %al,-0x1a5(%ebp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
 +mov    %al,(%ebx)
-+movl   $0x0,(%esp)
- call   <T> <time>
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <time>
++mov    -0x2c(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++mov    0x8(%ebp),%eax
++lea    0x70(%eax),%edx
+ lea    -0x30(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <time>
 -mov    -0x30(%ebp),%eax
 -mov    %eax,-0x38(%ebp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEC1Ev>
-+mov    %eax,-0x20(%ebp)
-+mov    -0x24(%ebp),%eax
-+lea    0xb(%eax),%edx
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%edx)
- mov    0x8(%ebp),%eax
- lea    0x70(%eax),%edx
+-mov    0x8(%ebp),%eax
+-lea    0x70(%eax),%edx
 -lea    -0x1bc(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiN17FrameLagCollector18FrameLagDataStructESt4lessIiESaISt4pairIKiS1_EEE5beginEv>
@@ -95,18 +95,17 @@
 -mov    %eax,-0x34(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5ba>
 -lea    -0x34(%ebp),%eax
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x534>
-+lea    -0x2c(%ebp),%eax
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x505>
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
 -mov    (%eax),%eax
 -mov    %eax,-0x1a4(%ebp)
 -lea    -0x34(%ebp),%eax
-+add    $0x4,%eax
 +mov    %eax,-0x18(%ebp)
 +mov    -0x24(%ebp),%eax
 +lea    0xb(%eax),%ebx
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
 -mov    0x4(%eax),%eax
@@ -133,16 +132,15 @@
 +mov    (%eax),%eax
 +mov    %eax,(%edx)
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x12b>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x11d>
 +mov    -0x14(%ebp),%eax
 +add    %eax,%eax
 +add    $0x13,%eax
 +add    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    -0x14(%ebp),%ecx
-+add    $0x10,%ecx
-+add    %ecx,%ecx
-+add    %ecx,%edx
++mov    -0x14(%ebp),%edx
++add    $0x10,%edx
++add    %edx,%edx
++add    -0x18(%ebp),%edx
 +movzwl (%edx),%edx
 +mov    %dx,(%eax)
 +addl   $0x1,-0x14(%ebp)
@@ -172,50 +170,45 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
 -mov    0x30(%eax),%eax
-+jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x109>
++jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0xfd>
 +mov    -0x18(%ebp),%eax
 +add    $0x30,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x15d>
++jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x14f>
 +mov    -0x24(%ebp),%eax
 +add    $0x23,%eax
 +movw   $0xffff,(%eax)
 +mov    -0x24(%ebp),%eax
 +add    $0x25,%eax
 +movw   $0xffff,(%eax)
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x231>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x223>
 +mov    -0x24(%ebp),%eax
 +lea    0x23(%eax),%ecx
 +mov    -0x18(%ebp),%eax
 +add    $0x34,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x1ac(%ebp)
-+fildl  -0x1ac(%ebp)
++mov    %eax,-0x1bc(%ebp)
++fildl  -0x1bc(%ebp)
 +mov    -0x18(%ebp),%eax
 +add    $0x30,%eax
 +mov    (%eax),%eax
  mov    $0x0,%edx
--mov    %eax,-0x1c8(%ebp)
--mov    %edx,-0x1c4(%ebp)
--fildll -0x1c8(%ebp)
+ mov    %eax,-0x1c8(%ebp)
+ mov    %edx,-0x1c4(%ebp)
+ fildll -0x1c8(%ebp)
 -fdivrl -0x1e0(%ebp)
--fnstcw -0x1ca(%ebp)
--movzwl -0x1ca(%ebp),%eax
-+mov    %eax,-0x1b8(%ebp)
-+mov    %edx,-0x1b4(%ebp)
-+fildll -0x1b8(%ebp)
 +fdivrp %st,%st(1)
 +fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
-+fnstcw -0x1ba(%ebp)
-+movzwl -0x1ba(%ebp),%eax
+ fnstcw -0x1ca(%ebp)
+ movzwl -0x1ca(%ebp),%eax
  mov    $0xc,%ah
--mov    %ax,-0x1cc(%ebp)
--fldcw  -0x1cc(%ebp)
--fistps -0x1ce(%ebp)
--fldcw  -0x1ca(%ebp)
--movzwl -0x1ce(%ebp),%eax
+ mov    %ax,-0x1cc(%ebp)
+ fldcw  -0x1cc(%ebp)
+ fistps -0x1ce(%ebp)
+ fldcw  -0x1ca(%ebp)
+ movzwl -0x1ce(%ebp),%eax
 -mov    %ax,-0x18c(%ebp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
@@ -228,35 +221,33 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
 -mov    0x30(%eax),%eax
-+mov    %ax,-0x1bc(%ebp)
-+fldcw  -0x1bc(%ebp)
-+fistps -0x1be(%ebp)
-+fldcw  -0x1ba(%ebp)
-+movzwl -0x1be(%ebp),%eax
 +mov    %ax,(%ecx)
 +mov    -0x24(%ebp),%eax
 +lea    0x25(%eax),%ecx
 +mov    -0x18(%ebp),%eax
 +add    $0x38,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x1ac(%ebp)
-+fildl  -0x1ac(%ebp)
++mov    %eax,-0x1bc(%ebp)
++fildl  -0x1bc(%ebp)
 +mov    -0x18(%ebp),%eax
 +add    $0x30,%eax
 +mov    (%eax),%eax
  mov    $0x0,%edx
--mov    %eax,-0x1c8(%ebp)
--mov    %edx,-0x1c4(%ebp)
--fildll -0x1c8(%ebp)
+ mov    %eax,-0x1c8(%ebp)
+ mov    %edx,-0x1c4(%ebp)
+ fildll -0x1c8(%ebp)
 -fdivrl -0x1d8(%ebp)
 -fnstcw -0x1ca(%ebp)
 -movzwl -0x1ca(%ebp),%eax
 -mov    $0xc,%ah
 -mov    %ax,-0x1cc(%ebp)
--fldcw  -0x1cc(%ebp)
--fistps -0x1ce(%ebp)
--fldcw  -0x1ca(%ebp)
--movzwl -0x1ce(%ebp),%eax
++fdivrp %st,%st(1)
++fldl   &data#78e7013f(.rodata)
++faddp  %st,%st(1)
+ fldcw  -0x1cc(%ebp)
+ fistps -0x1ce(%ebp)
+ fldcw  -0x1ca(%ebp)
+ movzwl -0x1ce(%ebp),%eax
 -mov    %ax,-0x18a(%ebp)
 -movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x561>
@@ -296,21 +287,11 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
 -mov    -0x20(%ebp),%edx
-+mov    %eax,-0x1b8(%ebp)
-+mov    %edx,-0x1b4(%ebp)
-+fildll -0x1b8(%ebp)
-+fdivrp %st,%st(1)
-+fldl   &data#78e7013f(.rodata)
-+faddp  %st,%st(1)
-+fldcw  -0x1bc(%ebp)
-+fistps -0x1be(%ebp)
-+fldcw  -0x1ba(%ebp)
-+movzwl -0x1be(%ebp),%eax
 +mov    %ax,(%ecx)
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x4e6>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x4b4>
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -319,7 +300,7 @@
 +add    -0x24(%ebp),%eax
 +movw   $0x0,(%eax)
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -328,7 +309,7 @@
 +add    -0x24(%ebp),%eax
 +movw   $0x0,(%eax)
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -337,7 +318,7 @@
 +add    -0x24(%ebp),%eax
 +movw   $0x0,(%eax)
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -345,7 +326,28 @@
 +add    $0x2d,%eax
 +add    -0x24(%ebp),%eax
 +movw   $0x0,(%eax)
-+mov    -0x18(%ebp),%eax
++mov    -0x10(%ebp),%eax
++add    $0x9,%eax
++shl    $0x4,%eax
++add    $0xc,%eax
++add    -0x18(%ebp),%eax
++mov    (%eax),%eax
++test   %eax,%eax
++jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x30a>
++mov    -0x10(%ebp),%eax
++shl    $0x3,%eax
++lea    0x0(,%eax,8),%edx
++mov    %edx,%ecx
++sub    %eax,%ecx
++mov    %ecx,%eax
++add    $0x27,%eax
++add    -0x24(%ebp),%eax
++mov    %eax,%ecx
++mov    -0x10(%ebp),%eax
++add    $0xf,%eax
++shl    $0x2,%eax
++add    -0x18(%ebp),%eax
++mov    (%eax),%eax
 +mov    -0x10(%ebp),%edx
  add    $0x9,%edx
  shl    $0x4,%edx
@@ -368,51 +370,22 @@
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
 -mov    -0x20(%ebp),%edx
 -add    $0x9,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+test   %eax,%eax
-+jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x31e>
-+mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
-+lea    0x0(,%eax,8),%edx
-+mov    %edx,%ecx
-+sub    %eax,%ecx
-+mov    %ecx,%eax
-+add    $0x27,%eax
-+add    -0x24(%ebp),%eax
-+mov    %eax,%ecx
-+mov    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0xf,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+mov    -0x18(%ebp),%edx
-+mov    -0x10(%ebp),%ebx
-+add    $0x9,%ebx
-+shl    $0x4,%ebx
-+add    $0xc,%ebx
-+add    %ebx,%edx
++add    -0x18(%ebp),%edx
 +mov    (%edx),%edx
-+mov    %edx,-0x1cc(%ebp)
++mov    %edx,-0x1dc(%ebp)
 +mov    %eax,%edx
 +sar    $0x1f,%edx
-+idivl  -0x1cc(%ebp)
++idivl  -0x1dc(%ebp)
 +mov    %ax,(%ecx)
-+mov    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0xa,%edx
- shl    $0x4,%edx
- add    %edx,%eax
--add    $0xc,%eax
--mov    (%eax),%eax
--mov    %eax,-0x1ec(%ebp)
--mov    %ebx,%edx
++mov    -0x10(%ebp),%eax
++add    $0xa,%eax
++shl    $0x4,%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x381>
++jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x367>
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -420,33 +393,35 @@
 +add    $0x29,%eax
 +add    -0x24(%ebp),%eax
 +mov    %eax,%ecx
-+mov    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0x15,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
++mov    -0x10(%ebp),%eax
++add    $0x15,%eax
++shl    $0x2,%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
-+mov    -0x18(%ebp),%edx
-+mov    -0x10(%ebp),%ebx
-+add    $0xa,%ebx
-+shl    $0x4,%ebx
-+add    %ebx,%edx
++mov    -0x10(%ebp),%edx
++add    $0xa,%edx
+ shl    $0x4,%edx
+-add    %edx,%eax
+-add    $0xc,%eax
+-mov    (%eax),%eax
+-mov    %eax,-0x1ec(%ebp)
+-mov    %ebx,%edx
++add    -0x18(%ebp),%edx
 +mov    (%edx),%edx
-+mov    %edx,-0x1cc(%ebp)
++mov    %edx,-0x1dc(%ebp)
 +mov    %eax,%edx
 +sar    $0x1f,%edx
-+idivl  -0x1cc(%ebp)
++idivl  -0x1dc(%ebp)
 +mov    %ax,(%ecx)
-+mov    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+shl    $0x4,%edx
-+add    $0xa4,%edx
-+add    %edx,%eax
++mov    -0x10(%ebp),%eax
++shl    $0x4,%eax
++add    $0xa4,%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x3ea>
++jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x3c9>
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -454,33 +429,30 @@
 +add    $0x2b,%eax
 +add    -0x24(%ebp),%eax
 +mov    %eax,%ecx
-+mov    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0x1b,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
++mov    -0x10(%ebp),%eax
++add    $0x1b,%eax
++shl    $0x2,%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
-+mov    -0x18(%ebp),%edx
-+mov    -0x10(%ebp),%ebx
-+shl    $0x4,%ebx
-+add    $0xa4,%ebx
-+add    %ebx,%edx
-+mov    (%edx),%edx
-+mov    %edx,-0x1cc(%ebp)
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+idivl  -0x1cc(%ebp)
-+mov    %ax,(%ecx)
-+mov    -0x18(%ebp),%eax
 +mov    -0x10(%ebp),%edx
 +shl    $0x4,%edx
-+add    $0xa8,%edx
-+add    %edx,%eax
++add    $0xa4,%edx
++add    -0x18(%ebp),%edx
++mov    (%edx),%edx
++mov    %edx,-0x1dc(%ebp)
++mov    %eax,%edx
++sar    $0x1f,%edx
++idivl  -0x1dc(%ebp)
++mov    %ax,(%ecx)
++mov    -0x10(%ebp),%eax
++shl    $0x4,%eax
++add    $0xa8,%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x453>
++jle    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x42b>
 +mov    -0x10(%ebp),%eax
-+shl    $0x2,%eax
++shl    $0x3,%eax
 +lea    0x0(,%eax,8),%edx
 +mov    %edx,%ecx
 +sub    %eax,%ecx
@@ -488,25 +460,23 @@
 +add    $0x2d,%eax
 +add    -0x24(%ebp),%eax
 +mov    %eax,%ecx
-+mov    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0x21,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
++mov    -0x10(%ebp),%eax
++add    $0x21,%eax
++shl    $0x2,%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
-+mov    -0x18(%ebp),%edx
-+mov    -0x10(%ebp),%ebx
-+shl    $0x4,%ebx
-+add    $0xa8,%ebx
-+add    %ebx,%edx
++mov    -0x10(%ebp),%edx
++shl    $0x4,%edx
++add    $0xa8,%edx
++add    -0x18(%ebp),%edx
 +mov    (%edx),%edx
-+mov    %edx,-0x1cc(%ebp)
++mov    %edx,-0x1dc(%ebp)
 +mov    %eax,%edx
 +sar    $0x1f,%edx
-+idivl  -0x1cc(%ebp)
++idivl  -0x1dc(%ebp)
 +mov    %ax,(%ecx)
 +movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x4d3>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x4a5>
 +mov    -0x10(%ebp),%edx
  mov    %edx,%eax
 -sar    $0x1f,%edx
@@ -554,10 +524,9 @@
 +add    -0xc(%ebp),%eax
 +add    $0x4,%eax
 +shl    $0x3,%eax
-+add    $0x2f,%eax
++add    $0xf,%eax
 +add    -0x24(%ebp),%eax
 +mov    %eax,%ecx
-+mov    -0x18(%ebp),%ebx
 +mov    -0x10(%ebp),%edx
  mov    %edx,%eax
 -sar    $0x1f,%edx
@@ -606,7 +575,7 @@
 +add    $0x1e,%eax
 +shl    $0x3,%eax
 +add    $0x14,%eax
-+lea    (%ebx,%eax,1),%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,(%ecx)
 +mov    -0x10(%ebp),%edx
@@ -656,10 +625,9 @@
 +add    -0xc(%ebp),%eax
 +add    $0x4,%eax
 +shl    $0x3,%eax
-+add    $0x33,%eax
++add    $0x13,%eax
 +add    -0x24(%ebp),%eax
 +mov    %eax,%ecx
-+mov    -0x18(%ebp),%ebx
 +mov    -0x10(%ebp),%edx
  mov    %edx,%eax
 -sar    $0x1f,%edx
@@ -702,7 +670,7 @@
 +add    -0xc(%ebp),%eax
 +add    $0x21,%eax
 +shl    $0x3,%eax
-+lea    (%ebx,%eax,1),%eax
++add    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,(%ecx)
 +addl   $0x1,-0xc(%ebp)
@@ -712,15 +680,15 @@
 -jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x507>
 -addl   $0x1,-0x20(%ebp)
 -cmpl   $0x5,-0x20(%ebp)
-+jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x45c>
++jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x434>
 +addl   $0x1,-0x10(%ebp)
 +cmpl   $0x5,-0x10(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x268>
 -lea    -0x1af(%ebp),%eax
-+jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x23d>
-+lea    -0x1a7(%ebp),%eax
++jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x22f>
++lea    -0x1ab(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -728,15 +696,15 @@
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
--add    $0x4,%eax
 +mov    -0x18(%ebp),%eax
+ add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv>
  movl   $0x1,0x4(%esp)
  movl   $0x0,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
 -lea    -0x34(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEppEv>
  mov    0x8(%ebp),%eax
@@ -749,12 +717,12 @@
  lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0xc9>
-+jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0xca>
++jne    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0xc1>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x6c(%eax)
 -lea    -0x2c(%ebp),%eax
@@ -775,11 +743,11 @@
 +mov    0x8(%ebp),%eax
 +mov    0x8c(%eax),%eax
 +cmp    -0x1c(%ebp),%eax
-+jg     <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x59b>
++jg     <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x56c>
 +mov    0x8(%ebp),%eax
 +mov    0x90(%eax),%eax
 +cmp    -0x1c(%ebp),%eax
-+jge    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5a8>
++jge    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x579>
  mov    0x8(%ebp),%eax
  movl   $0x1e,0x88(%eax)
 -mov    $0x0,%eax
@@ -789,7 +757,7 @@
 -pop    %esi
 -pop    %edi
 -pop    %ebp
-+jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x5aa>
++jmp    <T> <_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler+0x57b>
 +mov    -0x4(%ebp),%ebx
 +leave
  ret
@@ -1011,7 +979,7 @@ FrameLagCollector::_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 377 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 455 行）：
 
 ```cpp
 int FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
@@ -1033,12 +1001,16 @@ int FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
     Packet_Frame_Lag_Statistic_Write_Lag_Index pkt;
     char* pb = (char*)&pkt;
     pb[10] = (char)handler->GetServerGroupNo();
-    time_t now = time(0);
-    *(time_t*)(pb + 0xb) = now;
+    // ORIG：time(&t) 后再拷贝到 now（now 实际未用于报文，仅为复现 ORIG 代码形态）
+    time_t t;
+    time(&t);
+    time_t now = t;
     for (std::map<int, FrameLagDataStruct>::iterator it = m_data.begin();
          it != m_data.end(); ++it)
     {
-        FrameLagDataStruct* v = &it->second;
+        // ORIG 对 map value 的读写全部以 pair 基址（it.operator->()）为基准：
+        // value 在 pair+4。偏移表达式按 ORIG 反汇编逐槽位核对过。
+        char* v = (char*)it.operator->();
         *(int*)(pb + 0xb) = it->first;
         *(int*)(pb + 0xf) = *(int*)((char*)v + 4);
         for (int i = 0; i < 8; i++)
@@ -1059,44 +1031,44 @@ int FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
         }
         for (int i = 0; i < 6; i++)
         {
-            *(short*)(pb + 0x27 + i * 0x1c + 0) = 0;
-            *(short*)(pb + 0x27 + i * 0x1c + 2) = 0;
-            *(short*)(pb + 0x27 + i * 0x1c + 4) = 0;
-            *(short*)(pb + 0x27 + i * 0x1c + 6) = 0;
+            *(short*)(pb + 0x27 + i * 0x38 + 0) = 0;
+            *(short*)(pb + 0x27 + i * 0x38 + 2) = 0;
+            *(short*)(pb + 0x27 + i * 0x38 + 4) = 0;
+            *(short*)(pb + 0x27 + i * 0x38 + 6) = 0;
             if (0 < *(int*)((char*)v + (i + 9) * 0x10 + 0xc))
             {
-                *(short*)(pb + 0x27 + i * 0x1c + 0) =
+                *(short*)(pb + 0x27 + i * 0x38 + 0) =
                     (short)(*(int*)((char*)v + 0xc + (i + 0xc) * 4) /
                             *(int*)((char*)v + (i + 9) * 0x10 + 0xc));
             }
             if (0 < *(int*)((char*)v + i * 0x10 + 0xa0))
             {
-                *(short*)(pb + 0x27 + i * 0x1c + 2) =
+                *(short*)(pb + 0x27 + i * 0x38 + 2) =
                     (short)(*(int*)((char*)v + 4 + (i + 0x14) * 4) /
                             *(int*)((char*)v + i * 0x10 + 0xa0));
             }
             if (0 < *(int*)((char*)v + i * 0x10 + 0xa4))
             {
-                *(short*)(pb + 0x27 + i * 0x1c + 4) =
+                *(short*)(pb + 0x27 + i * 0x38 + 4) =
                     (short)(*(int*)((char*)v + 0xc + (i + 0x18) * 4) /
                             *(int*)((char*)v + i * 0x10 + 0xa4));
             }
             if (0 < *(int*)((char*)v + i * 0x10 + 0xa8))
             {
-                *(short*)(pb + 0x27 + i * 0x1c + 6) =
+                *(short*)(pb + 0x27 + i * 0x38 + 6) =
                     (short)(*(int*)((char*)v + 4 + (i + 0x20) * 4) /
                             *(int*)((char*)v + i * 0x10 + 0xa8));
             }
             for (int j = 0; j < 6; j++)
             {
-                *(int*)(pb + 0x2f + (i * 7 + j + 4) * 8) =
+                *(int*)(pb + 0xf + (i * 7 + j + 4) * 8) =
                     *(int*)((char*)v + 0x14 + (i * 7 + j + 0x1e) * 8);
-                *(int*)(pb + 0x33 + (i * 7 + j + 4) * 8) =
+                *(int*)(pb + 0x13 + (i * 7 + j + 4) * 8) =
                     *(int*)((char*)v + 0x18 + (i * 7 + j + 0x1e) * 8);
             }
         }
         handler->SendToDB((PacketHeader*)&pkt);
-        v->init();
+        ((FrameLagDataStruct*)((char*)v + 4))->init();
         DNFFLib::Sleep_Ext(0, 1);
     }
     m_field6c = 0;

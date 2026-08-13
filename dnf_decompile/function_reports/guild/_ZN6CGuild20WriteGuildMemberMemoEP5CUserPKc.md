@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80919d2` | `0x124` | `0x8057586` | `0x12a` |
+| guild | DIFF | `0x80919d2` | `0x124` | `0x80574cc` | `0x12a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,10 +72,12 @@
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
- add    $0xf0,%eax
+-add    $0xf0,%eax
 -add    0x8(%ebp),%eax
+-add    $0x19,%eax
++add    $0x100,%eax
 +lea    (%ecx,%eax,1),%eax
- add    $0x19,%eax
++add    $0x9,%eax
  movl   $0x15,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -85,10 +87,12 @@
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
- add    $0xf0,%eax
+-add    $0xf0,%eax
 -add    0x8(%ebp),%eax
+-lea    0x19(%eax),%edx
++add    $0x100,%eax
 +lea    (%ecx,%eax,1),%eax
- lea    0x19(%eax),%edx
++lea    0x9(%eax),%edx
  movl   $0x14,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -155,7 +159,7 @@ CGuild::_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc(CGuild *this,CUser *param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2026 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2041 行）：
 
 ```cpp
 void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)
@@ -172,10 +176,8 @@ void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)
             if (((CGuildMemberMainArray*)this)->m_members[i].m_charNo ==
                 (unsigned int)user->GetUniqCharNo())
             {
-                memset((char*)&((CGuildMemberExtraArray*)this)->m_members[i] + 0x19,
-                       0, 0x15);
-                memcpy((char*)&((CGuildMemberExtraArray*)this)->m_members[i] + 0x19,
-                       memo, 0x14);
+                memset(((CGuildMemberExtraArray*)this)->m_members[i].m_memo, 0, 0x15);
+                memcpy(((CGuildMemberExtraArray*)this)->m_members[i].m_memo, memo, 0x14);
                 return;
             }
         }

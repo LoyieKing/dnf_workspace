@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4250` | `0x68a` | `0x809ab22` | `0x6c1` |
+| guild | DIFF | `0x80a4250` | `0x68a` | `0x809a3d0` | `0x66c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,45 +13,47 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,390 +1,409 @@
+@@ -1,390 +1,372 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
 -sub    $0x1850,%esp
--mov    0x8(%ebp),%eax
--movzbl 0x184(%eax),%eax
++sub    $0x1b90,%esp
+ mov    0x8(%ebp),%eax
+ movzbl 0x184(%eax),%eax
 -test   %al,%al
 -je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x67c>
--mov    0x8(%ebp),%eax
++mov    %al,-0x31(%ebp)
++cmpb   $0x0,-0x31(%ebp)
++je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x662>
++cmpb   $0x2,-0x31(%ebp)
++jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x662>
++movl   $0x1b6,0x8(%esp)
++movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
++lea    -0x74(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"POWER WAR RESULT DB SAVE START",0x8(%esp)
++movl   $"./log/PowerResult",0x4(%esp)
++lea    -0x74(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0x8(%ebp),%eax
 -movzbl 0x184(%eax),%eax
 -cmp    $0x2,%al
 -jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x67f>
-+sub    $0x1b90,%esp
-+mov    0x8(%ebp),%eax
-+add    $0x184,%eax
-+movzbl (%eax),%eax
-+mov    %al,-0x31(%ebp)
-+cmpb   $0x0,-0x31(%ebp)
-+je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6a5>
-+cmpb   $0x2,-0x31(%ebp)
-+jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6a5>
- movl   $0x1b6,0x8(%esp)
- movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
+-movl   $0x1b6,0x8(%esp)
+-movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x64(%ebp),%eax
-+lea    -0x74(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"POWER WAR RESULT DB SAVE START",0x8(%esp)
- movl   $"./log/PowerResult",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"POWER WAR RESULT DB SAVE START",0x8(%esp)
+-movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x64(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x889(%ebp),%eax
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x30(%ebp)
@@ -68,15 +70,13 @@
 -mov    %al,-0x87e(%ebp)
 -lea    -0x1829(%ebp),%eax
 +mov    %al,-0x29(%ebp)
-+lea    -0xbcd(%ebp),%eax
-+lea    0xb(%eax),%edx
 +movzbl -0x29(%ebp),%eax
-+mov    %al,(%edx)
++mov    %al,-0xbc2(%ebp)
 +lea    -0x1b70(%ebp),%eax
  mov    %eax,%ebx
  mov    $0x1f3,%esi
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xac>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xbe>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xb8>
  mov    %ebx,(%esp)
  call   <T> <_ZN10STUserRankC1Ev>
  add    $0x8,%ebx
@@ -88,9 +88,9 @@
 -movl   $0x1,-0x24(%ebp)
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x2fe>
 -movl   $0x0,-0x68(%ebp)
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xb0>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xaa>
 +movl   $0x1,-0x20(%ebp)
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x33b>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x309>
  movl   $0xfa0,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x1829(%ebp),%eax
@@ -100,18 +100,12 @@
 -mov    -0x24(%ebp),%eax
 -mov    %al,-0x87d(%ebp)
 -mov    -0x24(%ebp),%eax
--imul   $0x6c,%eax,%eax
--add    0x8(%ebp),%eax
--add    $0x8,%eax
-+lea    -0xbcd(%ebp),%eax
-+lea    0xc(%eax),%edx
 +mov    -0x20(%ebp),%eax
-+mov    %al,(%edx)
-+mov    0x8(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+imul   $0x6c,%edx,%edx
-+add    $0x8,%edx
-+add    %edx,%eax
++mov    %al,-0xbc1(%ebp)
++mov    -0x20(%ebp),%eax
+ imul   $0x6c,%eax,%eax
+ add    0x8(%ebp),%eax
+ add    $0x8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CPower21GetPowerWarCharacInfoEv>
 -mov    %eax,-0x20(%ebp)
@@ -158,7 +152,7 @@
 +mov    -0xb4(%ebp),%eax
  test   %eax,%eax
 -jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x1b0>
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x1df>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x1d2>
 +mov    -0xb4(%ebp),%ebx
  movl   $0x1d6,0x8(%esp)
  movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
@@ -182,7 +176,7 @@
 +lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x337>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x305>
 +mov    -0xb4(%ebp),%eax
  cmp    $0xfa,%eax
 -jbe    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x29b>
@@ -193,90 +187,21 @@
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x1de>
 -movb   $0x0,-0x87f(%ebp)
 -movl   $0xfa,-0x878(%ebp)
-+ja     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x253>
-+lea    -0xbcd(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x1,(%eax)
-+lea    -0xbcd(%ebp),%eax
-+lea    0x11(%eax),%edx
-+mov    -0xb4(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    -0xb4(%ebp),%eax
-+shl    $0x3,%eax
-+lea    -0xbcd(%ebp),%edx
-+add    $0x15,%edx
-+mov    %eax,0x8(%esp)
-+lea    -0x1b70(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <memcpy>
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0xbcd(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x337>
-+lea    -0xbcd(%ebp),%eax
-+add    $0xa,%eax
-+cmpl   $0x1,-0x20(%ebp)
-+sete   %dl
-+mov    %dl,(%eax)
-+lea    -0xbcd(%ebp),%eax
-+add    $0x11,%eax
-+movl   $0xfa,(%eax)
-+lea    -0xbcd(%ebp),%eax
-+lea    0x15(%eax),%edx
- movl   $0x7d0,0x8(%esp)
+-movl   $0x7d0,0x8(%esp)
 -lea    -0x1829(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x889(%ebp),%eax
-+lea    -0x1b70(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <memcpy>
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0xbcd(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+lea    -0xbcd(%ebp),%eax
-+add    $0xc,%eax
-+movb   $0xfb,(%eax)
-+lea    -0xbcd(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
-+lea    -0xbcd(%ebp),%eax
-+add    $0x11,%eax
-+mov    -0xb4(%ebp),%edx
-+sub    $0xfa,%edx
-+mov    %edx,(%eax)
-+mov    -0xb4(%ebp),%eax
-+add    $0x1fffff06,%eax
-+lea    0x0(,%eax,8),%ecx
-+lea    -0x1b70(%ebp),%eax
-+lea    0x7d0(%eax),%edx
-+lea    -0xbcd(%ebp),%eax
- add    $0x15,%eax
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <memcpy>
+-add    $0x15,%eax
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x889(%ebp),%edx
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0xbcd(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -movl   $0xfb,-0x87c(%ebp)
 -movb   $0x0,-0x87f(%ebp)
 -mov    -0x68(%ebp),%eax
@@ -284,15 +209,23 @@
 -mov    %eax,-0x878(%ebp)
 -mov    -0x68(%ebp),%eax
 -add    $0x1fffff06,%eax
--shl    $0x3,%eax
--mov    %eax,0x8(%esp)
++ja     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x23c>
++movb   $0x1,-0xbc3(%ebp)
++mov    -0xb4(%ebp),%eax
++mov    %eax,-0xbbc(%ebp)
++mov    -0xb4(%ebp),%eax
+ shl    $0x3,%eax
+ mov    %eax,0x8(%esp)
 -lea    -0x1829(%ebp),%eax
 -add    $0x7d8,%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x889(%ebp),%eax
--add    $0x15,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
++lea    -0x1b70(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0xbcd(%ebp),%eax
+ add    $0x15,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    %eax,(%esp)
@@ -312,9 +245,25 @@
 -lea    -0x1829(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x889(%ebp),%eax
--add    $0x15,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
++mov    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0xbcd(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x305>
++cmpl   $0x1,-0x20(%ebp)
++sete   %al
++mov    %al,-0xbc3(%ebp)
++movl   $0xfa,-0xbbc(%ebp)
++movl   $0x7d0,0x8(%esp)
++lea    -0x1b70(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0xbcd(%ebp),%eax
+ add    $0x15,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    %eax,(%esp)
@@ -325,20 +274,48 @@
 -call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -addl   $0x1,-0x24(%ebp)
 -cmpl   $0x2,-0x24(%ebp)
++mov    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0xbcd(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++movb   $0xfb,-0xbc1(%ebp)
++movb   $0x0,-0xbc3(%ebp)
++mov    -0xb4(%ebp),%eax
++sub    $0xfa,%eax
++mov    %eax,-0xbbc(%ebp)
++mov    -0xb4(%ebp),%eax
++add    $0x1fffff06,%eax
++lea    0x0(,%eax,8),%edx
++lea    -0x1b70(%ebp),%eax
++add    $0x7d0,%eax
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++lea    -0xbcd(%ebp),%eax
++add    $0x15,%eax
++mov    %eax,(%esp)
++call   <T> <memcpy>
++mov    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0xbcd(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 +addl   $0x1,-0x20(%ebp)
 +cmpl   $0x2,-0x20(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xc2>
 -lea    -0x889(%ebp),%eax
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xd4>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xce>
 +lea    -0x3e8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_DB_Save_Power_War_Guild_RankC1Ev>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
-+lea    -0x3e8(%ebp),%eax
-+lea    0xa(%eax),%ebx
 +mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -350,33 +327,24 @@
 -mov    -0x1c(%ebp),%eax
 -mov    %al,-0x87e(%ebp)
 -movl   $0x0,-0x87d(%ebp)
-+mov    %al,(%ebx)
++mov    %al,-0x3de(%ebp)
 +movl   $0x1,-0x18(%ebp)
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x463>
-+lea    -0x3e8(%ebp),%eax
-+lea    0xb(%eax),%edx
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x420>
 +mov    -0x18(%ebp),%eax
-+mov    %al,(%edx)
-+lea    -0x3e8(%ebp),%eax
-+add    $0xc,%eax
-+movl   $0x0,(%eax)
-+lea    -0x3e8(%ebp),%eax
-+add    $0x10,%eax
++mov    %al,-0x3dd(%ebp)
++movl   $0x0,-0x3dc(%ebp)
  movl   $0x320,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x889(%ebp),%eax
--add    $0x10,%eax
++lea    -0x3e8(%ebp),%eax
+ add    $0x10,%eax
  mov    %eax,(%esp)
  call   <T> <memset>
 -mov    -0x1c(%ebp),%eax
--imul   $0x6c,%eax,%eax
--add    0x8(%ebp),%eax
--add    $0x8,%eax
-+mov    0x8(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+imul   $0x6c,%edx,%edx
-+add    $0x8,%edx
-+add    %edx,%eax
++mov    -0x18(%ebp),%eax
+ imul   $0x6c,%eax,%eax
+ add    0x8(%ebp),%eax
+ add    $0x8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
 -mov    %eax,-0x18(%ebp)
@@ -389,34 +357,40 @@
 -lea    -0x889(%ebp),%eax
 -add    $0xc,%eax
 -mov    %eax,0x4(%esp)
--mov    -0x18(%ebp),%eax
 +lea    -0xb8(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank>
++mov    %eax,(%esp)
++call   <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank>
++mov    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0x3e8(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++movl   $0x248,0x8(%esp)
++movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
++lea    -0x5c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x18(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x889(%ebp),%edx
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x3e8(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
- movl   $0x248,0x8(%esp)
- movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+-movl   $0x248,0x8(%esp)
+-movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x1c(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x18(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"SaveDBPowerWarRank() SEND Packet_DB_Save_Power_War_Guild_Rank Power:%d",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
@@ -434,7 +408,7 @@
  test   %al,%al
 -jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x343>
 -lea    -0x7f(%ebp),%eax
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x382>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x34b>
 +lea    -0x8b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN38Packet_DB_Save_Power_War_Statue_RankerC1Ev>
@@ -512,7 +486,7 @@
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5b2>
 -lea    -0xa4(%ebp),%eax
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5df>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x59c>
 +lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP20STPowerWarCharacInfoSaIS1_EE4sizeEv>
@@ -527,7 +501,7 @@
 -lea    -0xa4(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE2atEj>
-+je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5db>
++je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x598>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0xb0(%ebp),%eax
@@ -575,7 +549,7 @@
 +cmpl   $0x2,-0x10(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x559>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x516>
 +movl   $0x277,0x8(%esp)
 +movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x44(%ebp),%eax
@@ -629,7 +603,7 @@
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x697>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x654>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xa4(%ebp),%eax
@@ -664,16 +638,6 @@
  pop    %esi
  pop    %ebp
  ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %edi
-+push   %esi
-+push   %ebx
-+sub    $0x5c,%esp
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN30Packet_DB_Save_Power_War_PointC1Ev>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -852,22 +816,22 @@ void __thiscall CPowerManager::_ZN13CPowerManager18SaveDBPowerWarRankEv(CPowerMa
 ```cpp
 void CPowerManager::SaveDBPowerWarRank()
 {
-    char winnerSide = *(char*)((char*)this + 0x184);
+    char winnerSide = m_winnerSide;
     if (winnerSide != 0 && winnerSide < 3)
     {
         CMyFileLog logStart(__FUNCTION__, 0x1b6);
         logStart("./log/PowerResult", "POWER WAR RESULT DB SAVE START");
-        CApplication* app = *(CApplication**)((char*)this + 4);
+        CApplication* app = *(CApplication**)&m_field4;
         Packet_DB_Save_Power_War_User_Rank userPkt;
         unsigned char group = app->Get_ServerHandler()->GetServerGroupNo();
-        *(unsigned char*)((char*)&userPkt + 0xb) = group;
+        userPkt.m_b = group;
         STUserRank userRanks[500];
         for (int side = 1; side < 3; side++)
         {
             memset(userRanks, 0, 4000);
-            *(unsigned char*)((char*)&userPkt + 0xc) = (unsigned char)side;
+            userPkt.m_c = (unsigned char)side;
             CPowerWarCharacInfo* characInfo =
-                ((CPower*)((char*)this + side * 0x6c + 8))->GetPowerWarCharacInfo();
+                m_power[side].GetPowerWarCharacInfo();
             unsigned int count = 0;
             characInfo->GetAllUserRankingInfo(count, userRanks);
             {
@@ -881,33 +845,33 @@ void CPowerManager::SaveDBPowerWarRank()
             }
             else if (count < 0xfb)
             {
-                *(unsigned char*)((char*)&userPkt + 0xa) = 1;
-                *(unsigned int*)((char*)&userPkt + 0x11) = count;
-                memcpy((char*)&userPkt + 0x15, userRanks, count << 3);
+                userPkt.m_a = 1;
+                userPkt.m_e = count;
+                memcpy(userPkt.m_ranks, userRanks, count << 3);
                 app->Get_ServerHandler()->SendToDB(&userPkt);
             }
             else
             {
-                *(unsigned char*)((char*)&userPkt + 0xa) = (unsigned char)(side == 1);
-                *(unsigned int*)((char*)&userPkt + 0x11) = 0xfa;
-                memcpy((char*)&userPkt + 0x15, userRanks, 2000);
+                userPkt.m_a = (unsigned char)(side == 1);
+                userPkt.m_e = 0xfa;
+                memcpy(userPkt.m_ranks, userRanks, 2000);
                 app->Get_ServerHandler()->SendToDB(&userPkt);
-                *(unsigned char*)((char*)&userPkt + 0xc) = 0xfb;
-                *(unsigned char*)((char*)&userPkt + 0xa) = 0;
-                *(unsigned int*)((char*)&userPkt + 0x11) = count - 0xfa;
-                memcpy((char*)&userPkt + 0x15, (char*)userRanks + 2000, (count - 0xfa) * 8);
+                userPkt.m_c = 0xfb;
+                userPkt.m_a = 0;
+                userPkt.m_e = count - 0xfa;
+                memcpy(userPkt.m_ranks, (char*)userRanks + 2000, (count - 0xfa) * 8);
                 app->Get_ServerHandler()->SendToDB(&userPkt);
             }
         }
         Packet_DB_Save_Power_War_Guild_Rank guildPkt;
-        *(unsigned char*)((char*)&guildPkt + 0xa) = app->Get_ServerHandler()->GetServerGroupNo();
+        guildPkt.m_a = app->Get_ServerHandler()->GetServerGroupNo();
         for (int side = 1; side < 3; side++)
         {
-            *(unsigned char*)((char*)&guildPkt + 0xb) = (unsigned char)side;
-            *(unsigned int*)((char*)&guildPkt + 0xc) = 0;
-            memset((char*)&guildPkt + 0x10, 0, 800);
+            guildPkt.m_b = (unsigned char)side;
+            guildPkt.m_c = 0;
+            memset(guildPkt.m_ranks, 0, 800);
             CPowerWarGuildInfo* guildInfo =
-                ((CPower*)((char*)this + side * 0x6c + 8))->GetPowerWarGuildInfo();
+                m_power[side].GetPowerWarGuildInfo();
             int count = 0;
             guildInfo->GetAllGuildRankingInfo(count, (STGuildRank*)((char*)&guildPkt + 0x10));
             app->Get_ServerHandler()->SendToDB(&guildPkt);
@@ -921,10 +885,8 @@ void CPowerManager::SaveDBPowerWarRank()
         (void)noticePkt;
         statuePkt.m_group = app->Get_ServerHandler()->GetServerGroupNo();
         std::vector<STPowerWarCharacInfo*> users;
-        CPowerWarCharacInfo* s1 =
-            ((CPower*)((char*)this + 0x74))->GetPowerWarCharacInfo();
-        CPowerWarCharacInfo* s2 =
-            ((CPower*)((char*)this + 0xe0))->GetPowerWarCharacInfo();
+        CPowerWarCharacInfo* s1 = m_power[1].GetPowerWarCharacInfo();
+        CPowerWarCharacInfo* s2 = m_power[2].GetPowerWarCharacInfo();
         s1->GetStatueRankingUsers(users);
         s2->GetStatueRankingUsers(users);
         std::sort(users.begin(), users.end(), STPowerWarCharacInfo::Compare);

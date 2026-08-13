@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061aac` | `0x10d` |
+| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061aa0` | `0x10d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,82 +1,77 @@
--push   %ebp
--mov    %esp,%ebp
+@@ -1,82 +1,75 @@
+ push   %ebp
+ mov    %esp,%ebp
 -push   %esi
 -push   %ebx
 -sub    $0x40,%esp
--movl   $0x0,(%esp)
++sub    $0x48,%esp
+ movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x20(%ebp)
 -lea    -0x20(%ebp),%eax
@@ -109,20 +110,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x10e>
-+leave
-+ret
- nop
+-nop
 -lea    -0x8(%ebp),%esp
 -add    $0x0,%esp
 -pop    %ebx
 -pop    %esi
 -pop    %ebp
--ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+cmpl   $0x0,0x10(%ebp)
-+je     <T> <_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember+0x12>
++leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

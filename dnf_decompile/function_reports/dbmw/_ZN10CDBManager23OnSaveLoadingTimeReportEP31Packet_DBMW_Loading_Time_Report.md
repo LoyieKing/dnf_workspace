@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80808d2` | `0x134` | `0x80527a6` | `0x13a` |
+| dbmw | DIFF | `0x80808d2` | `0x134` | `0x8052794` | `0x136` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,73 +1,77 @@
+@@ -1,73 +1,74 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x438,%esp
@@ -24,10 +24,10 @@
  jne    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x132>
-+jmp    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x138>
++jmp    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x134>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x11e>
-+jmp    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x124>
++jmp    <T> <_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report+0x120>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
  lea    -0x418(%ebp),%eax
@@ -35,21 +35,17 @@
  call   <T> <memset>
 +mov    0xc(%ebp),%eax
  mov    -0xc(%ebp),%edx
-+shl    $0x2,%edx
-+add    $0x13,%edx
-+add    %edx,%eax
-+mov    (%eax),%edx
- mov    0xc(%ebp),%eax
--add    $0x4,%edx
+-mov    0xc(%ebp),%eax
+ add    $0x4,%edx
 -mov    0x3(%eax,%edx,4),%edx
--mov    -0xc(%ebp),%eax
++mov    0x3(%eax,%edx,4),%eax
++mov    %eax,%edx
++mov    0xc(%ebp),%ecx
+ mov    -0xc(%ebp),%eax
 -mov    0xc(%ebp),%ecx
--movzbl 0xa(%ecx,%eax,1),%eax
-+mov    -0xc(%ebp),%ecx
-+add    $0xa,%ecx
-+add    %ecx,%eax
-+movzbl (%eax),%eax
- movzbl %al,%eax
+ movzbl 0xa(%ecx,%eax,1),%eax
+-movzbl %al,%eax
++movsbl %al,%eax
  mov    %edx,0x14(%esp)
  mov    -0xc(%ebp),%edx
  mov    %edx,0x10(%esp)

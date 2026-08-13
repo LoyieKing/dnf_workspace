@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092702` | `0xcc` | `0x8058354` | `0xf9` |
+| guild | DIFF | `0x8092702` | `0xcc` | `0x805821c` | `0xe2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,61 +1,76 @@
+@@ -1,61 +1,68 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x48,%esp
@@ -24,16 +24,12 @@
 +lea    -0x26(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Achieve_Guild_AttendanceC1Ev>
-+lea    -0x26(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    0xc(%ebp),%eax
--mov    %eax,-0x18(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x26(%ebp),%eax
-+lea    0xe(%eax),%edx
- mov    0x10(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++mov    0x10(%ebp),%eax
+ mov    %eax,-0x18(%ebp)
+-mov    0x10(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
-+mov    %eax,(%edx)
  mov    0x8(%ebp),%edx
 -lea    -0x30(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
@@ -43,7 +39,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0x9b>
 -lea    -0x30(%ebp),%eax
-+jmp    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0xc5>
++jmp    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0xae>
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -56,9 +52,7 @@
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0x8f>
 -mov    -0xc(%ebp),%eax
-+je     <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0xba>
-+lea    -0x26(%ebp),%eax
-+lea    0x12(%eax),%ebx
++je     <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0xa3>
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -67,9 +61,7 @@
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x1c(%ebp)
 -mov    -0xc(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x26(%ebp),%eax
-+lea    0x16(%eax),%ebx
++mov    %eax,-0x14(%ebp)
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -78,7 +70,7 @@
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x20(%ebp)
 -lea    -0x2a(%ebp),%eax
-+mov    %eax,(%ebx)
++mov    %eax,-0x10(%ebp)
 +lea    -0x26(%ebp),%ebx
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -112,7 +104,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0x3b>
-+jne    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0x42>
++jne    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0x35>
 +mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -172,21 +164,21 @@ CGuild::_ZN6CGuild26NotifyAllAchieveAttendanceEjj(CGuild *this,uint param_1,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2396 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2410 行）：
 
 ```cpp
 void CGuild::NotifyAllAchieveAttendance(unsigned int charNo, unsigned int phase)
 {
     Packet_Achieve_Guild_Attendance pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = charNo;
-    *(unsigned int*)((char*)&pkt + 0xe) = phase;
+    pkt.m_charNo = charNo;
+    pkt.m_phase = phase;
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
         if (it->second != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0x12) = it->second->GetIdByChannel();
-            *(unsigned int*)((char*)&pkt + 0x16) = it->second->GetUniqCharNo();
+            pkt.m_channel = it->second->GetIdByChannel();
+            pkt.m_charNo2 = it->second->GetUniqCharNo();
             it->second->SendToGameserver((char*)&pkt, 0x1a);
         }
     }

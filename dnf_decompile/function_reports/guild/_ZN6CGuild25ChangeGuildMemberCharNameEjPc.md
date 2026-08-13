@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80917fc` | `0x170` | `0x80573a6` | `0x17a` |
+| guild | DIFF | `0x80917fc` | `0x170` | `0x80572ea` | `0x17b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,93 +1,96 @@
+@@ -1,93 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
- movb   $0x0,-0xd(%ebp)
+-movb   $0x0,-0xd(%ebp)
++movb   $0x0,-0x11(%ebp)
  movl   $0x4,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
 -je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x16a>
-+je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x174>
++je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x175>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xac>
 +jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xb5>
@@ -45,10 +46,12 @@
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
- add    $0xd0,%eax
+-add    $0xd0,%eax
 -add    0x8(%ebp),%eax
+-add    $0x11,%eax
++add    $0xe0,%eax
 +lea    (%ecx,%eax,1),%eax
- add    $0x11,%eax
++add    $0x1,%eax
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -58,16 +61,19 @@
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
- add    $0xd0,%eax
+-add    $0xd0,%eax
 -add    0x8(%ebp),%eax
+-lea    0x11(%eax),%edx
++add    $0xe0,%eax
 +lea    (%ecx,%eax,1),%eax
- lea    0x11(%eax),%edx
++lea    0x1(%eax),%edx
  movl   $0x1d,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <memcpy>
- movb   $0x1,-0xd(%ebp)
+-movb   $0x1,-0xd(%ebp)
++movb   $0x1,-0x11(%ebp)
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x12b,-0xc(%ebp)
  setle  %al
@@ -77,24 +83,34 @@
  mov    0x8(%ebp),%eax
 -mov    0x66ec(%eax),%eax
 +add    $0x66ec,%eax
++mov    %eax,-0x10(%ebp)
++mov    -0x10(%ebp),%eax
 +mov    (%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x11b>
-+jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x125>
- mov    0x8(%ebp),%eax
- add    $0x66f0,%eax
+-mov    0x8(%ebp),%eax
+-add    $0x66f0,%eax
++jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x126>
++mov    -0x10(%ebp),%eax
++add    $0x4,%eax
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memset>
- mov    0x8(%ebp),%eax
- lea    0x66f0(%eax),%edx
+-mov    0x8(%ebp),%eax
+-lea    0x66f0(%eax),%edx
++mov    -0x10(%ebp),%eax
++add    $0x4,%eax
  movl   $0x1d,0x8(%esp)
- mov    0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    %edx,(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
++mov    0x10(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
  call   <T> <strncpy>
- movb   $0x1,-0xd(%ebp)
+-movb   $0x1,-0xd(%ebp)
++movb   $0x1,-0x11(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild25NotifyAllTodayGuildMemberEv>
@@ -102,7 +118,7 @@
  mov    0x37(%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x16a>
-+jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x174>
++jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x175>
  mov    0x8(%ebp),%eax
  add    $0xc4,%eax
  movl   $0x15,0x8(%esp)
@@ -116,8 +132,10 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <memcpy>
- movb   $0x1,-0xd(%ebp)
- movzbl -0xd(%ebp),%eax
+-movb   $0x1,-0xd(%ebp)
+-movzbl -0xd(%ebp),%eax
++movb   $0x1,-0x11(%ebp)
++movzbl -0x11(%ebp),%eax
  leave
  ret
 ```
@@ -163,7 +181,7 @@ CGuild::_ZN6CGuild25ChangeGuildMemberCharNameEjPc(CGuild *this,uint param_1,char
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1980 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1996 行）：
 
 ```cpp
 int CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
@@ -175,24 +193,23 @@ int CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
         {
             if (((CGuildMemberMainArray*)this)->m_members[i].m_charNo == charNo)
             {
-                memset((char*)&((CGuildMemberMainArray*)this)->m_members[i] + 0x11,
-                       0, 0x1e);
-                memcpy((char*)&((CGuildMemberMainArray*)this)->m_members[i] + 0x11,
-                       name, 0x1d);
+                memset(((CGuildMemberMainArray*)this)->m_members[i].m_name, 0, 0x1e);
+                memcpy(((CGuildMemberMainArray*)this)->m_members[i].m_name, name, 0x1d);
                 result = true;
             }
         }
-        if (*(unsigned int*)((char*)this + 0x66ec) == charNo)
+        CGuildTodayMemberBlock* todayBlock = (CGuildTodayMemberBlock*)((char*)this + 0x66ec);
+        if (todayBlock->m_charNo == charNo)
         {
-            memset((char*)this + 0x66f0, 0, 0x1e);
-            strncpy((char*)this + 0x66f0, name, 0x1d);
+            memset(&todayBlock->m_name0, 0, 0x1e);
+            strncpy((char*)&todayBlock->m_name0, name, 0x1d);
             result = true;
             NotifyAllTodayGuildMember();
         }
         if (m_dbInfo.m_info.m_masterId == charNo)
         {
-            memset((char*)this + 0xc4, 0, 0x15);
-            memcpy((char*)this + 0xc4, name, 0x14);
+            memset(m_dbInfo.m_info.m_masterName, 0, 0x15);
+            memcpy(m_dbInfo.m_info.m_masterName, name, 0x14);
             result = true;
         }
     }

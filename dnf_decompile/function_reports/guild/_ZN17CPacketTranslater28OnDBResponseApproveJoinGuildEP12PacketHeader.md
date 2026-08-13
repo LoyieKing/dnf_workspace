@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088d58` | `0x2d2` | `0x807e3a0` | `0x1f9` |
+| guild | DIFF | `0x8088d58` | `0x2d2` | `0x807dc76` | `0x1e0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,186 +1,136 @@
+@@ -1,186 +1,125 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x70,%esp
-+sub    $0x64,%esp
++sub    $0x68,%esp
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x1c(%ebp)
 -movl   $0x0,-0x18(%ebp)
@@ -29,7 +29,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x67>
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x51>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x50>
  movl   $0x1fd1,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
@@ -47,7 +47,7 @@
 -mov    0xe(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1f3>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1de>
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -65,7 +65,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xce>
-+je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xbf>
++je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xbe>
  movl   $0x1fd7,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -83,7 +83,7 @@
 -mov    0x12(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x10,%edx
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1f3>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1de>
 +mov    -0x24(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%eax
@@ -99,7 +99,7 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x132>
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x125>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x124>
  movl   $0x1fdd,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -117,7 +117,7 @@
 -mov    0x16(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x10,%edx
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1f3>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1de>
 +mov    -0x24(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%eax
@@ -134,53 +134,44 @@
 +lea    -0x56(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Approve_Join_Guild_ResultC1Ev>
-+lea    -0x56(%ebp),%eax
-+lea    0xa(%eax),%edx
+-mov    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser14GetIdByChannelEv>
 +mov    -0x20(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x56(%ebp),%eax
-+lea    0xe(%eax),%ebx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,(%ebx)
-+lea    -0x56(%ebp),%eax
-+lea    0x12(%eax),%ebx
+ mov    %eax,-0x4c(%ebp)
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x4c(%ebp)
--mov    -0x14(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x56(%ebp),%eax
-+lea    0x16(%eax),%edx
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,-0x50(%ebp)
++mov    %eax,-0x48(%ebp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser14GetIdByChannelEv>
++mov    %eax,-0x44(%ebp)
 +mov    -0x24(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0x40(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1d9>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1c4>
 +cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1c0>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1ab>
 +mov    -0x24(%ebp),%eax
 +lea    0x1a(%eax),%edx
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +mov    %edx,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x50(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xa(%eax),%eax
+-mov    %eax,-0x54(%ebp)
++mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj>
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1d9>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1c4>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +mov    -0xc(%ebp),%eax
 +mov    %eax,0x4(%esp)
  mov    -0x1c(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    %eax,-0x54(%ebp)
--mov    -0x1c(%ebp),%eax
 -mov    0x16(%eax),%eax
 -mov    %eax,-0x48(%ebp)
 -mov    -0x1c(%ebp),%eax
@@ -271,10 +262,10 @@
 -call   <T> <_Unwind_Resume>
 -call   <T> <__cxa_end_catch>
 -add    $0x70,%esp
-+add    $0x64,%esp
- pop    %ebx
+-pop    %ebx
 -pop    %esi
- pop    %ebp
+-pop    %ebp
++leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -349,7 +340,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5796 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5783 行）：
 
 ```cpp
 void CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader* pkt)
@@ -377,10 +368,10 @@ void CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader* pkt)
     unsigned int joinerNo = *(unsigned int*)(pb + 0x12);
     CUser* joiner = (&m_pclApp->m_userManager)->FindUser_CharNo(joinerNo);
     Packet_Approve_Join_Guild_Result reply;
-    *(unsigned int*)((char*)&reply + 0xa) = guildKey;
-    *(unsigned int*)((char*)&reply + 0xe) = requester->GetUniqCharNo();
-    *(unsigned int*)((char*)&reply + 0x12) = requester->GetIdByChannel();
-    *(unsigned int*)((char*)&reply + 0x16) = *(unsigned int*)(pb + 0x16);
+    reply.ma = guildKey;
+    reply.me = requester->GetUniqCharNo();
+    reply.m12 = requester->GetIdByChannel();
+    reply.m16 = *(unsigned int*)(pb + 0x16);
     if (guildKey == 0)
     {
         if (joiner == 0)

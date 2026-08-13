@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8073b18` | `0x34e` | `0x8073bf6` | `0x38e` |
+| statics | DIFF | `0x8073b18` | `0x34e` | `0x8073a8a` | `0x38e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -369,7 +369,7 @@ StatisticManager::_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1523 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1579 行）：
 
 ```cpp
 void StatisticManager::SendDBValueStatistic(CServerHandler* handler)

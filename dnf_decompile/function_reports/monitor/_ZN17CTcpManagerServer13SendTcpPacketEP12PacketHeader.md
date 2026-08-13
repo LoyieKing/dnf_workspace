@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8078d98` | `0x72` | `0x805d68c` | `0x72` |
+| monitor | DIFF | `0x8078d98` | `0x72` | `0x805d680` | `0x72` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,36 +1,38 @@
--push   %ebp
--mov    %esp,%ebp
--sub    $0x28,%esp
--mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
+@@ -1,36 +1,36 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0xc(%ebp),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -58,13 +58,6 @@
  call   <T> <_ZN17CTcpManagerServer12SendToServerEPc>
  leave
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %esi
-+push   %ebx
-+sub    $0x20,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
