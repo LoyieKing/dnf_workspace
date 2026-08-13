@@ -439,7 +439,7 @@ void CPacketTranslater::_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6947 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6951 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header)

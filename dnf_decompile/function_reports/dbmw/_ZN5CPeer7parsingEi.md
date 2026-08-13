@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec782` | `0x441` |
+| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec782` | `0x485` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,289 +1,269 @@
+@@ -1,289 +1,287 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -76,11 +76,10 @@
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x1,%ebx
+ mov    $0x1,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -nop
-+mov    $0x1,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x439>
++jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
  mov    0x8(%ebp),%eax
  mov    0x1820(%eax),%eax
  test   %eax,%eax
@@ -139,11 +138,10 @@
  mov    %edx,0x181c(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1820(%eax)
--mov    $0x0,%ebx
+ mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%eax
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x439>
++jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
 +mov    -0x28(%ebp),%eax
  cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
@@ -298,11 +296,11 @@
 -mov    -0x24(%ebp),%eax
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +cmpl   $0x0,-0x28(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x434>
++jle    <T> <_ZN5CPeer7parsingEi+0x476>
 +mov    -0x28(%ebp),%eax
  cmp    $0x1800,%eax
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
-+jbe    <T> <_ZN5CPeer7parsingEi+0x3f1>
++jbe    <T> <_ZN5CPeer7parsingEi+0x433>
  movl   $0x10e,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -319,53 +317,65 @@
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%edx
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x439>
-+mov    -0x28(%ebp),%edx
- mov    0x8(%ebp),%eax
- mov    0x181c(%eax),%eax
- mov    0x8(%ebp),%ecx
- add    $0x1c,%ecx
- mov    %edx,0x8(%esp)
- mov    %eax,0x4(%esp)
- mov    %ecx,(%esp)
- call   <T> <memmove>
+-mov    0x8(%ebp),%eax
+-mov    0x181c(%eax),%eax
+-mov    0x8(%ebp),%ecx
+-add    $0x1c,%ecx
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    %ecx,(%esp)
+-call   <T> <memmove>
 -mov    -0x24(%ebp),%edx
 -mov    0x8(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+mov    -0x28(%ebp),%edx
- mov    %edx,0x1820(%eax)
- mov    0x8(%ebp),%eax
+-mov    %edx,0x1820(%eax)
+-mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
 -mov    -0x24(%ebp),%eax
 -add    %eax,%edx
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x181c(%eax)
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47a>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
++jmp    <T> <_ZN5CPeer7parsingEi+0x42c>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
 -mov    -0x24(%ebp),%eax
--mov    %eax,0x4(%esp)
--movl   $"[PARSING EXCEPTION] memmove : parsinglength = %d",(%esp)
--call   <T> <printf>
--mov    $0x0,%ebx
--call   <T> <__cxa_end_catch>
++mov    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ movl   $"[PARSING EXCEPTION] memmove : parsinglength = %d",(%esp)
+ call   <T> <printf>
+ mov    $0x0,%ebx
+ call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
--mov    %edx,%ebx
--mov    %eax,%esi
--call   <T> <__cxa_end_catch>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--mov    $0x1,%ebx
--mov    %ebx,%eax
++jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ call   <T> <__cxa_end_catch>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
++mov    $0x0,%ebx
++jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
++mov    -0x28(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    0x181c(%eax),%eax
++mov    0x8(%ebp),%ecx
++add    $0x1c,%ecx
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    %ecx,(%esp)
++call   <T> <memmove>
++mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%edx
++mov    %edx,0x1820(%eax)
++mov    0x8(%ebp),%eax
 +mov    -0x28(%ebp),%edx
 +add    $0x1c,%edx
 +lea    (%eax,%edx,1),%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x181c(%eax)
-+mov    $0x1,%eax
+ mov    $0x1,%ebx
+ mov    %ebx,%eax
  add    $0x7c,%esp
  pop    %ebx
  pop    %esi
@@ -563,22 +573,24 @@ out:
     {
         if ((unsigned int)parsinglength > 0x1800)
         {
-            DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
-                "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
-                parsinglength);
+            // ORIG：try 包日志块，catch 是 printf("[PARSING EXCEPTION]...")+return 0；
+            // memmove 在 try 外。
+            try
+            {
+                DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
+                    "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
+                    parsinglength);
+            }
+            catch (...)
+            {
+                printf("[PARSING EXCEPTION] memmove : parsinglength = %d", parsinglength);
+                return 0;
+            }
             return 0;
         }
-        try
-        {
-            memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
-            m_recvLen = parsinglength;
-            m_sendBuf = (char*)this + 0x1c + parsinglength;
-        }
-        catch (...)
-        {
-            printf("[PARSING EXCEPTION] memmove : parsinglength = %d", parsinglength);
-            return 0;
-        }
+        memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
+        m_recvLen = parsinglength;
+        m_sendBuf = (char*)this + 0x1c + parsinglength;
     }
     return 1;
 }
