@@ -1,0 +1,2 @@
+timestamp	verdict	note
+2026-08-14T17:22:00Z	DIFF	m_flagInit char->bool (field type); !m_flagInit. xor $1 requires c5r52 (4.1.2) compiler; c6444r/c6446r emit test/jne

@@ -1,0 +1,1 @@
+reply.m_guildId= pkt 字段缓存改写到 reply 结构体（+ 去掉 guildId 局部），DB 调用直读 pkt->m_guildId，日志用 reply.m_guildId，m_result 加 (unsigned char) cast	IDENTICAL_AE

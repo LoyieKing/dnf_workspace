@@ -1,0 +1,1 @@
+buf1 0x200->0x1ff, buf2 0x3c->0x3b, 顺序保持 content 先 subject 后	IDENTICAL_AE

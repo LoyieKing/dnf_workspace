@@ -1,0 +1,1 @@
+abs 改 count&~(count>>31); empty()改size()!=0; (int)cast; gs局部	DIFF(801 vs 802, 寄存器分配残留)	2026-08-14

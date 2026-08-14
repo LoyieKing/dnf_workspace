@@ -1,1 +1,2 @@
 4.1.2-52 整TU编译	DIFF(更差)	2026-08-12
+2026-08-14T17:18:43Z	DIFF	163vs162	combined if condition + inline base expressions (folded 0x6079); remaining 1-byte constant folding tail

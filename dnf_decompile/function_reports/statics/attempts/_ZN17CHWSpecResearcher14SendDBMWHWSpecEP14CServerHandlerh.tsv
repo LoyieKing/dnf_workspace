@@ -1,0 +1,2 @@
+source_excerpt	result	date
+memcpy 参数寄存器分配（pkt base ebx vs ecx, add vs lea, pSpec reload）	DIFF(同大小 0x1a1, 编译器尾音)	2026-08-14

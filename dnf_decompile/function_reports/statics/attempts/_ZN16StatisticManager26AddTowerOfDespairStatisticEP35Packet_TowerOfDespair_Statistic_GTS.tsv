@@ -1,0 +1,2 @@
+ts	change	status
+2026-08-15T01:05:00Z	combined condition + ++preinc + raw ptr insert(*(uint*)((char*)pkt+0x13))	DIFF(nop tail only)
