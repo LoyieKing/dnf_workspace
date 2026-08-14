@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8066978` | `0x7a` | `0x80a03b4` | `0x81` |
+| monitor | DIFF | `0x8066978` | `0x7a` | `0x80a04a2` | `0x76` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,44 +1,49 @@
+@@ -1,44 +1,42 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
-+push   %esi
-+push   %ebx
-+sub    $0x20,%esp
+ sub    $0x28,%esp
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <time>
@@ -31,18 +28,14 @@
  mov    0x14(%eax),%eax
 -sub    $0x64,%eax
 -mov    %eax,%edx
-+lea    -0x64(%eax),%esi
-+mov    -0xc(%ebp),%eax
-+mov    0x10(%eax),%eax
-+lea    0x1(%eax),%ebx
-+mov    %esi,%edx
++lea    -0x64(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,(%eax)
--mov    -0xc(%ebp),%eax
--mov    0x10(%eax),%eax
+ mov    -0xc(%ebp),%eax
+ mov    0x10(%eax),%eax
 -add    $0x1,%eax
 -mov    %eax,%edx
-+mov    %ebx,%edx
++lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x1(%eax)
  mov    -0xc(%ebp),%eax
@@ -65,11 +58,7 @@
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x5(%eax)
--leave
-+add    $0x20,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -106,13 +95,11 @@ void CommonTime::SetCurTime()
     time_t t;
     time(&t);
     tm* p = localtime(&t);
-    register int v0 = p->tm_year - 100;
-    register int v1 = p->tm_mon + 1;
-    m_year = (unsigned char)v0;
-    m_month = (unsigned char)v1;
-    m_day = (unsigned char)(p->tm_mday);
-    m_hour = (unsigned char)(p->tm_hour);
-    m_minute = (unsigned char)(p->tm_min);
-    m_wday = (unsigned char)(p->tm_wday);
+    m_year = p->tm_year - 0x64;
+    m_month = p->tm_mon + 1;
+    m_day = p->tm_mday;
+    m_hour = p->tm_hour;
+    m_minute = p->tm_min;
+    m_wday = p->tm_wday;
 }
 ```

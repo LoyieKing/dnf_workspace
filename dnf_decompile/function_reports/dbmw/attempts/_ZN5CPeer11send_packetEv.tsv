@@ -1,2 +1,3 @@
 register int n → int n（去register）	IDENTICAL_AE(send_packetEPci)；send_packetEv DIFF(栈槽形态)	2026-08-12
 4.1.2-52 整TU	DIFF(更差,90行)	2026-08-12
+去掉n局部,write(...,m_remainSendLen) + int ret=0	send_packetEv DIFF->NEAR(仅栈帧0x30vs0x20)	2026-08-15

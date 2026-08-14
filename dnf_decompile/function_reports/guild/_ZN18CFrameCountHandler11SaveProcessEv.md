@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x804ce22` | `0x80` | `0x8088c2e` | `0x80` |
+| guild | NEAR | `0x804ce22` | `0x80` | `0x8088884` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,22 +27,24 @@
  mov    0x8(%ebp),%eax
  movzbl 0x28(%eax),%eax
  test   %al,%al
--setne  %al
--test   %al,%al
-+setne  %bl
-+test   %bl,%bl
+ setne  %al
+ test   %al,%al
  je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x79>
  mov    0x8(%ebp),%eax
- mov    0x4(%eax),%esi
+-mov    0x4(%eax),%esi
++mov    0x4(%eax),%ebx
  mov    0x8(%ebp),%eax
- mov    0x18(%eax),%ebx
+-mov    0x18(%eax),%ebx
++mov    0x18(%eax),%esi
  movl   $0xa8,0x8(%esp)
  movl   $&_ZZN18CFrameCountHandler11SaveProcessEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %esi,0x10(%esp)
- mov    %ebx,0xc(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
++mov    %ebx,0x10(%esp)
++mov    %esi,0xc(%esp)
  movl   $"FPS(%02d) / DFC(%02d)\n",0x8(%esp)
  movl   $"./log/frame",0x4(%esp)
  lea    -0x10(%ebp),%eax

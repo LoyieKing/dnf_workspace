@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091af6` | `0x120` | `0x80575aa` | `0xfc` |
+| guild | DIFF | `0x8091af6` | `0x120` | `0x8057584` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,74 @@
+@@ -1,83 +1,87 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x68,%esp
@@ -23,20 +23,20 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x11e>
-+je     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x26>
++je     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x30>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
++xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x11d>
--lea    -0x55(%ebp),%eax
-+je     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x2d>
++je     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x30>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x32>
++jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x35>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xf9>
-+lea    -0x53(%ebp),%eax
++je     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x12a>
+ lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Guild_Notify_Guild_Member_MemoC1Ev>
  mov    0xc(%ebp),%eax
@@ -49,22 +49,21 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x1d,-0xc(%ebp)
 -jg     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x79>
-+jbe    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x6e>
-+movl   $0x1d,-0xc(%ebp)
++jg     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x88>
  mov    -0xc(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x55(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
+ lea    -0x55(%ebp),%eax
+ add    $0x12,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x96>
--movl   $0x1d,0x8(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x55(%ebp),%eax
-+lea    -0x53(%ebp),%eax
++jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xa5>
+ movl   $0x1d,0x8(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x55(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -74,46 +73,40 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x14,-0xc(%ebp)
 -jg     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xc8>
-+jbe    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xa5>
-+movl   $0x14,-0xc(%ebp)
++jg     <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xd7>
  mov    -0xc(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x55(%ebp),%eax
--add    $0x30,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
+ lea    -0x55(%ebp),%eax
+ add    $0x30,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xe5>
--movl   $0x14,0x8(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x55(%ebp),%eax
--add    $0x30,%eax
-+lea    -0x53(%ebp),%eax
-+add    $0x2f,%eax
++jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xf4>
+ movl   $0x14,0x8(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x55(%ebp),%eax
+ add    $0x30,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x4b(%ebp)
-+mov    %eax,-0x49(%ebp)
+ mov    %eax,-0x4b(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x47(%ebp)
--lea    -0x55(%ebp),%eax
-+mov    %eax,-0x45(%ebp)
-+lea    -0x53(%ebp),%eax
+ mov    %eax,-0x47(%ebp)
+ lea    -0x55(%ebp),%eax
  movl   $0x45,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0x11e>
-+jmp    <T> <_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc+0xfa>
- nop
+-nop
  leave
  ret
 ```
@@ -170,31 +163,36 @@ CGuild::_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc(CGuild *this,CUser *param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2064 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2047 行）：
 
 ```cpp
 void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)
 {
-    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) != 0 && !m_members.empty())
     {
-        return;
+        Packet_Guild_Notify_Guild_Member_Memo pkt;
+        char* name = user->GetCharName();
+        int n = (int)strlen(name);
+        if ((int)n < 0x1e)
+        {
+            memcpy(pkt.m_name, name, n);
+        }
+        else
+        {
+            memcpy(pkt.m_name, name, 0x1d);
+        }
+        n = strlen(memo);
+        if ((int)n < 0x15)
+        {
+            memcpy(pkt.m_memo, memo, n);
+        }
+        else
+        {
+            memcpy(pkt.m_memo, memo, 0x14);
+        }
+        pkt.m_channel = user->GetIdByChannel();
+        pkt.m_charNo = user->GetUniqCharNo();
+        user->SendToGameserver((char*)&pkt, 0x45);
     }
-    Packet_Guild_Notify_Guild_Member_Memo pkt;
-    char* name = user->GetCharName();
-    size_t n = strlen(name);
-    if (n > 0x1d)
-    {
-        n = 0x1d;
-    }
-    memcpy(pkt.m_name, name, n);
-    n = strlen(memo);
-    if (n > 0x14)
-    {
-        n = 0x14;
-    }
-    memcpy(pkt.m_memo, memo, n);
-    pkt.m_channel = user->GetIdByChannel();
-    pkt.m_charNo = user->GetUniqCharNo();
-    user->SendToGameserver((char*)&pkt, 0x45);
 }
 ```

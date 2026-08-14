@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80694aa` | `0xdf` | `0x808c934` | `0xe5` |
+| guild | NEAR | `0x80694aa` | `0xdf` | `0x808c8da` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,68 @@
+@@ -1,66 +1,66 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,19 +22,15 @@
  sub    $0x4c,%esp
  mov    0x10(%ebp),%eax
  test   %eax,%eax
--je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xcf>
+ je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xcf>
 -lea    -0x28(%ebp),%eax
-+jne    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x1a>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xda>
 +lea    -0x20(%ebp),%eax
  lea    0x10(%ebp),%edx
  mov    %edx,0x8(%esp)
  lea    0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRKjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
-+call   <T> <_ZSt9make_pairIRjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
+ call   <T> <_ZSt9make_pairIRKjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
  sub    $0x4,%esp
 +lea    -0x20(%ebp),%eax
 +mov    %eax,0x4(%esp)
@@ -57,11 +53,9 @@
 -movzbl -0x34(%ebp),%eax
 +movzbl -0x2c(%ebp),%eax
  test   %al,%al
--je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x70>
-+je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x76>
+ je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x70>
  mov    $0x1,%eax
--jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xd4>
-+jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xda>
+ jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xd4>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -150,21 +144,20 @@ CUserManager::_ZN12CUserManager17InsertUser_CharNoEjP5CUser
 ```cpp
 bool CUserManager::InsertUser_CharNo(unsigned int charNo, CUser* user)
 {
-    if (user == 0)
+    if (user != 0)
     {
-        return 0;
+        if (m_charNoUsers.insert(std::make_pair((const unsigned int&)charNo, user)).second)
+        {
+            return 1;
+        }
+        register char* name = user->GetCharName();
+        register unsigned int dbid = user->GetDBID();
+        register unsigned int nCharNo = charNo;
+        CMyFileLog log(__FUNCTION__, 0x163);
+        log("./log/Except",
+            "[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",
+            nCharNo, dbid, name);
     }
-    if (m_charNoUsers.insert(std::make_pair(charNo, user)).second)
-    {
-        return 1;
-    }
-    register char* name = user->GetCharName();
-    register unsigned int dbid = user->GetDBID();
-    register unsigned int nCharNo = charNo;
-    CMyFileLog log(__FUNCTION__, 0x163);
-    log("./log/Except",
-        "[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",
-        nCharNo, dbid, name);
     return 0;
 }
 ```

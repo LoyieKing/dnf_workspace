@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80726ba` | `0x2dd` | `0x8068ce6` | `0x2d9` |
+| guild | DIFF | `0x80726ba` | `0x2dd` | `0x8068ca2` | `0x2df` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,65 +13,52 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,183 +1,181 @@
+@@ -1,183 +1,184 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x50,%esp
  mov    0x8(%ebp),%eax
--mov    %eax,-0x18(%ebp)
--mov    -0x18(%ebp),%eax
+ mov    %eax,-0x18(%ebp)
+ mov    -0x18(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x155>
--mov    -0x18(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x153>
-+mov    0x8(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x157>
+ mov    -0x18(%ebp),%eax
  lea    0xd0(%eax),%ebx
--mov    -0x18(%ebp),%eax
--lea    0x13(%eax),%ecx
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+add    $0x13,%eax
-+mov    %eax,%edx
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
+ lea    0x13(%eax),%ecx
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
-+add    $0x290,%ecx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
  mov    %ebx,0xc(%esp)
--mov    %ecx,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %ecx,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+mov    %ecx,(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9LoadGuildEjR17STGuildDBInfoOnlyPc>
 -xor    $0x1,%eax
--test   %al,%al
++test   %eax,%eax
++sete   %al
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x99>
--mov    -0x18(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+cmpl   $0x1,-0x18(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x97>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x9b>
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%ebx
  movl   $0x202,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnReplyQueryGuild()\tLoadGuild Err(%d)",0x8(%esp)
  movl   $"./log/GuildErr",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x290,%edx
@@ -79,11 +66,9 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager22SendGuildInfoToMembersEjb>
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    0xf(%eax),%edx
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
  add    $0x290,%ecx
@@ -91,14 +76,12 @@
  mov    %eax,0x4(%esp)
  mov    %ecx,(%esp)
  call   <T> <_ZN13CGuildManager11AttendGuildEjj>
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  movzbl 0xb1(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d6>
--mov    -0x18(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d2>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d8>
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x290,%edx
@@ -112,9 +95,8 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d6>
--mov    -0x18(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d2>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d8>
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%eax
  mov    %eax,0x8(%esp)
  mov    -0x10(%ebp),%eax
@@ -123,9 +105,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13LoadGuildAgitEP14CServerHandlerj>
 -jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d6>
--mov    -0x18(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d2>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d8>
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x290,%edx
@@ -133,32 +114,28 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager22SendGuildInfoToMembersEjb>
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    0xb(%eax),%esi
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  movzbl 0xa(%eax),%eax
  movzbl %al,%ebx
  movl   $0x21d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"[DB ERROR]CPacketTranslater::OnReplyQueryGuild() packet->bSuccess : %d,guildKey(%d)",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d6>
-+jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d2>
++jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d8>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x270>
-+jne    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x26c>
++jne    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x272>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -172,11 +149,6 @@
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnReplyQueryGuild() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x223,0x8(%esp)
-+movl   $"OnReplyQueryGuild",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
@@ -184,22 +156,20 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %eax,%ebx
--movl   $0x223,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0x223,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnReplyQueryGuild() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x269>
-+jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x265>
++jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x26b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -209,25 +179,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d6>
-+jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d2>
++jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d8>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnReplyQueryGuild() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x229,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnReplyQueryGuild() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d1>
-+jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2cd>
++jmp    <T> <_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader+0x2d3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -304,63 +272,63 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1205 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 484 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyQueryGuild(PacketHeader* pkt)
 {
     try
     {
-    if (((PTL_ReplyQueryGuildPkt*)pkt)->m_success == 1)
-    {
-        int rc = (&m_pclApp->m_guildManager)->LoadGuild(
-            ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey,
-            *(STGuildDBInfoOnly*)&((PTL_ReplyQueryGuildPkt*)pkt)->m_info,
-            &((PTL_ReplyQueryGuildPkt*)pkt)->m_info[0xbd]);
-        if (rc != 1)
+        PacketHeader* p = pkt;
+        if (((Packet_DB_Reply_Query_Guild*)p)->m_result == 1)
         {
-            DNF_LOG_SCOPE_LINE(0x202, "./log/GuildErr",
-                "CPacketTranslater::OnReplyQueryGuild()\tLoadGuild Err(%d)",
-                ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey);
-        }
-        (&m_pclApp->m_guildManager)->SendGuildInfoToMembers(
-            ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey, true);
-        (&m_pclApp->m_guildManager)->AttendGuild(
-            ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey,
-            ((PTL_ReplyQueryGuildPkt*)pkt)->m_charNo);
-        if ((unsigned char)((PTL_ReplyQueryGuildPkt*)pkt)->m_info[0x9e] != 0)
-        {
-            CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(
-                ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey);
-            CServerHandler* handler = m_pclApp->Get_ServerHandler();
-            if (guild != 0)
+            if (!(&m_pclApp->m_guildManager)->LoadGuild(
+                    ((Packet_DB_Reply_Query_Guild*)p)->m_guildId,
+                    ((Packet_DB_Reply_Query_Guild*)p)->m_guildInfo,
+                    ((Packet_DB_Reply_Query_Guild*)p)->m_rest))
             {
-                guild->LoadGuildAgit(handler,
-                                     ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey);
+                DNF_LOG_SCOPE_LINE(0x202, "./log/GuildErr",
+                    "CPacketTranslater::OnReplyQueryGuild()\tLoadGuild Err(%d)",
+                    ((Packet_DB_Reply_Query_Guild*)p)->m_guildId);
+            }
+            (&m_pclApp->m_guildManager)->SendGuildInfoToMembers(
+                ((Packet_DB_Reply_Query_Guild*)p)->m_guildId, true);
+            (&m_pclApp->m_guildManager)->AttendGuild(
+                ((Packet_DB_Reply_Query_Guild*)p)->m_guildId,
+                ((Packet_DB_Reply_Query_Guild*)p)->m_characNo);
+            if (((Packet_DB_Reply_Query_Guild*)p)->m_guildInfo.m_agitFlag != 0)
+            {
+                CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(
+                    ((Packet_DB_Reply_Query_Guild*)p)->m_guildId);
+                CServerHandler* handler = m_pclApp->Get_ServerHandler();
+                if (guild != 0)
+                {
+                    guild->LoadGuildAgit(handler,
+                                         ((Packet_DB_Reply_Query_Guild*)p)->m_guildId);
+                }
             }
         }
-    }
-    else
-    {
-        (&m_pclApp->m_guildManager)->SendGuildInfoToMembers(
-            ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey, true);
-        DNF_LOG_SCOPE_LINE(0x21d,"./log/Except",
-            "[DB ERROR]CPacketTranslater::OnReplyQueryGuild() packet->bSuccess : %d,guildKey(%d)",
-            (unsigned int)((PTL_ReplyQueryGuildPkt*)pkt)->m_success,
-            ((PTL_ReplyQueryGuildPkt*)pkt)->m_guildKey);
-    }
+        else
+        {
+            (&m_pclApp->m_guildManager)->SendGuildInfoToMembers(
+                ((Packet_DB_Reply_Query_Guild*)p)->m_guildId, true);
+            DNF_LOG_SCOPE_LINE(0x21d, "./log/Except",
+                "[DB ERROR]CPacketTranslater::OnReplyQueryGuild() packet->bSuccess : %d,guildKey(%d)",
+                (unsigned int)((Packet_DB_Reply_Query_Guild*)p)->m_result,
+                ((Packet_DB_Reply_Query_Guild*)p)->m_guildId);
+        }
     }
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnReplyQueryGuild() Exception Break : %s\n", e.what());
-        CMyFileLog log("OnReplyQueryGuild", 0x223);
-        log("./log/Except", "CPacketTranslater::OnReplyQueryGuild() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x223, "./log/Except",
+            "CPacketTranslater::OnReplyQueryGuild() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnReplyQueryGuild() Exception Break");
-        CMyFileLog log(__FUNCTION__, 0x229);
-        log("./log/Except", "CPacketTranslater::OnReplyQueryGuild() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x229, "./log/Except",
+            "CPacketTranslater::OnReplyQueryGuild() Exception Break\n");
     }
 }
 ```

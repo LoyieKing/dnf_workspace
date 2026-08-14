@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8086350` | `0x384` | `0x8063cba` | `0x368` |
+| dbmw | DIFF | `0x8086350` | `0x384` | `0x8063cba` | `0x359` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,234 +1,228 @@
+@@ -1,234 +1,224 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x68,%esp
@@ -28,7 +28,7 @@
 -jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x382>
 +jne    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x20>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -64,7 +64,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -98,7 +98,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
@@ -130,10 +130,17 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x358>
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x338>
++mov    0x10(%ebp),%eax
++mov    0xa(%eax),%eax
++cmp    -0x10(%ebp),%eax
++jbe    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x16c>
++cmpl   $0x1d,-0x10(%ebp)
++jbe    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x176>
++mov    $0x1,%eax
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -148,7 +155,7 @@
 -je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x1cd>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x1b9>
++je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x1cf>
  movl   $0x282a,0x8(%esp)
  movl   $&_ZZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfoE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
@@ -166,7 +173,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  movl   $0x0,-0xc(%ebp)
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
@@ -196,7 +203,7 @@
 -je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x255>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x23d>
++je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x253>
  movl   $0x2833,0x8(%esp)
  movl   $&_ZZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfoE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -214,7 +221,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -243,7 +250,7 @@
 -je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x2d6>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x2ba>
++je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x2d0>
  movl   $0x283a,0x8(%esp)
  movl   $&_ZZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfoE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -261,7 +268,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -290,7 +297,7 @@
 -je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x354>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x334>
++je     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x34a>
  movl   $0x2841,0x8(%esp)
  movl   $&_ZZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfoE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -308,27 +315,22 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x362>
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x353>
  addl   $0x1,-0x10(%ebp)
- mov    0x10(%ebp),%eax
- mov    0xa(%eax),%eax
- cmp    -0x10(%ebp),%eax
+-mov    0x10(%ebp),%eax
+-mov    0xa(%eax),%eax
+-cmp    -0x10(%ebp),%eax
 -jbe    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x370>
-+jle    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x350>
- cmpl   $0x1d,-0x10(%ebp)
+-cmpl   $0x1d,-0x10(%ebp)
 -ja     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x370>
-+jg     <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x350>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x375>
 -mov    $0x0,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x16d>
-+jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x355>
-+mov    $0x0,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x160>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -leave
++jmp    <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo+0x15b>
 +add    $0x64,%esp
 +pop    %ebx
 +pop    %ebp

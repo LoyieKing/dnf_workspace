@@ -1,14 +1,5 @@
 source_excerpt	result	date
-基线：guard 内层作用域 + it 在 if(flag) 块内 copy-init（R40 形态）	NEAR(同)	2026-08-12
-it 移到函数作用域 guard 块之前（std::map<...>::iterator it; + it=find）	DIFF(更差)	2026-08-12
-it 函数作用域 + {0} 聚合初始化	DIFF(更差)	2026-08-12
-union { void* raw; iterator it; }	DIFF(更差)	2026-08-12
-iterator&& it = find(...)（右值引用）	DIFF(更差)	2026-08-12
-const iterator& it = find(...)（常引用）	DIFF(更差)	2026-08-12
-it 外包一层额外块	NEAR(同)	2026-08-12
-guard 块前插空块 { unsigned int qpad; }	NEAR(同)	2026-08-12
-unsigned int key 临时变量再 find	DIFF(更差)	2026-08-12
-if(flag) 改嵌套 if-else（it 入 else 块）	NEAR(同)	2026-08-12
-分支极性反转（!empty 在前）	DIFF(更差)	2026-08-12
-A/B 编译器：4.4.7/4.4.6-3/4.4.4/4.1.2 全试，槽位互换依旧（4.1.2 整体更差）	NEAR(同)	2026-08-12
-结论：ORIG it(-0x4c)/guard(-0x50) 为声明序分配，ours 反之；copy-init 必须在 guard 之后、声明序必须在前，二者互斥；无 ctor 的等价形态穷举失败	NEAR	2026-08-12
+iterator it 声明在 if(flag) 块内（copy-init：iterator it = find(...)），guard 在嵌套 {} 块	NEAR(guard=-0x4c,it=-0x50 与 ORIG 互换)	2026-08-14
+iterator it 提到函数作用域（guard 块之前声明，块内赋值 it=find(...)）	DIFF(更差)	2026-08-14
+iterator it 拆分声明/赋值（iterator it; it=find(...) 在 if 块内）	DIFF(更差)	2026-08-14
+iterator it 包一层嵌套 {} 块（与 guard 块同为 naked block）	NEAR(同，仍互换)	2026-08-14

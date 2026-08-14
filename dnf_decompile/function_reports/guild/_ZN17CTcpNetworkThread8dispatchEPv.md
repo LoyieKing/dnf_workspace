@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805a2a0` | `0x457` | `0x808711e` | `0x45e` |
+| guild | DIFF | `0x805a2a0` | `0x457` | `0x80870d6` | `0x45e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -127,12 +127,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer18get_remain_sendlenEv>
  cmp    $0x1800,%eax
--seta   %al
--test   %al,%al
--jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1a8>
-+setbe  %al
-+test   %al,%al
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1a8>
+ seta   %al
+ test   %al,%al
+ jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1a8>
  mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer11send_packetEv>
@@ -495,7 +492,10 @@ void CTcpNetworkThread::dispatch(void* param)
                     if (peer != 0 && peer->get_remain_sendlen() != 0 &&
                         ((CTcpHandler*)m_handler)->IsSetOutEvent(i))
                     {
-                        if ((unsigned int)peer->get_remain_sendlen() <= 0x1800)
+                        if ((unsigned int)peer->get_remain_sendlen() > 0x1800)
+                        {
+                        }
+                        else
                         {
                             peer->send_packet();
                         }
