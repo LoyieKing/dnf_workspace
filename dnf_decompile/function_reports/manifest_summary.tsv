@@ -1,2 +1,6 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
 statics	843	580	227	0	36	0	0	5241	36
+dbmw	1277	757	383	13	124	0	0	6875	137
+monitor	1679	1089	426	12	152	0	0	6247	164
+guild	1550	1003	375	17	155	0	0	5501	172
+manager	770	514	256	0	0	0	0	5509	0
