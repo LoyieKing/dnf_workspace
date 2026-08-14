@@ -1,0 +1,12 @@
+status	name	change	verdict
+IDENTICAL_AE	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	MemoryCashManager::QueryCashMemoryBlackList 返回类型 int -> bool，消除 test/sete 差异	verified /tmp/sub_guild_final
+IDENTICAL_AE	_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader	CGuildManager::LoadGuild 返回类型 int -> bool，消除 test/sete 差异	verified /tmp/sub_guild_final
+IDENTICAL_AE	_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader	Packet_DB_Load_Request_Guild_Board_Delete 加 #pragma pack，修正 m_b/m_c/m_d 偏移	verified /tmp/sub_guild_final
+NEAR	_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember	改为 &member 直接 reinterpret，消除一次 mov；剩余 LHS/RHS 求值顺序尾音	verified /tmp/sub_guild_final
+DIFF	_ZN17STGuildDBInfoOnlyC1Ev/_ZN17STGuildDBInfoOnlyC2Ev	m_flags 改为 ORIG 的 |=1/&=~2 读改写；剩余 this/eax 寄存器分配尾音	verified /tmp/sub_guild_final
+DIFF	_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog	重建 ORIG 局部 c=idx 且条件用 idx；剩余 clamp 比较栈槽/寄存器尾音	verified /tmp/sub_guild_final
+DIFF	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader	缓存 pb 并去掉 rec 前移；剩余栈槽顺序/EH 尾音	verified /tmp/sub_guild_final
+DIFF	_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader	加 um 局部、pb 缓存、去 guildKey 缓存；剩余栈槽顺序/EH 尾音	verified /tmp/sub_guild_final
+DIFF	_ZN17CPacketTranslater28OnGuildRequestGuildBoardOpenEP12PacketHeader	加 um/pb、去 bool 缓存；剩余栈槽顺序/EH 尾音	verified /tmp/sub_guild_final
+DIFF	_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader	Packet_Monitor_Set_GuildMember_Grade_FromWeb 加 #pragma pack，修正 m_targetCharNo 偏移	verified /tmp/sub_guild_final
+DIFF	_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader	修正 ST_Notice_Guild_Secede 字段用法（ma 用 dbid、expDel.m_group 用 dbid）；剩余栈槽顺序/EH 尾音	verified /tmp/sub_guild_final

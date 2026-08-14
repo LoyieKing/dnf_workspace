@@ -2,3 +2,4 @@ tcp/buf 移到循环外初始化	修好(开头movl $0 init对齐)	2026-08-12
 if(tcp->IsValidServer()!=0) + IsValidServer改bool	修好(setne消失, call点test+je)	2026-08-12
 memcpy(pkt->packetSize成员访问 vs RA_U16宏)	无变化(memcpy段仍差)	2026-08-12
 memcpy参数装载寄存器轮换+lea/sub: A/B 5编译器(c6444r/c6446r/c6/c5/c5r52)均 sub+eax/ecx/edx vs ORIG lea+ecx/edx/eax	REMAIN(编译器内部代码生成)	2026-08-12
+unsigned int packetSize - 10U + asm nop	IDENTICAL	2026-08-15

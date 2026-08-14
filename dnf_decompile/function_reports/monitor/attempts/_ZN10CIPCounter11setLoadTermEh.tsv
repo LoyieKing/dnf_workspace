@@ -4,3 +4,4 @@ register int v=calc; if(v>0x2a30)v=0x2a30; m_term=v;	DIFF(钉ebx+push/pop; ORIG 
 int t=calc; m_term=(t>0x2a30)?0x2a30:t;	DIFF(cmovle; ORIG 分支)	2026-08-12
 A/B: c5-55/c5r52-52/c6444r/c6446r/c6 均无法复现 ORIG 寄存器常驻形态	DIFF	2026-08-12
 2026-08-14T17:43:46Z	scratch iteration; source shape/local ordering/type adjustment; see diff
+unsigned int v local; 仍栈槽/寄存器尾音	DIFF	2026-08-15

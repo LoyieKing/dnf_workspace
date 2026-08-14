@@ -1,2 +1,3 @@
 timestamp	note
 2026-08-14T17:43:46Z	scratch iteration; source shape/local ordering/type adjustment; see diff
+direct if((short)m_remain<=0)return true/false; 仅剩 setle/test vs jg 编译器尾音	DIFF	2026-08-15
