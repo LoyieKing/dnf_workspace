@@ -82,6 +82,20 @@
   m_field0/m_field4、DNFUser m_field18、DNFTickHandler m_field1c/m_field20、
   OnTimeEventManager m_field40、DNFApplication m_field90：无 Ghidra/使用证据。
 
+## 三.1、2026-08-14 语义对齐（对照 ORIG 反汇编）
+
+| 位置 | 改动 | 依据 |
+|---|---|---|
+| `OnCheckOverlappedAccusation` | 连接号走 `PacketHeader::m_connNo`（+0x6）；`m_name1`/`m_name2`/`m_type`/`m_result` | ORIG `mov 0x6(%eax)`；旧二进制读 +0xa 是错的 |
+| `IncConnLowerMemberExp(int,...)` | 先 `count<=index` 打 0x284，再 `charNo` 不匹配打 0x28c | ORIG 两段独立日志 |
+| `InsertMember` | `r.second == 0` 才打 Already Exist | ORIG `test %al; jne` 跳过日志 |
+| `CCacheCharacterTime::m_charNo` | `int` → `unsigned int` | `map<unsigned int,...>::find` |
+| `CollectGarbage` | 队列为空先返回 | ORIG 顶部 `empty` + 早退 |
+| `SetCurTime` | `tm_year - 0x64`、`tm_mon + 1` | ORIG `sub $0x64` / `add $0x1` |
+
+scratch：`IncConnLowerMemberExp` IDENTICAL_AE；其余仍 DIFF（`lea`/`je` 极性/EH）。
+官方 md 未重刷。
+
 ## 四、验证
 
 - monitor_scratch.sh 全量重编 24 个改动 TU + 链接通过。

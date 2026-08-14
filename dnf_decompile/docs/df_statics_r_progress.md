@@ -1,6 +1,6 @@
 # df_statics_r 还原进度
 
-更新：2026-08-08（FrameLagCollector 大方法 + UdpCharacteristic + CHWSpecResearcher + CGMAccounts + CPacketTranslater 48 处理器，符号命中 99.6%）
+更新：2026-08-14（统计入站包字段还原；scratch：clear / AddDisjointAvatarInfo / AddGoldcardEventStatistic IDENTICAL）
 
 ## 二进制概况
 

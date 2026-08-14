@@ -59,6 +59,10 @@
 - `MISSING` = ORIG 有、NEW 无。
 
 官方水位即 strict 口径的 `IDENTICAL/NEAR/DIFF` 计数（如 channel 204/108/11）。
+`IDENTICAL_AE`（伪代码化后一致、尾部 nop 可裁）视为官方完成，对应 md 删除。
+
+cozy `SEMANTIC_EQ` / `PATH_*`、objdiff 匹配百分比**不是**官方 IDENTICAL，
+不得据此删 md。见 [compare_caliber.md](compare_caliber.md)「辅助语义栈」。
 
 ## 2. 豁免（不计入统计）
 

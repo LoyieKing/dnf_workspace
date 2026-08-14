@@ -76,6 +76,25 @@
 | MonitoringSpecCase | m_field4→m_cpuVendor；m_field5→m_cpuProcessorNum；m_field8→m_aboveCpuClock；m_fieldc→m_belowCpuClock；m_field10→m_ram；m_field14→m_videocardVendor；m_field18→m_videocardDevice；m_field1c→m_videocardTextureMem；m_field1e→m_osVersion | DBMW `monitoring_spec` 列序 + QueryReloadSpecDb |
 | StatisticManager::m_field110 | → m_tingUser | `ting_user_account (m_id, minute)` |
 
+## 2026-08-14：统计入站包字段还原
+
+共享头补命名成员（packed + `TEST_CLASS_SIZE`），statics 对应 Add/Send 去掉 Wire/偏移：
+
+| 结构体 | 字段 | 大小 |
+|---|---|---|
+| `Packet_TowerOfDespair_Statistic_GTS` | `m_padA` +0xa、`m_layer` +0xe、`m_enterFlag` +0x12、`m_serverId` +0x13 | 0x17 |
+| `Packet_Goldcard_Event_Statistic_GTS` | `m_level` +0xa、`m_createCnt` +0xb、`m_openCnt` +0xf | 0x13 |
+| `Packet_Avater_Disjoint_Statistic` | `m_count` +0xa、`Item{m_a,m_b,m_c,m_d}[2]` +0xe | 0x28（count≤2） |
+| `stDisjointAvatarInfoTotal` | `m_count[3][9][2]` + `m_sum[3][9]` 替换 `m_data[0x51]` | 0x144 |
+
+`AddTowerOfDespairStatistic`：`m_enterFlag==0` → `m_tower[layer].m_success++`，
+否则 `m_enter++` 并 `m_serverList.insert(m_serverId)`。
+`SaveFrameLagData` 读 `FrameLagDataLayout`、写 `Packet_Frame_Lag_Statistic_Write_Lag_Index::m_data`。
+
+scratch：`clear` / `AddDisjointAvatarInfo` / `AddGoldcardEventStatistic` IDENTICAL；
+`incCount` / `AddTower` / `SendDBSecretShop` / `SaveFrameLagData` 仍 DIFF（编译器形态）。
+官方 md 未重刷。
+
 ## 保留未改（无证据）
 
 - FrameLagCollector 内部状态字段（m_field0/4/8/c/10/14/18/19/4c/50/6c/8c/90/94/9c/1e4 等）；

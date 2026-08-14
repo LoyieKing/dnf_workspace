@@ -58,6 +58,22 @@
 
 - `compare_statics.py` 的签名缓存 key 加入 `CALIBER_VERSION`，防止旧口径缓存污染新判定。
 
+## 辅助语义栈（2026-08-14，非正式 IDENTICAL）
+
+官方完成条仍是 `compare_common` 严格归一化后的 `IDENTICAL` / `IDENTICAL_AE`。
+下面这些只用来排查「机器码不同但是否同语义」，**不能**用来删 md 或改官方计数：
+
+| 工具 | 输出 | 说明 |
+|---|---|---|
+| `source/toolchain/install_cozy.sh` | 隔离 venv | cozy-re 1.5.4 + angr 9.2.130；pycparser 必须 2.x |
+| `source/toolchain/cozy_compare.py` / `cozy_sweep.py` | `SEMANTIC_EQ` / `PATH_EQ` / `PATH_DIFF` / `TIMEOUT` | 符号执行或按 call/ret 路径比对 |
+| `source/toolchain/simdiff_compare.py` | 路径真值备选 | 不 invoke，只拿 call/ret |
+| `source/toolchain/objdiff_extract.py` / `objdiff_sweep.py` | 指令匹配百分比 | 须先把 FUNC 抽成 ET_REL；直接扫 ET_EXEC 会失败 |
+
+objdiff 低分（尤其 &lt;50%）多数是 `je`/`jne` 极性、`lea` vs `add`/`shl`、空 vs 大小、
+EH landing、libstdc++ ABI，不是业务极性反了。
+
+
 ## identical 豁免口径（2026-08-10 用户规则）
 
 以下“基础内容 / 第三方内容”获得 identical 豁免，**移出统计口径**（不计入

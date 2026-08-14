@@ -4,6 +4,10 @@
 只改名字，不改类型/偏移/大小；scratch 构建二进制与权威 build/dbmw 逐字节一致（`cmp` 通过）。
 依据优先级：function_reports/dbmw 的 Ghidra 反编译 C（SQL 列名/调用语义）＞ 本服务 .cpp 使用上下文 ＞ 跨服务 canonical 名（guild 侧 PacketCounter.h/PTL）。
 
+2026-08-14：`CTcpNetworkThread::dispatch` 控制流对齐 ORIG——`m_net==0` 为
+`continue`；`errno==4` 继续；`errno!=0` 直接 `return`（不打 Terminate）；
+发送长度按无符号和 `0x1800` 比。官方 md 未重刷。
+
 ## DNFPacket.h 结构体/类字段重命名
 
 | 结构体/类 | 旧名 | 新名 | 依据 |

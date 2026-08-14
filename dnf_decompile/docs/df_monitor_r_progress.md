@@ -1,6 +1,6 @@
 # df_monitor_r 还原进度
 
-更新：2026-08-09
+更新：2026-08-14（OnCheckOverlappedAccusation 走 PacketHeader::m_connNo；IncConn IDENTICAL_AE）
 
 ## 第五批（大函数核验 + 真实语义问题修复，2026-08-09 晚）
 

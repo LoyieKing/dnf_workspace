@@ -1,6 +1,6 @@
 # df_guild_r 还原进度
 
-更新：2026-08-08（应用层缺失归零——仅剩 2 个编译器局部 clone，缺失 416→2）
+更新：2026-08-14（ReplyGuildMembersToWeb / OnPacketJoinPower / BoardOpen 改走正式 Packet 字段；官方 non-id 仍 193）
 
 ## 二进制概况
 

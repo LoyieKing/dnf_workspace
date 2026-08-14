@@ -99,6 +99,9 @@ bool、AddGuildFund 反转分支）均使函数 NEAR→DIFF 退化，已回退�
 后续子代理不应再重试这批 NEAR 函数；归零只能靠换编译器（已穷尽）或放宽 ASM 约束。
 真正还能产出 IDENTICAL 的是剩余 DIFF 桶里的真实语义/结构差异。
 
+2026-08-14 续：见 [regression_progress_2026-08-14.md](regression_progress_2026-08-14.md)
+（统计入站包字段、monitor 重叠举报 connNo、dbmw dispatch errno、cozy/objdiff 辅助栈）。
+
 ## 剩余差异的真实构成（源码层，非编译器层）
 
 1. 裸偏移寻址形态（常量/数组索引）——已对 guild/monitor/dbmw 三个 PT + DNFGuild +

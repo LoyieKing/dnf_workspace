@@ -1,6 +1,6 @@
 # df_dbmw_r 还原进度（dbmw，无 DWARF）
 
-生成时间：2026-08-09
+更新：2026-08-14（CTcpNetworkThread::dispatch：m_net==0 continue；errno==4 继续；errno!=0 直接 return）
 
 ## 二进制信息
 
