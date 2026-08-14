@@ -1,2 +1,1 @@
 status	name	orig_addr	orig_size	new_addr	new_size
-NEAR	_ZN13CTcpNetSystem10SendPacketEv	0x8058bf4	0x2f1	0x8066f92	0x2f1

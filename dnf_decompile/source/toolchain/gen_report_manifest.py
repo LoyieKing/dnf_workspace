@@ -49,6 +49,14 @@ ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
 INSTALLER = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
 OUT_ROOT = ROOT / 'function_reports'
 
+# 语义豁免：仅对指定服务生效；经 cozy/PATH_EQ 分析确认无字段/this/ret/调用
+# 语义差异，仅剩编译器栈槽/rodata 地址。字段命名/变量范围/字段范围不得豁免。
+_SERVICE_SEMANTIC_EXEMPT = {
+    'manager': frozenset([
+        '_ZN13CTcpNetSystem10SendPacketEv',
+    ]),
+}
+
 SERVICES = {
     'auction':   ('auction/df_auction_r', 'build/auction/df_auction_r'),
     'point':     ('point/df_point_r', 'build/point/df_point_r'),
@@ -146,6 +154,9 @@ def classify_service(svc, orig_path, new_path, strict_only=False):
     stats = Counter()
     rows = []
     for name, (oaddr, osize) in sorted(osym.items()):
+        if name in _SERVICE_SEMANTIC_EXEMPT.get(svc, frozenset()):
+            stats['EXEMPT_SKIP'] += 1
+            continue
         if is_exempt_symbol(name, dem.get(name, name)):
             stats['EXEMPT_SKIP'] += 1
             continue
