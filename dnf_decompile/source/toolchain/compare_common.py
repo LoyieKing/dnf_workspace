@@ -175,6 +175,12 @@ _EXEMPT_DEMANGLE_SUBSTR = (
 
 def is_exempt_symbol(mangled, demangled=None):
     """返回 True 表示该符号属于豁免范围（不计入 identical 统计）。"""
+    try:
+        from exempt_mysql import MYSQL_EXEMPT_SYMBOLS
+    except Exception:
+        MYSQL_EXEMPT_SYMBOLS = frozenset()
+    if mangled in MYSQL_EXEMPT_SYMBOLS:
+        return True
     if mangled in _EXEMPT_EXACT:
         return True
     if any(s in mangled for s in _EXEMPT_MANGLE_SUBSTR):
