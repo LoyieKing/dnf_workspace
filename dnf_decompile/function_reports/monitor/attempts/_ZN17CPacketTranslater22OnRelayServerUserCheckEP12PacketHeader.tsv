@@ -1,0 +1,1 @@
+新增 Packet_Relay_Server_User_Check（m_dbid/+0xa，m_channel/+0xe），先保存频道再回写在线标记；剩余 DIFF 为 EH	DIFF	2026-08-14

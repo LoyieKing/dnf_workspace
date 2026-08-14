@@ -13,3 +13,7 @@ sockaddr* pto=(sockaddr*)&to; memset(pto,0,0x10)	DIFF(同)	2026-08-12
 -g 标志（x86_64 444/446/447）	DIFF(同)	2026-08-12
 c5-g++ 4.1.2：memset 内联为 4 条 movl，整体结构不同	DIFF(更差)	2026-08-12
 RH i686 4.4.6-3（cc1plus446i386bin）	DIFF(同)	2026-08-12
+sockaddr_in to = {}; 去掉 memset	DIFF(更差: 清零被内联为4条movl, 无memset调用)	2026-08-14
+bzero(&to,0x10)	DIFF(更差: 变为2参bzero调用, 非memset)	2026-08-14
+cc1plus 4.4.4i386/4.4.4bin2/4.4.4r13/4.4.4real/4.4.5 逐一试编 probe	DIFF(同: 全部 constants-first)	2026-08-14
+cc1plus 4.1.1/4.1.2/4.1.2-52 试编 probe	DIFF(更差: memset 内联为4条movl)	2026-08-14

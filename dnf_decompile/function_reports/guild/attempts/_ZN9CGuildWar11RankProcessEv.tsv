@@ -1,0 +1,3 @@
+register bool bRanked; if(bRanked) return;	DIFF(setbe %bl vs ORIG %al)	2026-08-13
+内联 if((unsigned char)m<=1) return;	DIFF(变 jbe 直跳, ORIG 为 setbe;test;jne)	2026-08-13
+while((unsigned char)m<=1){return;}	IDENTICAL_AE	2026-08-14

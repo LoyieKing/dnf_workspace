@@ -1,0 +1,1 @@
+补 Packet_Game_Server_Regist（m_connNo/m_type/m_group/m_channel/m_name/m_port），stServerInfo 用命名成员；剩余 DIFF 为 EH	DIFF	2026-08-14

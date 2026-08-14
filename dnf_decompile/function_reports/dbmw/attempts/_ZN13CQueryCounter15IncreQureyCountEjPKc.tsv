@@ -3,3 +3,18 @@ return m_used[i] == 0;	NEAR(同,4.4.7 仍 xor $1+寄存器搬运)	2026-08-12
 return m_used[i] ? 0 : 1;	DIFF(更差,分支形态)	2026-08-12
 if(!m_used[i]) return 1; 后接 return 0;	DIFF(更差,je/mov分支)	2026-08-12
 编译器扫描 447/446r/444r/41252/-march=i386	均无法复现 ORIG 死 test+尾 nop（447/446r/444r 尾为 mov edx,eax;mov edx,eax;jmp；41252 为栈临时；i386 改变调用序列）	2026-08-12
+bool unused=!m_used[i]; if(unused)return unused; return unused; + trailing nop	DIFF(同/未翻)	2026-08-14
+bool unused=!m_used[i]; return unused;	DIFF(栈槽 -0x9 + edx/eax 搬运)	2026-08-14
+if(!m_used[i]){} 空 then	DIFF(比较被优化掉, 无 xor/test)	2026-08-14
+volatile bool unused=!m_used[i]; (void)unused;	DIFF(xor+栈存, 无 test/jmp/nop)	2026-08-14
+return !m_used[i]; + 尾 __asm__ nop	DIFF(xor; mov edx; mov eax; jmp; nop)	2026-08-14
+target(arch=i586) + return !m_used[i]	DIFF(同 edx/eax 尾, 无 nop)	2026-08-14
+if(idx>0x4f60) goto done; return !m_used[i];	DIFF(xor; mov edx; mov eax; jmp; nop)	2026-08-14
+register bool unused; while(unused) return unused;	DIFF(ebx+test %bl, 更差)	2026-08-14
+do{return !m_used[i];}while(0)	DIFF(同 edx/eax 尾)	2026-08-14
+for(;;){if(idx>0x4f60)break; return !m_used[i];}	DIFF(同 edx/eax 尾)	2026-08-14
+return (char)(1^m_used[i]) / m_used[i]^1 / (char)!((int)m_used[i]) / 0==m_used[i]	DIFF(同 edx/eax 尾)	2026-08-14
+volatile char sink=!m_used[i]; return sink;	DIFF(xor+栈存+edx/eax)	2026-08-14
+while(!m_used[i]) return 1; return 0;	DIFF(xor/test 后仍分支 mov $1/$0)	2026-08-14
+while(!m_used[i]) break; return !m_used[i];	DIFF(死 test 后再算一次 xor+edx/eax)	2026-08-14
+if(idx>0x4f60) goto done; while(!m_used[i]) break;	IDENTICAL	2026-08-14

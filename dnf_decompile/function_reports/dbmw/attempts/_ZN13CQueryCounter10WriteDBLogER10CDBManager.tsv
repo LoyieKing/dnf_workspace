@@ -3,3 +3,11 @@ if(m_interval>0) return; 去 bool	DIFF(jg 直跳 vs ORIG setg/test; 帧 0x5c)	20
 register bool b + register int c; avg=t/c(有符号除法修复)	DIFF(setg %bl vs %al; 帧 0x5c; 剩余 idiv/寄存器搬运/日志槽序/nop)	2026-08-12
 int c(去 register) + register bool	DIFF(更差: 帧 0x50, 丢 edi, 154 行)	2026-08-12
 编译器扫描 447/446r/444r 整 TU	均 DIFF(182 vs 183 同型)	2026-08-12
+while(m_interval>0) return; + 成功路径清零移出 if(count!=0)	DIFF(控制流接近 ORIG, 仍 eax 搬运/槽序)	2026-08-14
+共享 t 局部 + continue/nop 汇合	DIFF(更差: 丢 edi/esi, 帧变小, 不再重算 *1000)	2026-08-14
+register t/c + fail_pad[8] + continue/nop	DIFF(fail/ok 槽 -0x2c/-0x34 vs ORIG -0x2c/-0x24; counts 进 eax)	2026-08-14
+register int c 提到循环顶	DIFF(更差: 先装 counts 再 *1000, 帧 0x5c)	2026-08-14
+unsigned q + DNF_LOG_SCOPE_LINE 内联重算	DIFF(更近: 182/182, 剩 edx/eax 装载+setbe vs setle 共 10 条结构差)	2026-08-14
+signed int q + DNF_LOG_SCOPE_LINE	DIFF(setle 恢复但 counts 再走 eax+%eax,%edx, ~145 条)	2026-08-14
+unsigned q + register unsigned count	DIFF(更差: 先装 counts 再 *1000)	2026-08-14
+signed q + unsigned uq 拷贝	DIFF(更差: 多一槽 -0x20)	2026-08-14

@@ -1,0 +1,1 @@
+补 Packet_Monitor_UDP_Reply_UserInfo / ST_MonitorReplyUserInfo 字段，FindUser 用 m_dbid；剩余 DIFF 为 EH/栈形态	DIFF	2026-08-14

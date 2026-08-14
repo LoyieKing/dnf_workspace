@@ -1,0 +1,1 @@
+FindTcpGameServer 从 channel(+0xb) 改为 pkt->reversed2(+6)；剩余 DIFF 为控制流/EH	DIFF	2026-08-14

@@ -1,0 +1,2 @@
+this+0x30 restored to m_rewardType; pkt remains RA_UINT<10/14> (char* has no named packet type)	DIFF	2026-08-14
+local_c + int* dst + this+0x30	DIFF worse	2026-08-14

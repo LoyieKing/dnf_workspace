@@ -2,3 +2,8 @@ strncpy(si->m_name, tokens[4], 0x10) 原始形态	NEAR(src→eax/dst→edx；ORI
 char* src=tokens[4]; strncpy(si->m_name, src, 0x10)	DIFF(更差：新增栈槽 lea -0x30→-0x34 漂移)	2026-08-12
 strncpy((char*)si+3, tokens[4], 0x10) Ghidra 形态	NEAR(同：仍是寄存器互换)	2026-08-12
 char* dst=(char*)si+3; strncpy(dst, tokens[4], 0x10)	DIFF(更差：栈槽漂移)	2026-08-12
+strncpy(3 + (char*)si, tokens[4], 0x10) 交换加数顺序	NEAR(同：寄存器互换依旧)	2026-08-14
+strncpy(&si->m_name[0], tokens[4], 0x10)	NEAR(同)	2026-08-14
+strncpy(si->m_name, *(tokens+4), 0x10)	DIFF(更差：src 变 lea/add/(%eax) 三指令，块偏移 +5)	2026-08-14
+编译器 A/B c6446r 4.4.6-3 / c6 4.4.7	均 NEAR(同：eax/edx 分配与 c6444r 一致)	2026-08-14
+flags -fno-tree-ter/-fno-ira-coalesce/-fno-ira-share-save-slots/-fno-tree-copyrename	均 NEAR(同)；-fira-algorithm=priority DIFF	2026-08-14

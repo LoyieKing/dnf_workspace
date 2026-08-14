@@ -1,0 +1,1 @@
+补 Packet_Monitor_UDP_Login 字段（m_connNo/m_channelId/m_dbid/m_channel/m_sex/m_ssn），去掉 reversed2/RA_*；剩余 DIFF 为 EH/栈形态	DIFF	2026-08-14
