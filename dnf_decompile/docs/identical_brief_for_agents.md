@@ -205,6 +205,33 @@ MySQL/zlib/NCrypto 等第三方基础库 —— 获得 identical 豁免，移出
 - 本轮不再允许仅凭“语义等价/编译器差异”归档跳过；ARCHIVED/REMAIN
   判定需主 Agent 明确批准。
 
+## 4.3 cozy 语义等价豁免收尾（2026-08-14 用户新增动作流）
+
+当一个二进制/服务的**非 identical 剩余数 < 5**，且对剩余函数反复尝试
+合理源码变体仍无法达到 IDENTICAL/IDENTICAL_AE 时，启动本收尾动作流：
+
+1. 对每个剩余函数用 angr/cozy 做**成对符号执行语义比较**：
+   `source/toolchain/cozy_compare.py <svc> <mangled>`（或
+   `cozy_sweep.py` 批量）。cozy venv 见 `source/toolchain/install_cozy.sh`。
+2. 只有 cozy 给出 **SEMANTIC_EQ**（同一组符号输入下，`this` 内存、
+   指针实参缓冲、调用副作用序列、有返回值时的 `eax` 均观察等价），
+   才允许把该函数从非 identical 计数中**豁免**（semantic_exempt），
+   移出 NEAR/DIFF 统计；md 保留但不计入水位。
+3. **以下三类绝对不允许走 cozy 豁免，必须继续修源码到 IDENTICAL/IDENTICAL_AE**：
+   - **字段偏移/大小**差异：`0xNN(%reg)` 字段位移不同、结构体成员
+     偏移或数组大小不一致、`#pragma pack`/对齐错误；
+   - **变量/栈范围**差异：局部变量槽偏移不同（`lea -0xNN(%ebp)`）、
+     栈帧大小不同、局部变量声明顺序/临时变量往返不同；
+   - **字段命名**差异：类成员名 / 字段名与 ORIG 语义名不一致。
+   这三类都属于“结构体/栈范围/命名未还原”，即使 cozy 判 SEMANTIC_EQ
+   也必须按 §4.1/§4.2 继续修，不得豁免。
+4. 豁免记录写 `function_reports/<svc>/attempts/<mangled>.tsv` 与
+   `function_reports/<svc>/semantic_exempt.tsv`（符号名 + cozy 结论 +
+   差异证据行 + 日期），纳入 git，由根 agent 统一更新 manifest 口径。
+5. 本动作流只用于“收尾 <5 个、确属编译器尾音（寄存器分配/分支极性/对齐
+   nop/lea 折叠等）、语义已被 cozy 证实等价”的函数；不能作为大规模
+   豁免通道，字段/栈/命名问题永远不豁免。
+
 ## 5. 闭环验证（强制）
 
 每次源码改动：**改 → 重建该服务（`bash source/toolchain/build-<svc>.sh`）→
