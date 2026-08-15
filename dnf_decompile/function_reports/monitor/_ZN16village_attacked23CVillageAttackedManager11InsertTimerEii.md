@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a88c6` | `0x1bd` | `0x80a77dc` | `0x239` |
+| monitor | DIFF | `0x80a88c6` | `0x1bd` | `0x80a785e` | `0x24d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,169 @@
+@@ -1,129 +1,178 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -30,13 +30,11 @@
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
--mov    &_ZN16village_attacked20COUNTDOWN_FIRST_TIMEE,%eax
--mov    0xc(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
-+mov    0xc(%ebp),%eax
-+sub    $0x258,%eax
+ mov    &_ZN16village_attacked20COUNTDOWN_FIRST_TIMEE,%eax
+ mov    0xc(%ebp),%edx
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
  mov    %eax,%edx
  mov    %ebx,%eax
  mov    0x8(%ebp),%ecx
@@ -47,7 +45,7 @@
  call   <T> <_ZN16village_attacked30CVillageAttackedCountdownFirstC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x6a>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x70>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -68,13 +66,11 @@
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
--mov    &_ZN16village_attacked21COUNTDOWN_SECOND_TIMEE,%eax
--mov    0xc(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
-+mov    0xc(%ebp),%eax
-+sub    $0x12c,%eax
+ mov    &_ZN16village_attacked21COUNTDOWN_SECOND_TIMEE,%eax
+ mov    0xc(%ebp),%edx
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
  mov    %eax,%edx
  mov    %ebx,%eax
  mov    0x8(%ebp),%ecx
@@ -85,7 +81,7 @@
  call   <T> <_ZN16village_attacked31CVillageAttackedCountdownSecondC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0xd8>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0xe4>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -106,13 +102,11 @@
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
--mov    &_ZN16village_attacked20COUNTDOWN_THIRD_TIMEE,%eax
--mov    0xc(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
-+mov    0xc(%ebp),%eax
-+sub    $0x3c,%eax
+ mov    &_ZN16village_attacked20COUNTDOWN_THIRD_TIMEE,%eax
+ mov    0xc(%ebp),%edx
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
  mov    %eax,%edx
  mov    %ebx,%eax
  mov    0x8(%ebp),%ecx
@@ -123,7 +117,7 @@
  call   <T> <_ZN16village_attacked30CVillageAttackedCountdownThirdC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x144>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x158>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -154,7 +148,7 @@
  call   <T> <_ZN16village_attacked21CVillageAttackedStartC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x1ab>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x1bf>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -185,7 +179,7 @@
  call   <T> <_ZN16village_attacked19CVillageAttackedEndC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x212>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x226>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -272,13 +266,13 @@ void CVillageAttackedManager::InsertTimer(int startTime, int endTime)
     m_startTime = startTime;
     m_endTime = endTime;
     CVillageAttackedCountdownFirst* t1 =
-        new CVillageAttackedCountdownFirst(startTime - 600, 0, this);
+        new CVillageAttackedCountdownFirst(startTime - COUNTDOWN_FIRST_TIME, 0, this);
     m_app->GetTaskScheduler()->AddTask(t1);
     CVillageAttackedCountdownSecond* t2 =
-        new CVillageAttackedCountdownSecond(startTime - 300, 0, this);
+        new CVillageAttackedCountdownSecond(startTime - COUNTDOWN_SECOND_TIME, 0, this);
     m_app->GetTaskScheduler()->AddTask(t2);
     CVillageAttackedCountdownThird* t3 =
-        new CVillageAttackedCountdownThird(startTime - 60, 0, this);
+        new CVillageAttackedCountdownThird(startTime - COUNTDOWN_THIRD_TIME, 0, this);
     m_app->GetTaskScheduler()->AddTask(t3);
     CVillageAttackedStart* t4 = new CVillageAttackedStart(startTime, 0, this);
     m_app->GetTaskScheduler()->AddTask(t4);
