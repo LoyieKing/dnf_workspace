@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a5148` | `0x389` | `0x809c3d6` | `0x391` |
+| guild | DIFF | `0x80a5148` | `0x389` | `0x809c3c2` | `0x391` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -431,7 +431,7 @@ CPowerManager::_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 585 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 590 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
