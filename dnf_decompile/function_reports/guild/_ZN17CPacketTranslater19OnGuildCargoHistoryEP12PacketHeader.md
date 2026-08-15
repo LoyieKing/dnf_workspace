@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8084102` | `0x342` | `0x807a274` | `0x33f` |
+| guild | DIFF | `0x8084102` | `0x342` | `0x807a2ca` | `0x33f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -193,7 +193,7 @@
 -mov    %eax,-0x9cc(%ebp)
 -mov    -0x24(%ebp),%eax
 +mov    %eax,-0x9c4(%ebp)
-+mov    -0x18(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    %eax,-0x9c0(%ebp)
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -422,7 +422,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4466 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4469 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoHistory(PacketHeader* pkt)
@@ -456,7 +456,7 @@ void CPacketTranslater::OnGuildCargoHistory(PacketHeader* pkt)
             {
                 Packet_Guild_Cargo_History_Response reply;
                 reply.ma = user->GetIdByChannel();
-                reply.me = guildKey;
+                reply.me = charNo;
                 guild->GetGuildCargo()->GetHistory(reply.m_log);
                 user->SendTcpGameserver(&reply);
             }

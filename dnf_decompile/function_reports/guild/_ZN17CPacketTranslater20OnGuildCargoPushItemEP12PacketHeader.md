@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808495c` | `0x7b5` | `0x807aaca` | `0x7a2` |
+| guild | DIFF | `0x808495c` | `0x7b5` | `0x807ab20` | `0x7a2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,10 +28,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN36Packet_Channel_Guild_Cargo_Push_ItemC1Ev>
 -mov    -0x34(%ebp),%eax
-+mov    -0x3c(%ebp),%eax
- mov    0xe(%eax),%eax
+-mov    0xe(%eax),%eax
 -mov    %eax,-0xc9(%ebp)
 -mov    -0x34(%ebp),%eax
++mov    -0x3c(%ebp),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,-0xd1(%ebp)
 +mov    -0x3c(%ebp),%eax
  mov    0x12(%eax),%eax
@@ -482,7 +483,7 @@
 -mov    0xe(%eax),%eax
 +mov    %eax,-0x90(%ebp)
 +mov    -0x3c(%ebp),%eax
-+mov    0xa(%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,-0xf8(%ebp)
 +mov    -0x3c(%ebp),%eax
 +movzbl 0x1a(%eax),%eax
@@ -565,9 +566,8 @@
  call   <T> <_ZN5CUser11GetCharNameEv>
  mov    %eax,%ebx
 -mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    -0x3c(%ebp),%eax
-+mov    0xa(%eax),%eax
+ mov    0xe(%eax),%eax
  mov    %eax,%esi
 -mov    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
@@ -614,7 +614,7 @@
 -call   <T> <_ZN6CGuild13GetGuildCargoEv>
 -mov    -0xe0(%ebp),%edx
 +mov    -0x3c(%ebp),%eax
-+mov    0xa(%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,%esi
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -645,7 +645,7 @@
 -mov    %esi,0x8(%esp)
 -mov    %ebx,0x4(%esp)
 +mov    -0x3c(%ebp),%eax
-+mov    0xa(%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,%ebx
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -980,7 +980,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4612 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4615 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoPushItem(PacketHeader* pkt)
@@ -1055,17 +1055,17 @@ void CPacketTranslater::OnGuildCargoPushItem(PacketHeader* pkt)
             return;
         }
         int slot = pb->m_slot;
-        int result = guild->GetGuildCargo()->InsertItem(*(DnfItemInfo*)pb->m_item, slot, pb->m_count, pb->m_itemType, (int)pb->m_guildKey);
+        int result = guild->GetGuildCargo()->InsertItem(*(DnfItemInfo*)pb->m_item, slot, pb->m_count, pb->m_itemType, (int)pb->m_charNo);
         resp.m_c = (unsigned char)result;
         resp.m_d = slot;
         if (result == 0xc1)
         {
-            guild->GetGuildCargo()->InsertHistory((ENUM_GUILD_CARGO_BEHAVIOR)1, (int)pb->m_guildKey, user->GetCharName(),
+            guild->GetGuildCargo()->InsertHistory((ENUM_GUILD_CARGO_BEHAVIOR)1, (int)pb->m_charNo, user->GetCharName(),
                                  ((DnfItemInfo*)pb->m_item)->m_itemId, ((DnfItemInfo*)pb->m_item)->m_addInfo, &((DnfItemInfo*)pb->m_item)->m_opt);
             CServerHandler* handler = m_pclApp->m_serverHandler;
-            guild->GetGuildCargo()->SendHistoryToDBMW(handler, (ENUM_GUILD_CARGO_BEHAVIOR)1, (int)pb->m_guildKey,
+            guild->GetGuildCargo()->SendHistoryToDBMW(handler, (ENUM_GUILD_CARGO_BEHAVIOR)1, (int)pb->m_charNo,
                                      user->GetCharName(), slot, 0, *(DnfItemInfo*)pb->m_item);
-            guild->GetGuildCargo()->SendGuildCargoToDBMW(handler, (int)pb->m_guildKey);
+            guild->GetGuildCargo()->SendGuildCargoToDBMW(handler, (int)pb->m_charNo);
             guild->GetGuildCargo()->PrintCargo((ENUM_GUILD_CARGO_BEHAVIOR)1);
         }
         user->SendTcpGameserver((PacketHeader*)&resp);

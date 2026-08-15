@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8071c7a` | `0x554` | `0x80681d8` | `0x551` |
+| guild | DIFF | `0x8071c7a` | `0x554` | `0x80681ba` | `0x551` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -276,15 +276,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj>
  mov    -0x20(%ebp),%eax
--mov    0xc(%eax),%eax
-+mov    0x32(%eax),%eax
+ mov    0xc(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x33e>
--mov    -0x20(%ebp),%eax
--mov    0xc(%eax),%eax
 +je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x33b>
-+mov    -0x20(%ebp),%eax
-+mov    0x32(%eax),%eax
+ mov    -0x20(%ebp),%eax
+ mov    0xc(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x290(%edx),%ecx
  mov    -0x28(%ebp),%edx

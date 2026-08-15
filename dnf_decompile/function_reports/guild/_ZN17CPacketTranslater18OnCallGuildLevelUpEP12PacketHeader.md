@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807c8a8` | `0x4b0` | `0x8072bf2` | `0x4a6` |
+| guild | DIFF | `0x807c8a8` | `0x4b0` | `0x8072c1a` | `0x4a6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -276,14 +276,12 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x327>
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%ebx
 +je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x31d>
 +mov    -0x2c(%ebp),%eax
-+mov    0x12(%eax),%esi
+ mov    0xe(%eax),%esi
+-mov    -0x28(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
-+mov    0xe(%eax),%ebx
+ mov    0x12(%eax),%ebx
  movl   $0xd9a,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
@@ -540,7 +538,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2613 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2608 行）：
 
 ```cpp
 void CPacketTranslater::OnCallGuildLevelUp(PacketHeader* pkt)
@@ -574,8 +572,8 @@ void CPacketTranslater::OnCallGuildLevelUp(PacketHeader* pkt)
     {
         DNF_LOG_SCOPE_LINE(0xd9a, "./log/GuildModify",
             "CPacketTranslater::OnCallGuildLevelUp(%d : %d) Guild Fund Shortage",
-            pb->m_charNo,
-            pb->m_guildKey);
+            pb->m_guildKey,
+            pb->m_charNo);
         return;
     }
     guild->SubGuildFund(pb->m_fund);

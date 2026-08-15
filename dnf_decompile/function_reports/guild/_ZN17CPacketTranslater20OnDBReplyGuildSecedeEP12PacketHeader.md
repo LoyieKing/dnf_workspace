@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807a888` | `0x6c9` | `0x8070c2e` | `0x6be` |
+| guild | DIFF | `0x807a888` | `0x6c9` | `0x8070c56` | `0x6be` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -405,11 +405,11 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication15Get_ServerGroupEv>
 +movzbl %al,%eax
-+mov    %eax,-0x7a(%ebp)
++mov    %eax,-0x76(%ebp)
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser7GetDBIDEv>
-+mov    %eax,-0x76(%ebp)
++mov    %eax,-0x7a(%ebp)
 +lea    -0x8c(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x20(%ebp),%eax
@@ -799,7 +799,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2187 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2182 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
@@ -862,8 +862,8 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
                 Packet_Guild_Exp_Book_Delete expDel;
                 expDel.m_channel = target->GetIdByChannel();
                 expDel.m_charNo = target->GetUniqCharNo();
-                expDel.m_group = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
-                expDel.m16 = target->GetDBID();
+                expDel.m16 = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
+                expDel.m_group = target->GetDBID();
                 target->SendTcpGameserver((PacketHeader*)&expDel);
             }
         }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8085112` | `0x798` | `0x807b23c` | `0x6e3` |
+| guild | DIFF | `0x8085112` | `0x798` | `0x807b2c2` | `0x805` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,453 +1,420 @@
+@@ -1,453 +1,507 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,7 +23,7 @@
  mov    0x8(%ebp),%eax
  mov    %eax,-0x34(%ebp)
 +movl   $0x1a65,0x8(%esp)
-+movl   $"OnGuildCargoPopItem",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x84(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -53,7 +53,7 @@
 +mov    %edx,0x10(%esp)
 +mov    -0x12c(%ebp),%edx
 +mov    %edx,0xc(%esp)
-+movl   $"POP ITEM(g:%d,cn:%d,sn:%d,pb->m_id:%d,cnt:%d,it:%d,pb->m_uit:%d)",0x8(%esp)
++movl   $"POP ITEM(g:%d,cn:%d,sn:%d,id:%d,cnt:%d,it:%d,uit:%d)",0x8(%esp)
 +movl   $"./log/GuildCargo",0x4(%esp)
 +lea    -0x84(%ebp),%eax
 +mov    %eax,(%esp)
@@ -61,15 +61,15 @@
  lea    -0x109(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Channel_Guild_Cargo_Pop_ItemC1Ev>
--mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,-0xfb(%ebp)
--mov    -0x34(%ebp),%eax
--mov    0x1f(%eax),%eax
--mov    %eax,-0xf7(%ebp)
--mov    -0x34(%ebp),%eax
--mov    0x12(%eax),%eax
--mov    %eax,-0xbd(%ebp)
+ mov    -0x34(%ebp),%eax
+ mov    0xe(%eax),%eax
+ mov    %eax,-0xfb(%ebp)
+ mov    -0x34(%ebp),%eax
+ mov    0x1f(%eax),%eax
+ mov    %eax,-0xf7(%ebp)
+ mov    -0x34(%ebp),%eax
+ mov    0x12(%eax),%eax
+ mov    %eax,-0xbd(%ebp)
 -mov    -0x34(%ebp),%eax
 -mov    0x1f(%eax),%eax
 -mov    %eax,-0x138(%ebp)
@@ -113,7 +113,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x13e>
-+jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x102>
++jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x126>
  movl   $0x1a74,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x7c(%ebp),%eax
@@ -127,7 +127,7 @@
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
 +mov    -0x34(%ebp),%eax
 +mov    0xe(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
@@ -142,59 +142,41 @@
 -mov    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
-+cmpl   $0x0,-0x30(%ebp)
-+jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x161>
-+movl   $0x1a7e,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnGuildCargoPopItem : 0 == pclUser",0x8(%esp)
-+movl   $"./log/GuildCargo",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser14GetIdByChannelEv>
-+mov    %eax,-0xff(%ebp)
-+mov    -0x34(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
-+add    $0x290,%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN13CGuildManager9FindGuildEj>
- mov    %eax,-0x2c(%ebp)
- cmpl   $0x0,-0x2c(%ebp)
+-mov    %eax,-0x2c(%ebp)
+-cmpl   $0x0,-0x2c(%ebp)
 -jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x1a2>
--movl   $0x1a7e,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x74(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnGuildCargoPopItem : 0 == pclUser",0x8(%esp)
--movl   $"./log/GuildCargo",0x4(%esp)
--lea    -0x74(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++cmpl   $0x0,-0x30(%ebp)
++jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x185>
+ movl   $0x1a7e,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x74(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnGuildCargoPopItem : 0 == pclUser",0x8(%esp)
+ movl   $"./log/GuildCargo",0x4(%esp)
+ lea    -0x74(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0xff(%ebp)
--mov    -0x34(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
++mov    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser14GetIdByChannelEv>
+ mov    %eax,-0xff(%ebp)
+ mov    -0x34(%ebp),%eax
+ mov    0xa(%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
 -jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x231>
-+jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x1f3>
++mov    %eax,-0x2c(%ebp)
++cmpl   $0x0,-0x2c(%ebp)
++jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x214>
  movl   $0x1a88,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x6c(%ebp),%eax
@@ -205,20 +187,15 @@
  lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movb   $0x64,-0xbe(%ebp)
--lea    -0x109(%ebp),%eax
--mov    %eax,0x4(%esp)
+ movb   $0x64,-0xbe(%ebp)
+ lea    -0x109(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
-+movl   $0x64,-0xf7(%ebp)
-+lea    -0x109(%ebp),%eax
-+mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x290,%eax
  mov    %eax,(%esp)
@@ -227,7 +204,7 @@
 -je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x2b2>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x27c>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x29a>
  mov    -0x34(%ebp),%eax
  mov    0xa(%eax),%esi
  mov    -0x34(%ebp),%eax
@@ -245,28 +222,23 @@
  lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movb   $0xcc,-0xbe(%ebp)
--lea    -0x109(%ebp),%eax
--mov    %eax,0x4(%esp)
+ movb   $0xcc,-0xbe(%ebp)
+ lea    -0x109(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
++mov    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
 -mov    -0x28(%ebp),%eax
-+movl   $0xcc,-0xf7(%ebp)
-+lea    -0x109(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
 +mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x32f>
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x2fc>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x317>
  mov    -0x34(%ebp),%eax
  mov    0xa(%eax),%esi
  mov    -0x34(%ebp),%eax
@@ -284,21 +256,16 @@
  lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movb   $0xb5,-0xbe(%ebp)
--lea    -0x109(%ebp),%eax
--mov    %eax,0x4(%esp)
+ movb   $0xb5,-0xbe(%ebp)
+ lea    -0x109(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
++mov    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
 -mov    -0x28(%ebp),%eax
-+movl   $0xb5,-0xf7(%ebp)
-+lea    -0x109(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
 +mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildCargoEv>
@@ -309,7 +276,7 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x3b4>
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x386>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x39e>
  mov    -0x34(%ebp),%eax
  mov    0xa(%eax),%esi
  mov    -0x34(%ebp),%eax
@@ -327,21 +294,16 @@
  lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movb   $0xc3,-0xbe(%ebp)
--lea    -0x109(%ebp),%eax
--mov    %eax,0x4(%esp)
+ movb   $0xc3,-0xbe(%ebp)
+ lea    -0x109(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
++mov    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
 -mov    -0x2c(%ebp),%eax
-+movl   $0xc3,-0xf7(%ebp)
-+lea    -0x109(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
 +mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser17GetGuildMemDBInfoEv>
@@ -356,11 +318,11 @@
 -movzbl -0x21(%ebp),%edi
 +mov    %al,-0x25(%ebp)
 +cmpb   $0x3,-0x25(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x424>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x435>
 +cmpb   $0x1,-0x25(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x424>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x435>
 +cmpb   $0x2,-0x25(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x424>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x435>
 +movzbl -0x25(%ebp),%edi
  mov    -0x34(%ebp),%eax
  mov    0xa(%eax),%esi
@@ -380,29 +342,23 @@
  lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movb   $0x24,-0xbe(%ebp)
--lea    -0x109(%ebp),%eax
--mov    %eax,0x4(%esp)
+ movb   $0x24,-0xbe(%ebp)
+ lea    -0x109(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
-+movl   $0x24,-0xf7(%ebp)
-+lea    -0x109(%ebp),%eax
-+mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
  lea    -0xb9(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11DnfItemInfoC1Ev>
  mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%eax
+ mov    0xe(%eax),%eax
 -mov    %eax,-0x128(%ebp)
 -mov    -0x34(%ebp),%eax
 -mov    0x1a(%eax),%eax
-+mov    0xa(%eax),%eax
  mov    %eax,-0x124(%ebp)
 +mov    -0x34(%ebp),%eax
 +mov    0x16(%eax),%eax
@@ -416,12 +372,10 @@
  mov    -0x34(%ebp),%eax
  mov    0x12(%eax),%ebx
 -mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild13GetGuildCargoEv>
--mov    -0x128(%ebp),%edx
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild13GetGuildCargoEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild13GetGuildCargoEv>
+-mov    -0x128(%ebp),%edx
 +mov    -0x124(%ebp),%edx
  mov    %edx,0x18(%esp)
 -mov    -0x124(%ebp),%edx
@@ -436,7 +390,9 @@
  call   <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii>
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
--mov    %al,-0xbe(%ebp)
++mov    %eax,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
+ mov    %al,-0xbe(%ebp)
 -cmpl   $0xc1,-0x20(%ebp)
 -jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x69d>
 -mov    -0xb9(%ebp),%eax
@@ -467,37 +423,107 @@
 -mov    %eax,-0xc3(%ebp)
 -movzbl -0x85(%ebp),%eax
 -mov    %al,-0xbf(%ebp)
--mov    -0x34(%ebp),%eax
--mov    0x1a(%eax),%eax
--mov    %eax,-0x120(%ebp)
--mov    -0x34(%ebp),%eax
--mov    0x16(%eax),%edi
--mov    -0x2c(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
-+movzbl %al,%eax
-+mov    %eax,-0xf7(%ebp)
 +cmpl   $0xc1,-0x24(%ebp)
-+jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x5e8>
-+movl   $0x35,0x8(%esp)
++jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x70a>
++lea    -0x109(%ebp),%eax
++lea    0x16(%eax),%edx
 +lea    -0xb9(%ebp),%eax
-+mov    %eax,0x4(%esp)
++mov    (%eax),%eax
++mov    %eax,(%edx)
 +lea    -0x109(%ebp),%eax
 +add    $0x16,%eax
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+mov    -0x34(%ebp),%eax
-+mov    0x16(%eax),%eax
++lea    0x4(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x4,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x8(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x8,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++lea    0x22(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0xc,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x10(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x10,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x14(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x14,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x18(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x18,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x1c(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x1c,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x20(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x24(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x24,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++add    $0x16,%eax
++lea    0x28(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x28,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++lea    0x42(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x2c,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x109(%ebp),%eax
++lea    0x4a(%eax),%edx
++lea    -0xb9(%ebp),%eax
++add    $0x34,%eax
++movzbl (%eax),%eax
++mov    %al,(%edx)
+ mov    -0x34(%ebp),%eax
+ mov    0x1a(%eax),%eax
+-mov    %eax,-0x120(%ebp)
 +mov    %eax,-0x11c(%ebp)
-+mov    -0x34(%ebp),%eax
-+mov    0x1a(%eax),%edi
+ mov    -0x34(%ebp),%eax
+ mov    0x16(%eax),%edi
+-mov    -0x2c(%ebp),%eax
 +mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
  mov    %eax,%ebx
  mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%eax
-+mov    0xa(%eax),%eax
+ mov    0xe(%eax),%eax
  mov    %eax,%esi
 -mov    -0x28(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
@@ -529,12 +555,11 @@
  call   <T> <_ZN5CUser11GetCharNameEv>
  mov    %eax,%ebx
  mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%eax
+ mov    0xe(%eax),%eax
 -mov    %eax,%edi
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    0x68(%eax),%esi
 -mov    -0x28(%ebp),%eax
-+mov    0xa(%eax),%eax
 +mov    %eax,%esi
 +mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -555,20 +580,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildCargo17SendHistoryToDBMWEP14CServerHandler25ENUM_GUILD_CARGO_BEHAVIORiPKciiR11DnfItemInfo>
  mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%eax
+ mov    0xe(%eax),%eax
 -mov    %eax,%esi
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    0x68(%eax),%ebx
 -mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild13GetGuildCargoEv>
--mov    %esi,0x8(%esp)
--mov    %ebx,0x4(%esp)
-+mov    0xa(%eax),%eax
 +mov    %eax,%ebx
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild13GetGuildCargoEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild13GetGuildCargoEv>
+-mov    %esi,0x8(%esp)
+-mov    %ebx,0x4(%esp)
 +mov    %ebx,0x8(%esp)
 +mov    -0x20(%ebp),%edx
 +mov    %edx,0x4(%esp)
@@ -584,16 +606,14 @@
  lea    -0x109(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
 +mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x733>
-+jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x67e>
++jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7a0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -617,7 +637,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x72c>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x677>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x799>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -627,7 +647,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x78d>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d8>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7fa>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1afd,0x8(%esp)
@@ -641,7 +661,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x788>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x6d3>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x7f5>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -895,7 +915,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4709 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4712 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
@@ -903,10 +923,13 @@ void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
     Packet_Guild_Guild_Cargo_Pop_Item* pb = (Packet_Guild_Guild_Cargo_Pop_Item*)pkt;
     try
     {
-    CMyFileLog log0("OnGuildCargoPopItem", 0x1a65);
-    log0("./log/GuildCargo", "POP ITEM(g:%d,cn:%d,sn:%d,pb->m_id:%d,cnt:%d,it:%d,pb->m_uit:%d)",
+    CMyFileLog log0(__FUNCTION__, 0x1a65);
+    log0("./log/GuildCargo", "POP ITEM(g:%d,cn:%d,sn:%d,id:%d,cnt:%d,it:%d,uit:%d)",
          pb->m_guildKey, pb->m_charNo, pb->m_slot, pb->m_id, pb->m_count, (unsigned int)pb->m_itemType, pb->m_uit);
     Packet_Channel_Guild_Cargo_Pop_Item resp;
+    resp.m_b = pb->m_charNo;
+    resp.m_c = pb->m_uit;
+    resp.m_d = pb->m_slot;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1a74, "./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : 0 == m_pclApp");
@@ -923,7 +946,7 @@ void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
     if (guild == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1a88, "./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : 0 == pclGuild");
-        resp.m_c = 100;
+        resp.m_flag = 100;
         user->SendTcpGameserver((PacketHeader*)&resp);
         return;
     }
@@ -931,7 +954,7 @@ void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
     {
         DNF_LOG_SCOPE_LINE(0x1a92,"./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem GUILD CARGO LOCKED!(%d,%d)",
             pb->m_charNo, pb->m_guildKey);
-        resp.m_c = 0xcc;
+        resp.m_flag = 0xcc;
         user->SendTcpGameserver((PacketHeader*)&resp);
         return;
     }
@@ -939,7 +962,7 @@ void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
     {
         DNF_LOG_SCOPE_LINE(0x1a9d,"./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : (%d,%d) No GuildAgit",
             pb->m_charNo, pb->m_guildKey);
-        resp.m_c = 0xb5;
+        resp.m_flag = 0xb5;
         user->SendTcpGameserver((PacketHeader*)&resp);
         return;
     }
@@ -947,7 +970,7 @@ void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
     {
         DNF_LOG_SCOPE_LINE(0x1aa7,"./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : Guild(%d,%d) Not Loaded",
             pb->m_charNo, pb->m_guildKey);
-        resp.m_c = 0xc3;
+        resp.m_flag = 0xc3;
         user->SendTcpGameserver((PacketHeader*)&resp);
         return;
     }
@@ -956,22 +979,34 @@ void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
     {
         DNF_LOG_SCOPE_LINE(0x1ab5,"./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : Access Deny(%d,%d,%d)",
             pb->m_charNo, pb->m_guildKey, (unsigned int)grade);
-        resp.m_c = 0x24;
+        resp.m_flag = 0x24;
         user->SendTcpGameserver((PacketHeader*)&resp);
         return;
     }
     DnfItemInfo poppedItem;
-    int result = guild->GetGuildCargo()->DeleteItem(poppedItem, pb->m_slot, pb->m_count, pb->m_itemType, pb->m_id, (int)pb->m_guildKey);
-    resp.m_c = (unsigned char)result;
+    int result = guild->GetGuildCargo()->DeleteItem(poppedItem, pb->m_slot, pb->m_count, pb->m_itemType, pb->m_id, (int)pb->m_charNo);
+    resp.m_flag = (unsigned char)result;
     if (result == 0xc1)
     {
-        memcpy(&resp.m_item, &poppedItem, 0x35);
-        guild->GetGuildCargo()->InsertHistory((ENUM_GUILD_CARGO_BEHAVIOR)2, (int)pb->m_guildKey, user->GetCharName(),
-                             pb->m_count, pb->m_id, (RandomOption*)((char*)&poppedItem + 0x1d));
+        *(unsigned int*)((char*)&resp.m_item + 0x00) = *(unsigned int*)((char*)&poppedItem + 0x00);
+        *(unsigned int*)((char*)&resp.m_item + 0x04) = *(unsigned int*)((char*)&poppedItem + 0x04);
+        *(unsigned int*)((char*)&resp.m_item + 0x08) = *(unsigned int*)((char*)&poppedItem + 0x08);
+        *(unsigned int*)((char*)&resp.m_item + 0x0c) = *(unsigned int*)((char*)&poppedItem + 0x0c);
+        *(unsigned int*)((char*)&resp.m_item + 0x10) = *(unsigned int*)((char*)&poppedItem + 0x10);
+        *(unsigned int*)((char*)&resp.m_item + 0x14) = *(unsigned int*)((char*)&poppedItem + 0x14);
+        *(unsigned int*)((char*)&resp.m_item + 0x18) = *(unsigned int*)((char*)&poppedItem + 0x18);
+        *(unsigned int*)((char*)&resp.m_item + 0x1c) = *(unsigned int*)((char*)&poppedItem + 0x1c);
+        *(unsigned int*)((char*)&resp.m_item + 0x20) = *(unsigned int*)((char*)&poppedItem + 0x20);
+        *(unsigned int*)((char*)&resp.m_item + 0x24) = *(unsigned int*)((char*)&poppedItem + 0x24);
+        *(unsigned int*)((char*)&resp.m_item + 0x28) = *(unsigned int*)((char*)&poppedItem + 0x28);
+        *(unsigned int*)((char*)&resp.m_item + 0x2c) = *(unsigned int*)((char*)&poppedItem + 0x2c);
+        *(unsigned char*)((char*)&resp.m_item + 0x34) = *(unsigned char*)((char*)&poppedItem + 0x34);
+        guild->GetGuildCargo()->InsertHistory((ENUM_GUILD_CARGO_BEHAVIOR)2, (int)pb->m_charNo, user->GetCharName(),
+                             pb->m_id, pb->m_count, (RandomOption*)((char*)&poppedItem + 0x1d));
         CServerHandler* handler = m_pclApp->m_serverHandler;
-        guild->GetGuildCargo()->SendHistoryToDBMW(handler, (ENUM_GUILD_CARGO_BEHAVIOR)2, (int)pb->m_guildKey,
+        guild->GetGuildCargo()->SendHistoryToDBMW(handler, (ENUM_GUILD_CARGO_BEHAVIOR)2, (int)pb->m_charNo,
                                  user->GetCharName(), pb->m_slot, 0, poppedItem);
-        guild->GetGuildCargo()->SendGuildCargoToDBMW(handler, (int)pb->m_guildKey);
+        guild->GetGuildCargo()->SendGuildCargoToDBMW(handler, (int)pb->m_charNo);
         guild->GetGuildCargo()->PrintCargo((ENUM_GUILD_CARGO_BEHAVIOR)2);
     }
     user->SendTcpGameserver((PacketHeader*)&resp);

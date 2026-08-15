@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8072f1e` | `0x39a` | `0x8069474` | `0x396` |
+| guild | DIFF | `0x8072f1e` | `0x39a` | `0x8069456` | `0x393` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,246 +1,244 @@
+@@ -1,246 +1,243 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
  sub    $0x108c,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,-0x28(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xe2>
 -lea    -0x39(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xe5>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xe8>
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -45,7 +47,8 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x90>
+-jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x90>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x96>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -58,21 +61,25 @@
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x8a>
+-jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x8a>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x90>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xa7>
+-jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xa7>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xad>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xa7>
+-jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xa7>
 -lea    -0x40(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xad>
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xbf>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xc2>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xc5>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xa7>
+-jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xa7>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0xad>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -84,8 +91,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x2b9>
 -lea    -0x39(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x2b4>
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -93,10 +99,9 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
 +mov    -0x28(%ebp),%eax
  mov    0x12(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -107,11 +112,10 @@
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
--je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x165>
--lea    -0x5a(%ebp),%eax
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x168>
+ je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x165>
+-lea    -0x5a(%ebp),%eax
 +lea    -0x4a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Guild_Exp_Book_DeleteC1Ev>
@@ -138,26 +142,21 @@
 +lea    -0x4a(%ebp),%eax
 +mov    %eax,0x4(%esp)
  mov    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x255>
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15Packet_No_CacheC1Ev>
-+mov    -0x28(%ebp),%eax
- mov    0xe(%eax),%eax
+-mov    0xe(%eax),%eax
 -mov    %eax,-0x48(%ebp)
 -lea    -0x5a(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x252>
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+ jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x252>
 -lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN15Packet_No_CacheC1Ev>
++lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN15Packet_No_CacheC1Ev>
 -mov    -0x24(%ebp),%eax
--mov    0xe(%eax),%eax
++mov    -0x28(%ebp),%eax
+ mov    0xe(%eax),%eax
 -mov    %eax,-0x66(%ebp)
 +mov    %eax,-0x56(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -238,7 +237,7 @@
 -mov    -0x24(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38b>
++je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x388>
 +mov    -0x28(%ebp),%eax
  add    $0xa,%eax
  mov    %eax,0x4(%esp)
@@ -252,10 +251,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38f>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38b>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x388>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x335>
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x331>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x32e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -286,7 +285,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x32e>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x32a>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x327>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -296,7 +295,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38f>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38b>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x388>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x2ff,0x8(%esp)
@@ -312,7 +311,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38a>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x386>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x383>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -429,10 +428,10 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHea
 ```cpp
 void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
 {
-    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildSecede : 0 == m_pclApp")
     Packet_Monitor_Notice_Guild_Secede* pb = (Packet_Monitor_Notice_Guild_Secede*)pkt;
     try
     {
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildSecede : 0 == m_pclApp")
         CUser* user =
             m_pclApp->Get_UserManager()->FindUser_CharNo(pb->m_info.m_charNo);
         if (user != 0)

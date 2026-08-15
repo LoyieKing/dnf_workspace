@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807697a` | `0x320` | `0x806cd20` | `0x323` |
+| guild | DIFF | `0x807697a` | `0x320` | `0x806cd5a` | `0x320` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,210 +1,211 @@
+@@ -1,210 +1,210 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
  sub    $0x9c,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,-0x28(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xe2>
-+jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xe5>
++jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xe8>
  lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -41,7 +43,8 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x90>
+-jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x90>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x96>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -53,20 +56,24 @@
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x8a>
+-jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x8a>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x90>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa7>
+-jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa7>
++jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xad>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa7>
+-jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa7>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xad>
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xbf>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xc2>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xc5>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa7>
+-jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa7>
++jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xad>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -75,9 +82,7 @@
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x20d>
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
+ jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x20d>
  lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -85,8 +90,7 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
- mov    0x8(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
+-mov    0x8(%ebp),%eax
 +mov    -0x28(%ebp),%eax
 +mov    0x12(%eax),%eax
  mov    %eax,-0x24(%ebp)
@@ -107,7 +111,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x159>
 -mov    -0x24(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x161>
++je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x15e>
 +mov    -0x28(%ebp),%eax
  mov    0xe(%eax),%ebx
  movl   $0x7bb,0x8(%esp)
@@ -121,8 +125,7 @@
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x318>
+ jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
  lea    -0x8b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22ST_Notice_Guild_SecedeC1Ev>
@@ -174,11 +177,9 @@
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
  call   <T> <_ZN12CUserManager29DeleteBlackUserOnCharacDeleteEj>
--jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x318>
+ jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x2af>
-+jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x2b2>
+ jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x2af>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -211,8 +212,7 @@
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x2a8>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x2ab>
+ jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x2a8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -221,8 +221,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x318>
+ jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnCharacterDelete Exception Break",(%esp)
@@ -237,8 +236,7 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x310>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x313>
+ jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x310>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -322,15 +320,15 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1406 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1405 行）：
 
 ```cpp
 void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
 {
-    THROW_IF_NO_APP("CPacketTranslater::OnCharacterDelete : 0 == m_pclApp");
     char* pb = (char*)pkt;
     try
     {
+    THROW_IF_NO_APP("CPacketTranslater::OnCharacterDelete : 0 == m_pclApp");
         unsigned int guildKey = ((Packet_Monitor_Charac_Delete*)pb)->m_guildKey;
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
