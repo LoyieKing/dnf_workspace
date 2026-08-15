@@ -50,6 +50,19 @@
   CTask_ChristmasEvent::_DoExecute、CUdpHandler::SendToClient（0x61/0x60 边界镜像）、
   QueryCashMemoryBlackList、setLoadTerm/setOption（NEAR 仅栈槽）。
 
+## dbmw 补审（dbmw_diff_audit，覆盖 b8 未审的 ~99 个函数）
+
+### A 类（真实语义 bug，已修）
+- `CDBManager::SendGuildCoinByMail`：ORIG 做 `tm_hour += 1; tm_min = 0;
+  tm_sec = 0`（下一小时整点）；OURS 做 `tm_mday += 1; tm_hour = 0;
+  tm_min = 0`（明天+清时分，秒残留）。已修（注意此前的 6f4f3d22 只修了
+  AwardGuildCoinByMail，两个函数需分别核对）。
+
+### 其余 98 个
+全部逐项核实为编译器形态（栈槽/帧、寄存器、分支镜像、imul↔shl+add 缩放寻址、
+`empty()`↔`size()==0`、make_pair 标准差异、内联拷贝↔memcpy、异常清理差异），
+字符串/调用/常量/字段偏移无差异。
+
 ## 通用结论
 - 剩余 DIFF/NEAR 绝大多数为编译器形态：CSE、栈槽/帧尺寸、分支方向镜像
   （xor+je/jne、jbe/ja）、寄存器分配、异常 landing pad 摆放、跳转目标偏移、
