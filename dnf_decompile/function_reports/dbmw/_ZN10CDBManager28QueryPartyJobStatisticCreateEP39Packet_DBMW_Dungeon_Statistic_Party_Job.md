@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807d160` | `0x6c9` | `0x805698c` | `0x6fc` |
+| dbmw | DIFF | `0x807d160` | `0x6c9` | `0x8056902` | `0x6b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,476 +1,487 @@
+@@ -1,476 +1,463 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -31,7 +31,7 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6bc>
 -movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6ef>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6a7>
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
@@ -62,7 +62,7 @@
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5ef>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x622>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5da>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs4sizeEv>
@@ -80,7 +80,7 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x13(%eax),%eax
-+je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x305>
++je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x2e1>
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -88,7 +88,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x23(%eax),%eax
  mov    %eax,-0x888(%ebp)
@@ -109,7 +108,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1f(%eax),%eax
  mov    %eax,-0x884(%ebp)
@@ -130,7 +128,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x1e(%eax),%eax
  movsbl %al,%eax
@@ -150,7 +147,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1a(%eax),%eax
  mov    %eax,-0x87c(%ebp)
@@ -171,7 +167,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x19(%eax),%eax
  movsbl %al,%eax
@@ -193,7 +188,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x18(%eax),%eax
  movzbl %al,%eax
@@ -215,7 +209,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x17(%eax),%eax
  movzbl %al,%eax
@@ -237,7 +230,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x16(%eax),%eax
  movzbl %al,%eax
@@ -259,7 +251,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x15(%eax),%eax
  movzbl %al,%edi
@@ -280,7 +271,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x14(%eax),%eax
  movsbl %al,%esi
@@ -307,7 +297,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x10(%eax),%ebx
 +mov    0xc(%ebp),%ecx
@@ -317,7 +306,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzwl 0xe(%eax),%eax
  movzwl %ax,%eax
@@ -356,7 +344,7 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x13(%eax),%eax
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x546>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x4fe>
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -364,7 +352,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x23(%eax),%eax
  mov    %eax,-0x868(%ebp)
@@ -385,7 +372,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1f(%eax),%eax
  mov    %eax,-0x864(%ebp)
@@ -406,7 +392,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x1e(%eax),%eax
  movsbl %al,%eax
@@ -426,7 +411,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1a(%eax),%eax
  mov    %eax,-0x85c(%ebp)
@@ -447,7 +431,6 @@
 +add    %edx,%eax
 +lea    0x0(,%eax,4),%edx
 +add    %edx,%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x19(%eax),%eax
  movsbl %al,%eax
@@ -469,7 +452,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x18(%eax),%eax
  movzbl %al,%eax
@@ -491,7 +473,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x17(%eax),%eax
  movzbl %al,%eax
@@ -513,7 +494,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x16(%eax),%eax
  movzbl %al,%eax
@@ -535,7 +515,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x15(%eax),%eax
  movzbl %al,%edi
@@ -556,7 +535,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x14(%eax),%eax
  movsbl %al,%esi
@@ -583,7 +561,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x10(%eax),%ebx
 +mov    0xc(%ebp),%ecx
@@ -593,7 +570,6 @@
 +add    %eax,%edx
 +lea    0x0(,%edx,4),%eax
 +lea    (%edx,%eax,1),%eax
-+add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzwl 0xe(%eax),%eax
  movzwl %ax,%eax
@@ -630,7 +606,7 @@
  seta   %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5d6>
-+je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x609>
++je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5c1>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -656,7 +632,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5c5>
-+je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5f8>
++je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5b0>
  movl   $0x166a,0x8(%esp)
  movl   $&_ZZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_JobE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
@@ -672,13 +648,13 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6b1>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6e4>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x69c>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSs5clearEv>
  subl   $0x1,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5eb>
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x61e>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5d6>
  lea    -0x844(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x44(%ebp),%eax
@@ -717,7 +693,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x68f>
-+je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6c2>
++je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x67a>
  movl   $0x1678,0x8(%esp)
  movl   $&_ZZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_JobE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -732,10 +708,10 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6b1>
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6e4>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x69c>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6b1>
-+jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x6e4>
++jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x69c>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x44(%ebp),%eax

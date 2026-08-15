@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807a74a` | `0x200` | `0x80513c0` | `0x1e6` |
+| dbmw | DIFF | `0x807a74a` | `0x200` | `0x80513b2` | `0x1d8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,155 +1,146 @@
+@@ -1,155 +1,141 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -193,11 +193,6 @@
  mov    %eax,(%esp)
  call   *%ebx
 -mov    -0x24(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x184>
-+mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ce>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -210,13 +205,13 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c6>
-+je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ac>
++je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x19e>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1e8>
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ce>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c0>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1e8>
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ce>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c0>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax

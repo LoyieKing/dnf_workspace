@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8081e1c` | `0x164` | `0x805ba18` | `0x17a` |
+| dbmw | DIFF | `0x8081e1c` | `0x164` | `0x805b8c2` | `0x15d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,115 +1,123 @@
+@@ -1,115 +1,114 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,13 +27,13 @@
  jne    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x15c>
-+jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x172>
++jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x155>
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,-0x20(%ebp)
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x143>
-+jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x157>
++jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x13a>
 +mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -46,7 +46,7 @@
  movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0xc0>
-+je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0xcd>
++je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0xbe>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -86,11 +86,7 @@
  mov    %eax,(%esp)
  call   *%esi
 -jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x120>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x139>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x172>
++jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x11c>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -127,11 +123,6 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%esi
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x139>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x172>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax

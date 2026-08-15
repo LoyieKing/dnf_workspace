@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80808d2` | `0x134` | `0x8052850` | `0x136` |
+| dbmw | DIFF | `0x80808d2` | `0x134` | `0x8052830` | `0x136` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -44,8 +44,7 @@
  mov    -0xc(%ebp),%eax
 -mov    0xc(%ebp),%ecx
  movzbl 0xa(%ecx,%eax,1),%eax
--movzbl %al,%eax
-+movsbl %al,%eax
+ movzbl %al,%eax
  mov    %edx,0x14(%esp)
  mov    -0xc(%ebp),%edx
  mov    %edx,0x10(%esp)

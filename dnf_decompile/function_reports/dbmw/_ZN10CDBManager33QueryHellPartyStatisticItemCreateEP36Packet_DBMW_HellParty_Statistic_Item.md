@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807edc2` | `0x279` | `0x8050f8c` | `0x1ff` |
+| dbmw | DIFF | `0x807edc2` | `0x279` | `0x8050f8c` | `0x1f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,190 +1,147 @@
+@@ -1,190 +1,142 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,7 +35,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x26e>
 -movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1f4>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1e6>
 +movl   $0x0,-0x28(%ebp)
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
@@ -68,7 +68,7 @@
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1de>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1d0>
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
@@ -233,21 +233,6 @@
 -call   *-0x54(%ebp)
 -mov    -0x24(%ebp),%eax
 +call   *-0x5c(%ebp)
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1b2>
-+movl   $0x185c,0x8(%esp)
-+movl   $&_ZZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_ItemE12__FUNCTION__,0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"\nQueryDeathTowerValueStatisticCreate db error!!\n",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1f4>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -260,23 +245,25 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x254>
--movl   $0x185c,0x8(%esp)
--movl   $&_ZZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_ItemE12__FUNCTION__,0x4(%esp)
++je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1cc>
+ movl   $0x185c,0x8(%esp)
+ movl   $&_ZZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_ItemE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"\nQueryDeathTowerValueStatisticCreate db error!!\n",0x8(%esp)
--movl   $"./log/statistic",0x4(%esp)
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"\nQueryDeathTowerValueStatisticCreate db error!!\n",0x8(%esp)
+ movl   $"./log/statistic",0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1da>
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x26e>
 -addl   $0x1,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -cmp    -0x20(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1f4>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1e6>
 +addl   $0x1,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
 +cmp    -0x28(%ebp),%eax
