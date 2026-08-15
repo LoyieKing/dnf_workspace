@@ -238,7 +238,10 @@ def main():
         total = sum(stats.get(k, 0) for k in
                     ('IDENTICAL', 'IDENTICAL_AE', 'NEAR', 'DIFF',
                      'MISSING', 'EMPTY'))
-        non_id = sum(stats.get(k, 0) for k in ('NEAR', 'DIFF', 'MISSING', 'EMPTY'))
+        # 用户口径（2026-08-16）：MISSING 为第三方静态库符号
+        # （mysqlclient / AES-DES-SHA 加密库等），OURS 链接通过即已被内联/
+        # 等价满足，无源码修复意义 —— 不计入 non_identical。
+        non_id = sum(stats.get(k, 0) for k in ('NEAR', 'DIFF', 'EMPTY'))
         summary.append((svc, dict(stats), total, non_id))
         print('   ', dict(stats), '->', len(rows), 'non-identical')
 
