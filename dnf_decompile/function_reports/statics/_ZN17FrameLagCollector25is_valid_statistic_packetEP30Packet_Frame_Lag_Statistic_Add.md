@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8067d94` | `0x186` | `0x8060fd4` | `0x18f` |
+| statics | DIFF | `0x8067d94` | `0x186` | `0x8061006` | `0x18f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -240,15 +240,15 @@ _ZN17FrameLagCollector25is_valid_statistic_packetEP30Packet_Frame_Lag_Statistic_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 582 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 612 行）：
 
 ```cpp
-int FrameLagCollector::is_valid_statistic_packet(Packet_Frame_Lag_Statistic_Add* pkt)
+bool FrameLagCollector::is_valid_statistic_packet(Packet_Frame_Lag_Statistic_Add* pkt)
 {
     if ((char)((FrameLagPktHeader*)pkt)->m_module < 0 ||
         8 < (char)((FrameLagPktHeader*)pkt)->m_module)
     {
-        return 0;
+        return false;
     }
     for (int i = 0; i < 6; i++)
     {

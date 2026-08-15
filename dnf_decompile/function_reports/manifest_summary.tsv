@@ -1,2 +1,2 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
-statics	843	580	227	0	36	0	0	5241	36
+statics	843	578	182	48	35	0	0	5241	83

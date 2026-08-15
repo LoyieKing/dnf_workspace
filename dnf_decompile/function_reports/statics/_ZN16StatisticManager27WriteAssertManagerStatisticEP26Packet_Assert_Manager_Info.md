@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070540` | `0x333` | `0x80706b2` | `0x32f` |
+| statics | DIFF | `0x8070540` | `0x333` | `0x80706b6` | `0x32f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -361,7 +361,7 @@ LAB_08070858:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 664 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 665 行）：
 
 ```cpp
 void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt)
