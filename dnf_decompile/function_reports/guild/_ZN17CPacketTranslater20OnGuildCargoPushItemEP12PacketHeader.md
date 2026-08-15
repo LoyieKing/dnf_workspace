@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808495c` | `0x7b5` | `0x807ab40` | `0x7a2` |
+| guild | DIFF | `0x808495c` | `0x7b5` | `0x807abc6` | `0x7a2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -105,7 +105,7 @@
 -mov    -0x34(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
 +movl   $0x19b3,0x8(%esp)
-+movl   $"OnGuildCargoPushItem",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x8c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -980,7 +980,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4616 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4617 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoPushItem(PacketHeader* pkt)
@@ -995,7 +995,7 @@ void CPacketTranslater::OnGuildCargoPushItem(PacketHeader* pkt)
         resp.m_e = pb->m_fsn;
         resp.m_flag = pb->m_fst;
         char* itemDesc = (char*)CGuildCargo::PrintDnfItemInfo(*(DnfItemInfo*)pb->m_item);
-        CMyFileLog log0("OnGuildCargoPushItem", 0x19b3);
+        CMyFileLog log0(__FUNCTION__, 0x19b3);
         log0("./log/GuildCargo", "PUSH ITEM(g:%d,cn:%d,sn:%d,sl:%d,fsn:%d,fst:%d,it:%d,%s)",
              pb->m_guildKey, pb->m_charNo, pb->m_slot,
              pb->m_count, (unsigned int)pb->m_fsn, (unsigned int)pb->m_fst,

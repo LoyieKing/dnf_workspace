@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80743e8` | `0x589` | `0x806a846` | `0x550` |
+| guild | DIFF | `0x80743e8` | `0x589` | `0x806a910` | `0x550` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -492,7 +492,7 @@
 +call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 +jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x545>
 +movl   $0x462,0x8(%esp)
-+movl   $"OnIncreaseGuildExp",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x74(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -727,7 +727,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 882 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 887 行）：
 
 ```cpp
 void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
@@ -777,7 +777,7 @@ void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
         }
         else
         {
-            CMyFileLog log2("OnIncreaseGuildExp", 0x462);
+            CMyFileLog log2(__FUNCTION__, 0x462);
             log2("./log/Guild",
                  "OnIncreaseGuildExp : guild key(%d), curr guild exp(%d),lev(%d), next guild exp(%d), exp lev(%d)",
                  pb->m_guildKey, oldExp, level, oldExp + addExp, expLevel);
