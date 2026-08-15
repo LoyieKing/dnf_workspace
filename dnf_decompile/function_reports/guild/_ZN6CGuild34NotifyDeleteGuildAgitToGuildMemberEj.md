@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091f30` | `0xee` | `0x8057980` | `0xed` |
+| guild | DIFF | `0x8091f30` | `0xee` | `0x805795e` | `0xf1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,72 +1,73 @@
+@@ -1,72 +1,74 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
@@ -23,27 +23,26 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xec>
-+je     <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xe7>
++je     <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xeb>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xeb>
-+jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xea>
++jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xee>
  lea    -0x27(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Channel_Delete_Guild_AgitC1Ev>
  mov    0xc(%ebp),%eax
  mov    %eax,-0x15(%ebp)
--movb   $0x0,-0x11(%ebp)
+ movb   $0x0,-0x11(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xba>
-+jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xb6>
+ jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xba>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -52,8 +51,7 @@
  cmpl   $0x0,-0xc(%ebp)
  sete   %al
  test   %al,%al
--jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xae>
-+jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xaa>
+ jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xae>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -68,8 +66,7 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xaf>
-+jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xab>
+ jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xaf>
  nop
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -86,12 +83,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0x5a>
+ jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0x5a>
 -jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xec>
-+jne    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0x56>
-+jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xeb>
++jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xef>
 +nop
-+jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xeb>
++jmp    <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj+0xef>
  nop
  leave
  ret
@@ -155,7 +151,7 @@ void __thiscall CGuild::_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj(CGuild 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2210 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2206 行）：
 
 ```cpp
 void CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int charNo)
@@ -170,6 +166,7 @@ void CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int charNo)
     }
     Packet_Channel_Delete_Guild_Agit pkt;
     pkt.m12 = charNo;
+    pkt.m16 = 0;
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {

@@ -171,13 +171,12 @@
 -mov    %eax,%ebx
 +jbe    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x1eb>
  movl   $0x3ee,0x8(%esp)
--movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
+ movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movl   $"BuyGuildSkill",0x4(%esp)
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -439,7 +438,7 @@ bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int char
         unsigned char* learnCnt = &m_dbInfo.m_info.m_skillLearnCnt;
         if (*learnCnt > 0xf)
         {
-            CMyFileLog log("BuyGuildSkill", 0x3ee);
+            CMyFileLog log(__FUNCTION__, 0x3ee);
             log("./log/GuildSkill", "BUY_SKILL_ERR, GKey(%d) , Learn Cnt(%d)", GetGuildKey(),
                 (unsigned int)*learnCnt);
             *learnCnt = 0xf;
