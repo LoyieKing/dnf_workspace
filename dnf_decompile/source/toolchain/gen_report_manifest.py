@@ -243,7 +243,7 @@ def main():
         # 等价满足，无源码修复意义 —— 不计入 non_identical。
         non_id = sum(stats.get(k, 0) for k in ('NEAR', 'DIFF', 'EMPTY'))
         summary.append((svc, dict(stats), total, non_id))
-        print('   ', dict(stats), '->', len(rows), 'non-identical')
+        print('   ', dict(stats), '->', non_id, 'non-identical')
 
     with (out_root / 'manifest_summary.tsv').open('w', encoding='utf-8') as fh:
         w = csv.writer(fh, delimiter='\t', lineterminator='\n')
