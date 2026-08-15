@@ -61,15 +61,16 @@
 +cmpl   $0x0,-0x18(%ebp)
 +jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x7f>
  movl   $0x1ca7,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++movl   $"OnDBLoadReplyGuildBoardOpen",0x4(%esp)
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclUser",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
@@ -95,8 +96,9 @@
 +cmpl   $0x0,-0x10(%ebp)
 +jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xe6>
  movl   $0x1cae,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
++movl   $"OnDBLoadReplyGuildBoardOpen",0x4(%esp)
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -184,13 +186,13 @@
 -jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
 +jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2a9>
 +movl   $0x1c9d,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x38(%ebp),%eax
++movl   $"OnDBLoadReplyGuildBoardOpen",0x4(%esp)
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == m_pclApp",0x8(%esp)
 +movl   $"./log/GuildBoard",0x4(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2a9>
@@ -359,7 +361,8 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
             CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
             if (user == 0)
             {
-                DNF_LOG_SCOPE_LINE(0x1ca7,"./log/GuildBoard",
+                CMyFileLog log2("OnDBLoadReplyGuildBoardOpen", 0x1ca7);
+                log2("./log/GuildBoard",
                     "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclUser");
                 return;
             }
@@ -367,7 +370,8 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guild == 0)
             {
-                DNF_LOG_SCOPE_LINE(0x1cae,"./log/GuildBoard",
+                CMyFileLog log3("OnDBLoadReplyGuildBoardOpen", 0x1cae);
+                log3("./log/GuildBoard",
                     "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclGuild");
                 return;
             }
@@ -384,7 +388,8 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
         }
         else
         {
-            DNF_LOG_SCOPE_LINE(0x1c9d,"./log/GuildBoard",
+            CMyFileLog log1("OnDBLoadReplyGuildBoardOpen", 0x1c9d);
+            log1("./log/GuildBoard",
                 "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == m_pclApp");
         }
     }
