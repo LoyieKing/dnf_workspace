@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809ad34` | `0x21b` | `0x8061456` | `0x22d` |
+| guild | DIFF | `0x809ad34` | `0x21b` | `0x8061436` | `0x219` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,166 +1,169 @@
+@@ -1,166 +1,165 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -25,7 +25,7 @@
  je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x228>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  mov    0x8(%ebp),%edx
  lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -41,7 +41,7 @@
  jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x56>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x228>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  mov    -0x1c(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,-0x18(%ebp)
@@ -94,7 +94,7 @@
  nop
  cmpl   $0x1,-0x14(%ebp)
 -jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
-+jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x223>
++jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x20f>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEC1Ev>
@@ -112,14 +112,10 @@
  sub    $0x4,%esp
  mov    -0x3c(%ebp),%eax
  mov    %eax,-0x30(%ebp)
-+movl   $0x4,0x8(%esp)
- lea    -0x30(%ebp),%eax
+-lea    -0x30(%ebp),%eax
 -mov    (%eax),%eax
--mov    %eax,-0x2c(%ebp)
-+mov    %eax,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
++mov    -0x30(%ebp),%eax
+ mov    %eax,-0x2c(%ebp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -128,10 +124,10 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x160>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x172>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x15e>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x228>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -140,7 +136,7 @@
  mov    %eax,-0x10(%ebp)
  movl   $0x1,-0xc(%ebp)
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1c1>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1d3>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bf>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
@@ -153,7 +149,7 @@
  seta   %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bd>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1cf>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bb>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -168,7 +164,7 @@
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17d>
-+jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x18f>
++jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17b>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -178,7 +174,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x223>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20f>
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -377,7 +373,7 @@ int CGuildWar::SameRankWork()
         std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it2;
         std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator maxItTmp;
         it2 = m_vtGuildWarInfo.begin();
-        memcpy(&maxIt, &it2, sizeof(maxIt));
+        maxIt = it2;
         if ((*maxIt).second == 0)
         {
             return 0;

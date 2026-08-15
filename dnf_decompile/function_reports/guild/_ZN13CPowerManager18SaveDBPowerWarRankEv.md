@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4250` | `0x68a` | `0x809b4da` | `0x674` |
+| guild | DIFF | `0x80a4250` | `0x68a` | `0x809b752` | `0x66a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,9 +26,9 @@
 -je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x67c>
 +mov    %al,-0x35(%ebp)
 +cmpb   $0x0,-0x35(%ebp)
-+je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x66a>
++je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x660>
 +cmpb   $0x2,-0x35(%ebp)
-+jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x66a>
++jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x660>
 +movl   $0x1b6,0x8(%esp)
 +movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x78(%ebp),%eax
@@ -57,7 +57,7 @@
 +add    $0x4,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x34(%ebp)
-+lea    -0x8a1(%ebp),%eax
++lea    -0x89d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_DB_Save_Power_War_User_RankC1Ev>
 -mov    0x8(%ebp),%eax
@@ -71,8 +71,8 @@
 -lea    -0x1829(%ebp),%eax
 +mov    %al,-0x2d(%ebp)
 +movzbl -0x2d(%ebp),%eax
-+mov    %al,-0x896(%ebp)
-+lea    -0x1844(%ebp),%eax
++mov    %al,-0x892(%ebp)
++lea    -0x1840(%ebp),%eax
  mov    %eax,%ebx
  mov    $0x1f3,%esi
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xac>
@@ -94,14 +94,14 @@
  movl   $0xfa0,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x1829(%ebp),%eax
-+lea    -0x1844(%ebp),%eax
++lea    -0x1840(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
 -mov    -0x24(%ebp),%eax
 -mov    %al,-0x87d(%ebp)
 -mov    -0x24(%ebp),%eax
 +mov    -0x20(%ebp),%eax
-+mov    %al,-0x895(%ebp)
++mov    %al,-0x891(%ebp)
 +mov    -0x20(%ebp),%eax
  imul   $0x6c,%eax,%eax
  add    0x8(%ebp),%eax
@@ -112,7 +112,7 @@
 -lea    -0x1829(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +movl   $0x0,-0xb8(%ebp)
-+lea    -0x1844(%ebp),%eax
++lea    -0x1840(%ebp),%eax
  mov    %eax,0x8(%esp)
 -lea    -0x68(%ebp),%eax
 -mov    %eax,0x4(%esp)
@@ -210,9 +210,9 @@
 -mov    -0x68(%ebp),%eax
 -add    $0x1fffff06,%eax
 +ja     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x23c>
-+movb   $0x1,-0x897(%ebp)
++movb   $0x1,-0x893(%ebp)
 +mov    -0xb8(%ebp),%eax
-+mov    %eax,-0x890(%ebp)
++mov    %eax,-0x88c(%ebp)
 +mov    -0xb8(%ebp),%eax
  shl    $0x3,%eax
  mov    %eax,0x8(%esp)
@@ -220,9 +220,9 @@
 -add    $0x7d8,%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x889(%ebp),%eax
-+lea    -0x1844(%ebp),%eax
++lea    -0x1840(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x8a1(%ebp),%eax
++lea    -0x89d(%ebp),%eax
  add    $0x15,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -248,19 +248,19 @@
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x8a1(%ebp),%edx
++lea    -0x89d(%ebp),%edx
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 +jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x305>
 +cmpl   $0x1,-0x20(%ebp)
 +sete   %al
-+mov    %al,-0x897(%ebp)
-+movl   $0xfa,-0x890(%ebp)
++mov    %al,-0x893(%ebp)
++movl   $0xfa,-0x88c(%ebp)
 +movl   $0x7d0,0x8(%esp)
-+lea    -0x1844(%ebp),%eax
++lea    -0x1840(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x8a1(%ebp),%eax
++lea    -0x89d(%ebp),%eax
  add    $0x15,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -277,30 +277,30 @@
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x8a1(%ebp),%edx
++lea    -0x89d(%ebp),%edx
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+movb   $0xfb,-0x895(%ebp)
-+movb   $0x0,-0x897(%ebp)
++movb   $0xfb,-0x891(%ebp)
++movb   $0x0,-0x893(%ebp)
 +mov    -0xb8(%ebp),%eax
 +sub    $0xfa,%eax
-+mov    %eax,-0x890(%ebp)
++mov    %eax,-0x88c(%ebp)
 +mov    -0xb8(%ebp),%eax
 +add    $0x1fffff06,%eax
 +lea    0x0(,%eax,8),%edx
-+lea    -0x1844(%ebp),%eax
++lea    -0x1840(%ebp),%eax
 +add    $0x7d0,%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
-+lea    -0x8a1(%ebp),%eax
++lea    -0x89d(%ebp),%eax
 +add    $0x15,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x8a1(%ebp),%edx
++lea    -0x89d(%ebp),%edx
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
@@ -315,7 +315,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 +jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xce>
-+lea    -0x8a1(%ebp),%eax
++lea    -0x89d(%ebp),%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    -0x2c(%ebp),%eax
 +movw   $0x6d6,(%eax)
@@ -335,7 +335,7 @@
 +mov    -0x2c(%ebp),%edx
 +mov    %al,0xa(%edx)
 +movl   $0x1,-0x18(%ebp)
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x425>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x41b>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,%edx
 +mov    -0x2c(%ebp),%eax
@@ -359,15 +359,16 @@
  call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
 -mov    %eax,-0x18(%ebp)
 -lea    -0x889(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+movl   $0x0,-0xbc(%ebp)
-+mov    -0x2c(%ebp),%eax
- add    $0x10,%eax
- mov    %eax,0x8(%esp)
+-add    $0x10,%eax
+-mov    %eax,0x8(%esp)
 -lea    -0x889(%ebp),%eax
--add    $0xc,%eax
++mov    %eax,-0x14(%ebp)
++mov    -0x2c(%ebp),%eax
++lea    0x10(%eax),%edx
++mov    -0x2c(%ebp),%eax
+ add    $0xc,%eax
 -mov    %eax,0x4(%esp)
-+lea    -0xbc(%ebp),%eax
++mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
@@ -496,7 +497,7 @@
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5b2>
 -lea    -0xa4(%ebp),%eax
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5a4>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x59a>
 +lea    -0xb4(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP20STPowerWarCharacInfoSaIS1_EE4sizeEv>
@@ -509,14 +510,12 @@
 -mov    -0xc(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0xa4(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE2atEj>
-+je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5a0>
++je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x596>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0xb4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EEixEj>
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE2atEj>
  mov    (%eax),%eax
  mov    (%eax),%eax
 -mov    %eax,-0x74(%ebp,%ebx,4)
@@ -568,7 +567,7 @@
 +cmpl   $0x2,-0x10(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x51b>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x511>
  movl   $0x277,0x8(%esp)
  movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -609,7 +608,7 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x65c>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x652>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xa4(%ebp),%eax
@@ -883,8 +882,8 @@ void CPowerManager::SaveDBPowerWarRank()
             memset(guildPkt.m_ranks, 0, 800);
             CPowerWarGuildInfo* guildInfo =
                 m_power[side].GetPowerWarGuildInfo();
-            int count = 0;
-            guildInfo->GetAllGuildRankingInfo(count, (STGuildRank*)((char*)&guildPkt + 0x10));
+            guildInfo->GetAllGuildRankingInfo(
+                *(int*)&guildPkt.m_c, (STGuildRank*)((char*)&guildPkt + 0x10));
             app->Get_ServerHandler()->SendToDB(&guildPkt);
             {
                 DNF_LOG_SCOPE_LINE(0x248,"./log/PowerResult",
@@ -905,7 +904,7 @@ void CPowerManager::SaveDBPowerWarRank()
         {
             if (i < (int)users.size())
             {
-                unsigned int charNo = *(unsigned int*)users[i]->m_data;
+                unsigned int charNo = *(unsigned int*)users.at(i)->m_data;
                 statuePkt.m_rankers[i] = charNo;
                 DNF_LOG_SCOPE_LINE(0x273, "./log/PowerResult", "Last Rank:%d, Charac No:%d", i, charNo);
             }

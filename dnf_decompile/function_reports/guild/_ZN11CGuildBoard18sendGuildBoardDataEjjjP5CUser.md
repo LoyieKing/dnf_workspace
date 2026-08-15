@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d342` | `0x559` | `0x8090a78` | `0x540` |
+| guild | DIFF | `0x809d342` | `0x559` | `0x8090ce6` | `0x542` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,7 +20,7 @@
  sub    $0xd74,%esp
  cmpl   $0x0,0x18(%ebp)
 -je     <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x550>
-+je     <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53a>
++je     <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53c>
  mov    0x8(%ebp),%eax
  add    $0xc,%eax
  mov    %eax,(%esp)
@@ -80,7 +80,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53b>
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53d>
  cmpl   $0x32,-0x20(%ebp)
 -jle    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0xf1>
 +jle    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0xff>
@@ -135,7 +135,7 @@
 -call   <T> <_ZN30Packet_Guild_Reply_Guild_BoardC1Ev>
 -mov    0x14(%ebp),%eax
 -mov    %ax,-0x6c2(%ebp)
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x343>
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x345>
 +mov    0x14(%ebp),%eax
 +mov    %ax,-0x6be(%ebp)
  mov    0x18(%ebp),%eax
@@ -155,7 +155,7 @@
 +movb   $0xa,-0x6b3(%ebp)
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x2c9>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x2c1>
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x2c3>
  mov    -0x10(%ebp),%ebx
 -lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
@@ -175,7 +175,7 @@
  lea    0x4(%eax),%edx
  mov    -0x10(%ebp),%ecx
 -lea    -0x6ce(%ebp),%eax
-+lea    -0xd54(%ebp),%eax
++lea    -0x6ca(%ebp),%eax
  imul   $0xa5,%ecx,%ecx
  add    $0x10,%ecx
  add    %ecx,%eax
@@ -194,9 +194,8 @@
  lea    -0x8(%ebp),%ecx
  lea    (%ecx,%edx,1),%edx
 -sub    $0x646,%edx
--mov    %eax,0x10(%edx)
-+sub    $0xcbc,%edx
-+mov    %eax,(%edx)
++sub    $0x642,%edx
+ mov    %eax,0x10(%edx)
  mov    -0x10(%ebp),%ebx
 -lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
@@ -207,17 +206,16 @@
  lea    -0x8(%ebp),%ecx
  lea    (%ecx,%edx,1),%edx
 -sub    $0x636,%edx
--mov    %eax,0x8(%edx)
++sub    $0x632,%edx
+ mov    %eax,0x8(%edx)
 -lea    -0x44(%ebp),%eax
-+sub    $0xcb4,%edx
-+mov    %eax,(%edx)
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
  lea    0x88(%eax),%edx
  mov    -0x10(%ebp),%ecx
 -lea    -0x6ce(%ebp),%eax
-+lea    -0xd54(%ebp),%eax
++lea    -0x6ca(%ebp),%eax
  imul   $0xa5,%ecx,%ecx
  add    $0x90,%ecx
  add    %ecx,%eax
@@ -275,7 +273,7 @@
 -call   <T> <_ZN30Packet_Guild_Reply_Guild_BoardC1Ev>
 -mov    0x14(%ebp),%eax
 -mov    %ax,-0xd4c(%ebp)
-+je     <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53b>
++je     <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53d>
 +mov    0x14(%ebp),%eax
 +mov    %ax,-0xd48(%ebp)
  mov    0x18(%ebp),%eax
@@ -296,7 +294,7 @@
 +mov    %al,-0xd3d(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4cc>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4b6>
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4b8>
  mov    -0xc(%ebp),%ebx
 -lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
@@ -307,10 +305,9 @@
  lea    -0x8(%ebp),%ecx
  lea    (%ecx,%edx,1),%edx
 -sub    $0xcbc,%edx
--mov    %eax,(%edx)
--lea    -0x44(%ebp),%eax
 +sub    $0xcb8,%edx
-+mov    %eax,(%edx)
+ mov    %eax,(%edx)
+-lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
@@ -348,10 +345,9 @@
  lea    -0x8(%ebp),%ecx
  lea    (%ecx,%edx,1),%edx
 -sub    $0xcb8,%edx
--mov    %eax,(%edx)
--lea    -0x44(%ebp),%eax
 +sub    $0xcb4,%edx
-+mov    %eax,(%edx)
+ mov    %eax,(%edx)
+-lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
@@ -380,7 +376,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEeqERKS4_>
  test   %al,%al
 -jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4df>
-+jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4c9>
++jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4cb>
  addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  cmp    -0x18(%ebp),%eax
@@ -388,8 +384,8 @@
  test   %al,%al
 -jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x3be>
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4e0>
-+jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x3a8>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4ca>
++jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x3aa>
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4cc>
  nop
 -lea    -0xd58(%ebp),%eax
 +lea    -0xd54(%ebp),%eax
@@ -420,7 +416,7 @@
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
 -nop
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53b>
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53d>
  nop
  mov    -0x4(%ebp),%ebx
  leave
