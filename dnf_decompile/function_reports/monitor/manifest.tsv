@@ -1,5 +1,4 @@
 status	name	orig_addr	orig_size	new_addr	new_size
-NEAR	_Z14signal_handleri	0x804c610	0x2c	0x8083fcc	0x2c
 NEAR	_ZN10CAppConfig11Parse_TableEPci	0x805fa96	0x311	0x804e698	0x311
 DIFF	_ZN10CIPCounter11setLoadTermEh	0x805e8ba	0x4c	0x8093fde	0x53
 DIFF	_ZN10CIPCounter13setMinIPCountEh	0x805e906	0x20	0x8094032	0x1a
@@ -9,10 +8,7 @@ NEAR	_ZN11CCashObject15GetBuddysObjectEPP6CBuddy	0x80a0642	0x70	0x804d53c	0x70
 DIFF	_ZN11CUdpHandler16InitServerSocketEi	0x80501bc	0x1b8	0x8087c26	0x1ad
 DIFF	_ZN12CAppStopInit4InitEP12CApplicationiPPc	0x806bbd6	0x248	0x804fd90	0x248
 DIFF	_ZN12CApplication15TranslateSignalEv	0x8064fb2	0x36c	0x8052fec	0x36c
-NEAR	_ZN12CApplication4FreeEv	0x806402e	0x4bd	0x8051de2	0x4bd
-NEAR	_ZN12CApplication4InitEiPPc	0x8062e20	0x12e	0x8050ba6	0x12e
 DIFF	_ZN12CApplication4LoadEiPPc	0x8062f4e	0x10df	0x8050cd4	0x110e
-NEAR	_ZN12CApplication7ProcessEv	0x80644ec	0x377	0x80522a0	0x377
 DIFF	_ZN12CBuddyHandle11addFromCashEP6CBuddy	0x809e91a	0xb3	0x80580f0	0xb6
 DIFF	_ZN12CBuddyHandle11printBuddysEPc	0x809f036	0x184	0x8058374	0x181
 DIFF	_ZN12CBuddyHandle5addDBEP14CServerHandlerPc	0x809e5e0	0x1fe	0x805793e	0x20f
@@ -173,8 +169,6 @@ DIFF	_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader	0x
 DIFF	_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader	0x808f03e	0xa79	0x807a748	0x982
 DIFF	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	0x807dd0e	0x61c	0x806958a	0x644
 DIFF	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader	0x807e32a	0x973	0x8069bce	0x9b1
-NEAR	_ZN17CSignalTranslator4initEP12CApplication	0x804b4ca	0xa8	0x8082d70	0xa8
-NEAR	_ZN17CSignalTranslator5clearEv	0x804b3b4	0x116	0x8083eb6	0x116
 DIFF	_ZN17CTcpNetworkThread8dispatchEPv	0x805a44c	0x457	0x8084e92	0x460
 DIFF	_ZN17CUdpNetworkThread8dispatchEPv	0x80972a4	0x6fe	0x8063f14	0x744
 DIFF	_ZN18CFrameCountHandler17GetFrameCountInfoEv	0x804cc52	0x37c	0x80865a0	0x36c
@@ -204,8 +198,6 @@ DIFF	_ZN7CMember21NoticeLevelUpToLowersEj	0x8099086	0xbf	0x8060b16	0xb0
 DIFF	_ZN7CMember21NoticeMemberLogin_OutEP5CUserc	0x8098b5e	0x325	0x805fd38	0x317
 DIFF	_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser	0x80986be	0x21c	0x80605da	0x20b
 DIFF	_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser	0x80988da	0x284	0x8060366	0x274
-NEAR	_ZN8CAppBase5ClearEv	0x805aca8	0x1a	0x8050682	0x1a
-NEAR	_ZN8CAppBase6CreateEiPPc	0x805ac60	0x48	0x805063a	0x48
 DIFF	_ZNK11CUdpHandler12SendToClientEPcitPKcj	0x805068a	0x309	0x80880de	0x303
 DIFF	_ZNK11CUdpHandler12SendToServerEPcitPKc	0x8050bf2	0x27b	0x80883e2	0x27b
 DIFF	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	0x8050416	0x273	0x8087e76	0x267

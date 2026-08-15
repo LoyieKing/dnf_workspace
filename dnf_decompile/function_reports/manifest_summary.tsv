@@ -1,2 +1,2 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
-monitor	1679	1081	386	66	146	0	0	6247	212
+monitor	1679	1085	390	58	146	0	0	6247	204
