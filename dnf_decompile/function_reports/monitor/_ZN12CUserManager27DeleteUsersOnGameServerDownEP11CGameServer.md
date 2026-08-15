@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8070c7c` | `0x2f9` | `0x808b4f8` | `0x306` |
+| monitor | DIFF | `0x8070c7c` | `0x2f9` | `0x808b4e4` | `0x306` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,16 +14,21 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,222 +1,224 @@
-+mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+test   %al,%al
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x23>
-+mov    $0x0,%eax
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x44,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x18,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
+ test   %al,%al
+ je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x23>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2f4>
 +jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x301>
-+mov    0x8(%ebp),%eax
-+lea    0x30(%eax),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x30(%eax),%edx
 +lea    -0x20(%ebp),%eax
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
@@ -107,7 +112,13 @@
 +mov    $0x0,%eax
 +test   %al,%al
 +je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x176>
-+lea    -0x2c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5beginEv>
+-sub    $0x4,%esp
+-jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb3>
+-lea    -0x2c(%ebp),%eax
 +movl   $0x0,0x8(%esp)
 +lea    -0x28(%ebp),%edx
 +mov    %edx,0x4(%esp)
@@ -147,117 +158,9 @@
 +sub    $0x4,%esp
 +jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2ca>
 +lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
-+mov    0x4(%eax),%eax
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2ca>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetGameServerEv>
-+cmp    0xc(%ebp),%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2bf>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x234>
-+mov    0x8(%ebp),%eax
-+mov    0x78(%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Call_DeleteMemberEjP5CUser>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser7GetDBIDEv>
-+mov    0x8(%ebp),%edx
-+mov    0x78(%edx),%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN12CApplication19Call_ResetBlackListEj>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    0x8(%ebp),%edx
-+mov    0x78(%edx),%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN12CApplication19Call_ResetBuddyListEj>
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x28b>
-+mov    -0x10(%ebp),%ebx
-+test   %ebx,%ebx
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x28b>
-+mov    %ebx,(%esp)
-+call   <T> <_ZN5CUserD1Ev>
-+mov    %ebx,(%esp)
-+call   <T> <_ZN5CUserdlEPv>
-+lea    -0x34(%ebp),%eax
-+movl   $0x0,0x8(%esp)
-+lea    -0x30(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEi>
-+sub    $0x4,%esp
-+mov    0x8(%ebp),%eax
-+lea    0x18(%eax),%edx
-+mov    -0x34(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2ca>
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
-+mov    0x8(%ebp),%eax
-+lea    0x18(%eax),%edx
-+lea    -0x14(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE3endEv>
-+sub    $0x4,%esp
-+lea    -0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
-+test   %al,%al
-+jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1d0>
-+mov    $0x0,%eax
-+mov    -0x4(%ebp),%ebx
-+leave
-+ret
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x44,%esp
--mov    0x8(%ebp),%eax
--add    $0x18,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
--test   %al,%al
--je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x23>
--mov    $0x0,%eax
--jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2f4>
--mov    0x8(%ebp),%eax
--lea    0x30(%eax),%edx
--lea    -0x2c(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5beginEv>
--sub    $0x4,%esp
--jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb3>
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
--mov    0x4(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
+ mov    0x4(%eax),%eax
 -test   %eax,%eax
 -setne  %al
 -test   %al,%al
@@ -266,11 +169,15 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetGameServerEv>
--cmp    0xc(%ebp),%eax
--sete   %al
--test   %al,%al
++mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2ca>
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetGameServerEv>
+ cmp    0xc(%ebp),%eax
+ sete   %al
+ test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xa8>
 -lea    -0x24(%ebp),%eax
 -movl   $0x0,0x8(%esp)
@@ -382,46 +289,70 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2b2>
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2bf>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x22d>
--mov    0x8(%ebp),%eax
--mov    0x78(%eax),%eax
--mov    -0x10(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication17Call_DeleteMemberEjP5CUser>
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser7GetDBIDEv>
--mov    0x8(%ebp),%edx
--mov    0x78(%edx),%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN12CApplication19Call_ResetBlackListEj>
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    0x8(%ebp),%edx
--mov    0x78(%edx),%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN12CApplication19Call_ResetBuddyListEj>
--mov    -0x10(%ebp),%ebx
--test   %ebx,%ebx
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x234>
+ mov    0x8(%ebp),%eax
+ mov    0x78(%eax),%eax
+ mov    -0x10(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication17Call_DeleteMemberEjP5CUser>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser7GetDBIDEv>
+ mov    0x8(%ebp),%edx
+ mov    0x78(%edx),%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN12CApplication19Call_ResetBlackListEj>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    0x8(%ebp),%edx
+ mov    0x78(%edx),%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN12CApplication19Call_ResetBuddyListEj>
++cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x28b>
+ mov    -0x10(%ebp),%ebx
+ test   %ebx,%ebx
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x27e>
--mov    %ebx,(%esp)
--call   <T> <_ZN5CUserD1Ev>
--mov    %ebx,(%esp)
--call   <T> <_ZN5CUserdlEPv>
--lea    -0x14(%ebp),%eax
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x28b>
+ mov    %ebx,(%esp)
+ call   <T> <_ZN5CUserD1Ev>
+ mov    %ebx,(%esp)
+ call   <T> <_ZN5CUserdlEPv>
++lea    -0x34(%ebp),%eax
++movl   $0x0,0x8(%esp)
++lea    -0x30(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEi>
++sub    $0x4,%esp
++mov    0x8(%ebp),%eax
++lea    0x18(%eax),%edx
++mov    -0x34(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2ca>
++lea    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
++mov    0x8(%ebp),%eax
++lea    0x18(%eax),%edx
+ lea    -0x14(%ebp),%eax
 -movl   $0x0,0x8(%esp)
 -lea    -0x34(%ebp),%edx
 -mov    %edx,0x4(%esp)
@@ -441,21 +372,25 @@
 -mov    0x8(%ebp),%eax
 -lea    0x18(%eax),%edx
 -lea    -0x18(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE3endEv>
--sub    $0x4,%esp
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE3endEv>
+ sub    $0x4,%esp
 -lea    -0x18(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
--test   %al,%al
++lea    -0x14(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
+ test   %al,%al
 -jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1c4>
--mov    $0x0,%eax
--mov    -0x4(%ebp),%ebx
--leave
--ret
++jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1d0>
+ mov    $0x0,%eax
+ mov    -0x4(%ebp),%ebx
+ leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

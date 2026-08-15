@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a917a` | `0x2a` |
+| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a915e` | `0x2a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,10 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,16 +1,16 @@
--push   %ebp
--mov    %esp,%ebp
+@@ -1,16 +1,17 @@
+ push   %ebp
+ mov    %esp,%ebp
 -sub    $0x28,%esp
++push   %ebx
++sub    $0x4,%esp
  mov    0xc(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
 -mov    0x8(%ebp),%eax
@@ -37,9 +39,6 @@
 +pop    %ebx
 +pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -64,7 +63,7 @@ _ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 702 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 701 行）：
 
 ```cpp
 void CVillageAttackedManager::SendRequestRevengeDungeon(char* pkt)

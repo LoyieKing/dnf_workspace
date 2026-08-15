@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ffb6` | `0x40f` | `0x807b5ac` | `0x428` |
+| monitor | DIFF | `0x808ffb6` | `0x40f` | `0x807b5a6` | `0x428` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,293 +1,300 @@
--push   %ebp
--mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
 -sub    $0x7c,%esp
 +sub    $0x8c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -405,11 +405,6 @@
  pop    %edi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %edi
-+push   %esi
-+push   %ebx
 ```
 ## 2. Ghidra 反编译 C
 
