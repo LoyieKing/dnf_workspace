@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f418` | `0x1df` | `0x804f99c` | `0x1f0` |
+| dbmw | NEAR | `0x807f418` | `0x1df` | `0x804f9c4` | `0x1df` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,131 +1,137 @@
+@@ -1,131 +1,131 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -27,13 +27,11 @@
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xca>
-+je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xd4>
+ je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xca>
  mov    0xc(%ebp),%eax
  movzbl 0xc(%eax),%eax
  cmp    $0x1,%al
--jne    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xca>
-+jne    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xd4>
+ jne    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xca>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -45,21 +43,6 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xa9>
-+movl   $0x18bf,0x8(%esp)
-+movl   $&_ZZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_RankE12__FUNCTION__,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"deLete_from_power_war_user_rank Query Error\n",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1ea>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -68,25 +51,25 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0x25(%ebp)
--movzbl -0x25(%ebp),%eax
+ mov    %al,-0x25(%ebp)
+ movzbl -0x25(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xca>
--movl   $0x18bf,0x8(%esp)
--movl   $&_ZZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_RankE12__FUNCTION__,0x4(%esp)
+ je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xca>
+ movl   $0x18bf,0x8(%esp)
+ movl   $&_ZZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_RankE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"deLete_from_power_war_user_rank Query Error\n",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"deLete_from_power_war_user_rank Query Error\n",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xd4>
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1d9>
-+jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1ea>
+ jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1d9>
  mov    0xc(%ebp),%eax
  mov    0x11(%eax),%eax
  mov    %eax,-0x1c(%ebp)
@@ -94,8 +77,7 @@
  mov    0xd(%eax),%eax
  mov    %eax,-0x18(%ebp)
  movl   $0x0,-0x14(%ebp)
--jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1c3>
-+jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1d4>
+ jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1c3>
 +mov    0xc(%ebp),%eax
  mov    -0x14(%ebp),%edx
 -mov    0xc(%ebp),%eax
@@ -131,21 +113,6 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ecx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1a8>
-+movl   $0x18d8,0x8(%esp)
-+movl   $&_ZZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_RankE12__FUNCTION__,0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"inSert_into_power_war_user_rank Query Error\n",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1ea>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -154,32 +121,31 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0x25(%ebp)
--movzbl -0x25(%ebp),%eax
+ mov    %al,-0x25(%ebp)
+ movzbl -0x25(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1bf>
--movl   $0x18d8,0x8(%esp)
--movl   $&_ZZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_RankE12__FUNCTION__,0x4(%esp)
+ je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1bf>
+ movl   $0x18d8,0x8(%esp)
+ movl   $&_ZZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_RankE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"inSert_into_power_war_user_rank Query Error\n",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"inSert_into_power_war_user_rank Query Error\n",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+je     <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1d0>
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1d9>
-+jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1ea>
+ jmp    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0x1d9>
  addl   $0x1,-0x14(%ebp)
  mov    -0x14(%ebp),%eax
  cmp    -0x1c(%ebp),%eax
  setl   %al
  test   %al,%al
--jne    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xe8>
-+jne    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xf2>
+ jne    <T> <_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank+0xe8>
  mov    $0x1,%eax
  add    $0x54,%esp
  pop    %ebx

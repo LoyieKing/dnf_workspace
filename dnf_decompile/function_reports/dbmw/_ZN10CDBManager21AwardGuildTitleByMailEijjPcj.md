@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80749bc` | `0x2f6` | `0x8059038` | `0x2e0` |
+| dbmw | DIFF | `0x80749bc` | `0x2f6` | `0x8059058` | `0x2f5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,198 +1,190 @@
+@@ -1,198 +1,196 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -45,7 +45,7 @@
  movl   $0x82b,0x8(%esp)
  movl   $&_ZZN10CDBManager21AwardGuildTitleByMailEijjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
@@ -55,12 +55,12 @@
  movl   $"CDBManager::AwardGuildTitleByMail() select charac_no from guild_member where server_id = %d and guild_id = %d and member_flag = 1\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ed>
-+jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2de>
++jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2f3>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -69,15 +69,15 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0x25(%ebp)
--movzbl -0x25(%ebp),%eax
+ mov    %al,-0x25(%ebp)
+ movzbl -0x25(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0xd3>
-+je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0xcb>
++je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0xd2>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ed>
-+jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2de>
++jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2f3>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
@@ -90,8 +90,8 @@
  call   <T> <time>
 -mov    %eax,-0x40(%ebp)
 -lea    -0x40(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+lea    -0x28(%ebp),%eax
++mov    %eax,-0x2c(%ebp)
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    %eax,-0x18(%ebp)
@@ -110,7 +110,7 @@
  mov    %eax,-0x14(%ebp)
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2d7>
-+jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2c8>
++jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2dd>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -118,36 +118,36 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0x25(%ebp)
--movzbl -0x25(%ebp),%eax
+ mov    %al,-0x25(%ebp)
+ movzbl -0x25(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x16b>
-+je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x15c>
++je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x16a>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ed>
-+jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2de>
-+movl   $0x0,-0x34(%ebp)
++jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2f3>
++movl   $0x0,-0x38(%ebp)
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
  mov    (%eax),%edx
 -lea    -0x3c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0x25(%ebp)
--movzbl -0x25(%ebp),%eax
+ mov    %al,-0x25(%ebp)
+ movzbl -0x25(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x1a4>
-+je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x195>
++je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x1aa>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ed>
-+jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2de>
++jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2f3>
  movl   $0x3e8,(%esp)
  call   <T> <_ZN7DNFFLib12get_rand_intEi>
  mov    %eax,-0xc(%ebp)
@@ -156,7 +156,7 @@
  add    $0x1c,%eax
  mov    (%eax),%ecx
 -mov    -0x3c(%ebp),%eax
-+mov    -0x34(%ebp),%eax
++mov    -0x38(%ebp),%eax
  mov    0x18(%ebp),%edx
  mov    %edx,0x30(%esp)
  movl   $0x0,0x2c(%esp)
@@ -181,16 +181,16 @@
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ab>
 -mov    -0x3c(%ebp),%ebx
-+je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2c4>
++je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2b1>
  movl   $0x87d,0x8(%esp)
  movl   $&_ZZN10CDBManager21AwardGuildTitleByMailEijjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    0x18(%ebp),%eax
 -mov    %eax,0x30(%esp)
-+mov    -0x34(%ebp),%eax
++mov    -0x38(%ebp),%eax
 +mov    0x18(%ebp),%edx
 +mov    %edx,0x30(%esp)
  movl   $0x0,0x2c(%esp)
@@ -213,7 +213,7 @@
  movl   $"CDBManager::AwardGuildTitleByMail() Fatal Error Break : insert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( %d ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x20(%ebp),%eax
@@ -227,17 +227,17 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2d3>
-+je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2c4>
++je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2d9>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ed>
-+jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2de>
++jmp    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2f3>
  addl   $0x1,-0x10(%ebp)
  mov    -0x10(%ebp),%eax
  cmp    -0x1c(%ebp),%eax
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x141>
-+jne    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x139>
++jne    <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x140>
  mov    $0x1,%eax
 -add    $0x84,%esp
 -pop    %ebx

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809634e` | `0x368` | `0x8064d2c` | `0x34c` |
+| dbmw | DIFF | `0x809634e` | `0x368` | `0x8064da6` | `0x34c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -439,7 +439,7 @@ void CPacketTranslater::_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 7033 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 7076 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header)

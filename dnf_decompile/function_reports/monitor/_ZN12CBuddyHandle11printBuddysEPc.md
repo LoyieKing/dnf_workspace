@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809f036` | `0x184` | `0x80583d0` | `0x163` |
+| monitor | DIFF | `0x809f036` | `0x184` | `0x8058374` | `0x181` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,105 @@
+@@ -1,114 +1,111 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,82 +24,65 @@
  mov    0x18(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x175>
-+je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x2c>
++je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x176>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE5emptyEv>
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x178>
-+je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x2c>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x31>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x158>
++je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x176>
  mov    0x8(%ebp),%edx
--lea    -0x28(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE5beginEv>
  sub    $0x4,%esp
--mov    0x8(%ebp),%edx
--lea    -0x2c(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
--sub    $0x4,%esp
+ mov    0x8(%ebp),%edx
+ lea    -0x2c(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
+ sub    $0x4,%esp
 -jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x159>
--lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x129>
-+lea    -0x30(%ebp),%eax
++jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x15c>
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEptEv>
  mov    0x4(%eax),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
  movzbl 0x26(%eax),%eax
  movsbl %al,%eax
--mov    %eax,-0x48(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    0x22(%eax),%eax
+ mov    %eax,-0x48(%ebp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+ mov    0x22(%eax),%eax
  mov    %eax,-0x44(%ebp)
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--movzbl 0x21(%eax),%eax
--movsbl %al,%eax
-+mov    0x22(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+ movzbl 0x21(%eax),%eax
+ movsbl %al,%eax
  mov    %eax,-0x40(%ebp)
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--movzbl 0x20(%eax),%eax
-+movzbl 0x21(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+ movzbl 0x20(%eax),%eax
  movsbl %al,%eax
  mov    %eax,-0x3c(%ebp)
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
-+movzbl 0x20(%eax),%eax
-+movsbl %al,%edi
-+mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
  movzwl 0x1e(%eax),%eax
--movswl %ax,%edi
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    %eax,%esi
-+movswl %ax,%esi
+ movswl %ax,%edi
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+ mov    %eax,%esi
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -107,50 +90,33 @@
  mov    %eax,%ebx
  movl   $0x16e,0x8(%esp)
  movl   $&_ZZN12CBuddyHandle11printBuddysEPcE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x48(%ebp),%eax
-+mov    -0x44(%ebp),%eax
+ mov    -0x48(%ebp),%eax
  mov    %eax,0x28(%esp)
--mov    -0x44(%ebp),%eax
-+mov    -0x40(%ebp),%eax
+ mov    -0x44(%ebp),%eax
  mov    %eax,0x24(%esp)
--mov    -0x40(%ebp),%eax
-+mov    -0x3c(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    %eax,0x20(%esp)
--mov    -0x3c(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
-+mov    %edi,0x1c(%esp)
-+mov    %esi,0x18(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0x14(%esp)
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    %edi,0x18(%esp)
+ mov    %esi,0x14(%esp)
  mov    %ebx,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"[%s] name(%s) fname(%s) flevel(%d) fjob(%d) fgrowtype(%d) fcharNo(%d) fsex(%d)",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x28(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEppEv>
-+mov    0x8(%ebp),%edx
-+lea    -0x2c(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
-+sub    $0x4,%esp
  lea    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEneERKS5_>
  test   %al,%al
@@ -159,7 +125,7 @@
 -nop
 -jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x179>
 -nop
-+jne    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x53>
++jne    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x5c>
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -236,27 +202,31 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle11printBuddysEPc(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 252 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 247 行）：
 
 ```cpp
 void CBuddyHandle::printBuddys(char* out)
 {
-    if (m_prUser != 0 && !m_buddies.empty())
+    if (m_prUser != 0)
     {
-        for (std::map<std::string, CBuddy*>::iterator it = m_buddies.begin();
-             it != m_buddies.end(); ++it)
+        if (!m_buddies.empty())
         {
-            CBuddy* buddy = it->second;
-            char* info = (char*)buddy->getBuddyDBInfo();
-            DNF_LOG_SCOPE_LINE(0x16e,"./log/buddy",
-                "[%s] name(%s) fname(%s) flevel(%d) fjob(%d) fgrowtype(%d) fcharNo(%d) "
-                "fsex(%d)",
-                out, m_prUser->GetCharName(), info,
-                (int)((STBuddyDBInfo*)info)->m_lev,
-                (int)((STBuddyDBInfo*)info)->m_job,
-                (int)((STBuddyDBInfo*)info)->m_growType,
-                ((STBuddyDBInfo*)info)->m_characNo,
-                (int)((STBuddyDBInfo*)info)->m_sex);
+            std::map<std::string, CBuddy*>::iterator it = m_buddies.begin();
+            std::map<std::string, CBuddy*>::iterator end = m_buddies.end();
+            while (it != end)
+            {
+                CBuddy* buddy = it->second;
+                DNF_LOG_SCOPE_LINE(0x16e,"./log/buddy",
+                    "[%s] name(%s) fname(%s) flevel(%d) fjob(%d) fgrowtype(%d) fcharNo(%d) "
+                    "fsex(%d)",
+                    out, m_prUser->GetCharName(), (char*)buddy->getBuddyDBInfo(),
+                    (int)((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_lev,
+                    (int)((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_job,
+                    (int)((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_growType,
+                    ((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_characNo,
+                    (int)((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_sex);
+                ++it;
+            }
         }
     }
 }

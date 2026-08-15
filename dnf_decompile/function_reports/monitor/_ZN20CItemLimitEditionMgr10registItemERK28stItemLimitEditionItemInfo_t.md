@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809345c` | `0x17f` | `0x8094364` | `0x190` |
+| monitor | NEAR | `0x809345c` | `0x17f` | `0x809434c` | `0x17f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,54 +13,46 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,115 +1,120 @@
+@@ -1,115 +1,115 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x54,%esp
-+sub    $0x64,%esp
+ sub    $0x54,%esp
  mov    0xc(%ebp),%ecx
  mov    0x8(%ebp),%edx
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
  sub    $0x4,%esp
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEC1Ev>
  mov    0x8(%ebp),%edx
 -lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
- mov    %eax,0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+-mov    %eax,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEeqERKS5_>
  test   %al,%al
--je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x65>
-+je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x70>
+ je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x65>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
  cmp    $0x1b,%eax
--jbe    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x65>
-+jbe    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x70>
+ jbe    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x65>
  mov    $0x1,%eax
--jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x6a>
-+jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x75>
+ jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x6a>
  mov    $0x0,%eax
  test   %al,%al
--jne    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x179>
-+jne    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x18a>
+ jne    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x179>
  movl   $0x4c,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -70,10 +62,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CItemLimitEditionC1ERK28stItemLimitEditionItemInfo_t>
  mov    %ebx,%eax
--mov    %eax,-0x34(%ebp)
--mov    -0x34(%ebp),%eax
-+mov    %eax,-0x30(%ebp)
-+mov    -0x30(%ebp),%eax
+ mov    %eax,-0x34(%ebp)
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK17CItemLimitEdition8getIPGNOEv>
 -mov    %eax,-0x2c(%ebp)
@@ -81,58 +71,50 @@
  mov    0x8(%ebp),%edx
 -lea    -0x38(%ebp),%eax
 -lea    -0x2c(%ebp),%ecx
-+lea    -0x4c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +lea    -0x38(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
  sub    $0x4,%esp
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%edx
--lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEneERKS5_>
  test   %al,%al
--je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x11f>
+ je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x11f>
 -lea    -0x38(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x130>
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
  mov    0x4(%eax),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x10d>
-+je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x11e>
+ je     <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x10d>
  mov    %ebx,(%esp)
  call   <T> <_ZN17CItemLimitEditionD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZdlPv>
  mov    0x8(%ebp),%eax
 -mov    -0x38(%ebp),%edx
-+mov    -0x2c(%ebp),%edx
++mov    -0x3c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
--mov    -0x34(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK17CItemLimitEdition8getIPGNOEv>
  mov    %eax,-0xc(%ebp)
  lea    -0x14(%ebp),%eax
--lea    -0x34(%ebp),%edx
-+lea    -0x30(%ebp),%edx
+ lea    -0x34(%ebp),%edx
  mov    %edx,0x8(%esp)
  lea    -0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -152,8 +134,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
--jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x17a>
-+jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x18b>
+ jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x17a>
  nop
  mov    -0x4(%ebp),%ebx
  leave
@@ -255,23 +236,20 @@ LAB_080934c6:
 ```cpp
 void CItemLimitEditionMgr::registItem(const stItemLimitEditionItemInfo_t& info)
 {
-    std::map<unsigned int, CItemLimitEdition*>::iterator it = m_items.find(*(unsigned int*)&info);
-    std::map<unsigned int, CItemLimitEdition*>::iterator it2;
-    CItemLimitEdition* item;
-    std::map<unsigned int, CItemLimitEdition*>::iterator end = m_items.end();
-    if (it == end && 0x1b < m_items.size())
+    std::map<unsigned int, CItemLimitEdition*>::iterator found =
+        m_items.find(*(unsigned int*)&info);
+    if (found == m_items.end() && m_items.size() > 0x1b)
     {
         return;
     }
-    item = new CItemLimitEdition(info);
+    CItemLimitEdition* item = new CItemLimitEdition(info);
     unsigned int ipgno = item->getIPGNO();
-    it2 = m_items.find(ipgno);
-    std::map<unsigned int, CItemLimitEdition*>::iterator end2 = m_items.end();
-    if (it2 != end2)
+    std::map<unsigned int, CItemLimitEdition*>::iterator it = m_items.find(ipgno);
+    if (it != m_items.end())
     {
-        register CItemLimitEdition* item2 = it2->second;
-        delete item2;
-        m_items.erase(it2);
+        register CItemLimitEdition* old = it->second;
+        delete old;
+        m_items.erase(it);
     }
     m_items.insert(std::make_pair(item->getIPGNO(), item));
 }

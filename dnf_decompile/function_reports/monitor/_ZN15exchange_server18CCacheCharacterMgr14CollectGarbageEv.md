@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80938a0` | `0x107` | `0x805d97c` | `0x113` |
+| monitor | DIFF | `0x80938a0` | `0x107` | `0x805d93e` | `0x113` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -48,9 +48,7 @@
  mov    %ecx,%eax
  cmp    $0x1d,%eax
 -jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x101>
-+jg     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x72>
-+movzbl -0xd(%ebp),%eax
-+jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x111>
++jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x10c>
  mov    0x8(%ebp),%edx
  lea    -0x20(%ebp),%eax
  lea    -0x1c(%ebp),%ecx
@@ -73,7 +71,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN15exchange_server20CACHE_CHARACTER_TYPEEEEneERKS5_>
  test   %al,%al
 -je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xee>
-+je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xdf>
++je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xda>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN15exchange_server20CACHE_CHARACTER_TYPEEEEptEv>
@@ -84,13 +82,13 @@
  mov    %ecx,%eax
  cmp    $0x1d,%eax
 -setg   %al
-+jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xdf>
++jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xda>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xe4>
++jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xdf>
 +mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xee>
-+je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xfe>
++je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xf9>
  mov    0x8(%ebp),%eax
  mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -102,7 +100,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt14priority_queueIN15exchange_server19CCacheCharacterTimeESt6vectorIS1_SaIS1_EESt4lessIS1_EE3popEv>
  jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x24>
--movzbl -0xd(%ebp),%eax
++nop
+ movzbl -0xd(%ebp),%eax
  leave
  ret
 ```
@@ -192,9 +191,9 @@ bool CCacheCharacterMgr::CollectGarbage()
             return result;
         }
         top = m_timeQueue.top();
-        if (now - top.m_time <= 0x1d)
+        if (now - top.m_time < 0x1e)
         {
-            return result;
+            break;
         }
         std::map<unsigned int, CACHE_CHARACTER_TYPE>::iterator it =
             m_cache.find(top.m_charNo);
@@ -205,5 +204,6 @@ bool CCacheCharacterMgr::CollectGarbage()
         }
         m_timeQueue.pop();
     }
+    return result;
 }
 ```

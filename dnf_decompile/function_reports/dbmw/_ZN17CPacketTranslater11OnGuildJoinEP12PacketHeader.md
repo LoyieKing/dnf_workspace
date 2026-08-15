@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d09bc` | `0x331` |
+| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d0a28` | `0x331` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,211 +1,214 @@
+@@ -1,211 +1,212 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -97,29 +97,27 @@
  call   <T> <strncpy>
 -mov    -0x24(%ebp),%eax
 +mov    -0x20(%ebp),%eax
-+movzbl 0x38(%eax),%eax
-+mov    %al,-0x66(%ebp)
-+mov    -0x20(%ebp),%eax
  movzbl 0x39(%eax),%eax
 -mov    %al,-0x6a(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %al,-0x65(%ebp)
++mov    %al,-0x66(%ebp)
 +mov    -0x20(%ebp),%eax
  movzbl 0x3a(%eax),%eax
 -mov    %al,-0x69(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %al,-0x64(%ebp)
++mov    %al,-0x65(%ebp)
 +mov    -0x20(%ebp),%eax
  movzbl 0x3b(%eax),%eax
 -mov    %al,-0x68(%ebp)
 -mov    -0x24(%ebp),%eax
--movzbl 0x3c(%eax),%eax
++mov    %al,-0x64(%ebp)
++mov    -0x20(%ebp),%eax
+ movzbl 0x3c(%eax),%eax
 -mov    %al,-0x67(%ebp)
 -mov    -0x24(%ebp),%eax
--add    $0x3d,%eax
 +mov    %al,-0x63(%ebp)
 +mov    -0x20(%ebp),%eax
-+add    $0x3c,%eax
+ add    $0x3d,%eax
  movl   $0x3,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x9c(%ebp),%eax
@@ -174,11 +172,9 @@
 -mov    -0x8c(%ebp),%edx
 -mov    -0x98(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x1ca>
-+mov    -0x20(%ebp),%eax
-+mov    0x17(%eax),%eax
++mov    -0x88(%ebp),%eax
 +mov    %eax,%edx
-+mov    -0x20(%ebp),%eax
-+mov    0xb(%eax),%eax
++mov    -0x94(%ebp),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
  add    $0x50,%ecx
  mov    %edx,0x8(%esp)
@@ -434,7 +430,7 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
 
             if (reply.m_result == 0)
                 m_pclApp->m_dbManager.DeleteJoinListByInvite(
-                    pkt->m_guildId, pkt->m_characNo);
+                    join.m_guildId, join.m_characNo);
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
         }

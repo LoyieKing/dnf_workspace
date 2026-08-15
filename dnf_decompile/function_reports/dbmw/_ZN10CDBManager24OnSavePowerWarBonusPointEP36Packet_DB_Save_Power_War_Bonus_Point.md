@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8083ae2` | `0x251` | `0x804ec2e` | `0x259` |
+| dbmw | DIFF | `0x8083ae2` | `0x251` | `0x804ec5e` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,153 +1,157 @@
+@@ -1,153 +1,154 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -55,11 +55,11 @@
 -mov    %eax,-0x24(%ebp)
 -lea    -0x35(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
-+lea    -0x1d(%ebp),%eax
++lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x35(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x1e(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"세력전 포인트",0x4(%esp)
 -lea    -0x40(%ebp),%eax
@@ -71,7 +71,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x35(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
@@ -79,7 +79,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x35(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -movl   $0x4df,-0x20(%ebp)
@@ -88,7 +88,7 @@
 -mov    -0x2c(%ebp),%eax
 +movl   $0x4df,-0x10(%ebp)
 +movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x20f>
++jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x208>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -126,40 +126,6 @@
  mov    %eax,(%esp)
  call   *%esi
 -mov    -0x2c(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x1e3>
-+movl   $0x2172,0x8(%esp)
-+movl   $&_ZZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_PointE12__FUNCTION__,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    -0xc(%ebp),%ecx
-+mov    0xc(%ebp),%edx
-+mov    0x12(%edx,%ecx,8),%ecx
-+mov    -0xc(%ebp),%ebx
-+mov    0xc(%ebp),%edx
-+mov    0xe(%edx,%ebx,8),%edx
-+mov    %eax,0x2c(%esp)
-+movl   $0x0,0x28(%esp)
-+movl   $0x0,0x24(%esp)
-+movl   $0x1,0x20(%esp)
-+mov    %ecx,0x1c(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x18(%esp)
-+movl   $0x0,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+movl   $0x0,0xc(%esp)
-+movl   $"CDBManager::OnSavePowerWarBonusPoint() : insert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( now() ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')\n",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x245>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -169,12 +135,21 @@
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
++mov    %al,-0x1d(%ebp)
++movzbl -0x1d(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x202>
 -lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSs5c_strEv>
++je     <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x204>
++movl   $0x2172,0x8(%esp)
++movl   $&_ZZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_PointE12__FUNCTION__,0x4(%esp)
++lea    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSs5c_strEv>
 -mov    %eax,%ebx
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%eax
@@ -188,24 +163,35 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x2c(%esp)
--movl   $0x0,0x28(%esp)
--movl   $0x0,0x24(%esp)
--movl   $0x1,0x20(%esp)
++mov    -0xc(%ebp),%ecx
++mov    0xc(%ebp),%edx
++mov    0x12(%edx,%ecx,8),%ecx
++mov    -0xc(%ebp),%ebx
++mov    0xc(%ebp),%edx
++mov    0xe(%edx,%ebx,8),%edx
++mov    %eax,0x2c(%esp)
+ movl   $0x0,0x28(%esp)
+ movl   $0x0,0x24(%esp)
+ movl   $0x1,0x20(%esp)
 -mov    %edi,0x1c(%esp)
 -movl   $0x4df,0x18(%esp)
--movl   $0x0,0x14(%esp)
++mov    %ecx,0x1c(%esp)
++mov    -0x10(%ebp),%eax
++mov    %eax,0x18(%esp)
+ movl   $0x0,0x14(%esp)
 -mov    %esi,0x10(%esp)
--movl   $0x0,0xc(%esp)
--movl   $"CDBManager::OnSavePowerWarBonusPoint() : insert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( now() ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')\n",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++mov    %edx,0x10(%esp)
+ movl   $0x0,0xc(%esp)
+ movl   $"CDBManager::OnSavePowerWarBonusPoint() : insert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( now() ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')\n",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+je     <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x20b>
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x23c>
 -addl   $0x1,-0x1c(%ebp)
-+jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x245>
++jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x23e>
 +addl   $0x1,-0xc(%ebp)
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
@@ -217,7 +203,7 @@
 +jne    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0xbe>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x23c>
-+jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x245>
++jmp    <T> <_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point+0x23e>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x40(%ebp),%eax

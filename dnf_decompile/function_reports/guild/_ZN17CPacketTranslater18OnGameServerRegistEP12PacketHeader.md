@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088152` | `0x25f` | `0x807e000` | `0x243` |
+| guild | DIFF | `0x8088152` | `0x25f` | `0x807e034` | `0x260` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,64 +13,43 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,156 +1,144 @@
+@@ -1,156 +1,157 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x44,%esp
-+sub    $0x54,%esp
-+movl   $0x16,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x42(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
+ sub    $0x44,%esp
  mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
--movl   $0x16,(%esp)
--call   <T> <_Znwj>
--mov    %eax,-0x1c(%ebp)
--mov    -0x20(%ebp),%eax
--movzbl 0xb(%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %dl,(%eax)
--mov    -0x20(%ebp),%eax
--movzbl 0xc(%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %dl,0x1(%eax)
--mov    -0x20(%ebp),%eax
--movzbl 0xa(%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %dl,0x2(%eax)
--mov    -0x20(%ebp),%eax
--movzwl 0x1d(%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %dx,0x14(%eax)
--mov    -0x20(%ebp),%eax
-+movzbl 0xb(%eax),%eax
-+mov    %al,-0x42(%ebp)
-+mov    0x8(%ebp),%eax
-+movzbl 0xc(%eax),%eax
-+mov    %al,-0x41(%ebp)
-+mov    0x8(%ebp),%eax
-+movzbl 0xa(%eax),%eax
-+mov    %al,-0x40(%ebp)
-+mov    0x8(%ebp),%eax
-+movzwl 0x1d(%eax),%eax
-+mov    %ax,-0x2e(%ebp)
-+mov    0x8(%ebp),%eax
- add    $0xd,%eax
+ mov    %eax,-0x20(%ebp)
+ movl   $0x16,(%esp)
+ call   <T> <_Znwj>
+ mov    %eax,-0x1c(%ebp)
+ mov    -0x20(%ebp),%eax
+ movzbl 0xb(%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %dl,(%eax)
+ mov    -0x20(%ebp),%eax
+ movzbl 0xc(%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %dl,0x1(%eax)
+ mov    -0x20(%ebp),%eax
+ movzbl 0xa(%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %dl,0x2(%eax)
+ mov    -0x20(%ebp),%eax
+ movzwl 0x1d(%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %dx,0x14(%eax)
+ mov    -0x20(%ebp),%eax
+-add    $0xd,%eax
 -mov    %eax,%edx
--mov    -0x1c(%ebp),%eax
-+movl   $0x10,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+lea    -0x42(%ebp),%eax
++lea    0xd(%eax),%edx
+ mov    -0x1c(%ebp),%eax
  add    $0x3,%eax
--movl   $0x10,0x8(%esp)
--mov    %edx,0x4(%esp)
+ movl   $0x10,0x8(%esp)
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <strncpy>
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0x6(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
@@ -78,94 +57,86 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetTcpGameServerEj>
--mov    %eax,-0x18(%ebp)
--cmpl   $0x0,-0x18(%ebp)
+ mov    %eax,-0x18(%ebp)
+ cmpl   $0x0,-0x18(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x258>
--mov    -0x1c(%ebp),%eax
--movzbl 0x1(%eax),%eax
-+mov    %eax,-0x14(%ebp)
-+cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x23d>
-+movzbl -0x41(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x256>
+ mov    -0x1c(%ebp),%eax
+ movzbl 0x1(%eax),%eax
  movzbl %al,%ebx
  movl   $0x1ec6,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnGameServerRegistEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"Get Packet - OnGameServerRegist from Channel:%d",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer12GetChannelNoEv>
  test   %al,%al
  sete   %al
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x23d>
+ je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
  movl   $0xc,0x8(%esp)
  movl   $0x1f42,0x4(%esp)
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
--mov    %eax,-0x14(%ebp)
--movl   $0x0,-0x10(%ebp)
--cmpl   $0x0,-0x14(%ebp)
+ mov    %eax,-0x14(%ebp)
+ movl   $0x0,-0x10(%ebp)
+ cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x12b>
 -mov    -0x14(%ebp),%eax
- mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x23d>
+-mov    %eax,-0x10(%ebp)
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x25a>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
--mov    -0x1c(%ebp),%edx
-+lea    -0x42(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16RegistGameServerEP12stServerInfo>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x19e>
 -mov    -0x10(%ebp),%eax
 -movb   $0x1,0xb(%eax)
--mov    -0x1c(%ebp),%eax
--movzbl 0x1(%eax),%eax
--movzbl %al,%ebx
--movl   $0x1ede,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater18OnGameServerRegistEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"Game server regist failed. Channel: %d is already exist.",0x8(%esp)
--movl   $"./log/GameServer",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x19c>
++mov    -0x14(%ebp),%eax
++add    $0xb,%eax
++movb   $0x1,(%eax)
+ mov    -0x1c(%ebp),%eax
+ movzbl 0x1(%eax),%eax
+ movzbl %al,%ebx
+ movl   $0x1ede,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnGameServerRegistEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"Game server regist failed. Channel: %d is already exist.",0x8(%esp)
+ movl   $"./log/GameServer",0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x23d>
--mov    -0x20(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x1d8>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x239>
+ mov    -0x20(%ebp),%eax
  movzbl 0xc(%eax),%eax
  movzbl %al,%eax
  mov    %eax,0x4(%esp)
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer12SetChannelNoEh>
 -mov    -0x1c(%ebp),%eax
 -movzbl 0x1(%eax),%eax
 -movzbl %al,%ebx
-+mov    0x8(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    0x6(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
@@ -174,65 +145,48 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler13GetGameServerEj>
  mov    %eax,-0xc(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0x6(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGameServer9SetSocketEj>
- mov    -0x10(%ebp),%eax
+-mov    -0x10(%ebp),%eax
 -movb   $0x0,0xb(%eax)
--mov    -0x1c(%ebp),%eax
--movzbl 0x1(%eax),%eax
++mov    -0x14(%ebp),%eax
 +add    $0xb,%eax
 +movb   $0x0,(%eax)
-+movzbl -0x41(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
+ movzbl 0x1(%eax),%eax
  movzbl %al,%ebx
  movl   $0x1eeb,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnGameServerRegistEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"Game server regist success. Channel: %d",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x222>
-+mov    -0x10(%ebp),%eax
-+add    $0xb,%eax
-+movb   $0x1,(%eax)
-+movzbl -0x41(%ebp),%eax
-+movzbl %al,%ebx
-+movl   $0x1ede,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater18OnGameServerRegistEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %ebx,0xc(%esp)
-+movl   $"Game server regist failed. Channel: %d is already exist.",0x8(%esp)
-+movl   $"./log/GameServer",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0x10(%ebp),%eax
+-mov    -0x10(%ebp),%eax
 -movb   $0x1,0xa(%eax)
+-mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x1,(%eax)
- mov    -0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
--mov    -0x18(%ebp),%eax
 +mov    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
--nop
--add    $0x44,%esp
-+add    $0x54,%esp
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x25a>
++nop
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x25a>
+ nop
+ add    $0x44,%esp
  pop    %ebx
  pop    %ebp
  ret
@@ -318,50 +272,58 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5539 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5550 行）：
 
 ```cpp
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
 {
-    stServerInfo info;
-    memset(&info, 0, sizeof(info));
-    info.m_group = ((Packet_Game_Server_Regist*)pkt)->m_group;
-    info.m_field1 = ((Packet_Game_Server_Regist*)pkt)->m_channel;
-    info.m_field2 = ((Packet_Game_Server_Regist*)pkt)->m_type;
-    info.m_port = ((Packet_Game_Server_Regist*)pkt)->m_port;
-    strncpy(info.m_name, ((Packet_Game_Server_Regist*)pkt)->m_name, 0x10);
-    CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->GetTcpGameServer(
-        ((Packet_Game_Server_Regist*)pkt)->m_connNo);
-    if (tgs != 0)
+    Packet_Game_Server_Regist* pb = (Packet_Game_Server_Regist*)pkt;
+    stServerInfo* info = new stServerInfo;
+    info->m_group = pb->m_group;
+    info->m_field1 = pb->m_channel;
+    info->m_field2 = pb->m_type;
+    info->m_port = pb->m_port;
+    strncpy(info->m_name, pb->m_name, 0x10);
+    CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->GetTcpGameServer(pb->m_connNo);
+    if (tgs == 0)
     {
-        DNF_LOG_SCOPE_LINE(0x1ec6,"./log/GameServer", "Get Packet - OnGameServerRegist from Channel:%d",
-            (unsigned int)(unsigned char)info.m_field1);
-        if (tgs->GetChannelNo() == 0)
+        return;
+    }
+    DNF_LOG_SCOPE_LINE(0x1ec6,"./log/GameServer", "Get Packet - OnGameServerRegist from Channel:%d",
+        (unsigned int)(unsigned char)info->m_field1);
+    if (tgs->GetChannelNo() == 0)
+    {
+    }
+    else
+    {
+        return;
+    }
+    char* reply = tgs->makePacketHeader(0x1f42, 0xc);
+    int dummy = 0;
+    (void)dummy;
+    if (reply == 0)
+    {
+    }
+    else
+    {
+        if (!m_pclApp->Get_ServerHandler()->RegistGameServer(info))
         {
-            char* reply = tgs->makePacketHeader(0x1f42, 0xc);
-            if (reply != 0)
-            {
-                if (m_pclApp->Get_ServerHandler()->RegistGameServer(&info) == 1)
-                {
-                    tgs->SetChannelNo(((Packet_Game_Server_Regist*)pkt)->m_channel);
-                    CGameServer* gs = m_pclApp->Get_ServerHandler()->GetGameServer(
-                        ((Packet_Game_Server_Regist*)pkt)->m_connNo);
-                    gs->SetSocket(((Packet_Game_Server_Regist*)pkt)->m_connNo);
-                    reply[0xb] = 0;
-                    DNF_LOG_SCOPE_LINE(0x1eeb,"./log/GameServer", "Game server regist success. Channel: %d",
-                        (unsigned int)(unsigned char)info.m_field1);
-                }
-                else
-                {
-                    reply[0xb] = 1;
-                    DNF_LOG_SCOPE_LINE(0x1ede,"./log/GameServer",
-                        "Game server regist failed. Channel: %d is already exist.",
-                        (unsigned int)(unsigned char)info.m_field1);
-                }
-                reply[10] = 1;
-                tgs->SendToGameServer(reply);
-            }
+            reply[0xb] = 1;
+            DNF_LOG_SCOPE_LINE(0x1ede,"./log/GameServer",
+                "Game server regist failed. Channel: %d is already exist.",
+                (unsigned int)(unsigned char)info->m_field1);
         }
+        else
+        {
+            tgs->SetChannelNo(pb->m_channel);
+            CGameServer* gs = m_pclApp->Get_ServerHandler()->GetGameServer(pb->m_connNo);
+            gs->SetSocket(pb->m_connNo);
+            reply[0xb] = 0;
+            DNF_LOG_SCOPE_LINE(0x1eeb,"./log/GameServer", "Game server regist success. Channel: %d",
+                (unsigned int)(unsigned char)info->m_field1);
+        }
+        reply[10] = 1;
+        tgs->SendToGameServer(reply);
     }
 }
 ```

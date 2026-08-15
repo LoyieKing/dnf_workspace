@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807046a` | `0x333` | `0x8066ac4` | `0x33d` |
+| guild | DIFF | `0x807046a` | `0x333` | `0x8066afa` | `0x338` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,248 @@
+@@ -1,242 +1,245 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,20 +28,16 @@
  mov    0x10(%eax),%eax
  test   %eax,%eax
  jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0xed>
--lea    -0x2d(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x2d(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketDecoder is Not Ready!\n",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x34(%ebp),%esi
-+lea    -0x40(%ebp),%esi
+ lea    -0x34(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -58,8 +54,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x92>
@@ -69,8 +64,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0xaf>
--lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0xca>
@@ -79,148 +73,113 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x2d(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x2d(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--movl   $0x0,-0x24(%ebp)
+ movl   $0x0,-0x24(%ebp)
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x312>
-+movl   $0x0,-0x30(%ebp)
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x31c>
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x317>
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE5frontEv>
  mov    (%eax),%eax
--mov    %eax,-0x24(%ebp)
-+mov    %eax,-0x30(%ebp)
+ mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE3popEv>
--cmpl   $0x0,-0x24(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x312>
--mov    -0x24(%ebp),%eax
-+cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x31b>
-+mov    -0x30(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
-+mov    %eax,-0x28(%ebp)
-+call   <T> <_Z23CAppLoadCheckerInstancev>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN15CAppLoadChecker13CheckTcpRecvQEi>
-+test   %eax,%eax
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x184>
-+mov    0x8(%ebp),%eax
-+mov    0x18(%eax),%eax
++je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x316>
+ mov    -0x24(%ebp),%eax
  mov    %eax,-0x20(%ebp)
--mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
--mov    %eax,-0x1c(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
+ mov    %eax,-0x1c(%ebp)
  call   <T> <_Z23CAppLoadCheckerInstancev>
--mov    -0x1c(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN15CAppLoadChecker13CheckTcpRecvQEi>
--test   %al,%al
+ mov    -0x1c(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN15CAppLoadChecker13CheckTcpRecvQEi>
+ test   %al,%al
 -je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x179>
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%ebx
--call   <T> <_Z23CAppLoadCheckerInstancev>
--mov    -0x1c(%ebp),%edx
-+mov    -0x28(%ebp),%edx
++je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x17b>
++mov    0x8(%ebp),%eax
++mov    0x18(%eax),%eax
++mov    %eax,%ebx
+ call   <T> <_Z23CAppLoadCheckerInstancev>
+ mov    -0x1c(%ebp),%edx
  mov    %edx,0xc(%esp)
  movl   $0x1,0x8(%esp)
--mov    %ebx,0x4(%esp)
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x4(%esp)
+ mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN15CAppLoadChecker9RequestDBEP14CServerHandlerii>
--mov    -0x20(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x2ca>
-+je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x2cb>
++je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x2cc>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
--mov    %eax,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x48(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
--mov    -0x24(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpRecvBufferdlEPv>
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x1d3>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexED1Ev>
--mov    -0x20(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x1d5>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ mov    -0x20(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%eax
  mov    %eax,0x8(%esp)
--mov    -0x20(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n",(%esp)
  call   <T> <printf>
--lea    -0x25(%ebp),%eax
-+lea    -0x31(%ebp),%eax
+ lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x25(%ebp),%eax
-+lea    -0x31(%ebp),%eax
+ lea    -0x25(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x2c(%ebp),%esi
-+lea    -0x38(%ebp),%esi
+ lea    -0x2c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -229,7 +188,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x275>
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x261>
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x277>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -238,9 +197,9 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x26f>
 -cmp    $0xffffffff,%edx
 -jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28c>
@@ -248,97 +207,63 @@
 -mov    %esi,%eax
 -mov    %ebx,%edx
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28c>
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x271>
++cmp    $0xffffffff,%edx
++jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28e>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%eax
++mov    %ebx,%edx
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28e>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x2a7>
 -cmp    $0xffffffff,%edx
 -jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28c>
--call   <T> <_ZSt9terminatev>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x25(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--lea    -0x25(%ebp),%eax
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x25b>
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x2a9>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x278>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x278>
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28d>
-+cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x278>
-+call   <T> <_ZSt9terminatev>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x31(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x2b0>
-+lea    -0x31(%ebp),%eax
++jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x28e>
+ call   <T> <_ZSt9terminatev>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x25(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
--mov    %eax,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x44(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
--mov    -0x24(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpRecvBufferdlEPv>
 -jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x307>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x30e>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x309>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x3c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x31c>
++jmp    <T> <_ZN14CPacketDecoder10TcpProcessEv+0x317>
 +nop
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
@@ -455,7 +380,7 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10TcpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp)（约第 269 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp)（约第 270 行）：
 
 ```cpp
 void CPacketDecoder::TcpProcess()
@@ -475,24 +400,25 @@ void CPacketDecoder::TcpProcess()
         }
         CTcpRecvBuffer* pkt = buf;
         int qsize = (int)((std::queue<CTcpRecvBuffer*>*)m_tcpParseQ)->size();
-        if (CAppLoadCheckerInstance()->CheckTcpRecvQ(qsize) != 0)
+        if (CAppLoadCheckerInstance()->CheckTcpRecvQ(qsize))
         {
-            CServerHandler* handler = (CServerHandler*)m_serverHandler;
-            CAppLoadCheckerInstance()->RequestDB(handler, 1, qsize);
+            CAppLoadCheckerInstance()->RequestDB((CServerHandler*)m_serverHandler, 1, qsize);
         }
-        if (MsgDecode((PacketHeader*)pkt) != 1)
+        if (!MsgDecode((PacketHeader*)pkt))
         {
-            CMutex* mtx = (CMutex*)m_tcpRecvBLock;
-            CGuard<CMutex> g(mtx);
-            CTcpRecvBuffer::operator delete(buf);
+            {
+                CGuard<CMutex> g((CMutex*)m_tcpRecvBLock);
+                CTcpRecvBuffer::operator delete(buf);
+            }
             printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", pkt,
                    (unsigned int)*(unsigned short*)pkt);
             throw CDNFException(
                 "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
         }
-        CMutex* mtx = (CMutex*)m_tcpRecvBLock;
-        CGuard<CMutex> g(mtx);
-        CTcpRecvBuffer::operator delete(buf);
+        {
+            CGuard<CMutex> g((CMutex*)m_tcpRecvBLock);
+            CTcpRecvBuffer::operator delete(buf);
+        }
     }
 }
 ```

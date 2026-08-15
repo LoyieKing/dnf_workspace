@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806b272` | `0x265` | `0x804f820` | `0x29d` |
+| monitor | DIFF | `0x806b272` | `0x265` | `0x804f820` | `0x263` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,202 @@
+@@ -1,184 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -56,19 +56,6 @@
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xa0>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x21(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x21(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
  mov    0xc(%ebp),%eax
  mov    0x8c(%eax),%eax
  lea    -0x28(%ebp),%edx
@@ -76,7 +63,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CAppConfig14Check_FileNameERKSs>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xb4>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xe0>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xb2>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x28(%ebp),%eax
@@ -85,39 +72,30 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xc1>
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xbf>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xdc>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x21(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--lea    -0x21(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xda>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x21(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ lea    -0x21(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
  movl   $0x7c,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CMemberConfigC1Ev>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x11d>
-+mov    %edx,%esi
-+mov    %eax,%edi
-+mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
  mov    %ebx,%edx
  mov    0xc(%ebp),%eax
  mov    %edx,0x94(%eax)
@@ -127,15 +105,6 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CMemberExpTblC1Ev>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x15a>
-+mov    %edx,%esi
-+mov    %eax,%edi
-+mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
  mov    %ebx,%edx
  mov    0xc(%ebp),%eax
  mov    %edx,0x98(%eax)
@@ -146,7 +115,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CKillUSRConfigC1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x15f>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x197>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x15d>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -169,7 +138,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x25d>
-+je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x295>
++je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x25b>
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -188,7 +157,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x240>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x206>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -197,33 +166,27 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x202>
--cmp    $0xffffffff,%edx
--jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21f>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21f>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x23a>
+-jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x202>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x200>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21f>
-+jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x257>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x257>
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x272>
-+cmp    $0xffffffff,%edx
-+jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x257>
++jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21d>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+-jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21f>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21d>
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x23a>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x238>
+ cmp    $0xffffffff,%edx
+-jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21f>
++jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x21d>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -322,10 +285,7 @@ void CAppStartInit::Init(CApplication* app, int argc, char** argv)
 {
     srand((unsigned int)time(0));
     app->m_appConfig = new CAppConfig;
-    {
-        std::string cfgName(argv[1]);
-        app->m_appConfig->Check_FileName(cfgName);
-    }
+    app->m_appConfig->Check_FileName(std::string(argv[1]));
     app->m_memberConfig = new CMemberConfig;
     app->m_memberExpTbl = new CMemberExpTbl;
     app->m_serverHandler = new CKillUSRConfig;

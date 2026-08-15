@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8085c94` | `0x1e0` | `0x8062fea` | `0x1d4` |
+| dbmw | NEAR | `0x8085c94` | `0x1e0` | `0x806304a` | `0x1e0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,137 +1,132 @@
+@@ -1,137 +1,137 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -21,8 +21,7 @@
  cmpl   $0x0,0xc(%ebp)
  jne    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x17>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
-+jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1ce>
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
  mov    0x8(%ebp),%eax
  mov    0x34(%eax),%eax
  mov    %eax,-0xc(%ebp)
@@ -51,8 +50,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
-+jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1ce>
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -61,10 +59,9 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xc3>
-+je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xca>
+ jne    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xc3>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -75,15 +72,13 @@
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xca>
--mov    $0x1,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xcf>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xcf>
  mov    $0x0,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xdd>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
-+jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1ce>
-+movl   $0x0,-0x10(%ebp)
+ test   %al,%al
+ je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xdd>
+ mov    $0x0,%eax
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -97,18 +92,15 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x10f>
-+je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x103>
+ je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x10f>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
-+jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1ce>
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
  mov    0xc(%ebp),%eax
  mov    0x12(%eax),%edx
 -mov    -0x20(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  cmp    %eax,%edx
--jbe    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1cc>
-+jbe    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1c0>
+ jbe    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1cc>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -129,8 +121,7 @@
  call   *%ebx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1a4>
-+je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x198>
+ je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1a4>
  movl   $0x24ec,0x8(%esp)
  movl   $&_ZZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_UpdateE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
@@ -144,8 +135,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
-+jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1ce>
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -156,12 +146,10 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1d5>
-+je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1c9>
+ je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1d5>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
+ jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1da>
 -mov    -0x20(%ebp),%edx
-+jmp    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1ce>
 +mov    -0x10(%ebp),%edx
  mov    0xc(%ebp),%eax
  mov    %edx,0x12(%eax)

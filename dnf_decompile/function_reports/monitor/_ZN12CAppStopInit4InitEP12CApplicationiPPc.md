@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806bbd6` | `0x248` | `0x804fdd6` | `0x24d` |
+| monitor | DIFF | `0x806bbd6` | `0x248` | `0x804fd90` | `0x248` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,174 +1,175 @@
+@@ -1,174 +1,174 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -37,26 +37,27 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x30(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication16Send_Term_SignalERKSs>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication16Send_Term_SignalERKSs>
 -mov    %eax,%ebx
 -xor    $0x1,%ebx
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x9d>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x82>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x66>
++test   %al,%al
++sete   %bl
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x9d>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x82>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x29(%ebp),%eax
@@ -69,18 +70,8 @@
  lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
--test   %bl,%bl
--je     <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x17c>
-+lea    -0x30(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Send_Term_SignalERKSs>
-+test   %al,%al
-+sete   %al
-+mov    %al,-0x19(%ebp)
-+cmpb   $0x0,-0x19(%ebp)
-+je     <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x176>
+ test   %bl,%bl
+ je     <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x17c>
  lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -98,8 +89,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x127>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x10c>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x127>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -111,24 +101,19 @@
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x121>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x106>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x121>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
-+jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x123>
+ jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x123>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x159>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x138>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x159>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
-+jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x123>
+ jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -137,9 +122,8 @@
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x15b>
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
  lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -147,24 +131,10 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--lea    -0x19(%ebp),%eax
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+lea    -0x1a(%ebp),%eax
+ lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x19(%ebp),%eax
-+lea    -0x1a(%ebp),%eax
+ lea    -0x19(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CAppStopInit::Init()에 의해 강제로 종료되었음!_1",0x4(%esp)
  lea    -0x20(%ebp),%eax
@@ -178,8 +148,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f3>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f8>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f3>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -191,37 +160,30 @@
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1ed>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f2>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1ed>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
-+jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20f>
+ jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20f>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x225>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x22a>
+ jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x225>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
-+jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20f>
+ jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x19(%ebp),%eax
-+lea    -0x1a(%ebp),%eax
+ lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x19(%ebp),%eax
-+lea    -0x1a(%ebp),%eax
+ lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -295,14 +257,16 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 {
     puts("RECV STOP, \xb0\xfc\xb8\xae\xc0\xda\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1 \xb5\xc7\xbe\xfa\xbd\xc0\xb4\xcf\xb4\xd9.");
     app->Clear();
+    register bool fail;
     {
-        std::string pidFile(argv[1]);
-        bool fail = !app->Send_Term_Signal(pidFile);
-        if (fail)
-        {
-            throw CDNFException(
-                "CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!");
-        }
+        std::allocator<char> alloc;
+        std::string pidFile(argv[1], alloc);
+        fail = !(bool)app->Send_Term_Signal(pidFile);
+    }
+    if (fail)
+    {
+        throw CDNFException(
+            "CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!");
     }
     throw CDNFException(
         "CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!_1");
