@@ -1,4 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size	md_file
+status	name	orig_addr	orig_size	new_addr	new_size
 NEAR	_ZN10CAppConfig11Parse_TableEPci	0x805fa96	0x311	0x804e698	0x311
 DIFF	_ZN10CIPCounter11setLoadTermEh	0x805e8ba	0x4c	0x8093fe4	0x53
 DIFF	_ZN10CIPCounter13setMinIPCountEh	0x805e906	0x20	0x8094038	0x1a
@@ -30,6 +30,7 @@ DIFF	_ZN13CTcpNetSystem4InitEt	0x8052fc2	0x13e	0x80a2c02	0x13a
 DIFF	_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE	0x8057ed2	0x265	0x809e3b6	0x264
 DIFF	_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler	0x809acda	0x216	0x806214c	0x216
 DIFF	_ZN14CMemberManager12DeleteMemberEjb	0x8099e1c	0x14a	0x8061bf6	0x14a
+DIFF	_ZN14CMemberManager12InsertMemberEjP7CMember	0x8099d2a	0xf2	0x806269e	0xf5
 DIFF	_ZN14CMemberManager13MemerMemLoginEjP5CUser	0x809a698	0x3c9	0x8062ce6	0x3c6
 DIFF	_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb	0x8099f66	0x112	0x80628fe	0x116
 DIFF	_ZN14CMemberManager15MemberMemLogoutEjP5CUserb	0x809aa62	0x23a	0x8061d40	0x237
@@ -154,4 +155,3 @@ DIFF	_ZNK11CUdpHandler12SendToServerEPcitPKc	0x8050bf2	0x27b	0x8088396	0x27b
 DIFF	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	0x8050416	0x273	0x8087e2a	0x267
 DIFF	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt	0x8050994	0x25d	0x8088612	0x251
 NEAR	_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionItemInfo_t	0x80a5c70	0x37	0x8094a0c	0x37
-DIFF	_ZN14CMemberManager12InsertMemberEjP7CMember	0x8099d2a	0xf2	0x806269e	0xf5	_ZN14CMemberManager12InsertMemberEjP7CMember.md

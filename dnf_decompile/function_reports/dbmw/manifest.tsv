@@ -1,4 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size	md_file
+status	name	orig_addr	orig_size	new_addr	new_size
 NEAR	_ZL16allocStackBufferjPPhPi	0x818c4c0	0x272	0x80f1817	0x272
 DIFF	_ZL19freeAllStackBuffersv	0x818c81d	0x106	0x80f1b74	0x104
 DIFF	_ZN10CAppConfig11Parse_TableEPci	0x806860c	0x142a	0x806a780	0x1424
@@ -108,6 +108,7 @@ DIFF	_ZN17CPacketTranslater20onQueryTowerFullRankEP12PacketHeader	0x80970dc	0x46
 DIFF	_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader	0x8097810	0x336	0x80d0252	0x32a
 DIFF	_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader	0x809ed40	0x180	0x80d3a06	0x173
 DIFF	_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader	0x8094e96	0x286	0x80d256a	0x288
+DIFF	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader	0x80a06c0	0x4af	0x80d7f70	0x450
 DIFF	_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader	0x809b958	0x599	0x80d8548	0x577
 DIFF	_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader	0x809ce38	0x1d6	0x80d5c68	0x1d1
 DIFF	_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader	0x809d8e0	0x280	0x80d326e	0x27e
@@ -131,4 +132,3 @@ DIFF	_ZN6CMySql4execEj	0x808d744	0x177	0x80c8d02	0x179
 DIFF	_ZN6CMySql4openEPKcS1_S1_S1_	0x808d152	0x168	0x80c94d0	0x166
 DIFF	_ZN6CMySql4openEPKcjS1_S1_S1_	0x808d2ba	0x166	0x80c9636	0x164
 NEAR	_ZN6CMySql7get_intEiRj	0x808e078	0x28	0x80c896c	0x28
-DIFF	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader	0x80a06c0	0x4af	0x80d7f70	0x450	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader.md
