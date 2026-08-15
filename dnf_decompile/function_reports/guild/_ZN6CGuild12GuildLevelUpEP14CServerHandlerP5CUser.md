@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e73e` | `0x287` | `0x8054692` | `0x2a3` |
+| guild | DIFF | `0x808e73e` | `0x287` | `0x8054696` | `0x2a1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,172 +1,178 @@
+@@ -1,172 +1,177 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -26,16 +26,14 @@
 +jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x17>
  mov    $0x2,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29d>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27a>
-+jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x32>
-+mov    $0x2,%eax
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29d>
++je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x296>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -45,7 +43,7 @@
  call   <T> <_ZN6CGuild11GetMasterIdEv>
  cmp    %eax,%ebx
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x68>
-+je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x76>
++je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x66>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -53,26 +51,25 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSubGuildMasterEj>
-+xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x6f>
-+je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x76>
++je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x6d>
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x74>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x7b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x72>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27a>
-+je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x89>
++jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x80>
 +mov    $0x2,%eax
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29d>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
  mov    0x8(%ebp),%eax
  movzbl 0x3b(%eax),%eax
  movzbl %al,%eax
  add    $0x1,%eax
  cmp    $0x10,%eax
 -jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xdf>
-+jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xf2>
++jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xe9>
  mov    0x8(%ebp),%eax
  movzbl 0x3b(%eax),%eax
  movzbl %al,%eax
@@ -96,7 +93,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x3,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29d>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
  mov    0x8(%ebp),%eax
  movzbl 0x3b(%eax),%eax
  lea    0x1(%eax),%edx
@@ -123,7 +120,7 @@
  movzbl 0x3b(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x149>
-+jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x161>
++jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x158>
  mov    0x8(%ebp),%eax
 -movzbl 0x3c(%eax),%edx
 +movzbl 0x3c(%eax),%eax
@@ -138,7 +135,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1c7>
-+je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1df>
++je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1d6>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -166,7 +163,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild9SaveGuildEhP14CServerHandlerj>
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1fd>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x215>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x20c>
  movl   $0x445,0x8(%esp)
  movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -219,7 +216,8 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
--mov    $0x2,%eax
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
+ mov    $0x2,%eax
 -add    $0x4c,%esp
 +add    $0x54,%esp
  pop    %ebx
@@ -328,12 +326,13 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     {
         return 2;
     }
-    if ((m_guildDBFlag & 4) == 0)
+    if ((m_guildDBFlag & 4) != 0)
     {
-        return 2;
+    if (user->GetUniqCharNo() == GetMasterId() ||
+        IsSubGuildMaster(user->GetUniqCharNo()))
+    {
     }
-    if (user->GetUniqCharNo() != GetMasterId() &&
-        !IsSubGuildMaster(user->GetUniqCharNo()))
+    else
     {
         return 2;
     }
@@ -371,5 +370,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
         log("./log/GuildModify", "CGuild::GuildLevelUp(%d : %d)GSP(%d)", key, lev, gsp);
     }
     return 0;
+    }
+    return 2;
 }
 ```

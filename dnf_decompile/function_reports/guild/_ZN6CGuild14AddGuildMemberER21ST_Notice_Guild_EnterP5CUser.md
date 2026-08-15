@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090b68` | `0x16e` | `0x80565cc` | `0x154` |
+| guild | DIFF | `0x8090b68` | `0x16e` | `0x8056606` | `0x159` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,39 +13,34 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,118 +1,107 @@
+@@ -1,118 +1,108 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x164>
-+je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x3e>
++je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x149>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
-+je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x3e>
++je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14c>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x10,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
-+je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x3e>
++je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14f>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x167>
-+je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x45>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x4a>
-+mov    $0x0,%eax
-+test   %al,%al
-+jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14d>
++jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x152>
  mov    0x8(%ebp),%eax
 -add    $0x1e,%eax
 -mov    %eax,-0xc(%ebp)
@@ -143,7 +138,7 @@
 -movzwl (%eax),%edx
 +addw   $0x1,-0xa(%ebp)
 +cmpw   $0x12c,-0xa(%ebp)
-+jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x135>
++jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x131>
 +movw   $0x12c,-0xa(%ebp)
  mov    0x8(%ebp),%eax
 +movzwl -0xa(%ebp),%edx
@@ -152,9 +147,14 @@
 +movzwl -0xa(%ebp),%edx
  mov    %dx,0x42(%eax)
 -jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
--nop
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x153>
+ nop
 -jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
-+jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14e>
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x153>
++nop
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x153>
++nop
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x153>
  nop
  add    $0x24,%esp
  pop    %ebx
@@ -208,12 +208,24 @@ CGuild::_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1673 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1703 行）：
 
 ```cpp
 void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
 {
-    if (user == 0 || (m_guildDBFlag & 4) == 0 || (m_guildDBFlag & 0x10) == 0 || m_members.empty())
+    if (user == 0)
+    {
+        return;
+    }
+    if ((m_guildDBFlag & 4) == 0)
+    {
+        return;
+    }
+    if ((m_guildDBFlag & 0x10) == 0)
+    {
+        return;
+    }
+    if (m_members.empty())
     {
         return;
     }

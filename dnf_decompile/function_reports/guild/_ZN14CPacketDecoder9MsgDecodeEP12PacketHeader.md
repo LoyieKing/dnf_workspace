@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806ff44` | `0x1f8` | `0x8066594` | `0x1f7` |
+| guild | DIFF | `0x806ff44` | `0x1f8` | `0x80665d4` | `0x1f7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -110,10 +110,14 @@
 +lea    0x4(%eax),%edx
  mov    0x8(%ebp),%eax
 -add    $0x4,%edx
- mov    0xc(%eax,%edx,4),%edx
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    0xc(%eax,%edx,4),%edx
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    0xc(%eax,%edx,4),%eax
++mov    0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%eax
@@ -227,7 +231,7 @@ CPacketDecoder::_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader
 定义于 [source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp)（约第 201 行）：
 
 ```cpp
-int CPacketDecoder::MsgDecode(PacketHeader* pkt)
+bool CPacketDecoder::MsgDecode(PacketHeader* pkt)
 {
     if (pkt == 0)
     {

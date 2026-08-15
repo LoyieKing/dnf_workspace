@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088152` | `0x25f` | `0x807e034` | `0x260` |
+| guild | DIFF | `0x8088152` | `0x25f` | `0x807e03c` | `0x26a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,156 +1,157 @@
+@@ -1,156 +1,160 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -60,7 +60,7 @@
  mov    %eax,-0x18(%ebp)
  cmpl   $0x0,-0x18(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x258>
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x256>
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x260>
  mov    -0x1c(%ebp),%eax
  movzbl 0x1(%eax),%eax
  movzbl %al,%ebx
@@ -81,7 +81,8 @@
  test   %al,%al
  sete   %al
  test   %al,%al
- je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
+-je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x263>
  movl   $0xc,0x8(%esp)
  movl   $0x1f42,0x4(%esp)
  mov    -0x18(%ebp),%eax
@@ -91,9 +92,9 @@
  movl   $0x0,-0x10(%ebp)
  cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x12b>
--mov    -0x14(%ebp),%eax
--mov    %eax,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x25a>
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x264>
+ mov    -0x14(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -106,7 +107,7 @@
 -je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x19e>
 -mov    -0x10(%ebp),%eax
 -movb   $0x1,0xb(%eax)
-+je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x19c>
++je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x1a2>
 +mov    -0x14(%ebp),%eax
 +add    $0xb,%eax
 +movb   $0x1,(%eax)
@@ -125,7 +126,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x23d>
-+jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x239>
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x243>
  mov    -0x20(%ebp),%eax
  movzbl 0xc(%eax),%eax
  movzbl %al,%eax
@@ -133,11 +134,9 @@
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer12SetChannelNoEh>
--mov    -0x1c(%ebp),%eax
--movzbl 0x1(%eax),%eax
--movzbl %al,%ebx
-+mov    -0x20(%ebp),%eax
-+mov    0x6(%eax),%ebx
+ mov    -0x1c(%ebp),%eax
+ movzbl 0x1(%eax),%eax
+ movzbl %al,%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -182,9 +181,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
-+jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x25a>
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x264>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x25a>
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x264>
  nop
  add    $0x44,%esp
  pop    %ebx
@@ -272,7 +271,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5550 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5455 行）：
 
 ```cpp
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
@@ -299,13 +298,10 @@ void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
         return;
     }
     char* reply = tgs->makePacketHeader(0x1f42, 0xc);
-    int dummy = 0;
-    (void)dummy;
-    if (reply == 0)
+    char* dummy = 0;
+    if (reply != 0)
     {
-    }
-    else
-    {
+        dummy = reply;
         if (!m_pclApp->Get_ServerHandler()->RegistGameServer(info))
         {
             reply[0xb] = 1;
@@ -316,7 +312,7 @@ void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
         else
         {
             tgs->SetChannelNo(pb->m_channel);
-            CGameServer* gs = m_pclApp->Get_ServerHandler()->GetGameServer(pb->m_connNo);
+            CGameServer* gs = m_pclApp->Get_ServerHandler()->GetGameServer(info->m_field1);
             gs->SetSocket(pb->m_connNo);
             reply[0xb] = 0;
             DNF_LOG_SCOPE_LINE(0x1eeb,"./log/GameServer", "Game server regist success. Channel: %d",

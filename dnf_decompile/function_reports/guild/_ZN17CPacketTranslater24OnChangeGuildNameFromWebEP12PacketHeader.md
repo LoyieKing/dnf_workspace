@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081d32` | `0x277` | `0x8077f58` | `0x259` |
+| guild | DIFF | `0x8081d32` | `0x277` | `0x8077f16` | `0x259` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -163,10 +163,14 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x15b7,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -294,7 +298,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3931 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3869 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeGuildNameFromWeb(PacketHeader* pkt)

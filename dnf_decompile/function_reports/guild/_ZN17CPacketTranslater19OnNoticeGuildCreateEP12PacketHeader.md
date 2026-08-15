@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073574` | `0x3d4` | `0x8069ab0` | `0x3f5` |
+| guild | DIFF | `0x8073574` | `0x3d4` | `0x8069abe` | `0x3db` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,282 +1,292 @@
+@@ -1,282 +1,282 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,19 +26,19 @@
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0xef>
 -lea    -0x41(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0xf2>
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x41(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildCreate : 0 == m_pclApp",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x48(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
++lea    -0x4c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -90,7 +90,7 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2bc>
 -lea    -0x41(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x92>
@@ -102,7 +102,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0xb7>
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0xcf>
@@ -115,13 +115,13 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2dc>
-+lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2c0>
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -143,19 +143,19 @@
 -je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x1ed>
 -lea    -0x39(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x1f0>
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CGuildManager::GuildMemLogin() pclServerHandler == NULL\n",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x44(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -207,7 +207,7 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2bc>
 -lea    -0x39(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x190>
@@ -219,7 +219,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x1b5>
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x1cd>
@@ -232,13 +232,13 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2dc>
-+lea    -0x2d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2c0>
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -260,7 +260,7 @@
 -je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cc>
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ea>
++je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3d0>
 +mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -301,33 +301,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_Monitor_Notice_Guild_Create_ToUserC1Ev>
 -mov    -0x24(%ebp),%eax
--add    $0xa,%eax
--movl   $0x1f,0x8(%esp)
--mov    %eax,0x4(%esp)
--lea    -0x75(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
--mov    -0x28(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
-+mov    0xa(%eax),%edx
-+mov    %edx,-0x6f(%ebp)
-+mov    0xe(%eax),%edx
-+mov    %edx,-0x6b(%ebp)
-+mov    0x12(%eax),%edx
-+mov    %edx,-0x67(%ebp)
-+mov    0x16(%eax),%edx
-+mov    %edx,-0x63(%ebp)
-+mov    0x1a(%eax),%edx
-+mov    %edx,-0x5f(%ebp)
-+mov    0x1e(%eax),%edx
-+mov    %edx,-0x5b(%ebp)
-+mov    0x22(%eax),%edx
-+mov    %edx,-0x57(%ebp)
-+movzwl 0x26(%eax),%edx
-+mov    %dx,-0x53(%ebp)
-+movzbl 0x28(%eax),%eax
-+mov    %al,-0x51(%ebp)
+ add    $0xa,%eax
+ movl   $0x1f,0x8(%esp)
+ mov    %eax,0x4(%esp)
+-lea    -0x75(%ebp),%eax
++lea    -0x79(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
+-mov    -0x28(%ebp),%eax
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -342,53 +325,56 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cc>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ea>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3d0>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x362>
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x380>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x366>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildCreate() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x37f,0x8(%esp)
-+movl   $"OnNoticeGuildCreate",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
--mov    %eax,%ebx
--movl   $0x37f,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
+ mov    %eax,%ebx
+ movl   $0x37f,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildCreate() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x35b>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x379>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x35f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -400,7 +386,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cc>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ea>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3d0>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildCreate() Exception Break",(%esp)
@@ -408,17 +394,17 @@
  movl   $0x385,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnNoticeGuildCreate() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3c7>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3e5>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cb>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -509,7 +495,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 712 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 740 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildCreate(PacketHeader* pkt)
@@ -531,7 +517,7 @@ void CPacketTranslater::OnNoticeGuildCreate(PacketHeader* pkt)
                                                   uniqCharNo);
         user->QueryGuildMember(handler);
         Packet_Monitor_Notice_Guild_Create_ToUser notice;
-        notice.m_info = pb->m_info;
+        memcpy(&notice.m_info, &pb->m_info, sizeof(pb->m_info));
         notice.m_member = user->GetIdByChannel();
         user->SendToGameserver((char*)&notice, 0x2d);
     }
@@ -539,14 +525,12 @@ void CPacketTranslater::OnNoticeGuildCreate(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnNoticeGuildCreate() Exception Break : %s\n", e.what());
-        CMyFileLog log("OnNoticeGuildCreate", 0x37f);
-        log("./log/Except", "CPacketTranslater::OnNoticeGuildCreate() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x37f, "./log/Except", "CPacketTranslater::OnNoticeGuildCreate() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildCreate() Exception Break");
-        CMyFileLog log(__FUNCTION__, 0x385);
-        log("./log/Except", "CPacketTranslater::OnNoticeGuildCreate() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x385, "./log/Except", "CPacketTranslater::OnNoticeGuildCreate() Exception Break\n");
     }
 }
 ```

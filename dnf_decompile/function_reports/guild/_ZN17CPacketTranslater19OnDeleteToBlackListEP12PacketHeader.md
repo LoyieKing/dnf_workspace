@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807dd42` | `0x297` | `0x80740b6` | `0x287` |
+| guild | DIFF | `0x807dd42` | `0x297` | `0x8074042` | `0x289` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,180 +1,173 @@
+@@ -1,180 +1,174 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,18 +27,16 @@
  jne    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x52>
  movl   $0xeeb,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDeleteToBlackList : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/BlackList",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
-+jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x280>
++jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x282>
  lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_DMBW_Delete_To_BlackListC1Ev>
@@ -55,42 +53,36 @@
  add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x10(%ebp),%eax
 +mov    -0x18(%ebp),%eax
  lea    0xe(%eax),%edx
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  lea    0x10(%eax),%edx
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager17FindUser_CharNameESs>
 -mov    %eax,-0x18(%ebp)
 -cmpl   $0x0,-0x18(%ebp)
 -setne  %bl
--lea    -0x38(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x108>
 +jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x101>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
@@ -99,23 +91,21 @@
 +jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0xe9>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x1b7>
--lea    -0x31(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x1ac>
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
 -je     <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
 -mov    -0x10(%ebp),%eax
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x280>
++je     <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x282>
 +mov    -0x18(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
@@ -133,19 +123,17 @@
 +je     <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x17a>
  movl   $0xefc,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDeleteToBlackList : 0 == pclUser",0x8(%esp)
  movl   $"./log/BlackList",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
 -mov    -0x18(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x280>
++jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x282>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -154,7 +142,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17DeleteToBlackListEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x280>
++je     <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x282>
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZN5CUser17DeleteToBlackListEj>
@@ -166,41 +154,38 @@
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x44(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
-+jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x280>
++jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x282>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x233>
-+jne    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x226>
++jne    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x228>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0xf16,0x8(%esp)
-+movl   $"OnDeleteToBlackList",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
--mov    %eax,%ebx
--movl   $0xf16,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
 -mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
+ mov    %eax,%ebx
+ movl   $0xf16,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnDeleteToBlackList Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x22c>
-+jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x21f>
++jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x221>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -210,23 +195,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
-+jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x280>
++jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x282>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xf1b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDeleteToBlackList Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x288>
-+jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x27b>
++jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x27d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -310,7 +293,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2881 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2854 行）：
 
 ```cpp
 void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt)
@@ -345,13 +328,11 @@ void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnDeleteToBlackList", 0xf16);
-        log("./log/Except", "CPacketTranslater::OnDeleteToBlackList Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0xf16, "./log/Except", "CPacketTranslater::OnDeleteToBlackList Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        CMyFileLog log(__FUNCTION__, 0xf1b);
-        log("./log/Except", "CPacketTranslater::OnDeleteToBlackList Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0xf1b, "./log/Except", "CPacketTranslater::OnDeleteToBlackList Exception Break\n");
     }
 }
 ```

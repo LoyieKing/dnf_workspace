@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087a1e` | `0x23d` | `0x807d8e4` | `0x23b` |
+| guild | NEAR | `0x8087a1e` | `0x23d` | `0x807d91e` | `0x23d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,146 +1,145 @@
+@@ -1,146 +1,146 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -33,8 +33,7 @@
 +mov    0xc(%eax),%ebx
  movl   $0x1e15,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %edi,0x14(%esp)
@@ -42,8 +41,7 @@
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebGuildBoardDelete Receive Data: GuildKey : %u, CharacID : %u, NO : %u",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
--lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -51,18 +49,15 @@
  jne    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0xa7>
  movl   $0x1e19,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnWebGuildBoardDelete : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
-+jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x233>
+ jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
  mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
 +mov    0xc(%eax),%eax
@@ -78,18 +73,15 @@
  je     <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x10e>
  movl   $0x1e20,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnWebGuildBoardDelete : 0 == pclGuild",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
-+jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x233>
+ jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
  mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%edi
 +mov    0x10(%eax),%edi
@@ -113,42 +105,36 @@
  movl   $0x1,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildBoard22setWebGuildBoardActionEb>
--jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
-+jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x233>
+ jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x1db>
-+jne    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x1d9>
+ jne    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x1db>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x1e29,0x8(%esp)
-+movl   $"OnWebGuildBoardDelete",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
--mov    %eax,%ebx
--movl   $0x1e29,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x34(%ebp),%eax
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
+ mov    %eax,%ebx
+ movl   $0x1e29,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebGuildBoardDelete Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x1d4>
-+jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x1d2>
+ jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x1d4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -157,24 +143,20 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
-+jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x233>
+ jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x235>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1e2e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnWebGuildBoardDelete Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x230>
-+jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x22e>
+ jmp    <T> <_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketHeader+0x230>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -253,7 +235,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5432 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5351 行）：
 
 ```cpp
 void CPacketTranslater::OnWebGuildBoardDelete(PacketHeader* pkt)
@@ -282,14 +264,11 @@ void CPacketTranslater::OnWebGuildBoardDelete(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnWebGuildBoardDelete", 0x1e29);
-        log("./log/Except",
-            "CPacketTranslater::OnWebGuildBoardDelete Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1e29, "./log/Except", "CPacketTranslater::OnWebGuildBoardDelete Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        CMyFileLog log(__FUNCTION__, 0x1e2e);
-        log("./log/Except", "CPacketTranslater::OnWebGuildBoardDelete Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x1e2e, "./log/Except", "CPacketTranslater::OnWebGuildBoardDelete Exception Break\n");
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8095a22` | `0x349` | `0x805b58e` | `0x33e` |
+| guild | DIFF | `0x8095a22` | `0x349` | `0x805b5ca` | `0x33e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -398,7 +398,7 @@ void CGuildManager::GuildMemLogout(unsigned int guildKey, CUser* user)
         if (guild->DeleteGuildMember(user->GetUniqCharNo(), user) == 1)
         {
             guild->InsertGuildMemberChanglableInfo(user->GetUniqCharNo());
-            if (!IsEmptyGuild(guildKey))
+            if (IsEmptyGuild(guildKey) == 0)
             {
                 guild->NoticeGuildMemberLogin_Out(user, 0);
             }

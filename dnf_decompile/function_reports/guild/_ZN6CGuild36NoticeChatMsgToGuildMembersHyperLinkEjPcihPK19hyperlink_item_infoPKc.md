@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ef2c` | `0x1cd` | `0x8054e7c` | `0x1cb` |
+| guild | DIFF | `0x808ef2c` | `0x1cd` | `0x8054eac` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,27 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,120 +1,121 @@
+@@ -1,120 +1,123 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x2a8,%esp
  mov    0x18(%ebp),%eax
  mov    %al,-0x28c(%ebp)
  cmpl   $0xff,0x14(%ebp)
--jg     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c7>
-+jg     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c2>
+ jg     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c7>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1cb>
-+je     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c5>
++je     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1ca>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1ca>
-+jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c8>
++jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1cd>
  lea    -0x282(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Monitor_Guild_Chat_ToUser_Hyper_LinkC1Ev>
@@ -44,18 +43,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x196>
-+jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x191>
+ jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x196>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--sete   %al
--test   %al,%al
--jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x18a>
-+je     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x185>
+ sete   %al
+ test   %al,%al
+ jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x18a>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -76,7 +73,7 @@
 +mov    %al,-0x253(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x11c>
-+jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x118>
++jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x11d>
  mov    -0xc(%ebp),%eax
  imul   $0x68,%eax,%eax
 -add    0x1c(%ebp),%eax
@@ -105,8 +102,7 @@
  cmp    -0xc(%ebp),%eax
  setg   %al
  test   %al,%al
--jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0xe7>
-+jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0xe2>
+ jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0xe7>
  mov    0x14(%ebp),%eax
 -mov    %al,-0x119(%ebp)
 +mov    %al,-0x12a(%ebp)
@@ -132,8 +128,7 @@
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x18b>
-+jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x186>
+ jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x18b>
  nop
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -152,12 +147,12 @@
  test   %al,%al
  jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x6f>
 -jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1cb>
-+jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c9>
++jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1ce>
  nop
 -jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1cb>
-+jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c9>
++jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1ce>
 +nop
-+jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c9>
++jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1ce>
  nop
  leave
  ret

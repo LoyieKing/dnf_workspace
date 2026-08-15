@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8071c7a` | `0x554` | `0x80681ac` | `0x54f` |
+| guild | DIFF | `0x8071c7a` | `0x554` | `0x80681d6` | `0x551` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,387 +1,381 @@
+@@ -1,387 +1,382 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -31,14 +31,14 @@
  movl   $0x150,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"[GAME SERVER] Channel No : %d\n",0x8(%esp)
  movl   $"./log/Reboot",0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -60,19 +60,19 @@
 -je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x166>
 -lea    -0x59(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x169>
-+lea    -0x4d(%ebp),%eax
++lea    -0x5d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x59(%ebp),%eax
-+lea    -0x4d(%ebp),%eax
++lea    -0x5d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnReplyUserInfo : pclGameServer == 0",0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x60(%ebp),%esi
-+lea    -0x54(%ebp),%esi
++lea    -0x64(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -93,7 +93,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x60(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x106>
@@ -109,7 +109,7 @@
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x12b>
 -lea    -0x60(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x12e>
-+lea    -0x54(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x143>
@@ -125,7 +125,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x59(%ebp),%eax
-+lea    -0x4d(%ebp),%eax
++lea    -0x5d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -133,7 +133,7 @@
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x439>
 -lea    -0x59(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x436>
-+lea    -0x4d(%ebp),%eax
++lea    -0x5d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -152,7 +152,7 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x54b>
-+je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x544>
++je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x546>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 -mov    %eax,-0x2c(%ebp)
@@ -192,7 +192,7 @@
  movl   $0x166,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -201,7 +201,7 @@
  movl   $"CPacketTranslater::OnReplyUserInfo() : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x33e>
@@ -306,20 +306,20 @@
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x54c>
 -lea    -0x49(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x1a4>
-+jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x544>
-+lea    -0x3d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x546>
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x49(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnReplyUserInfo : m_pclApp == 0",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x50(%ebp),%esi
-+lea    -0x44(%ebp),%esi
++lea    -0x54(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -340,7 +340,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x50(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x3d8>
@@ -356,7 +356,7 @@
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x3fd>
 -lea    -0x50(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x3fa>
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x412>
@@ -372,7 +372,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x49(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -380,7 +380,7 @@
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x439>
 -lea    -0x49(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x436>
-+lea    -0x3d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -391,7 +391,7 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x4df>
-+jne    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x4da>
++jne    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x4dc>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -409,11 +409,6 @@
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x187,0x8(%esp)
-+movl   $"OnReplyUserInfo",0x4(%esp)
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
@@ -421,26 +416,26 @@
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
--mov    %eax,%ebx
--movl   $0x187,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
 +mov    (%eax),%eax
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,(%esp)
 +call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0x187,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x64(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x4d8>
-+jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x4d3>
++jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x4d5>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -452,7 +447,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x54c>
-+jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x544>
++jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x546>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnReplyUserInfo() Exception Break",(%esp)
@@ -460,17 +455,17 @@
  movl   $0x18d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnReplyUserInfo() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x544>
-+jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x53f>
++jmp    <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x541>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -591,7 +586,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 360 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 375 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
@@ -655,14 +650,12 @@ void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n", e.what());
-        CMyFileLog log("OnReplyUserInfo", 0x187);
-        log("./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x187, "./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnReplyUserInfo() Exception Break");
-        CMyFileLog log(__FUNCTION__, 0x18d);
-        log("./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x18d, "./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break\n");
     }
 }
 ```

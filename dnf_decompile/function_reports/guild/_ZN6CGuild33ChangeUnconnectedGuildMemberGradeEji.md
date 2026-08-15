@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8090fe0` | `0x8c` | `0x8056a1e` | `0x8b` |
+| guild | NEAR | `0x8090fe0` | `0x8c` | `0x8056a5a` | `0x8b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -101,7 +101,7 @@ CGuild::_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji(CGuild *this,uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1764 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1806 行）：
 
 ```cpp
 void CGuild::ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade)

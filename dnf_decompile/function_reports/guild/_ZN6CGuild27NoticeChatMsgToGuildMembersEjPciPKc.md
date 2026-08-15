@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808edc6` | `0x165` | `0x8054cf6` | `0x161` |
+| guild | DIFF | `0x808edc6` | `0x165` | `0x8054d44` | `0x167` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,32 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,94 @@
+@@ -1,95 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x158,%esp
  cmpl   $0xff,0x14(%ebp)
 -jg     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x15f>
-+jg     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x3c>
++jg     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x15e>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x163>
-+je     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x3c>
++je     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x161>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x162>
-+je     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x3c>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x41>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x15f>
++jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x164>
  lea    -0x145(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_Guild_Chat_ToUserC1Ev>
@@ -49,17 +43,17 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x12e>
-+jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x130>
++jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x12d>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--sete   %al
--test   %al,%al
+ sete   %al
+ test   %al,%al
 -jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x122>
-+je     <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x125>
++jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x121>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -101,7 +95,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x123>
--nop
++jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x122>
+ nop
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -117,12 +112,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x66>
+ jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x66>
 -jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x163>
--nop
++jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x165>
+ nop
 -jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x163>
--nop
-+jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x71>
++jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x165>
++nop
++jmp    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x165>
+ nop
  leave
  ret
 ```

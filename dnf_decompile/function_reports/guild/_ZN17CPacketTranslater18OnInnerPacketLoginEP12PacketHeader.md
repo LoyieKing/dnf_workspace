@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808109c` | `0x25a` | `0x8077372` | `0x247` |
+| guild | DIFF | `0x808109c` | `0x25a` | `0x807731c` | `0x247` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,12 +20,9 @@
  push   %ebx
 -sub    $0x50,%esp
 +sub    $0x40,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x4c>
-+jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x52>
+ jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x4c>
  movl   $0x1455,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -39,9 +36,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x253>
--mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
 +jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
+ mov    0x8(%ebp),%eax
+-mov    %eax,-0x20(%ebp)
++mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -150,10 +148,14 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x1489,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -284,17 +286,17 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3712 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3666 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
 {
-    Packet_InnerPakcet_Login* pb = (Packet_InnerPakcet_Login*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1455, "./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
         return;
     }
+    Packet_InnerPakcet_Login* pb = (Packet_InnerPakcet_Login*)pkt;
     try
     {
         if (m_pclApp->Get_ServerHandler()->GetTcpDBServer()->GetSock() == pb->m_connNo)

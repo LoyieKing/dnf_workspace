@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e2e4` | `0xce` | `0x805420e` | `0xc9` |
+| guild | DIFF | `0x808e2e4` | `0xce` | `0x805422a` | `0xd1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,60 @@
+@@ -1,62 +1,64 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -23,7 +23,7 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild18SendToGuildForMailEv+0xcc>
-+je     <T> <_ZN6CGuild18SendToGuildForMailEv+0xc6>
++je     <T> <_ZN6CGuild18SendToGuildForMailEv+0xce>
  lea    -0x22(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Notify_New_MailC1Ev>
@@ -33,38 +33,32 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x9d>
-+jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x95>
+ jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x9d>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--sete   %al
--test   %al,%al
--jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x91>
-+je     <T> <_ZN6CGuild18SendToGuildForMailEv+0x8a>
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,-0x18(%ebp)
+ sete   %al
+ test   %al,%al
+ jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x91>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
  mov    %eax,-0x14(%ebp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x18(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,-0x18(%ebp)
  lea    -0x22(%ebp),%eax
  movl   $0x12,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x92>
--nop
+ jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x92>
+ nop
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -81,7 +75,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
  jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x3d>
-+jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0xc7>
++jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0xcf>
 +nop
  leave
  ret
@@ -137,7 +131,7 @@ void __thiscall CGuild::_ZN6CGuild18SendToGuildForMailEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 953 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 957 行）：
 
 ```cpp
 void CGuild::SendToGuildForMail()
@@ -150,13 +144,11 @@ void CGuild::SendToGuildForMail()
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
-        CUser* m = it->second;
-        if (m != 0)
-        {
-            pkt.ma = m->GetUniqCharNo();
-            pkt.me = m->GetIdByChannel();
-            m->SendToGameserver((char*)&pkt, 0x12);
-        }
+        CUser* m;
+        if ((m = it->second) == 0) { continue; }
+        pkt.me = m->GetIdByChannel();
+        pkt.ma = m->GetUniqCharNo();
+        m->SendToGameserver((char*)&pkt, 0x12);
     }
 }
 ```

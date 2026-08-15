@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076258` | `0x4a8` | `0x806c6e8` | `0x49d` |
+| guild | DIFF | `0x8076258` | `0x4a8` | `0x806c5fe` | `0x49f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,344 +1,339 @@
+@@ -1,344 +1,340 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0xf2>
 -lea    -0x49(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x49(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd : 0 == m_pclApp",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x50(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
++lea    -0x4c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -56,7 +56,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x92>
@@ -69,7 +69,7 @@
  mov    %ebx,%eax
  jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0xb7>
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0xcf>
@@ -89,13 +89,13 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3bc>
 -lea    -0x49(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3b6>
-+lea    -0x35(%ebp),%eax
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -115,7 +115,7 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49c>
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x492>
++je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x494>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
@@ -136,19 +136,19 @@
 -je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x233>
 -lea    -0x41(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x22a>
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x41(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd : false == Rank() : May be m_vtGuildWarInfo is empty!",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x48(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x44(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -200,7 +200,7 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3bc>
 -lea    -0x41(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x1ca>
@@ -212,7 +212,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x1ef>
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x207>
@@ -225,13 +225,13 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3b6>
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -249,19 +249,19 @@
 -je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x322>
 -lea    -0x39(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x31c>
-+lea    -0x25(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd : false == SameRankWork() : May be m_vtGuildWarInfo is empty!",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
++lea    -0x3c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -313,7 +313,7 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3bc>
 -lea    -0x39(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x2bc>
@@ -325,7 +325,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x2e1>
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x2f9>
@@ -338,13 +338,13 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x25(%ebp),%eax
++lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x3b6>
-+lea    -0x25(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -356,7 +356,7 @@
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
  mov    %al,-0x1d(%ebp)
 -lea    -0xcd(%ebp),%eax
-+lea    -0xcb(%ebp),%eax
++lea    -0xc9(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Notice_DB_Guild_War_EndC1Ev>
  movzbl -0x1d(%ebp),%eax
@@ -368,12 +368,12 @@
 -add    $0x33,%eax
 -mov    %eax,0x8(%esp)
 -lea    -0xcd(%ebp),%eax
-+mov    %al,-0xc1(%ebp)
-+lea    -0xcb(%ebp),%eax
++mov    %al,-0xbf(%ebp)
++lea    -0xc9(%ebp),%eax
 +lea    0x5b(%eax),%ecx
-+lea    -0xcb(%ebp),%eax
++lea    -0xc9(%ebp),%eax
 +lea    0x33(%eax),%edx
-+lea    -0xcb(%ebp),%eax
++lea    -0xc9(%ebp),%eax
  add    $0xb,%eax
 +mov    %ecx,0xc(%esp)
 +mov    %edx,0x8(%esp)
@@ -385,58 +385,57 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x68(%eax),%eax
 -lea    -0xcd(%ebp),%edx
-+lea    -0xcb(%ebp),%edx
++lea    -0xc9(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -lea    -0x5e(%ebp),%eax
-+lea    -0x4a(%ebp),%eax
++lea    -0x5a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
 -movl   $0x9,-0x54(%ebp)
 -lea    -0x5e(%ebp),%eax
-+movl   $0x9,-0x40(%ebp)
-+lea    -0x4a(%ebp),%eax
++movl   $0x9,-0x50(%ebp)
++lea    -0x5a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49d>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x492>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x494>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x43c>
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x434>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x436>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x76d,0x8(%esp)
-+movl   $"OnNoticeGuildWarEnd",0x4(%esp)
-+lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
--mov    %eax,%ebx
--movl   $0x76d,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
+ mov    %eax,%ebx
+ movl   $0x76d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x435>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x42d>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x42f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -448,23 +447,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49d>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x492>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x494>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x772,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x495>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x48d>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x48f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -583,7 +582,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1331 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1339 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildWarEnd(PacketHeader* pkt)
@@ -620,13 +619,11 @@ void CPacketTranslater::OnNoticeGuildWarEnd(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnNoticeGuildWarEnd", 0x76d);
-        log("./log/Except", "CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x76d, "./log/Except", "CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        CMyFileLog log(__FUNCTION__, 0x772);
-        log("./log/Except", "CPacketTranslater::OnNoticeGuildWarEnd Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x772, "./log/Except", "CPacketTranslater::OnNoticeGuildWarEnd Exception Break\n");
     }
 }
 ```

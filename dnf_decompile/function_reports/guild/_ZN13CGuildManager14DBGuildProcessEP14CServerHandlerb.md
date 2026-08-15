@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096a74` | `0x159` | `0x805c5d4` | `0x151` |
+| guild | DIFF | `0x8096a74` | `0x159` | `0x805c610` | `0x155` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,12 +22,10 @@
  mov    %al,-0x2c(%ebp)
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x153>
--movl   $0x0,(%esp)
-+je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x14b>
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
++je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x14f>
+ movl   $0x0,(%esp)
  call   <T> <time>
--mov    %eax,-0x20(%ebp)
+ mov    %eax,-0x20(%ebp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
@@ -65,7 +63,7 @@
  call   <T> <_ZNSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xfe>
-+jmp    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xf6>
++jmp    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xfa>
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEptEv>
@@ -76,7 +74,7 @@
 -mov    -0x18(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xeb>
++je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xef>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
@@ -102,7 +100,7 @@
  mov    &_ZZN13CGuildManager14DBGuildProcessEP14CServerHandlerbE10save_order,%eax
  cmp    %eax,-0xc(%ebp)
 -jne    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xf3>
-+jne    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xeb>
++jne    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0xef>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
@@ -125,18 +123,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x8d>
-+jne    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x89>
+ jne    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x8d>
  mov    &_ZZN13CGuildManager14DBGuildProcessEP14CServerHandlerbE10save_order,%eax
  add    $0x1,%eax
  mov    %eax,&_ZZN13CGuildManager14DBGuildProcessEP14CServerHandlerbE10save_order
  mov    &_ZZN13CGuildManager14DBGuildProcessEP14CServerHandlerbE10save_order,%eax
  cmp    $0x9,%eax
 -jbe    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x154>
-+jbe    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x14c>
++jbe    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x150>
  movl   $0x0,&_ZZN13CGuildManager14DBGuildProcessEP14CServerHandlerbE10save_order
 -jmp    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x154>
-+jmp    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x14c>
++jmp    <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x150>
  nop
  mov    -0x4(%ebp),%ebx
  leave
@@ -221,7 +218,7 @@ void CGuildManager::DBGuildProcess(CServerHandler* handler, bool flag)
     static unsigned int save_order = 0;
     time_t now;
     tm* t;
-    time(&now);
+    now = time(NULL);
     t = localtime(&now);
     char onTime = m_scheduler.IsOnTimeSpecialDayHour(t->tm_mday, t->tm_hour, t->tm_min);
     unsigned char groupNo = m_app->Get_ServerGroup();

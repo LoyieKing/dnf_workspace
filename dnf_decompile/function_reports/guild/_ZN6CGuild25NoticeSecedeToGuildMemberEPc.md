@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054a9e` | `0x108` |
+| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054af0` | `0x107` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,76 @@
+@@ -1,76 +1,78 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x88,%esp
@@ -23,19 +23,13 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x102>
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x33>
++je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x101>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x101>
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x33>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x38>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x106>
++jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x104>
  lea    -0x69(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_Monitor_Notice_Guild_Secede_ToUserC1Ev>
@@ -52,18 +46,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xd0>
-+jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xd7>
+ jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xd0>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--sete   %al
--test   %al,%al
--jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xc4>
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xcc>
+ sete   %al
+ test   %al,%al
+ jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xc4>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -78,8 +70,8 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xc5>
--nop
+ jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xc5>
+ nop
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -95,10 +87,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x70>
+ jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x70>
 -jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x102>
--nop
-+jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x7f>
++jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x105>
++nop
++jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x105>
+ nop
  leave
  ret
 ```
@@ -160,26 +154,29 @@ void __thiscall CGuild::_ZN6CGuild25NoticeSecedeToGuildMemberEPc(CGuild *this,ch
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1136 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1150 行）：
 
 ```cpp
 void CGuild::NoticeSecedeToGuildMember(char* info)
 {
-    if ((m_guildDBFlag & 4) != 0 && !m_members.empty())
+    if ((m_guildDBFlag & 4) == 0)
     {
-        Packet_Monitor_Notice_Guild_Secede_ToUser pkt;
-        memcpy(&pkt.m_info, info, 0x43);
-        for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
-             it != m_members.end(); ++it)
-        {
-            CUser* u = it->second;
-            if (u != 0)
-            {
-                pkt.m_channel = u->GetIdByChannel();
-                pkt.m_charNo = u->GetUniqCharNo();
-                u->SendToGameserver((char*)&pkt, 0x55);
-            }
-        }
+        return;
+    }
+    if (m_members.empty())
+    {
+        return;
+    }
+    Packet_Monitor_Notice_Guild_Secede_ToUser pkt;
+    memcpy(&pkt.m_info, info, 0x43);
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        CUser* u;
+        if ((u = it->second) == 0) { continue; }
+        pkt.m_channel = u->GetIdByChannel();
+        pkt.m_charNo = u->GetUniqCharNo();
+        u->SendToGameserver((char*)&pkt, 0x55);
     }
 }
 ```

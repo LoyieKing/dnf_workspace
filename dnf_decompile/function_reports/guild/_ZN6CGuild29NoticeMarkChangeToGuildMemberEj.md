@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054ba6` | `0x14f` |
+| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054bf8` | `0x14b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,94 @@
+@@ -1,95 +1,93 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -27,19 +27,14 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x13d>
-+je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x26>
++je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x145>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x13c>
 -lea    -0x3e(%ebp),%eax
-+je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x2d>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x32>
-+mov    $0x0,%eax
-+test   %al,%al
-+jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x14c>
++jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x148>
 +lea    -0x2e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN46Packet_Monitor_Notice_Guild_Mark_Change_ToUserC1Ev>
@@ -52,20 +47,20 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x10b>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x11b>
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x114>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0x0,-0x1c(%ebp)
--sete   %al
--test   %al,%al
--jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0xff>
--mov    -0x1c(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x10f>
+ sete   %al
+ test   %al,%al
+-jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0xff>
+-mov    -0x1c(%ebp),%eax
++jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x108>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -117,7 +112,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x100>
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x110>
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x109>
  nop
 -lea    -0x44(%ebp),%eax
 +lea    -0x34(%ebp),%eax
@@ -140,8 +135,8 @@
  test   %al,%al
 -jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x56>
 -jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x13d>
-+jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x5f>
-+jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x14d>
++jne    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x53>
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x149>
  nop
 -lea    -0xc(%ebp),%esp
 -add    $0x0,%esp
@@ -149,6 +144,8 @@
 -pop    %esi
 -pop    %edi
 -pop    %ebp
++jmp    <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj+0x149>
++nop
 +leave
  ret
 ```
@@ -220,12 +217,16 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1156 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1173 行）：
 
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
 {
-    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) == 0)
+    {
+        return;
+    }
+    if (m_members.empty())
     {
         return;
     }
@@ -233,11 +234,8 @@ void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
-        CUser* member = it->second;
-        if (member == 0)
-        {
-            continue;
-        }
+        CUser* member;
+        if ((member = it->second) == 0) { continue; }
         int channel = member->GetIdByChannel();
         unsigned int memberNo = member->GetUniqCharNo();
         pkt.m_channel = channel;

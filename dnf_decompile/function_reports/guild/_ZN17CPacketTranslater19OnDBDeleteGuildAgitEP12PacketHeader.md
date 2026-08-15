@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082be6` | `0x25e` | `0x8078d6c` | `0x240` |
+| guild | DIFF | `0x8082be6` | `0x25e` | `0x8078d5a` | `0x240` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -167,10 +167,14 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x16fe,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -295,7 +299,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4171 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4105 行）：
 
 ```cpp
 void CPacketTranslater::OnDBDeleteGuildAgit(PacketHeader* pkt)
