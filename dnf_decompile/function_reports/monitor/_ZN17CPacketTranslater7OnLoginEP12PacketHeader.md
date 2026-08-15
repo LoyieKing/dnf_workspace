@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x80695e2` | `0x644` |
+| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x806958a` | `0x644` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -346,7 +346,7 @@
 -mov    -0x30(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
 +movl   $0x1a5,0x8(%esp)
-+movl   $"OnLogin",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater7OnLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x9c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -596,11 +596,14 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
+-mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
-+mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x1ff,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater7OnLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -889,7 +892,7 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
                             user->SetTcpGameServer(tcpGs);
                             out->m_sex = 1;
                             char* dbid = NumberToString(login->m_dbid, 0);
-                            CMyFileLog log2("OnLogin", 0x1a5);
+                            CMyFileLog log2(__FUNCTION__, 0x1a5);
                             log2("./log/User",
                                  "Current user count : %d\tConnected User DB ID : %s\n",
                                  userMgr->Size(), dbid);

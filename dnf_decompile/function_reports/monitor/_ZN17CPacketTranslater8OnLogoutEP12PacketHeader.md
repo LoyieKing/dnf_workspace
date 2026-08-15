@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807e32a` | `0x973` | `0x8069c26` | `0x9b1` |
+| monitor | DIFF | `0x807e32a` | `0x973` | `0x8069bce` | `0x9b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -203,7 +203,7 @@
 -mov    %edx,0x4(%esp)
 +mov    %eax,-0x54(%ebp)
 +mov    -0x7c(%ebp),%eax
-+mov    0xa(%eax),%eax
++mov    0x18(%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x74(%ebp),%eax
  mov    %eax,(%esp)
@@ -853,20 +853,28 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnLogout() Exception Break : %s\n",(%esp)
  call   <T> <printf>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x2eb,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater8OnLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -1210,7 +1218,7 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt)
             (unsigned int)(unsigned char)logout->m_channel);
         unsigned int memberKey2 = logout->m_memberKey;
         CMemoryCashManager* cash = (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
-        CMember* member = memberMgr->FindMember(logout->m_dbid);
+        CMember* member = memberMgr->FindMember(logout->m_memberKey);
         bool f1 = false;
         bool f2 = false;
         cash->InsertCashMemorySetCharacterObject(user, member, f1, f2);
