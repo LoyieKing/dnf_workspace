@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80685da` | `0x177` | `0x806177c` | `0x170` |
+| statics | DIFF | `0x80685da` | `0x177` | `0x8061766` | `0x170` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,10 +25,9 @@
 -mov    -0x10(%ebp),%edx
 +movl   $0x0,-0xc(%ebp)
 +jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x2c>
-+mov    -0xc(%ebp),%eax
-+lea    0x8(%eax),%edx
++mov    -0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
--add    $0x8,%edx
+ add    $0x8,%edx
  movw   $0x0,0xc(%eax,%edx,2)
 -addl   $0x1,-0x10(%ebp)
 -cmpl   $0x7,-0x10(%ebp)
@@ -200,7 +199,7 @@ FrameLagCollector::FrameLagDataStruct::_ZN17FrameLagCollector18FrameLagDataStruc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 716 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 708 行）：
 
 ```cpp
 void FrameLagCollector::FrameLagDataStruct::init()
@@ -208,7 +207,7 @@ void FrameLagCollector::FrameLagDataStruct::init()
     m0 = 0;
     for (int i = 0; i < 8; i++)
     {
-        m_b[i + 8] = 0;
+        m_b[i] = 0;
     }
     m_c[0] = 0;
     m_c[1] = 0;

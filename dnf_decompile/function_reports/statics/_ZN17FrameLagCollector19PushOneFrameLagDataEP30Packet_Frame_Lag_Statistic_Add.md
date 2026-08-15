@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80668ee` | `0x51d` | `0x805fb16` | `0x52b` |
+| statics | DIFF | `0x80668ee` | `0x51d` | `0x805fb10` | `0x51e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,388 +1,393 @@
+@@ -1,388 +1,389 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -24,7 +24,7 @@
  je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x1c>
  mov    $0x2,%eax
 -jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x518>
-+jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x526>
++jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x519>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -35,7 +35,7 @@
  je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x3f>
  mov    $0x4,%eax
 -jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x518>
-+jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x526>
++jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x519>
  mov    0x8(%ebp),%eax
  mov    0x6c(%eax),%eax
  lea    0x1(%eax),%edx
@@ -104,7 +104,7 @@
 -movzbl -0xd(%ebp),%eax
 -cmp    $0x1,%eax
 -jne    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x38b>
-+jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4ef>
++jmp    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4e2>
 +movb   $0x1,-0x9(%ebp)
 +cmpb   $0x1,-0x9(%ebp)
 +jne    <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x38c>
@@ -391,7 +391,7 @@
 +je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x38c>
 +movb   $0x0,-0x9(%ebp)
 +cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4e4>
++je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4d7>
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEptEv>
@@ -420,41 +420,30 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEneERKS5_>
  test   %al,%al
 -je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4d6>
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
--mov    0x4(%eax),%edx
--add    $0x1,%edx
--mov    %edx,0x4(%eax)
-+je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4e4>
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
-+mov    %eax,%ebx
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
-+mov    0x4(%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,0x4(%ebx)
++je     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4d7>
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
+ mov    0x4(%eax),%edx
+ add    $0x1,%edx
+ mov    %edx,0x4(%eax)
  mov    0xc(%ebp),%eax
  movzbl 0x1f(%eax),%eax
  test   %al,%al
 -js     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x453>
-+js     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x461>
++js     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x454>
  mov    0xc(%ebp),%eax
  movzbl 0x1f(%eax),%eax
  cmp    $0x7,%al
 -jg     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x453>
-+jg     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x461>
++jg     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x454>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
  mov    0xc(%ebp),%edx
  movzbl 0x1f(%edx),%edx
 -movsbl %dl,%ebx
-+movsbl %dl,%edx
-+lea    0x8(%edx),%ecx
++movsbl %dl,%ecx
  mov    0xc(%ebp),%edx
  movzbl 0x1f(%edx),%edx
  movsbl %dl,%edx
@@ -464,12 +453,13 @@
 -lea    0x8(%ebx),%edx
 -mov    %cx,0x10(%eax,%edx,2)
 +add    $0x1,%edx
++add    $0x8,%ecx
 +mov    %dx,0x10(%eax,%ecx,2)
  mov    0xc(%ebp),%eax
  movzwl 0x20(%eax),%eax
  test   %ax,%ax
 -js     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4af>
-+js     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4bd>
++js     <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add+0x4b0>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18FrameLagDataStructEEEptEv>
@@ -923,11 +913,11 @@ int FrameLagCollector::PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add* pkt)
             fd = m_data.find(it->second.m_specId);
             if (fd != m_data.end())
             {
-                fd->second.m0 = fd->second.m0 + 1;
+                fd->second.m0 += 1;
                 if (-1 < (char)((FrameLagPktHeader*)pkt)->m_module &&
                     (char)((FrameLagPktHeader*)pkt)->m_module < 8)
                 {
-                    fd->second.m_b[((char)((FrameLagPktHeader*)pkt)->m_module + 8)] += 1;
+                    fd->second.m_b[((char)((FrameLagPktHeader*)pkt)->m_module)] += 1;
                 }
                 if (-1 < ((FrameLagPktHeader*)pkt)->m_sum1)
                 {

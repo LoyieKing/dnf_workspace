@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072e44` | `0x6c5` | `0x8072fb2` | `0x69e` |
+| statics | DIFF | `0x8072e44` | `0x6c5` | `0x8072fba` | `0x6de` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,472 +1,453 @@
+@@ -1,472 +1,473 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
- sub    $0xd0,%esp
--movl   $0x0,-0x40(%ebp)
+-sub    $0xd0,%esp
++sub    $0xe0,%esp
+ movl   $0x0,-0x40(%ebp)
 -jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x178>
 -mov    -0x40(%ebp),%edx
 -mov    0xc(%ebp),%ecx
-+movl   $0x0,-0x2c(%ebp)
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x16b>
++jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x17f>
 +mov    0xc(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
++mov    -0x40(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -34,80 +34,83 @@
  mov    0xb(%eax,%ecx,1),%eax
  test   %eax,%eax
 -je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x174>
--mov    -0x40(%ebp),%edx
-+je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x167>
++je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x17b>
 +mov    0xc(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
+ mov    -0x40(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
  add    %eax,%eax
 -add    0xc(%ebp),%eax
--add    $0xb,%eax
--mov    %eax,-0x3c(%ebp)
--mov    -0x40(%ebp),%edx
-+mov    0xb(%eax,%ecx,1),%eax
-+mov    %eax,-0x28(%ebp)
++lea    (%ecx,%eax,1),%eax
+ add    $0xb,%eax
+ mov    %eax,-0x3c(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
+ mov    -0x40(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
  add    %eax,%eax
 -add    0xc(%ebp),%eax
--add    $0xf,%eax
--mov    %eax,-0x38(%ebp)
--mov    -0x3c(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x34(%ebp)
--mov    -0x38(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x30(%ebp)
--mov    -0x40(%ebp),%ebx
--mov    -0x40(%ebp),%edx
-+mov    0xf(%eax,%ecx,1),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x2c(%ebp),%ebx
-+mov    -0x2c(%ebp),%edx
++lea    (%ecx,%eax,1),%eax
+ add    $0xf,%eax
+ mov    %eax,-0x38(%ebp)
+ mov    -0x3c(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x34(%ebp)
+ mov    -0x38(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x30(%ebp)
+ mov    -0x40(%ebp),%ebx
+ mov    -0x40(%ebp),%edx
  mov    0x8(%ebp),%eax
  add    $0x37,%edx
  shl    $0x4,%edx
  mov    (%edx,%eax,1),%ecx
--flds   -0x34(%ebp)
-+flds   -0x28(%ebp)
- fnstcw -0xba(%ebp)
- movzwl -0xba(%ebp),%eax
- mov    $0xc,%ah
- mov    %ax,-0xbc(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
+ flds   -0x34(%ebp)
+-fnstcw -0xba(%ebp)
+-movzwl -0xba(%ebp),%eax
+-mov    $0xc,%ah
+-mov    %ax,-0xbc(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fnstcw -0xca(%ebp)
++movzwl -0xca(%ebp),%eax
++mov    $0xc,%ah
++mov    %ax,-0xcc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
  add    %eax,%ecx
  mov    0x8(%ebp),%eax
  lea    0x37(%ebx),%edx
  shl    $0x4,%edx
  mov    %ecx,(%edx,%eax,1)
--mov    -0x40(%ebp),%ecx
--mov    -0x40(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%ecx
+ mov    -0x40(%ebp),%edx
+ mov    0x8(%ebp),%eax
 -add    $0x37,%edx
-+mov    -0x2c(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
-+mov    0x8(%ebp),%eax
  shl    $0x4,%edx
  add    %edx,%eax
 -add    $0x4,%eax
 +add    $0x374,%eax
  mov    (%eax),%ebx
--flds   -0x30(%ebp)
-+flds   -0x24(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
+ flds   -0x30(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
  lea    (%ebx,%eax,1),%edx
  mov    0x8(%ebp),%eax
 -add    $0x37,%ecx
@@ -116,13 +119,10 @@
 -add    $0x4,%eax
 +add    $0x374,%eax
  mov    %edx,(%eax)
--mov    -0x40(%ebp),%ebx
--mov    -0x40(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%ebx
+ mov    -0x40(%ebp),%edx
+ mov    0x8(%ebp),%eax
 -add    $0x37,%edx
-+mov    -0x2c(%ebp),%ebx
-+mov    -0x2c(%ebp),%edx
-+mov    0x8(%ebp),%eax
  shl    $0x4,%edx
  add    %edx,%eax
 -add    $0x8,%eax
@@ -133,7 +133,7 @@
 +mov    (%eax),%eax
 +mov    %eax,%esi
 +mov    0xc(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
++mov    -0x40(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -150,8 +150,8 @@
 +add    %ecx,%edx
 +add    $0x378,%edx
 +mov    %eax,(%edx)
-+mov    -0x2c(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
++mov    -0x40(%ebp),%ecx
++mov    -0x40(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +shl    $0x4,%edx
 +add    %edx,%eax
@@ -162,8 +162,7 @@
  shl    $0x4,%ecx
  add    %ecx,%eax
 -add    $0x8,%eax
-+add    $0x37c,%eax
- mov    %edx,(%eax)
+-mov    %edx,(%eax)
 -mov    -0x40(%ebp),%eax
 -mov    0x8(%ebp),%edx
 -lea    0x37(%eax),%ecx
@@ -177,23 +176,24 @@
 -shl    $0x4,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0xc,%eax
--mov    %edx,(%eax)
--addl   $0x1,-0x40(%ebp)
--cmpl   $0x7,-0x40(%ebp)
-+addl   $0x1,-0x2c(%ebp)
-+cmpl   $0x7,-0x2c(%ebp)
++add    $0x37c,%eax
+ mov    %edx,(%eax)
+ addl   $0x1,-0x40(%ebp)
+ cmpl   $0x7,-0x40(%ebp)
  setle  %al
  test   %al,%al
  jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x17>
  mov    0xc(%ebp),%eax
  movzbl 0x5b(%eax),%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6bb>
--mov    0xc(%ebp),%eax
--movzbl 0x5b(%eax),%eax
--cmp    $0xa,%al
++je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6d4>
+ mov    0xc(%ebp),%eax
+ movzbl 0x5b(%eax),%eax
+ cmp    $0xa,%al
 -ja     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6bb>
--movl   $0x0,-0x2c(%ebp)
++ja     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6d4>
+ movl   $0x0,-0x2c(%ebp)
 -jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6a3>
 -mov    -0x2c(%ebp),%edx
 -mov    %edx,%eax
@@ -208,55 +208,9 @@
 -lea    -0x98(%ebp),%eax
 -mov    %ecx,0x8(%esp)
 -mov    %edx,0x4(%esp)
-+mov    %al,-0x2d(%ebp)
-+cmpb   $0x0,-0x2d(%ebp)
-+je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x694>
-+cmpb   $0xa,-0x2d(%ebp)
-+ja     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x694>
-+movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x682>
++jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6bc>
 +mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x3,%eax
-+lea    (%ecx,%eax,1),%eax
-+add    $0x50,%eax
-+mov    0xf(%eax),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x3,%eax
-+lea    (%ecx,%eax,1),%eax
-+add    $0x50,%eax
-+mov    0x13(%eax),%eax
-+mov    %eax,-0x18(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x3,%eax
-+lea    (%ecx,%eax,1),%eax
-+add    $0x50,%eax
-+mov    0x1a(%eax),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x3,%eax
-+lea    (%ecx,%eax,1),%eax
-+add    $0x60,%eax
-+mov    0xe(%eax),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
++mov    -0x2c(%ebp),%edx
 +mov    %edx,%eax
 +add    %eax,%eax
 +add    %edx,%eax
@@ -264,11 +218,11 @@
 +lea    (%ecx,%eax,1),%eax
 +add    $0x50,%eax
 +movzwl 0xc(%eax),%eax
-+mov    %ax,-0x86(%ebp)
++mov    %ax,-0x96(%ebp)
 +mov    0x8(%ebp),%eax
 +lea    0x3f0(%eax),%ecx
-+lea    -0x8c(%ebp),%eax
-+lea    -0x86(%ebp),%edx
++lea    -0x9c(%ebp),%eax
++lea    -0x96(%ebp),%edx
 +mov    %edx,0x8(%esp)
 +mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -281,8 +235,16 @@
 -shl    $0x3,%eax
 -add    $0x50,%eax
 -add    0xc(%ebp),%eax
--add    $0xf,%eax
--mov    %eax,-0x28(%ebp)
++mov    0xc(%ebp),%ecx
++mov    -0x2c(%ebp),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x3,%eax
++add    $0x50,%eax
++lea    (%ecx,%eax,1),%eax
+ add    $0xf,%eax
+ mov    %eax,-0x28(%ebp)
 -mov    -0x2c(%ebp),%edx
 -mov    %edx,%eax
 -add    %eax,%eax
@@ -290,14 +252,22 @@
 -shl    $0x3,%eax
 -add    $0x50,%eax
 -add    0xc(%ebp),%eax
--add    $0x13,%eax
--mov    %eax,-0x24(%ebp)
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x20(%ebp)
--mov    -0x24(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x1c(%ebp)
++mov    0xc(%ebp),%ecx
++mov    -0x2c(%ebp),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x3,%eax
++add    $0x50,%eax
++lea    (%ecx,%eax,1),%eax
+ add    $0x13,%eax
+ mov    %eax,-0x24(%ebp)
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x24(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x1c(%ebp)
 -mov    -0x2c(%ebp),%edx
 -mov    %edx,%eax
 -add    %eax,%eax
@@ -305,62 +275,68 @@
 -shl    $0x3,%eax
 -add    $0x50,%eax
 -add    0xc(%ebp),%eax
--add    $0x1a,%eax
--mov    %eax,-0x18(%ebp)
--mov    -0x2c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    $0x60,%eax
++mov    0xc(%ebp),%ecx
++mov    -0x2c(%ebp),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x3,%eax
++add    $0x50,%eax
++lea    (%ecx,%eax,1),%eax
+ add    $0x1a,%eax
+ mov    %eax,-0x18(%ebp)
++mov    0xc(%ebp),%ecx
+ mov    -0x2c(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x3,%eax
+ add    $0x60,%eax
 -add    0xc(%ebp),%eax
--add    $0xe,%eax
--mov    %eax,-0x14(%ebp)
--mov    -0x18(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x10(%ebp)
--mov    -0x14(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0xc(%ebp)
++lea    (%ecx,%eax,1),%eax
+ add    $0xe,%eax
+ mov    %eax,-0x14(%ebp)
+ mov    -0x18(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x3f0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2b6>
-+jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2a6>
++jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2da>
  mov    0x8(%ebp),%eax
  lea    0x3f0(%eax),%edx
--lea    -0x94(%ebp),%eax
-+lea    -0x84(%ebp),%eax
+ lea    -0x94(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x94(%ebp),%eax
-+lea    -0x84(%ebp),%eax
+ lea    -0x94(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEeqERKS4_>
  test   %al,%al
 -je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2bd>
-+je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2ad>
++je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2e1>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2c2>
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2b2>
++jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x2e6>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x4c7>
 -lea    -0xb8(%ebp),%eax
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x4a2>
-+lea    -0xac(%ebp),%eax
++je     <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x4dc>
++lea    -0xbc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STDungeonLagStatisticsC1Ev>
--flds   -0x20(%ebp)
+ flds   -0x20(%ebp)
 -fnstcw -0xba(%ebp)
 -movzwl -0xba(%ebp),%eax
 -mov    $0xc,%ah
@@ -370,8 +346,24 @@
 -fldcw  -0xba(%ebp)
 -mov    -0xc8(%ebp),%eax
 -mov    -0xc4(%ebp),%edx
--mov    %eax,-0xb8(%ebp)
- flds   -0x1c(%ebp)
++fnstcw -0xca(%ebp)
++movzwl -0xca(%ebp),%eax
++mov    $0xc,%ah
++mov    %ax,-0xcc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
++mov    %eax,-0xbc(%ebp)
++flds   -0x1c(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
+ mov    %eax,-0xb8(%ebp)
+-flds   -0x1c(%ebp)
 -fldcw  -0xbc(%ebp)
 -fistpll -0xc8(%ebp)
 -fldcw  -0xba(%ebp)
@@ -380,25 +372,8 @@
 -mov    %eax,-0xb4(%ebp)
 -mov    -0x2c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
-+fnstcw -0xba(%ebp)
-+movzwl -0xba(%ebp),%eax
-+mov    $0xc,%ah
-+mov    %ax,-0xbc(%ebp)
-+fldcw  -0xbc(%ebp)
-+fistpll -0xc8(%ebp)
-+fldcw  -0xba(%ebp)
-+mov    -0xc8(%ebp),%eax
-+mov    -0xc4(%ebp),%edx
-+mov    %eax,-0xac(%ebp)
-+flds   -0x18(%ebp)
-+fldcw  -0xbc(%ebp)
-+fistpll -0xc8(%ebp)
-+fldcw  -0xba(%ebp)
-+mov    -0xc8(%ebp),%eax
-+mov    -0xc4(%ebp),%edx
-+mov    %eax,-0xa8(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
++mov    -0x2c(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
@@ -409,22 +384,27 @@
  movzwl %ax,%eax
 -mov    %eax,-0xb0(%ebp)
 -movl   $0x1,-0xac(%ebp)
-+mov    %eax,-0xa4(%ebp)
-+movl   $0x1,-0xa0(%ebp)
-+flds   -0x14(%ebp)
-+fldcw  -0xbc(%ebp)
-+fistpll -0xc8(%ebp)
-+fldcw  -0xba(%ebp)
-+mov    -0xc8(%ebp),%eax
-+mov    -0xc4(%ebp),%edx
-+mov    %eax,-0x9c(%ebp)
++mov    %eax,-0xb4(%ebp)
++movl   $0x1,-0xb0(%ebp)
  flds   -0x10(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
--mov    %eax,-0xa8(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
++mov    %eax,-0xac(%ebp)
++flds   -0xc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
+ mov    %eax,-0xa8(%ebp)
 -flds   -0xc(%ebp)
 -fldcw  -0xbc(%ebp)
 -fistpll -0xc8(%ebp)
@@ -434,9 +414,8 @@
 -mov    %eax,-0xa4(%ebp)
 -mov    -0x2c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
-+mov    %eax,-0x98(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x20(%ebp),%edx
++mov    -0x2c(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
@@ -455,86 +434,72 @@
 -add    $0x50,%eax
 -add    0xc(%ebp),%eax
 -lea    0xc(%eax),%ecx
--lea    -0x64(%ebp),%eax
++mov    %eax,-0xa4(%ebp)
++movl   $0x1,-0xa0(%ebp)
+ lea    -0x64(%ebp),%eax
 -lea    -0xb8(%ebp),%edx
-+mov    %eax,-0x94(%ebp)
-+movl   $0x1,-0x90(%ebp)
-+lea    -0x54(%ebp),%eax
-+lea    -0xac(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x86(%ebp),%edx
++lea    -0xbc(%ebp),%edx
+ mov    %edx,0x8(%esp)
+-mov    %ecx,0x4(%esp)
++lea    -0x96(%ebp),%edx
 +mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZSt9make_pairIRtR22STDungeonLagStatisticsESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
-+sub    $0x4,%esp
-+lea    -0x54(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKt22STDungeonLagStatisticsEC1ItS1_EEOS_IT_T0_E>
-+mov    0x8(%ebp),%eax
-+lea    0x3f0(%eax),%ecx
-+lea    -0x80(%ebp),%eax
-+lea    -0x78(%ebp),%edx
+ mov    %eax,(%esp)
+ call   <T> <_ZSt9make_pairIRtR22STDungeonLagStatisticsESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
+ sub    $0x4,%esp
+ lea    -0x64(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x88(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKt22STDungeonLagStatisticsEC1ItS1_EEOS_IT_T0_E>
+ mov    0x8(%ebp),%eax
+ lea    0x3f0(%eax),%ecx
+ lea    -0x90(%ebp),%eax
+ lea    -0x88(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRtR22STDungeonLagStatisticsESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
--sub    $0x4,%esp
--lea    -0x64(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x88(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKt22STDungeonLagStatisticsEC1ItS1_EEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
--lea    0x3f0(%eax),%ecx
--lea    -0x90(%ebp),%eax
--lea    -0x88(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE6insertERKS5_>
  sub    $0x4,%esp
--lea    -0x88(%ebp),%eax
-+lea    -0x78(%ebp),%eax
+ lea    -0x88(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKt22STDungeonLagStatisticsED1Ev>
+ lea    -0x64(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIt22STDungeonLagStatisticsED1Ev>
+-lea    -0xb8(%ebp),%eax
++lea    -0xbc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN22STDungeonLagStatisticsD1Ev>
+-jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x69f>
++jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x6b8>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x88(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKt22STDungeonLagStatisticsED1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x494>
+-mov    %edx,%ebx
+-mov    %eax,%esi
 -lea    -0x64(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairIt22STDungeonLagStatisticsED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x4a9>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0xb8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN22STDungeonLagStatisticsD1Ev>
--jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x69f>
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x464>
- mov    %edx,%ebx
- mov    %eax,%esi
--lea    -0x88(%ebp),%eax
-+lea    -0x78(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt4pairIKt22STDungeonLagStatisticsED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
--jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x494>
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x44f>
- mov    %edx,%ebx
- mov    %eax,%esi
--lea    -0x64(%ebp),%eax
-+lea    -0x54(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt4pairIt22STDungeonLagStatisticsED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
--jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x4a9>
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x471>
-+lea    -0x54(%ebp),%eax
++lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairIt22STDungeonLagStatisticsED1Ev>
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x48f>
- mov    %edx,%ebx
- mov    %eax,%esi
--lea    -0xb8(%ebp),%eax
-+lea    -0xac(%ebp),%eax
++mov    %esi,%eax
++mov    %ebx,%edx
++jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x4be>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0xbc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STDungeonLagStatisticsD1Ev>
  mov    %esi,%eax
@@ -542,58 +507,70 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x98(%ebp),%eax
-+lea    -0xac(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN22STDungeonLagStatisticsD1Ev>
-+jmp    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x67e>
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    %eax,%ecx
  mov    0x4(%ecx),%ebx
--flds   -0x20(%ebp)
-+flds   -0x1c(%ebp)
- fnstcw -0xba(%ebp)
- movzwl -0xba(%ebp),%eax
- mov    $0xc,%ah
- mov    %ax,-0xbc(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
+ flds   -0x20(%ebp)
+-fnstcw -0xba(%ebp)
+-movzwl -0xba(%ebp),%eax
+-mov    $0xc,%ah
+-mov    %ax,-0xbc(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fnstcw -0xca(%ebp)
++movzwl -0xca(%ebp),%eax
++mov    $0xc,%ah
++mov    %ax,-0xcc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
  lea    (%ebx,%eax,1),%eax
  mov    %eax,0x4(%ecx)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    %eax,%ecx
  mov    0x8(%ecx),%ebx
--flds   -0x1c(%ebp)
-+flds   -0x18(%ebp)
- fnstcw -0xba(%ebp)
- movzwl -0xba(%ebp),%eax
- mov    $0xc,%ah
- mov    %ax,-0xbc(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
+ flds   -0x1c(%ebp)
+-fnstcw -0xba(%ebp)
+-movzwl -0xba(%ebp),%eax
+-mov    $0xc,%ah
+-mov    %ax,-0xbc(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fnstcw -0xca(%ebp)
++movzwl -0xca(%ebp),%eax
++mov    $0xc,%ah
++mov    %ax,-0xcc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
  lea    (%ebx,%eax,1),%eax
  mov    %eax,0x8(%ecx)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    %eax,%edx
 -mov    0xc(%edx),%ebx
--mov    -0x2c(%ebp),%ecx
 +mov    0xc(%edx),%eax
 +mov    %eax,%ebx
- mov    0xc(%ebp),%esi
-+mov    -0x20(%ebp),%ecx
++mov    0xc(%ebp),%esi
+ mov    -0x2c(%ebp),%ecx
+-mov    0xc(%ebp),%esi
  mov    %ecx,%eax
  add    %eax,%eax
  add    %ecx,%eax
@@ -605,61 +582,77 @@
  lea    (%ebx,%eax,1),%eax
  mov    %eax,0xc(%edx)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    0x10(%eax),%edx
  add    $0x1,%edx
  mov    %edx,0x10(%eax)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    %eax,%ecx
  mov    0x14(%ecx),%ebx
--flds   -0x10(%ebp)
-+flds   -0x14(%ebp)
- fnstcw -0xba(%ebp)
- movzwl -0xba(%ebp),%eax
- mov    $0xc,%ah
- mov    %ax,-0xbc(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
+ flds   -0x10(%ebp)
+-fnstcw -0xba(%ebp)
+-movzwl -0xba(%ebp),%eax
+-mov    $0xc,%ah
+-mov    %ax,-0xbc(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fnstcw -0xca(%ebp)
++movzwl -0xca(%ebp),%eax
++mov    $0xc,%ah
++mov    %ax,-0xcc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
  lea    (%ebx,%eax,1),%eax
  mov    %eax,0x14(%ecx)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    %eax,%ecx
  mov    0x18(%ecx),%ebx
--flds   -0xc(%ebp)
-+flds   -0x10(%ebp)
- fnstcw -0xba(%ebp)
- movzwl -0xba(%ebp),%eax
- mov    $0xc,%ah
- mov    %ax,-0xbc(%ebp)
- fldcw  -0xbc(%ebp)
- fistpll -0xc8(%ebp)
- fldcw  -0xba(%ebp)
- mov    -0xc8(%ebp),%eax
- mov    -0xc4(%ebp),%edx
+ flds   -0xc(%ebp)
+-fnstcw -0xba(%ebp)
+-movzwl -0xba(%ebp),%eax
+-mov    $0xc,%ah
+-mov    %ax,-0xbc(%ebp)
+-fldcw  -0xbc(%ebp)
+-fistpll -0xc8(%ebp)
+-fldcw  -0xba(%ebp)
+-mov    -0xc8(%ebp),%eax
+-mov    -0xc4(%ebp),%edx
++fnstcw -0xca(%ebp)
++movzwl -0xca(%ebp),%eax
++mov    $0xc,%ah
++mov    %ax,-0xcc(%ebp)
++fldcw  -0xcc(%ebp)
++fistpll -0xd8(%ebp)
++fldcw  -0xca(%ebp)
++mov    -0xd8(%ebp),%eax
++mov    -0xd4(%ebp),%edx
  lea    (%ebx,%eax,1),%eax
  mov    %eax,0x18(%ecx)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    %eax,%edx
 -mov    0x1c(%edx),%ebx
--mov    -0x2c(%ebp),%ecx
 +mov    0x1c(%edx),%eax
 +mov    %eax,%ebx
- mov    0xc(%ebp),%esi
-+mov    -0x20(%ebp),%ecx
++mov    0xc(%ebp),%esi
+ mov    -0x2c(%ebp),%ecx
+-mov    0xc(%ebp),%esi
  mov    %ecx,%eax
  add    %eax,%eax
  add    %ecx,%eax
@@ -671,24 +664,21 @@
  lea    (%ebx,%eax,1),%eax
  mov    %eax,0x1c(%edx)
 -lea    -0x98(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    0x20(%eax),%edx
  add    $0x1,%edx
  mov    %edx,0x20(%eax)
--addl   $0x1,-0x2c(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x5b(%eax),%eax
--movzbl %al,%eax
--cmp    -0x2c(%ebp),%eax
-+addl   $0x1,-0x20(%ebp)
-+movzbl -0x2d(%ebp),%eax
-+cmp    -0x20(%ebp),%eax
+ addl   $0x1,-0x2c(%ebp)
+ mov    0xc(%ebp),%eax
+ movzbl 0x5b(%eax),%eax
+ movzbl %al,%eax
+ cmp    -0x2c(%ebp),%eax
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x1b1>
-+jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x1a4>
++jne    <T> <_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics+0x1b8>
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -857,7 +847,7 @@ LAB_080730fa:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1453 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1509 行）：
 
 ```cpp
 void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)
@@ -866,8 +856,10 @@ void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)
     {
         if (((LagWire*)pkt)->m_mods[i].m_u.m_int != 0)
         {
-            float avg_f = ((LagWire*)pkt)->m_mods[i].m_u.m_float;
-            float dev_f = ((LagWire*)pkt)->m_mods[i].m_field4;
+            float* pAvg = &((LagWire*)pkt)->m_mods[i].m_u.m_float;
+            float* pDev = &((LagWire*)pkt)->m_mods[i].m_field4;
+            float avg_f = *pAvg;
+            float dev_f = *pDev;
             m_modules[i].m_data[0] += (int)(long long)avg_f;
             m_modules[i].m_data[1] += (int)(long long)dev_f;
             m_modules[i].m_data[2] +=
@@ -875,20 +867,23 @@ void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)
             m_modules[i].m_data[3] += 1;
         }
     }
-    unsigned char dcount = ((LagDungeonWire*)pkt)->m_dcount;
-    if (dcount != 0 && dcount < 0xb)
+    if (((LagDungeonWire*)pkt)->m_dcount != 0 &&
+        ((LagDungeonWire*)pkt)->m_dcount < 0xb)
     {
-        for (int j = 0; j < (int)dcount; j++)
+        for (int j = 0; j < (int)((LagDungeonWire*)pkt)->m_dcount; j++)
         {
-            float a = ((LagDungeonWire*)pkt)->m_d[j].m_a;
-            float b = ((LagDungeonWire*)pkt)->m_d[j].m_b;
-            float c = ((LagDungeonWire*)pkt)->m_d[j].m_c;
-            float d = ((LagDungeonWire*)pkt)->m_d[j].m_d;
             unsigned short key = ((LagDungeonWire*)pkt)->m_d[j].m_key;
             std::map<unsigned short, STDungeonLagStatistics>::iterator it =
                 m_dungeonLag.find(key);
-            bool isNew = (m_dungeonLag.empty() || it == m_dungeonLag.end());
-            if (isNew)
+            float* pA = &((LagDungeonWire*)pkt)->m_d[j].m_a;
+            float* pB = &((LagDungeonWire*)pkt)->m_d[j].m_b;
+            float a = *pA;
+            float b = *pB;
+            float* pC = &((LagDungeonWire*)pkt)->m_d[j].m_c;
+            float* pD = &((LagDungeonWire*)pkt)->m_d[j].m_d;
+            float c = *pC;
+            float d = *pD;
+            if (m_dungeonLag.empty() || it == m_dungeonLag.end())
             {
                 STDungeonLagStatistics v;
                 v.m_data[0] = (int)(long long)a;

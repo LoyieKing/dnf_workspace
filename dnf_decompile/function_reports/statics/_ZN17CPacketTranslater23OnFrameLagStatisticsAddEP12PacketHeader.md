@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x805a69c` | `0x9b2` | `0x80550bc` | `0x9b4` |
+| statics | DIFF | `0x805a69c` | `0x9b2` | `0x80550b6` | `0x9b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -533,14 +533,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x154,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)

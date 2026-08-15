@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807350a` | `0x499` | `0x8073650` | `0x49e` |
+| statics | DIFF | `0x807350a` | `0x499` | `0x8073698` | `0x49e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,55 +25,53 @@
  call   <T> <_ZN40Packet_DBMW_TechnicalReport_Common_QueryC1Ev>
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c6>
-+jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c3>
-+mov    -0x1c(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+shl    $0x4,%edx
-+add    %edx,%eax
-+add    $0x37c,%eax
-+mov    (%eax),%eax
-+test   %eax,%eax
-+jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1bf>
-+movl   $0x400,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x43e(%ebp),%eax
-+add    $0xa,%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
- mov    -0x1c(%ebp),%edx
- mov    0x8(%ebp),%eax
- add    $0x37,%edx
- shl    $0x4,%edx
--add    %edx,%eax
--add    $0xc,%eax
--mov    (%eax),%eax
--test   %eax,%eax
--jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c2>
--movl   $0x400,0x8(%esp)
--movl   $0x0,0x4(%esp)
--lea    -0x43e(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,(%esp)
--call   <T> <memset>
 -mov    -0x1c(%ebp),%edx
 -mov    0x8(%ebp),%eax
 -add    $0x37,%edx
-+mov    (%edx,%eax,1),%eax
-+mov    -0x1c(%ebp),%ecx
-+mov    0x8(%ebp),%edx
-+shl    $0x4,%ecx
-+add    %ecx,%edx
-+add    $0x37c,%edx
-+mov    (%edx),%edx
-+mov    %edx,-0x45c(%ebp)
-+mov    $0x0,%edx
-+divl   -0x45c(%ebp)
-+mov    %eax,%edi
++jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c3>
 +mov    -0x1c(%ebp),%edx
 +mov    0x8(%ebp),%eax
  shl    $0x4,%edx
  add    %edx,%eax
+-add    $0xc,%eax
++add    $0x37c,%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+-jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c2>
++jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1bf>
+ movl   $0x400,0x8(%esp)
+ movl   $0x0,0x4(%esp)
+ lea    -0x43e(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,(%esp)
+ call   <T> <memset>
+ mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+-add    $0x37,%edx
+ shl    $0x4,%edx
+ add    %edx,%eax
 -add    $0x8,%eax
++add    $0x378,%eax
+ mov    (%eax),%eax
+ mov    -0x1c(%ebp),%ecx
+ mov    0x8(%ebp),%edx
+-add    $0x37,%ecx
+ shl    $0x4,%ecx
+ add    %ecx,%edx
+-add    $0xc,%edx
++add    $0x37c,%edx
+ mov    (%edx),%edx
+ mov    %edx,-0x45c(%ebp)
+ mov    %eax,%edx
+ sar    $0x1f,%edx
+ idivl  -0x45c(%ebp)
+ mov    %eax,%edi
+ mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+-add    $0x37,%edx
+ shl    $0x4,%edx
+ add    %edx,%eax
+-add    $0x4,%eax
 +add    $0x374,%eax
  mov    (%eax),%eax
  mov    -0x1c(%ebp),%ecx
@@ -83,61 +81,27 @@
  add    %ecx,%edx
 -add    $0xc,%edx
 +add    $0x37c,%edx
-+mov    (%edx),%edx
-+mov    %edx,-0x45c(%ebp)
-+mov    $0x0,%edx
-+divl   -0x45c(%ebp)
-+mov    %eax,%esi
-+mov    -0x1c(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+shl    $0x4,%edx
-+add    %edx,%eax
-+add    $0x378,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%ecx
-+mov    0x8(%ebp),%edx
-+shl    $0x4,%ecx
-+add    %ecx,%edx
+ mov    (%edx),%edx
+ mov    %edx,-0x45c(%ebp)
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
+ mov    %eax,%esi
+ mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ add    $0x37,%edx
+ shl    $0x4,%edx
+ mov    (%edx,%eax,1),%eax
+ mov    -0x1c(%ebp),%ecx
+ mov    0x8(%ebp),%edx
+-add    $0x37,%ecx
+ shl    $0x4,%ecx
+ add    %ecx,%edx
+-add    $0xc,%edx
 +add    $0x37c,%edx
  mov    (%edx),%edx
  mov    %edx,-0x45c(%ebp)
- mov    %eax,%edx
- sar    $0x1f,%edx
- idivl  -0x45c(%ebp)
--mov    %eax,%edi
--mov    -0x1c(%ebp),%edx
--mov    0x8(%ebp),%eax
--add    $0x37,%edx
--shl    $0x4,%edx
--add    %edx,%eax
--add    $0x4,%eax
--mov    (%eax),%eax
--mov    -0x1c(%ebp),%ecx
--mov    0x8(%ebp),%edx
--add    $0x37,%ecx
--shl    $0x4,%ecx
--add    %ecx,%edx
--add    $0xc,%edx
--mov    (%edx),%edx
--mov    %edx,-0x45c(%ebp)
--mov    $0x0,%edx
--divl   -0x45c(%ebp)
--mov    %eax,%esi
--mov    -0x1c(%ebp),%edx
--mov    0x8(%ebp),%eax
--add    $0x37,%edx
--shl    $0x4,%edx
--mov    (%edx,%eax,1),%eax
--mov    -0x1c(%ebp),%ecx
--mov    0x8(%ebp),%edx
--add    $0x37,%ecx
--shl    $0x4,%ecx
--add    %ecx,%edx
--add    $0xc,%edx
--mov    (%edx),%edx
--mov    %edx,-0x45c(%ebp)
--mov    $0x0,%edx
--divl   -0x45c(%ebp)
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
  mov    %eax,%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -212,77 +176,21 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x1c(%eax),%ebx
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x20(%eax),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,%ebx
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x10(%eax),%eax
-+mov    %eax,-0x45c(%ebp)
-+mov    %ebx,%eax
-+mov    $0x0,%edx
-+divl   -0x45c(%ebp)
-+mov    %eax,%edi
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x8(%eax),%eax
-+mov    %eax,%ebx
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x10(%eax),%eax
-+mov    %eax,-0x45c(%ebp)
-+mov    %ebx,%eax
-+mov    $0x0,%edx
-+divl   -0x45c(%ebp)
-+mov    %eax,-0x458(%ebp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0xc(%eax),%ebx
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x10(%eax),%eax
- mov    %eax,-0x45c(%ebp)
- mov    %ebx,%edx
- mov    %edx,%eax
- sar    $0x1f,%edx
- idivl  -0x45c(%ebp)
--mov    %eax,%edi
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x18(%eax),%ebx
-+mov    %eax,-0x454(%ebp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x14(%eax),%eax
-+mov    %eax,%ebx
+ mov    0x1c(%eax),%ebx
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
  mov    0x20(%eax),%eax
  mov    %eax,-0x45c(%ebp)
- mov    %ebx,%eax
- mov    $0x0,%edx
- divl   -0x45c(%ebp)
--mov    %eax,-0x458(%ebp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x14(%eax),%ebx
-+mov    %eax,-0x450(%ebp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    %ebx,%edx
+ mov    %edx,%eax
+ sar    $0x1f,%edx
+ idivl  -0x45c(%ebp)
+ mov    %eax,%edi
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+-mov    0x18(%eax),%ebx
 +mov    0x18(%eax),%eax
 +mov    %eax,%ebx
  lea    -0x34(%ebp),%eax
@@ -293,55 +201,65 @@
  mov    %ebx,%eax
  mov    $0x0,%edx
  divl   -0x45c(%ebp)
--mov    %eax,-0x454(%ebp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0xc(%eax),%ebx
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x10(%eax),%eax
-+mov    %eax,-0x44c(%ebp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x1c(%eax),%ebx
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x20(%eax),%eax
+ mov    %eax,-0x458(%ebp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+-mov    0x14(%eax),%ebx
++mov    0x14(%eax),%eax
++mov    %eax,%ebx
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0x20(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%eax
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
+ mov    %eax,-0x454(%ebp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0xc(%eax),%ebx
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0x10(%eax),%eax
  mov    %eax,-0x45c(%ebp)
  mov    %ebx,%edx
  mov    %edx,%eax
  sar    $0x1f,%edx
  idivl  -0x45c(%ebp)
--mov    %eax,-0x450(%ebp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    %eax,-0x450(%ebp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x8(%eax),%ebx
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x10(%eax),%eax
--mov    %eax,-0x45c(%ebp)
--mov    %ebx,%eax
--mov    $0x0,%edx
--divl   -0x45c(%ebp)
--mov    %eax,-0x44c(%ebp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x8(%eax),%eax
++mov    %eax,%ebx
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0x10(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%eax
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
+ mov    %eax,-0x44c(%ebp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x4(%eax),%ebx
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x10(%eax),%eax
--mov    %eax,-0x45c(%ebp)
--mov    %ebx,%eax
--mov    $0x0,%edx
--divl   -0x45c(%ebp)
++mov    0x4(%eax),%eax
++mov    %eax,%ebx
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0x10(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%eax
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
  mov    %eax,%esi
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -573,7 +491,7 @@ StatisticManager::_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1510 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1571 行）：
 
 ```cpp
 void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeStr)
@@ -587,9 +505,9 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
             snprintf(pkt.m_query, 0x400,
                 "inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",
                 timeStr, handler->GetServerGroupNo() & 0xff, i,
-                m_modules[i].m_data[2] / m_modules[i].m_data[3],
+                (unsigned int)m_modules[i].m_data[0] / (unsigned int)m_modules[i].m_data[3],
                 (unsigned int)m_modules[i].m_data[1] / (unsigned int)m_modules[i].m_data[3],
-                (unsigned int)m_modules[i].m_data[0] / (unsigned int)m_modules[i].m_data[3]);
+                m_modules[i].m_data[2] / m_modules[i].m_data[3]);
             DNF_LOG_SCOPE_LINE(0x6a1, "./log/LagStatistics", "%s", pkt.m_query);
             handler->SendToDB((PacketHeader*)&pkt);
             m_modules[i].Reset();
@@ -606,12 +524,12 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
         snprintf(pkt.m_query, 0x400,
             "inSert into lag_stat_dungeon (occ_time, server_id, dungeon_idx, first_average, first_deviation, first_count, boss_average, boss_deviation, boss_count) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
             timeStr, handler->GetServerGroupNo() & 0xff, it->first,
-            it->second.m_data[6] / it->second.m_data[7],
-            (unsigned int)it->second.m_data[5] / (unsigned int)it->second.m_data[7],
-            (unsigned int)it->second.m_data[4] / (unsigned int)it->second.m_data[7],
-            it->second.m_data[2] / it->second.m_data[3],
+            (unsigned int)it->second.m_data[0] / (unsigned int)it->second.m_data[3],
             (unsigned int)it->second.m_data[1] / (unsigned int)it->second.m_data[3],
-            (unsigned int)it->second.m_data[0] / (unsigned int)it->second.m_data[3]);
+            it->second.m_data[2] / it->second.m_data[3],
+            (unsigned int)it->second.m_data[4] / (unsigned int)it->second.m_data[7],
+            (unsigned int)it->second.m_data[5] / (unsigned int)it->second.m_data[7],
+            it->second.m_data[6] / it->second.m_data[7]);
         DNF_LOG_SCOPE_LINE(0x6b8, "./log/LagStatistics", "%s", pkt.m_query);
         handler->SendToDB((PacketHeader*)&pkt);
     }

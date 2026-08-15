@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8067164` | `0x41a` | `0x80603a0` | `0x422` |
+| statics | DIFF | `0x8067164` | `0x41a` | `0x8060388` | `0x420` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,312 +1,316 @@
+@@ -1,312 +1,315 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,14 +26,14 @@
  je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x21>
  mov    $0x2,%eax
 -jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x40f>
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x417>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x415>
  mov    0x8(%ebp),%eax
  movzbl 0x19(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x40a>
-+jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x412>
++jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x410>
 +mov    0x8(%ebp),%eax
 +lea    0x34(%eax),%edx
 +lea    -0x24(%ebp),%eax
@@ -69,7 +69,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKicEEeqERKS3_>
  test   %al,%al
 -je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x40a>
-+jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x412>
++je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x410>
  mov    0xc(%ebp),%eax
  lea    0xb(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -377,28 +377,20 @@
  add    $0x34,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIicSt4lessIiESaISt4pairIKicEEE4sizeEv>
--mov    0xc(%ebp),%edx
--mov    0xf(%edx),%edx
--cmp    %edx,%eax
-+mov    %eax,%edx
-+mov    0xc(%ebp),%eax
-+mov    0xf(%eax),%eax
-+cmp    %eax,%edx
+ mov    0xc(%ebp),%edx
+ mov    0xf(%edx),%edx
+ cmp    %edx,%eax
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x40a>
--mov    0x8(%ebp),%eax
--mov    0x50(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x4c(%eax),%eax
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x412>
-+mov    0x8(%ebp),%eax
-+mov    0x4c(%eax),%edx
-+mov    0x8(%ebp),%eax
-+mov    0x50(%eax),%eax
++je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x410>
+ mov    0x8(%ebp),%eax
+ mov    0x50(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x4c(%eax),%eax
  cmp    %eax,%edx
 -jle    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x3fe>
-+jge    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x406>
++jle    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x404>
  mov    0x8(%ebp),%eax
  mov    0x50(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -599,7 +591,7 @@ _ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Res
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 409 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 404 行）：
 
 ```cpp
 int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Reload_Spec* pkt)
@@ -614,9 +606,6 @@ int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_
         std::map<int, char>::iterator found =
             m_map34.find(*(int*)((char*)pkt + 0xb));
         if (found == e)
-        {
-        }
-        else
         {
             m_map34[*(int*)((char*)pkt + 0xb)] = 1;
             for (int i = 0; i <= 5; i++)
@@ -662,9 +651,9 @@ int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_
                 FrameLagDataStruct fd;
                 m_data[((FrameLagSpecInts3*)pkt)->m[i + 0x10]] = fd;
             }
-            if ((int)m_map34.size() == ((FrameLagSpecIntsF*)pkt)->m[0])
+            if (m_map34.size() == ((FrameLagSpecIntsF*)pkt)->m[0])
             {
-                if (m_field4c < m_field50)
+                if (m_field50 > m_field4c)
                 {
                     m_field4c = m_field50;
                 }

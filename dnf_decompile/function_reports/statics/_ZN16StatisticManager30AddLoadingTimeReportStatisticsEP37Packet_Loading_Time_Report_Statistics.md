@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80715f2` | `0x592` | `0x807174c` | `0x5a6` |
+| statics | DIFF | `0x80715f2` | `0x592` | `0x8071764` | `0x595` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,36 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,402 +1,407 @@
+@@ -1,402 +1,403 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0xb0,%esp
--movl   $0x0,-0x1c(%ebp)
+ sub    $0xb0,%esp
+ movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x579>
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%eax
-+sub    $0xc0,%esp
-+movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x58d>
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x57c>
 +mov    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%eax
  mov    0xa(%eax,%edx,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x63>
--mov    -0x1c(%ebp),%ebx
--mov    -0x1c(%ebp),%edx
 +je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x66>
-+mov    -0x20(%ebp),%ebx
-+mov    -0x20(%ebp),%edx
+ mov    -0x1c(%ebp),%ebx
+ mov    -0x1c(%ebp),%edx
  mov    0x8(%ebp),%eax
  add    $0x50,%edx
  mov    (%eax,%edx,4),%ecx
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%eax
 +mov    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%eax
  mov    0xa(%eax,%edx,4),%eax
  add    %eax,%ecx
  mov    0x8(%ebp),%eax
@@ -56,10 +50,8 @@
 -mov    0x8(%ebp),%edx
 -add    $0x58,%eax
 -mov    %ecx,0x4(%edx,%eax,4)
--cmpl   $0x7,-0x1c(%ebp)
--jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ee>
-+mov    -0x20(%ebp),%edx
-+mov    -0x20(%ebp),%ecx
++mov    -0x1c(%ebp),%edx
++mov    -0x1c(%ebp),%ecx
 +mov    0x8(%ebp),%eax
 +add    $0x58,%ecx
 +mov    0x4(%eax,%ecx,4),%eax
@@ -67,40 +59,34 @@
 +mov    0x8(%ebp),%eax
 +add    $0x58,%edx
 +mov    %ecx,0x4(%eax,%edx,4)
-+cmpl   $0x7,-0x20(%ebp)
-+jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2fb>
+ cmpl   $0x7,-0x1c(%ebp)
+-jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ee>
++jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2f1>
  mov    0xc(%ebp),%eax
  movzwl 0x32(%eax),%eax
--mov    %ax,-0x16(%ebp)
--cmpw   $0x0,-0x16(%ebp)
+ mov    %ax,-0x16(%ebp)
+ cmpw   $0x0,-0x16(%ebp)
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ee>
--lea    -0x84(%ebp),%eax
-+mov    %ax,-0x1a(%ebp)
-+cmpw   $0x0,-0x1a(%ebp)
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2fb>
-+lea    -0x88(%ebp),%eax
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2f1>
+ lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25STPowerwarFightLoadingKeyC1Ev>
  mov    0xc(%ebp),%eax
  mov    0x2e(%eax),%eax
--mov    %eax,-0x84(%ebp)
--movl   $0x0,-0x14(%ebp)
+ mov    %eax,-0x84(%ebp)
+ movl   $0x0,-0x14(%ebp)
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ae>
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %eax,-0x88(%ebp)
-+movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2bb>
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2b1>
 +mov    0xc(%ebp),%ecx
-+mov    -0x18(%ebp),%edx
+ mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  lea    (%ecx,%eax,1),%eax
  add    $0x30,%eax
  movzwl 0x4(%eax),%eax
--mov    %ax,-0x80(%ebp)
-+mov    %ax,-0x84(%ebp)
+ mov    %ax,-0x80(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x188,%eax
  mov    %eax,(%esp)
@@ -109,13 +95,11 @@
  setbe  %al
  test   %al,%al
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2aa>
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2b7>
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ad>
  mov    0x8(%ebp),%eax
  lea    0x188(%eax),%ecx
--lea    -0x88(%ebp),%eax
--lea    -0x84(%ebp),%edx
-+lea    -0x8c(%ebp),%eax
-+lea    -0x88(%ebp),%edx
+ lea    -0x88(%ebp),%eax
+ lea    -0x84(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -127,233 +111,174 @@
  call   <T> <_ZNKSt3mapI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x154>
-+jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x15a>
++jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x157>
  mov    0x8(%ebp),%eax
  lea    0x188(%eax),%edx
--lea    -0x7c(%ebp),%eax
-+lea    -0x80(%ebp),%eax
+ lea    -0x7c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x7c(%ebp),%eax
-+lea    -0x80(%ebp),%eax
+ lea    -0x7c(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x88(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
+ lea    -0x88(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataEEeqERKS5_>
  test   %al,%al
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x15b>
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x161>
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x15e>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x160>
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x166>
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x163>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2aa>
--lea    -0x90(%ebp),%eax
-+mov    %al,-0x13(%ebp)
-+cmpb   $0x0,-0x13(%ebp)
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2b7>
-+lea    -0x94(%ebp),%eax
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ad>
+ lea    -0x90(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26STPowerwarFightLoadingDataC1Ev>
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%ecx
 +mov    0xc(%ebp),%ecx
-+mov    -0x18(%ebp),%edx
+ mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  lea    (%ecx,%eax,1),%eax
  add    $0x36,%eax
  movzbl (%eax),%eax
--mov    %al,-0x90(%ebp)
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %al,-0x94(%ebp)
+ mov    %al,-0x90(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x18(%ebp),%edx
+ mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  lea    (%ecx,%eax,1),%eax
  add    $0x30,%eax
  movzwl 0x7(%eax),%eax
--mov    %ax,-0x8e(%ebp)
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %ax,-0x92(%ebp)
+ mov    %ax,-0x8e(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x18(%ebp),%edx
+ mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  lea    (%ecx,%eax,1),%eax
  add    $0x30,%eax
  movzwl 0x9(%eax),%eax
--mov    %ax,-0x8c(%ebp)
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %ax,-0x90(%ebp)
+ mov    %ax,-0x8c(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x18(%ebp),%edx
+ mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  lea    (%ecx,%eax,1),%eax
  add    $0x30,%eax
  movzwl 0xb(%eax),%eax
--mov    %ax,-0x8a(%ebp)
--lea    -0x60(%ebp),%eax
--lea    -0x90(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    -0x84(%ebp),%edx
-+mov    %ax,-0x8e(%ebp)
-+lea    -0x64(%ebp),%eax
-+lea    -0x94(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x88(%ebp),%edx
+ mov    %ax,-0x8a(%ebp)
+ lea    -0x60(%ebp),%eax
+ lea    -0x90(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    -0x84(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIR25STPowerwarFightLoadingKeyR26STPowerwarFightLoadingDataESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
  sub    $0x4,%esp
--lea    -0x60(%ebp),%eax
-+lea    -0x64(%ebp),%eax
+ lea    -0x60(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x70(%ebp),%eax
-+lea    -0x74(%ebp),%eax
+ lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataEC1IS0_S2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x188(%eax),%ecx
--lea    -0x78(%ebp),%eax
--lea    -0x70(%ebp),%edx
-+lea    -0x7c(%ebp),%eax
-+lea    -0x74(%ebp),%edx
+ lea    -0x78(%ebp),%eax
+ lea    -0x70(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE6insertERKS6_>
  sub    $0x4,%esp
--lea    -0x70(%ebp),%eax
-+lea    -0x74(%ebp),%eax
+ lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
--lea    -0x60(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x284>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIK25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x26f>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x64(%ebp),%eax
+ lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
--lea    -0x90(%ebp),%eax
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x291>
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2a9>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x94(%ebp),%eax
+ lea    -0x90(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26STPowerwarFightLoadingDataD1Ev>
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2aa>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIK25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ad>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x70(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIK25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x27d>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x280>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x292>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x90(%ebp),%eax
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2cf>
-+lea    -0x94(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x295>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x90(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26STPowerwarFightLoadingDataD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2c2>
--addl   $0x1,-0x14(%ebp)
--movzwl -0x16(%ebp),%eax
--cmp    -0x14(%ebp),%eax
-+addl   $0x1,-0x18(%ebp)
-+movzwl -0x1a(%ebp),%eax
-+cmp    -0x18(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2c5>
+ addl   $0x1,-0x14(%ebp)
+ movzwl -0x16(%ebp),%eax
+ cmp    -0x14(%ebp),%eax
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0xa9>
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2e0>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x84(%ebp),%eax
 +jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0xac>
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2ed>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x88(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x2e3>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25STPowerwarFightLoadingKeyD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x84(%ebp),%eax
-+lea    -0x88(%ebp),%eax
+ lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25STPowerwarFightLoadingKeyD1Ev>
--cmpl   $0x8,-0x1c(%ebp)
+ cmpl   $0x8,-0x1c(%ebp)
 -jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x575>
-+cmpl   $0x8,-0x20(%ebp)
-+jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x589>
++jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x578>
  mov    0xc(%ebp),%eax
  movzwl 0x3b8(%eax),%eax
--mov    %ax,-0xe(%ebp)
--cmpw   $0x0,-0xe(%ebp)
+ mov    %ax,-0xe(%ebp)
+ cmpw   $0x0,-0xe(%ebp)
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x575>
--lea    -0x98(%ebp),%eax
-+mov    %ax,-0x12(%ebp)
-+cmpw   $0x0,-0x12(%ebp)
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x589>
-+lea    -0x9c(%ebp),%eax
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x578>
+ lea    -0x98(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21STPowerwarFightLagKeyC1Ev>
  mov    0xc(%ebp),%eax
  mov    0x2e(%eax),%eax
--mov    %eax,-0x98(%ebp)
--movl   $0x0,-0xc(%ebp)
+ mov    %eax,-0x98(%ebp)
+ movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x535>
--mov    -0xc(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %eax,-0x9c(%ebp)
-+movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x549>
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x538>
 +mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
+ mov    -0xc(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -362,8 +287,7 @@
  lea    (%ecx,%eax,1),%eax
  add    $0x3b0,%eax
  movzwl 0xa(%eax),%eax
--mov    %ax,-0x94(%ebp)
-+mov    %ax,-0x98(%ebp)
+ mov    %ax,-0x94(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x1a0,%eax
  mov    %eax,(%esp)
@@ -372,13 +296,11 @@
  setbe  %al
  test   %al,%al
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x531>
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x545>
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x534>
  mov    0x8(%ebp),%eax
  lea    0x1a0(%eax),%ecx
--lea    -0x9c(%ebp),%eax
--lea    -0x98(%ebp),%edx
-+lea    -0xa0(%ebp),%eax
-+lea    -0x9c(%ebp),%edx
+ lea    -0x9c(%ebp),%eax
+ lea    -0x98(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -390,42 +312,35 @@
  call   <T> <_ZNKSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3eb>
-+jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3f8>
++jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3ee>
  mov    0x8(%ebp),%eax
  lea    0x1a0(%eax),%edx
--lea    -0x50(%ebp),%eax
-+lea    -0x54(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x50(%ebp),%eax
-+lea    -0x54(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x9c(%ebp),%eax
-+lea    -0xa0(%ebp),%eax
+ lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEeqERKS5_>
  test   %al,%al
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3f2>
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3ff>
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3f5>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3f7>
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x404>
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x3fa>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x531>
--lea    -0xa8(%ebp),%eax
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x545>
-+lea    -0xac(%ebp),%eax
++je     <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x534>
+ lea    -0xa8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STPowerwarFightLagDataC1Ev>
--mov    -0xc(%ebp),%edx
--mov    0xc(%ebp),%ecx
 +mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
+ mov    -0xc(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -434,12 +349,10 @@
  lea    (%ecx,%eax,1),%eax
  add    $0x3bc,%eax
  movzbl (%eax),%eax
--mov    %al,-0xa8(%ebp)
--mov    -0xc(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %al,-0xac(%ebp)
+ mov    %al,-0xa8(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
+ mov    -0xc(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -448,12 +361,10 @@
  lea    (%ecx,%eax,1),%eax
  add    $0x3b0,%eax
  mov    0xd(%eax),%eax
--mov    %eax,-0xa4(%ebp)
--mov    -0xc(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    %eax,-0xa8(%ebp)
+ mov    %eax,-0xa4(%ebp)
 +mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
+ mov    -0xc(%ebp),%edx
+-mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -462,131 +373,90 @@
  lea    (%ecx,%eax,1),%eax
  add    $0x3b0,%eax
  mov    0x11(%eax),%eax
--mov    %eax,-0xa0(%ebp)
--lea    -0x30(%ebp),%eax
--lea    -0xa8(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    -0x98(%ebp),%edx
-+mov    %eax,-0xa4(%ebp)
-+lea    -0x34(%ebp),%eax
-+lea    -0xac(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x9c(%ebp),%edx
+ mov    %eax,-0xa0(%ebp)
+ lea    -0x30(%ebp),%eax
+ lea    -0xa8(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    -0x98(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIR21STPowerwarFightLagKeyR22STPowerwarFightLagDataESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
  sub    $0x4,%esp
--lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEC1IS0_S2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x1a0(%eax),%ecx
--lea    -0x4c(%ebp),%eax
--lea    -0x44(%ebp),%edx
-+lea    -0x50(%ebp),%eax
-+lea    -0x48(%ebp),%edx
+ lea    -0x4c(%ebp),%eax
+ lea    -0x44(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE6insertERKS6_>
  sub    $0x4,%esp
--lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
--lea    -0x30(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x512>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x4fd>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x34(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairI21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
--lea    -0xa8(%ebp),%eax
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x51f>
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairI21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x537>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0xac(%ebp),%eax
+ lea    -0xa8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STPowerwarFightLagDataD1Ev>
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x531>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x534>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x504>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairI21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x507>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairI21STPowerwarFightLagKey22STPowerwarFightLagDataED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x519>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0xa8(%ebp),%eax
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x55d>
-+lea    -0xac(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x51c>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0xa8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STPowerwarFightLagDataD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x549>
--addl   $0x1,-0xc(%ebp)
--movzwl -0xe(%ebp),%eax
--cmp    -0xc(%ebp),%eax
-+addl   $0x1,-0x10(%ebp)
-+movzwl -0x12(%ebp),%eax
-+cmp    -0x10(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x54c>
+ addl   $0x1,-0xc(%ebp)
+ movzwl -0xe(%ebp),%eax
+ cmp    -0xc(%ebp),%eax
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x337>
 -jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x567>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x98(%ebp),%eax
-+jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x344>
-+jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x57b>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x9c(%ebp),%eax
++jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x33a>
++jmp    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x56a>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x98(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21STPowerwarFightLagKeyD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x98(%ebp),%eax
-+lea    -0x9c(%ebp),%eax
+ lea    -0x98(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21STPowerwarFightLagKeyD1Ev>
--addl   $0x1,-0x1c(%ebp)
--cmpl   $0x8,-0x1c(%ebp)
-+addl   $0x1,-0x20(%ebp)
-+cmpl   $0x8,-0x20(%ebp)
+ addl   $0x1,-0x1c(%ebp)
+ cmpl   $0x8,-0x1c(%ebp)
  setle  %al
  test   %al,%al
  jne    <T> <_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics+0x17>
@@ -775,7 +645,7 @@ LAB_080719dd:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 906 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 964 行）：
 
 ```cpp
 void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report_Statistics* pkt)
@@ -801,8 +671,7 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
                     {
                         std::map<STPowerwarFightLoadingKey, STPowerwarFightLoadingData>::iterator it =
                             m_pwLoading.find(lkey);
-                        bool isNew = (m_pwLoading.empty() || it == m_pwLoading.end());
-                        if (isNew)
+                        if (m_pwLoading.empty() || it == m_pwLoading.end())
                         {
                             STPowerwarFightLoadingData v;
                             v.m_player = ((LoadingPwWire*)pkt)->m_pw[j].m_f0;
@@ -829,8 +698,7 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
                     {
                         std::map<STPowerwarFightLagKey, STPowerwarFightLagData>::iterator it =
                             m_pwLag.find(gkey);
-                        bool isNew = (m_pwLag.empty() || it == m_pwLag.end());
-                        if (isNew)
+                        if (m_pwLag.empty() || it == m_pwLag.end())
                         {
                             STPowerwarFightLagData v;
                             v.m_player = ((LoadingLagWire*)pkt)->m_lag[j].m_f0;
