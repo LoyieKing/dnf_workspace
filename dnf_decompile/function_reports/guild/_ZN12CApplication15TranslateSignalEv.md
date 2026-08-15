@@ -221,7 +221,7 @@
 -mov    0x8(%eax),%eax
 -mov    %eax,-0x20(%ebp)
 +lea    -0x33(%ebp),%eax
-+movl   $0x2,0x14(%eax)
++movl   $0x2,0x10(%eax)
 +lea    -0x33(%ebp),%ebx
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -235,7 +235,7 @@
 +call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 +mov    (%eax),%eax
 +mov    0x8(%eax),%eax
-+mov    %eax,0x10(%ebx)
++mov    %eax,0x18(%ebx)
 +lea    -0x33(%ebp),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -243,7 +243,7 @@
  mov    (%eax),%eax
  mov    0xc(%eax),%eax
 -mov    %al,-0x21(%ebp)
-+mov    %al,0x18(%ebx)
++mov    %al,0x14(%ebx)
  lea    -0x33(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader>
@@ -271,8 +271,7 @@
  mov    0xc(%eax),%eax
  mov    %eax,-0x153(%ebp)
  movl   $0x4,0x8(%esp)
--movl   $"야메",0x4(%esp)
-+movl   $"겪蔘",0x4(%esp)
+ movl   $"야메",0x4(%esp)
  lea    -0x165(%ebp),%eax
  add    $0x16,%eax
  mov    %eax,(%esp)
@@ -584,7 +583,7 @@ void CApplication::TranslateSignal()
                 enter.m_info.m_dbid = (unsigned int)(*it)->m_param2;
                 enter.m_info.m_charNo = (unsigned int)(*it)->m_param3;
                 memcpy(enter.m_info.m_guildName,
-                       "\xb4\xab\xbb\xe7\xb6\xf7\x00\xb0\xde\xdf\xb8\xde\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+                       "\xb4\xab\xbb\xe7\xb6\xf7\x00\xbe\xdf\xb8\xde\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
                        0x16);
                 CPacketTranslater::OnNoticeGuildEnter(&enter);
                 break;
@@ -596,9 +595,9 @@ void CApplication::TranslateSignal()
                 {
                     char pad[0xa];
                     unsigned int f1;
-                    unsigned int f2;
                     unsigned int grade;
                     unsigned char f3;
+                    unsigned int f2;
                 };
                 ((GradeFields*)&grade)->grade = 2;
                 ((GradeFields*)&grade)->f1 = (unsigned int)(*it)->m_param1;
@@ -613,7 +612,7 @@ void CApplication::TranslateSignal()
                 delegate.m_guildKey = (unsigned int)(*it)->m_param1;
                 delegate.m_requesterCharNo = (unsigned int)(*it)->m_param2;
                 delegate.m_delegateeCharNo = (unsigned int)(*it)->m_param3;
-                memcpy(delegate.m_msg, "\xb0\xde\xdf\xb8", 4);
+                memcpy(delegate.m_msg, "\xbe\xdf\xb8\xde", 4);
                 CPacketTranslater::OnGuildMasterDelegateFromWeb(&delegate);
                 break;
             }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807a888` | `0x6c9` | `0x8070c1a` | `0x6b4` |
+| guild | DIFF | `0x807a888` | `0x6c9` | `0x8070c1c` | `0x6be` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,31 +13,33 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,434 +1,421 @@
+@@ -1,434 +1,431 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x114c,%esp
-+sub    $0x216c,%esp
+ sub    $0x114c,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,-0x2c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
- jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xe2>
+-jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xe2>
 -lea    -0x59(%ebp),%eax
-+lea    -0x69(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xe8>
++lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x59(%ebp),%eax
-+lea    -0x69(%ebp),%eax
++lea    -0x55(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp",0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x70(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x60(%ebp),%esi
-+lea    -0x70(%ebp),%esi
++lea    -0x5c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -45,7 +47,8 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x90>
+-jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x90>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x96>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -55,36 +58,41 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x60(%ebp),%eax
-+lea    -0x70(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x8a>
+-jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x8a>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x90>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xa7>
+-jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xa7>
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xad>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xa7>
+-jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xa7>
 -lea    -0x60(%ebp),%eax
-+lea    -0x70(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xad>
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xbf>
+-jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xbf>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xc5>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xa7>
+-jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xa7>
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0xad>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x59(%ebp),%eax
-+lea    -0x69(%ebp),%eax
++lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5e8>
 -lea    -0x59(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5d3>
-+lea    -0x69(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5dd>
++lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -92,30 +100,13 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -mov    0x8(%ebp),%eax
-+lea    -0x135(%ebp),%eax
++lea    -0x121(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN31Packet_Guild_Reply_Guild_SecedeC1Ev>
-+mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,-0x40(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x2c(%ebp),%eax
 +mov    0xe(%eax),%eax
-+mov    %eax,-0x3c(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    0x12(%eax),%eax
-+mov    %eax,-0x38(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    0x16(%eax),%eax
-+mov    %eax,-0x34(%ebp)
-+mov    0x8(%ebp),%eax
-+movzbl 0x1a(%eax),%eax
-+mov    %al,-0x2d(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    0x3d(%eax),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x10(%eax),%edx
-+mov    -0x3c(%ebp),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
@@ -139,32 +130,29 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x169>
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x18e>
++je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x164>
++mov    -0x2c(%ebp),%eax
+ mov    0xe(%eax),%ebx
  movl   $0xb9e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x68(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnRequestGuildSecede : 0 == pclCaller, Char Key = %d",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x68(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6be>
 -mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6a9>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x290(%eax),%edx
-+mov    -0x40(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6b3>
++mov    -0x2c(%ebp),%eax
+ mov    0xa(%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
@@ -174,65 +162,63 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x1da>
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%ebx
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x1f3>
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x1d0>
++mov    -0x2c(%ebp),%eax
+ mov    0xe(%eax),%ebx
  movl   $0xba3,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnRequestGuildSecede : 0 == pclGuild, Char Key = %d (Maybe Requester was logout)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6be>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6a9>
-+mov    -0x40(%ebp),%eax
-+mov    %eax,-0x12b(%ebp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>
-+mov    %ax,-0x127(%ebp)
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,-0x125(%ebp)
- mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
+-mov    -0x28(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6b3>
++mov    -0x2c(%ebp),%eax
+ mov    0xa(%eax),%eax
 -mov    %eax,-0x11b(%ebp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>
++mov    %eax,-0x117(%ebp)
++mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>
 -mov    %ax,-0x117(%ebp)
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%eax
++mov    %ax,-0x113(%ebp)
++mov    -0x2c(%ebp),%eax
+ mov    0xe(%eax),%eax
 -mov    %eax,-0x115(%ebp)
 -mov    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x111(%ebp)
--mov    -0x28(%ebp),%eax
--movzbl 0x1a(%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser14GetIdByChannelEv>
+ mov    %eax,-0x111(%ebp)
+ mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser14GetIdByChannelEv>
++mov    %eax,-0x10d(%ebp)
++mov    -0x2c(%ebp),%eax
+ movzbl 0x1a(%eax),%eax
 -mov    %al,-0x109(%ebp)
 -mov    -0x28(%ebp),%eax
-+mov    %eax,-0x121(%ebp)
-+movzbl -0x2d(%ebp),%eax
-+mov    %al,-0x119(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %al,-0x105(%ebp)
++mov    -0x2c(%ebp),%eax
  mov    0x1b(%eax),%eax
 -mov    -0x28(%ebp),%edx
-+mov    0x8(%ebp),%edx
++mov    -0x2c(%ebp),%edx
  add    $0x1f,%edx
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
 -lea    -0x125(%ebp),%eax
-+lea    -0x135(%ebp),%eax
++lea    -0x121(%ebp),%eax
  add    $0x1d,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -243,17 +229,20 @@
  movl   $0x16,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x125(%ebp),%eax
-+lea    -0x135(%ebp),%eax
++lea    -0x121(%ebp),%eax
  add    $0x3b,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -mov    -0x28(%ebp),%eax
--mov    0x16(%eax),%eax
--test   %eax,%eax
++mov    -0x2c(%ebp),%eax
+ mov    0x16(%eax),%eax
+ test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x2b2>
 -mov    -0x28(%ebp),%eax
--mov    0x16(%eax),%eax
--cmp    $0x1,%eax
++je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x27e>
++mov    -0x2c(%ebp),%eax
+ mov    0x16(%eax),%eax
+ cmp    $0x1,%eax
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x2b2>
 -mov    -0x28(%ebp),%eax
 -mov    0x16(%eax),%eax
@@ -266,26 +255,23 @@
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6be>
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%edx
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5af>
++mov    -0x2c(%ebp),%eax
+ mov    0xe(%eax),%edx
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%eax
--cmp    %eax,%edx
++mov    -0x2c(%ebp),%eax
+ mov    0x12(%eax),%eax
+ cmp    %eax,%edx
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x44a>
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%eax
++je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x411>
++mov    -0x2c(%ebp),%eax
+ mov    0x12(%eax),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
-+cmpl   $0x0,-0x34(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x28f>
-+cmpl   $0x1,-0x34(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5a8>
-+mov    -0x3c(%ebp),%eax
-+cmp    -0x38(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x41c>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x10(%eax),%edx
-+mov    -0x38(%ebp),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
@@ -296,89 +282,47 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x348>
 -lea    -0x7a(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x3b0>
-+lea    -0x86(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN28Packet_Guild_Exp_Book_DeleteC1Ev>
+-mov    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser14GetIdByChannelEv>
+-mov    %eax,-0x70(%ebp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,-0x6c(%ebp)
++je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x3ae>
++lea    -0x72(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN15Packet_No_CacheC1Ev>
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,-0x7c(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_ServerGroupEv>
-+movzbl %al,%eax
-+mov    %eax,-0x78(%ebp)
-+movl   $0x1,-0x74(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x86(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,-0x7c(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_ServerGroupEv>
-+movzbl %al,%eax
-+mov    %eax,-0x78(%ebp)
-+movl   $0x2,-0x74(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x86(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader>
-+lea    -0x2149(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
-+movl   $0x4f00,-0x213f(%ebp)
-+movl   $0x2,-0x213b(%ebp)
-+mov    -0x38(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+movl   $"upDate charac_info set guild_secede = 1 where charac_no = %u",0x4(%esp)
-+lea    -0x1136(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <sprintf>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x2149(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x41c>
-+lea    -0xa0(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN28Packet_Guild_Exp_Book_DeleteC1Ev>
- mov    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x70(%ebp)
-+mov    %eax,-0x96(%ebp)
- mov    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x6c(%ebp)
-+mov    %eax,-0x92(%ebp)
++mov    0x3d(%eax),%eax
++mov    %eax,-0x68(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
  movzbl %al,%eax
--mov    %eax,-0x64(%ebp)
-+mov    %eax,-0x8e(%ebp)
- mov    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser7GetDBIDEv>
--mov    %eax,-0x68(%ebp)
+ mov    %eax,-0x64(%ebp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser7GetDBIDEv>
++movl   $0x1,-0x60(%ebp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0x72(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
++mov    -0x2c(%ebp),%eax
++mov    0x3d(%eax),%eax
+ mov    %eax,-0x68(%ebp)
 -lea    -0x7a(%ebp),%eax
-+mov    %eax,-0x8a(%ebp)
-+lea    -0xa0(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-mov    %eax,0x4(%esp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x44a>
 -lea    -0x90(%ebp),%eax
 -mov    %eax,(%esp)
@@ -386,18 +330,21 @@
 -mov    -0x28(%ebp),%eax
 -mov    0x3d(%eax),%eax
 -mov    %eax,-0x86(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--movzbl %al,%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication15Get_ServerGroupEv>
+ movzbl %al,%eax
 -mov    %eax,-0x82(%ebp)
 -movl   $0x1,-0x7e(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++mov    %eax,-0x64(%ebp)
++movl   $0x2,-0x60(%ebp)
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x90(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
++lea    -0x72(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
 -call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -mov    -0x28(%ebp),%eax
 -mov    0x3d(%eax),%eax
@@ -414,54 +361,86 @@
 -lea    -0x90(%ebp),%edx
 -mov    %edx,0x4(%esp)
 -mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader>
+ call   <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader>
 -lea    -0x1138(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
++lea    -0x1134(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
 -movl   $0x2,-0x112a(%ebp)
 -movl   $0x4f00,-0x112e(%ebp)
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%eax
--mov    %eax,0x8(%esp)
--movl   $"upDate charac_info set guild_secede = 1 where charac_no = %u",0x4(%esp)
++movl   $0x4f00,-0x112a(%ebp)
++movl   $0x2,-0x1126(%ebp)
++mov    -0x2c(%ebp),%eax
+ mov    0x12(%eax),%eax
+ mov    %eax,0x8(%esp)
+ movl   $"upDate charac_info set guild_secede = 1 where charac_no = %u",0x4(%esp)
 -lea    -0x1138(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,(%esp)
--call   <T> <sprintf>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0x1134(%ebp),%eax
+ add    $0x12,%eax
+ mov    %eax,(%esp)
+ call   <T> <sprintf>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x1138(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++lea    -0x1134(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -lea    -0xd3(%ebp),%eax
-+lea    -0xe3(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x411>
++lea    -0x8c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN28Packet_Guild_Exp_Book_DeleteC1Ev>
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser14GetIdByChannelEv>
++mov    %eax,-0x82(%ebp)
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,-0x7e(%ebp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication15Get_ServerGroupEv>
++movzbl %al,%eax
++mov    %eax,-0x7a(%ebp)
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser7GetDBIDEv>
++mov    %eax,-0x76(%ebp)
++lea    -0x8c(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
++lea    -0xcf(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22ST_Notice_Guild_SecedeC1Ev>
 -mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
++mov    -0x2c(%ebp),%eax
+ mov    0xa(%eax),%eax
 -mov    %eax,-0xd3(%ebp)
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%eax
++mov    %eax,-0xcf(%ebp)
++mov    -0x2c(%ebp),%eax
+ mov    0x12(%eax),%eax
 -mov    %eax,-0xcb(%ebp)
 -mov    -0x28(%ebp),%eax
--movzbl 0x1a(%eax),%eax
-+mov    -0x40(%ebp),%eax
-+mov    %eax,-0xe3(%ebp)
-+mov    -0x38(%ebp),%eax
-+mov    %eax,-0xdb(%ebp)
-+movzbl -0x2d(%ebp),%eax
++mov    %eax,-0xc7(%ebp)
++mov    -0x2c(%ebp),%eax
+ movzbl 0x1a(%eax),%eax
  cbtw
 -mov    %ax,-0xc7(%ebp)
 -mov    -0x28(%ebp),%eax
-+mov    %ax,-0xd7(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %ax,-0xc3(%ebp)
++mov    -0x2c(%ebp),%eax
  add    $0x1f,%eax
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0xd3(%ebp),%eax
-+lea    -0xe3(%ebp),%eax
++lea    -0xcf(%ebp),%eax
  add    $0x25,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -472,33 +451,28 @@
  movl   $0x16,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0xd3(%ebp),%eax
-+lea    -0xe3(%ebp),%eax
++lea    -0xcf(%ebp),%eax
  add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -lea    -0xd3(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
-+lea    -0xe3(%ebp),%eax
++lea    -0xcf(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc>
 -mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--lea    0x290(%edx),%ecx
++mov    -0x2c(%ebp),%eax
+ mov    0xa(%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ lea    0x290(%edx),%ecx
 -lea    -0xd3(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    %ecx,(%esp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x290(%eax),%edx
-+lea    -0xe3(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    -0x40(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
++lea    -0xcf(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %ecx,(%esp)
  call   <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede>
  movl   $0x0,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -508,14 +482,14 @@
 -cmpl   $0x0,-0x2c(%ebp)
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5bc>
 -mov    -0x28(%ebp),%eax
--mov    0x16(%eax),%eax
--cmp    $0x1,%eax
++cmpl   $0x0,-0x24(%ebp)
++je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x583>
++mov    -0x2c(%ebp),%eax
+ mov    0x16(%eax),%eax
+ cmp    $0x1,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5bc>
 -mov    -0x2c(%ebp),%eax
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x57c>
-+cmpl   $0x1,-0x34(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x57c>
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x583>
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>
@@ -524,7 +498,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x5a2>
 -mov    -0x2c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x562>
++je     <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x569>
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>
@@ -537,7 +511,7 @@
  movl   $0xbf3,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
@@ -545,7 +519,7 @@
  movl   $"CPacketTranslater::OnDBReplyGuildSecede : Guild(%d) Deleted, rest member count(%d)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -557,8 +531,8 @@
  call   <T> <_ZN13CGuildManager12GuildDismissEP6CGuild>
 -movl   $0x0,-0x10d(%ebp)
 -lea    -0x125(%ebp),%eax
-+movl   $0x0,-0x11d(%ebp)
-+lea    -0x135(%ebp),%eax
++movl   $0x0,-0x109(%ebp)
++lea    -0x121(%ebp),%eax
  movl   $0x52,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x30(%ebp),%eax
@@ -566,19 +540,20 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6be>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6a9>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,-0x11d(%ebp)
-+lea    -0x135(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6b3>
++mov    -0x2c(%ebp),%eax
++mov    0x16(%eax),%eax
++mov    %eax,-0x109(%ebp)
++lea    -0x121(%ebp),%eax
 +movl   $0x52,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6a9>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6b3>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x664>
-+jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x64f>
++jne    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x659>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -597,18 +572,18 @@
  movl   $0xbff,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnRequestGuildSecede() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x65d>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x648>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x652>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -618,23 +593,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6be>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6a9>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6b3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xc04,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRequestGuildSecede() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6b9>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6a4>
++jmp    <T> <_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader+0x6ae>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -643,8 +618,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0x114c,%esp
-+add    $0x216c,%esp
+ add    $0x114c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -834,62 +808,57 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHe
 ```cpp
 void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
 {
+    Packet_DB_Reply_Guild_Secede* pb = (Packet_DB_Reply_Guild_Secede*)pkt;
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp");
     Packet_Guild_Reply_Guild_Secede resp;
-    unsigned int guildKey = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_guildKey;
-    unsigned int requesterCharNo = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_requesterCharNo;
-    unsigned int targetCharNo = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_targetCharNo;
-    int secedeType = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_secedeType;
-    unsigned char secedeFlag = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_secedeFlag;
-    unsigned int dbid = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_dbid;
     CUser* requester;
-    if ((requester = (&m_pclApp->m_userManager)->FindUser_CharNo(requesterCharNo)) == 0)
+    if ((requester = (&m_pclApp->m_userManager)->FindUser_CharNo(pb->m_requesterCharNo)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0xb9e,"./log/Except",
             "CPacketTranslater::OnRequestGuildSecede : 0 == pclCaller, Char Key = %d",
-            requesterCharNo);
+            pb->m_requesterCharNo);
         return;
     }
-    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
+    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(pb->m_guildKey);
     if (guild == 0)
     {
         DNF_LOG_SCOPE_LINE(0xba3,"./log/GuildModify",
             "CPacketTranslater::OnRequestGuildSecede : 0 == pclGuild, Char Key = %d (Maybe Requester was logout)",
-            requesterCharNo);
+            pb->m_requesterCharNo);
         return;
     }
-    resp.m_guildKey = guildKey;
+    resp.m_guildKey = pb->m_guildKey;
     resp.m_totalCnt = guild->GetTotalCnt_Of_GuildDBInfo();
-    resp.m_requester = requesterCharNo;
+    resp.m_requester = pb->m_requesterCharNo;
     resp.m_channel = requester->GetIdByChannel();
-    resp.m_secedeFlag = secedeFlag;
-    memcpy(resp.m_name, ((Packet_DB_Reply_Guild_Secede*)pkt)->m_name,
-           ((Packet_DB_Reply_Guild_Secede*)pkt)->m_nameLen);
+    resp.m_secedeFlag = pb->m_secedeFlag;
+    memcpy(resp.m_name, pb->m_name,
+           pb->m_nameLen);
     memcpy(resp.m_guildName, guild->GetGuildName(), 0x16);
-    if (secedeType == 0 || secedeType == 1)
+    if (pb->m_secedeType == 0 || pb->m_secedeType == 1)
     {
-        if (requesterCharNo != targetCharNo)
+        if (pb->m_requesterCharNo != pb->m_targetCharNo)
         {
             CUser* target;
-            if ((target = (&m_pclApp->m_userManager)->FindUser_CharNo(targetCharNo)) == 0)
+            if ((target = (&m_pclApp->m_userManager)->FindUser_CharNo(pb->m_targetCharNo)) == 0)
             {
                 Packet_No_Cache noCache;
-                noCache.ma = dbid;
+                noCache.ma = pb->m_dbid;
                 noCache.me = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
                 noCache.m12 = 1;
                 m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&noCache);
-                noCache.ma = dbid;
+                noCache.ma = pb->m_dbid;
                 noCache.me = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
                 noCache.m12 = 2;
                 m_pclApp->Get_ServerHandler()->SendTcpGameServerFirst(&noCache);
                 Packet_DBMW_Query_Msg query;
                 query.m_queryId = 0x4f00;
                 query.m_handleIdx = 2;
-                char sql[4097];
-                sprintf(sql, "upDate charac_info set guild_secede = 1 where charac_no = %u",
-                        targetCharNo);
+                sprintf(query.m_data,
+                        "upDate charac_info set guild_secede = 1 where charac_no = %u",
+                        pb->m_targetCharNo);
                 m_pclApp->Get_ServerHandler()->SendToDB(&query);
             }
             else
@@ -903,15 +872,15 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
             }
         }
         ST_Notice_Guild_Secede notice;
-        notice.m_guildKey = guildKey;
-        notice.m_charNo = targetCharNo;
-        notice.m_secedeFlag = (unsigned short)(signed char)secedeFlag;
-        memcpy(notice.m_charName, ((Packet_DB_Reply_Guild_Secede*)pkt)->m_name, 0x1d);
+        notice.m_guildKey = pb->m_guildKey;
+        notice.m_charNo = pb->m_targetCharNo;
+        notice.m_secedeFlag = (unsigned short)(signed char)pb->m_secedeFlag;
+        memcpy(notice.m_charName, pb->m_name, 0x1d);
         memcpy(notice.m_guildName, guild->GetGuildName(), 0x16);
         guild->NoticeSecedeToGuildMember((char*)&notice);
-        (&m_pclApp->m_guildManager)->GuildSecede(guildKey, notice);
+        (&m_pclApp->m_guildManager)->GuildSecede(pb->m_guildKey, notice);
         guild->SendGuildInfoToMembers(false);
-        if (guild != 0 && secedeType == 1)
+        if (guild != 0 && pb->m_secedeType == 1)
         {
             if (guild->GetTotalCnt_Of_GuildDBInfo() != 0)
             {
@@ -926,7 +895,7 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
     }
     else
     {
-        resp.m_secedeType = (unsigned int)secedeType;
+        resp.m_secedeType = (unsigned int)pb->m_secedeType;
         requester->SendToGameserver((char*)&resp, 0x52);
     }
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808edc6` | `0x165` | `0x8054d44` | `0x167` |
+| guild | DIFF | `0x808edc6` | `0x165` | `0x8054d42` | `0x167` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -32,8 +32,9 @@
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x162>
+-lea    -0x145(%ebp),%eax
 +jne    <T> <_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc+0x164>
- lea    -0x145(%ebp),%eax
++lea    -0x146(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_Guild_Chat_ToUserC1Ev>
  mov    0x8(%ebp),%edx
@@ -57,15 +58,18 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
- mov    %eax,-0x13b(%ebp)
+-mov    %eax,-0x13b(%ebp)
++mov    %eax,-0x13c(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,-0x137(%ebp)
+-mov    %eax,-0x137(%ebp)
++mov    %eax,-0x138(%ebp)
  movl   $0x1d,0x8(%esp)
  mov    0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x145(%ebp),%eax
+-lea    -0x145(%ebp),%eax
++lea    -0x146(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -76,19 +80,21 @@
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x145(%ebp),%eax
--add    $0x31,%eax
-+add    $0x30,%eax
+-lea    -0x145(%ebp),%eax
++lea    -0x146(%ebp),%eax
+ add    $0x31,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x14(%ebp),%eax
  add    $0x31,%eax
- mov    %ax,-0x143(%ebp)
+-mov    %ax,-0x143(%ebp)
 -movzwl -0x143(%ebp),%eax
++mov    %ax,-0x144(%ebp)
 +mov    0x14(%ebp),%eax
 +add    $0x31,%eax
  movzwl %ax,%edx
- lea    -0x145(%ebp),%eax
+-lea    -0x145(%ebp),%eax
++lea    -0x146(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax

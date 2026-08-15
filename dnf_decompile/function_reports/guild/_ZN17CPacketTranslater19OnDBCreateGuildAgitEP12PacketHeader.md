@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082902` | `0x2e3` | `0x8078a8e` | `0x2cb` |
+| guild | DIFF | `0x8082902` | `0x2e3` | `0x8078a9a` | `0x2c7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,83 +42,80 @@
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2c0>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2bc>
 +mov    -0x28(%ebp),%eax
  mov    0x12(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0xc7>
 -mov    -0x20(%ebp),%eax
--mov    0x12(%eax),%edi
--mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%ebx
--movl   $0x16a0,0x8(%esp)
-+jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x191>
++je     <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0xb9>
 +mov    -0x28(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x290(%eax),%edx
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN13CGuildManager9FindGuildEj>
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x96>
-+cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0xd2>
-+movl   $0x16a9,0x8(%esp)
+ mov    0x12(%eax),%edi
+-mov    -0x20(%ebp),%eax
++mov    -0x28(%ebp),%eax
+ mov    0xe(%eax),%esi
+-mov    -0x20(%ebp),%eax
++mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%ebx
+ movl   $0x16a0,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
-+movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
  movl   $"./log/GuildAgit",0x4(%esp)
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
-+nop
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2c0>
-+movl   $0x1,0x4(%esp)
- mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
+-mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2bc>
++mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0xf8>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x24(%ebp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++lea    0x290(%eax),%edx
++mov    -0x24(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x24(%ebp)
++mov    %eax,-0x20(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
 -jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0xff>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x104>
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x143>
--movl   $0x16a9,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
--movl   $"./log/GuildAgit",0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++je     <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0xeb>
++cmpl   $0x0,-0x20(%ebp)
++jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x127>
+ movl   $0x16a9,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
+ movl   $"./log/GuildAgit",0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
--movl   $0x1,0x4(%esp)
++nop
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2bc>
+ movl   $0x1,0x4(%esp)
 -mov    -0x24(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16SetGuildAgitFlagEb>
 -mov    -0x24(%ebp),%eax
@@ -168,30 +165,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2c0>
-+mov    -0x28(%ebp),%eax
-+mov    0x12(%eax),%edi
-+mov    -0x28(%ebp),%eax
-+mov    0xe(%eax),%esi
-+mov    -0x28(%ebp),%eax
-+mov    0xa(%eax),%ebx
-+movl   $0x16a0,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %edi,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
-+movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2c0>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2bc>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x27e>
-+jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x266>
++jne    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x262>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -219,7 +196,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x277>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x25f>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x25b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -229,7 +206,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d8>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2c0>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2bc>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x16c9,0x8(%esp)
@@ -243,7 +220,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2d3>
-+jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2bb>
++jmp    <T> <_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader+0x2b7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -339,12 +316,12 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4063 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4058 行）：
 
 ```cpp
 void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
+    Packet_DB_Create_Guild_Agit_Reply* pb = (Packet_DB_Create_Guild_Agit_Reply*)pkt;
     try
     {
         if (m_pclApp == 0)
@@ -352,9 +329,15 @@ void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x1696, "./log/Except", "CPacketTranslater::OnDBCreateGuildAgit : 0 == m_pclApp");
             return;
         }
-        if (((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_field12 == 0)
+        if (pb->m_field12 != 0)
         {
-            unsigned int guildKey = ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_guildKey;
+            DNF_LOG_SCOPE_LINE(0x16a0,"./log/GuildAgit",
+                "CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
+                pb->m_guildKey, pb->m_charNo, pb->m_field12);
+            return;
+        }
+        {
+            unsigned int guildKey = pb->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
@@ -369,17 +352,12 @@ void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
                 cargoInfo.m_capacity = 8;
                 guild->GetGuildCargo()->SetGuildCargoDBInfo(cargoInfo);
                 guild->NotifyCreateGuildAgitToGuildMember(
-                    ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_charNo);
+                    pb->m_charNo);
                 guild->SendGuildAgitInfoToMembers();
                 guild->SendGuildInfoToMembers(false);
             }
-            return;
         }
-        DNF_LOG_SCOPE_LINE(0x16a0,"./log/GuildAgit",
-            "CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
-            ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_guildKey,
-            ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_charNo,
-            ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_field12);
+        return;
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnDBCreateGuildAgit Exception Break", 0x16c4, 0x16c9);
 }

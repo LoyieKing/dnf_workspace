@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ef2c` | `0x1cd` | `0x8054eac` | `0x1d0` |
+| guild | DIFF | `0x808ef2c` | `0x1cd` | `0x8054eaa` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -16,9 +16,11 @@
 @@ -1,120 +1,123 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0x2a8,%esp
+-sub    $0x2a8,%esp
++sub    $0x2b8,%esp
  mov    0x18(%ebp),%eax
- mov    %al,-0x28c(%ebp)
+-mov    %al,-0x28c(%ebp)
++mov    %al,-0x29c(%ebp)
  cmpl   $0xff,0x14(%ebp)
  jg     <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1c7>
  mov    0x8(%ebp),%eax
@@ -33,8 +35,9 @@
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1ca>
+-lea    -0x282(%ebp),%eax
 +jne    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x1cd>
- lea    -0x282(%ebp),%eax
++lea    -0x293(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Monitor_Guild_Chat_ToUser_Hyper_LinkC1Ev>
  mov    0x8(%ebp),%edx
@@ -56,21 +59,25 @@
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
- mov    %eax,-0x278(%ebp)
+-mov    %eax,-0x278(%ebp)
++mov    %eax,-0x289(%ebp)
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,-0x274(%ebp)
+-mov    %eax,-0x274(%ebp)
++mov    %eax,-0x285(%ebp)
  movl   $0x1d,0x8(%esp)
  mov    0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x282(%ebp),%eax
+-lea    -0x282(%ebp),%eax
++lea    -0x293(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
- movzbl -0x28c(%ebp),%eax
+-movzbl -0x28c(%ebp),%eax
 -mov    %al,-0x252(%ebp)
-+mov    %al,-0x253(%ebp)
++movzbl -0x29c(%ebp),%eax
++mov    %al,-0x263(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x11c>
 +jmp    <T> <_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc+0x11d>
@@ -88,8 +95,8 @@
 +mov    -0xc(%ebp),%eax
 +imul   $0x68,%eax,%eax
 +mov    %eax,%ecx
-+lea    -0x282(%ebp),%eax
-+add    $0x30,%eax
++lea    -0x293(%ebp),%eax
++add    $0x31,%eax
 +add    %ecx,%eax
  movl   $0x68,0x8(%esp)
 -mov    %eax,0x4(%esp)
@@ -98,7 +105,8 @@
 +mov    %eax,(%esp)
  call   <T> <memcpy>
  addl   $0x1,-0xc(%ebp)
- movzbl -0x28c(%ebp),%eax
+-movzbl -0x28c(%ebp),%eax
++movzbl -0x29c(%ebp),%eax
  cmp    -0xc(%ebp),%eax
  setg   %al
  test   %al,%al
@@ -110,19 +118,21 @@
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x282(%ebp),%eax
--add    $0x16a,%eax
-+add    $0x159,%eax
+-lea    -0x282(%ebp),%eax
++lea    -0x293(%ebp),%eax
+ add    $0x16a,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x14(%ebp),%eax
  add    $0x16a,%ax
- mov    %ax,-0x280(%ebp)
+-mov    %ax,-0x280(%ebp)
 -movzwl -0x280(%ebp),%eax
 -movzwl %ax,%edx
+-lea    -0x282(%ebp),%eax
++mov    %ax,-0x291(%ebp)
 +mov    0x14(%ebp),%eax
 +lea    0x16a(%eax),%edx
- lea    -0x282(%ebp),%eax
++lea    -0x293(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x10(%ebp),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8083184` | `0x32a` | `0x80792bc` | `0x31c` |
+| guild | DIFF | `0x8083184` | `0x32a` | `0x80792c6` | `0x31c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -367,7 +367,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4195 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4193 行）：
 
 ```cpp
 void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80834ae` | `0x232` | `0x80795d8` | `0x21b` |
+| guild | DIFF | `0x80834ae` | `0x232` | `0x80795e2` | `0x21d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,145 +1,138 @@
+@@ -1,145 +1,140 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -21,74 +21,47 @@
  push   %ebx
  sub    $0x6c,%esp
 -movl   $0x0,-0x24(%ebp)
++mov    0x8(%ebp),%eax
++mov    %eax,-0x28(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x54>
-+jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x4d>
++jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x53>
  movl   $0x17a8,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBUpgradeGuildAgit : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x22a>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x213>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x215>
++mov    -0x28(%ebp),%eax
  mov    0x12(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xbd>
-+jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xe4>
-+mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x290(%eax),%edx
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN13CGuildManager9FindGuildEj>
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x8d>
-+cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xc9>
-+movl   $0x17b9,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
-+movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+nop
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x213>
- mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild19SetGuildAgitLevelUpEv>
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x213>
-+mov    0x8(%ebp),%eax
+-mov    -0x20(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xb6>
++mov    -0x28(%ebp),%eax
  mov    0x12(%eax),%edi
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x17b2,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %edi,0x14(%esp)
@@ -97,50 +70,67 @@
  movl   $"CPacketTranslater::OnDBUpgradeGuildAgit / Failure! Upgrade Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
  movl   $"./log/GuildAgit",0x4(%esp)
 -lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x22a>
 -mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x215>
++mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xee>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x24(%ebp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++lea    0x290(%eax),%edx
++mov    -0x24(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x24(%ebp)
++mov    %eax,-0x20(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
 -jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xf5>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xfa>
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x139>
--movl   $0x17b9,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xe8>
++cmpl   $0x0,-0x20(%ebp)
++jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x124>
+ movl   $0x17b9,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
--movl   $"./log/GuildAgit",0x4(%esp)
- lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
+ movl   $"./log/GuildAgit",0x4(%esp)
+-lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x22a>
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild19SetGuildAgitLevelUpEv>
++nop
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x215>
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild19SetGuildAgitLevelUpEv>
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv>
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x22a>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x213>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x215>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x1d0>
-+jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x1b9>
++jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x1bb>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -158,17 +148,19 @@
  mov    %eax,%ebx
  movl   $0x17c5,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnDBUpgradeGuildAgit Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x1c9>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x1b2>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x1b4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -178,21 +170,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x22a>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x213>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x215>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x17ca,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBUpgradeGuildAgit Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x225>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x20e>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x210>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -272,11 +266,12 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4247 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4245 行）：
 
 ```cpp
 void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
 {
+    Packet_DB_Upgrade_Guild_Agit_Reply* pb = (Packet_DB_Upgrade_Guild_Agit_Reply*)pkt;
     try
     {
         if (m_pclApp == 0)
@@ -284,9 +279,15 @@ void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x17a8, "./log/Except", "CPacketTranslater::OnDBUpgradeGuildAgit : 0 == m_pclApp");
             return;
         }
-        if (((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_field12 == 0)
+        if (pb->m_field12 != 0)
         {
-            unsigned int guildKey = ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_guildKey;
+            DNF_LOG_SCOPE_LINE(0x17b2,"./log/GuildAgit",
+                "CPacketTranslater::OnDBUpgradeGuildAgit / Failure! Upgrade Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
+                pb->m_guildKey, pb->m_charNo, pb->m_field12);
+            return;
+        }
+        {
+            unsigned int guildKey = pb->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
@@ -298,13 +299,8 @@ void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
                 guild->SetGuildAgitLevelUp();
                 guild->SendGuildAgitInfoToMembers();
             }
-            return;
         }
-        DNF_LOG_SCOPE_LINE(0x17b2,"./log/GuildAgit",
-            "CPacketTranslater::OnDBUpgradeGuildAgit / Failure! Upgrade Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
-            ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_guildKey,
-            ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_charNo,
-            ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_field12);
+        return;
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnDBUpgradeGuildAgit Exception Break", 0x17c5, 0x17ca);
 }

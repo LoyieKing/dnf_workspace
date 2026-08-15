@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808bea0` | `0x6fe` | `0x8064c50` | `0x70c` |
+| guild | DIFF | `0x808bea0` | `0x6fe` | `0x8064c52` | `0x70c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -588,9 +588,8 @@
 -lea    -0x2d(%ebp),%eax
 +lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
+ movl   $"CNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $"CUdpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -683,9 +682,8 @@
 -lea    -0x25(%ebp),%eax
 +lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
+ movl   $"CNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+movl   $"CUdpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -1012,12 +1010,12 @@ void CUdpNetworkThread::dispatch(void* param)
     catch (CDNFException& e)
     {
         printf("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-        throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
     catch (...)
     {
         puts("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
-        throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
 }
 ```
