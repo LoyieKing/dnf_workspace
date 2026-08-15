@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a88b2` | `0x210` |
+| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a88ac` | `0x208` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,162 +1,158 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x70,%esp
+@@ -1,162 +1,157 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x70,%esp
  mov    0x10(%ebp),%eax
  mov    %al,-0x4c(%ebp)
  mov    0x8(%ebp),%eax
@@ -26,17 +26,17 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x206>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x206>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1fe>
  movl   $0x0,-0x18(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c5>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c7>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1bf>
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c0>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c3>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1bb>
  movl   $0x0,-0x14(%ebp)
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
@@ -49,40 +49,41 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xa3>
--cmpb   $0x0,-0x4c(%ebp)
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xa0>
+ cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x7e>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--lea    0x1(%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %edx,(%eax)
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x7b>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ lea    0x1(%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %edx,(%eax)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x8d>
--mov    -0x10(%ebp),%eax
--mov    0x4(%eax),%eax
--lea    0x1(%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %edx,0x4(%eax)
--mov    -0x10(%ebp),%eax
--mov    (%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    0x4(%eax),%eax
--lea    (%edx,%eax,1),%eax
--mov    %eax,-0x14(%ebp)
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x8a>
+ mov    -0x10(%ebp),%eax
+ mov    0x4(%eax),%eax
+ lea    0x1(%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %edx,0x4(%eax)
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    0x4(%eax),%eax
+ lea    (%edx,%eax,1),%eax
+ mov    %eax,-0x14(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x124>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xf4>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x121>
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked14stHuntingPointC1Ev>
-+movl   $0x0,-0x48(%ebp)
-+movl   $0x0,-0x44(%ebp)
  cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xbf>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x94>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xbc>
  mov    -0x48(%ebp),%eax
  add    $0x1,%eax
  mov    %eax,-0x48(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xc8>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x9d>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xc5>
  mov    -0x44(%ebp),%eax
  add    $0x1,%eax
  mov    %eax,-0x44(%ebp)
@@ -112,29 +113,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjN16village_attacked14stHuntingPointESt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x129>
++movl   $0x1,-0x14(%ebp)
  cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c1>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x109>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+lea    0x1(%eax),%edx
-+mov    -0x10(%ebp),%eax
-+mov    %edx,(%eax)
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x118>
-+mov    -0x10(%ebp),%eax
-+mov    0x4(%eax),%eax
-+lea    0x1(%eax),%edx
-+mov    -0x10(%ebp),%eax
-+mov    %edx,0x4(%eax)
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%edx
-+mov    -0x10(%ebp),%eax
-+mov    0x4(%eax),%eax
-+lea    (%edx,%eax,1),%eax
-+mov    %eax,-0x14(%ebp)
-+cmpb   $0x0,-0x4c(%ebp)
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c3>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1bb>
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
  add    0x18(%ebp),%eax
@@ -163,8 +145,7 @@
  add    0x18(%ebp),%eax
  mov    (%eax),%ebx
  movl   $0x3ae,0x8(%esp)
--movl   $&_ZZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPjE12__FUNCTION__,0x4(%esp)
-+movl   $"UpdateHuntingPoint",0x4(%esp)
+ movl   $&_ZZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPjE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -185,7 +166,7 @@
 +jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x29>
  cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1eb>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e3>
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
  lea    0x1(%eax),%edx
@@ -197,7 +178,7 @@
  mov    0x20(%eax),%eax
  cmp    %eax,%edx
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x207>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x206>
++jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1fe>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>
@@ -209,11 +190,6 @@
  pop    %esi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %esi
-+push   %ebx
-+sub    $0x2090,%esp
 ```
 ## 2. Ghidra 反编译 C
 

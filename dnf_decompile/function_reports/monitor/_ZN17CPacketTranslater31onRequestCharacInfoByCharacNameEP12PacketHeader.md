@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80909e4` | `0x259` | `0x807c018` | `0x24c` |
+| monitor | DIFF | `0x80909e4` | `0x259` | `0x807c012` | `0x23e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,174 +1,168 @@
--push   %ebp
--mov    %esp,%ebp
--push   %esi
--push   %ebx
--add    $0xffffff80,%esp
-+movl   $0x0,-0x24(%ebp)
- movl   $0x0,-0x20(%ebp)
+@@ -1,174 +1,166 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ add    $0xffffff80,%esp
+-movl   $0x0,-0x20(%ebp)
 -movl   $0x0,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x24e>
-+je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x245>
++je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x237>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 +mov    %eax,-0x1c(%ebp)
@@ -43,7 +42,7 @@
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x245>
++je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x237>
 +lea    -0x6d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN32Packet_Monitor_Reply_Charac_InfoC1Ev>
@@ -80,7 +79,7 @@
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x10c>
++jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0xfe>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x34(%ebp),%eax
@@ -88,7 +87,7 @@
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0xf4>
++jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0xe6>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x2d(%ebp),%eax
@@ -96,7 +95,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x1a1>
++jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x193>
 +lea    -0x2d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
@@ -104,9 +103,9 @@
 +sete   %al
 +mov    %al,-0x11(%ebp)
 +cmpb   $0x0,-0x11(%ebp)
-+je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x12d>
++je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x11f>
 +movb   $0x0,-0x57(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x182>
++jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x174>
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetGameServerEv>
@@ -223,10 +222,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x252>
-+jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x245>
++jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x237>
  cmp    $0x1,%edx
 -je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x1b5>
-+je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x1ae>
++je     <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x1a0>
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    %eax,(%esp)
@@ -264,7 +263,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x247>
-+jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x240>
++jmp    <T> <_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader+0x232>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -282,11 +281,6 @@
  pop    %esi
  pop    %ebp
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+push   %edi
-+push   %esi
-+push   %ebx
 ```
 ## 2. Ghidra 反编译 C
 
@@ -365,8 +359,8 @@ void CPacketTranslater::_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameE
 ```cpp
 void CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader* pkt)
 {
-    CUser* requester = 0;
-    CUser* target = 0;
+    CUser* requester;
+    CUser* target;
     if (m_pclApp != 0)
     {
         CUserManager* userMgr = &m_pclApp->m_userManager;
