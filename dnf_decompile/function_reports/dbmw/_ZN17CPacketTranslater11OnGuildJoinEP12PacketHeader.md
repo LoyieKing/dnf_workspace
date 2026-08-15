@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d0a28` | `0x331` |
+| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d0a28` | `0x32d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,7 +23,8 @@
 +sub    $0xac,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
- je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
+-je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
++je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x31e>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
@@ -33,7 +34,7 @@
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x323>
 -lea    -0x5e(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x325>
++je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x321>
 +lea    -0x52(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_DBMW_Save_Guild_Join_ReplyC1Ev>
@@ -138,10 +139,9 @@
  call   <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x198>
+ je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x198>
 -mov    -0x48(%ebp),%edi
 -mov    -0x24(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x1f4>
 +mov    -0x3c(%ebp),%edi
 +mov    -0x20(%ebp),%eax
  mov    0x17(%eax),%esi
@@ -171,7 +171,7 @@
 -jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x1c4>
 -mov    -0x8c(%ebp),%edx
 -mov    -0x98(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x1ca>
++jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x1c6>
 +mov    -0x88(%ebp),%eax
 +mov    %eax,%edx
 +mov    -0x94(%ebp),%eax
@@ -232,9 +232,10 @@
 +lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
  cmp    $0x2,%edx
- jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x2c6>
+-jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x2c6>
++jne    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x2c2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -256,10 +257,13 @@
  movl   $"CPacketTranslater::OnGuildJoin() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x2bf>
 +lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x2bf>
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x2bb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -269,7 +273,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x323>
-+jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x580,0x8(%esp)
@@ -281,10 +285,13 @@
  movl   $"CPacketTranslater::OnGuildJoin() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x31b>
 +lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x31b>
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x317>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -294,10 +301,10 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x323>
-+jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
  nop
 -add    $0xbc,%esp
-+jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
 +nop
 +add    $0xac,%esp
  pop    %ebx
@@ -427,13 +434,12 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
                 "OnGuildJoin Err(g:%d,c:%d,r:%d) : return false", pkt->m_guildId, pkt->m_characNo,
                 reply.m_result
             );
-
-            if (reply.m_result == 0)
-                m_pclApp->m_dbManager.DeleteJoinListByInvite(
-                    join.m_guildId, join.m_characNo);
-            m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
-                (char*)&reply, reply.packetSize);
         }
+        if (reply.m_result == 0)
+            m_pclApp->m_dbManager.DeleteJoinListByInvite(
+                join.m_guildId, join.m_characNo);
+        m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
+            (char*)&reply, reply.packetSize);
         CMyFileLog log2(__FUNCTION__, 0x576);
         log2("./log/GuildModify", "::OnGuildJoin g(%d) c(%d) r(%d)",
              pkt->m_guildId, pkt->m_characNo,
