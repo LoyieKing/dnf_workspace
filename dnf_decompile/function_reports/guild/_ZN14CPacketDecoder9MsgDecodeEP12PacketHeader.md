@@ -110,14 +110,10 @@
 +lea    0x4(%eax),%edx
  mov    0x8(%ebp),%eax
 -add    $0x4,%edx
--mov    0xc(%eax,%edx,4),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    0xc(%eax,%edx,4),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    0xc(%eax,%edx,4),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%eax

@@ -115,26 +115,23 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
- mov    -0x1c(%ebp),%eax
- mov    (%eax),%eax
- add    $0x8,%eax
--mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++add    $0x8,%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,0x4(%esp)
 +movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n",(%esp)
 +call   <T> <printf>
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0xe10,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)

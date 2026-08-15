@@ -237,14 +237,12 @@
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -lea    0x290(%eax),%edx
 -mov    -0x20(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
 +mov    -0x3c(%ebp),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+-call   <T> <_ZN13CGuildManager9FindGuildEj>
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
  mov    %eax,-0x30(%ebp)
  cmpl   $0x0,-0x30(%ebp)
@@ -688,14 +686,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x9b8,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
