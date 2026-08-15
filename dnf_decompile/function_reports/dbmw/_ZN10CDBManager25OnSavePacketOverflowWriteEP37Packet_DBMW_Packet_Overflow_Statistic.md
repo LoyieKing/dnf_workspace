@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080324` | `0x24b` | `0x805118c` | `0x233` |
+| dbmw | DIFF | `0x8080324` | `0x24b` | `0x805117e` | `0x233` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -56,7 +56,7 @@
 -jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe9>
 +jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xdf>
 +mov    -0x10(%ebp),%eax
-+mov    &_ZL18g_szNotiPacketName(,%eax,4),%eax
++mov    &g_szNotiPacketName(,%eax,4),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0x114(%ebp),%eax
 +mov    %eax,(%esp)
@@ -93,10 +93,9 @@
 -mov    0xc(%ebp),%eax
 -movzwl 0xb(%eax),%eax
 -movzwl %ax,%eax
--mov    &g_szCmdPacketName(,%eax,4),%eax
 +jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xdf>
 +mov    -0xc(%ebp),%eax
-+mov    &_ZL17g_szCmdPacketName(,%eax,4),%eax
+ mov    &g_szCmdPacketName(,%eax,4),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x10d(%ebp),%eax
 +lea    -0x114(%ebp),%eax
