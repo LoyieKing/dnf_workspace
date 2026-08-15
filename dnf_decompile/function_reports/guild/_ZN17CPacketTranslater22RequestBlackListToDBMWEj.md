@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x807e712` | `0x116` | `0x80749fc` | `0x116` |
+| guild | NEAR | `0x807e712` | `0x116` | `0x8074a4a` | `0x116` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -122,7 +122,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22RequestBlackListToDBMWEj(uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3024 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3031 行）：
 
 ```cpp
 void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)

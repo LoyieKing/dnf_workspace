@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8087fd0` | `0x181` | `0x807dec6` | `0x181` |
+| guild | NEAR | `0x8087fd0` | `0x181` | `0x807df3a` | `0x181` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -164,7 +164,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnNotifyNewGroupMailEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5432 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5444 行）：
 
 ```cpp
 void CPacketTranslater::OnNotifyNewGroupMail(PacketHeader* pkt)

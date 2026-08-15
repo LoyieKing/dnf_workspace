@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8087328` | `0x2ba` | `0x807d238` | `0x2ba` |
+| guild | NEAR | `0x8087328` | `0x2ba` | `0x807d2a6` | `0x2ba` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -277,7 +277,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnDBLoadReplyGuildBoardDeleteEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5240 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5251 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)

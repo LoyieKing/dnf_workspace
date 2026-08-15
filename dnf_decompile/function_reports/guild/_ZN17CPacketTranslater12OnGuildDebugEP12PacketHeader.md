@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80892b2` | `0x260` | `0x807f174` | `0x260` |
+| guild | NEAR | `0x80892b2` | `0x260` | `0x807f1f4` | `0x260` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -225,7 +225,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnGuildDebugEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5741 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5755 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildDebug(PacketHeader* pkt)

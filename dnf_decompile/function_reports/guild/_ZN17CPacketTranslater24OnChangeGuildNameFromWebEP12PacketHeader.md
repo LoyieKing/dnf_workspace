@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081d32` | `0x277` | `0x8077f22` | `0x259` |
+| guild | DIFF | `0x8081d32` | `0x277` | `0x8077f70` | `0x25f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,75 +13,92 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,163 +1,153 @@
+@@ -1,163 +1,155 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x60,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
- jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x4c>
+-jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x4c>
++jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x52>
  movl   $0x159d,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == m_pclApp",0x8(%esp)
++movl   $"./log/Except",0x4(%esp)
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x258>
++mov    -0x1c(%ebp),%eax
++mov    0xe(%eax),%eax
++mov    %eax,-0x18(%ebp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++lea    0x290(%eax),%edx
++mov    -0x18(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x14(%ebp)
++cmpl   $0x0,-0x18(%ebp)
++je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x84>
++cmpl   $0x0,-0x14(%ebp)
++jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xbf>
++movl   $0x15a5,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == m_pclApp",0x8(%esp)
- movl   $"./log/Except",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+-movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == m_pclApp",0x8(%esp)
+-movl   $"./log/Except",0x4(%esp)
++movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == pclGuild",0x8(%esp)
++movl   $"./log/GuildModify",0x4(%esp)
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x252>
- mov    0x8(%ebp),%eax
--mov    %eax,-0x10(%ebp)
--mov    -0x10(%ebp),%eax
- mov    0xe(%eax),%eax
+-mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x258>
++mov    -0x1c(%ebp),%eax
++mov    0xa(%eax),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    -0x10(%ebp),%eax
+-mov    0xe(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x83>
 -mov    -0x10(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+mov    %eax,-0x18(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x290(%eax),%edx
-+mov    -0x18(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    %edx,(%esp)
- call   <T> <_ZN13CGuildManager9FindGuildEj>
- mov    %eax,-0x14(%ebp)
-+cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x7e>
- cmpl   $0x0,-0x14(%ebp)
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
+-call   <T> <_ZN13CGuildManager9FindGuildEj>
+-mov    %eax,-0x14(%ebp)
+-cmpl   $0x0,-0x14(%ebp)
 -jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x8a>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x8f>
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xce>
-+jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xb9>
- movl   $0x15a5,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-movl   $0x15a5,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == pclGuild",0x8(%esp)
- movl   $"./log/GuildModify",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == pclGuild",0x8(%esp)
+-movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x252>
-+mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,-0x10(%ebp)
- mov    -0x10(%ebp),%eax
+-mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0x14(%ebp),%eax
@@ -90,7 +107,7 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x10d>
-+jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xee>
++jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xf4>
  mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -100,10 +117,10 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x10d>
-+je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xf5>
++je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xfb>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x112>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xfa>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x100>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x165>
@@ -125,8 +142,8 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x270>
 -mov    -0x10(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x133>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x139>
++mov    -0x1c(%ebp),%eax
  add    $0x12,%eax
  movl   $0x0,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -138,10 +155,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x252>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x258>
 +movl   $0x15ab,0x8(%esp)
 +movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x18(%ebp),%eax
@@ -150,13 +167,13 @@
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : %d is not guild master or sub master(g:%d)",0x8(%esp)
 +movl   $"./log/GuildModify",0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x252>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x258>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x216>
-+jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x1f8>
++jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x1fe>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -175,18 +192,18 @@
  movl   $0x15b7,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnChangeGuildNameFromWeb Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x20f>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x1f1>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x1f7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -196,23 +213,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x252>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x258>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x15bc,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnChangeGuildNameFromWeb Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x26b>
-+jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x24d>
++jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x253>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -298,11 +315,12 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3864 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3871 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeGuildNameFromWeb(PacketHeader* pkt)
 {
+    Packet_Change_Guild_Name_From_Web* pb = (Packet_Change_Guild_Name_From_Web*)pkt;
     try
     {
         if (m_pclApp == 0)
@@ -311,7 +329,7 @@ void CPacketTranslater::OnChangeGuildNameFromWeb(PacketHeader* pkt)
                 "CPacketTranslater::OnChangeGuildNameFromWeb : 0 == m_pclApp");
             return;
         }
-        unsigned int guildKey = ((Packet_Change_Guild_Name_From_Web*)pkt)->m_guildKey;
+        unsigned int guildKey = pb->m_guildKey;
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
@@ -319,10 +337,10 @@ void CPacketTranslater::OnChangeGuildNameFromWeb(PacketHeader* pkt)
                 "CPacketTranslater::OnChangeGuildNameFromWeb : 0 == pclGuild");
             return;
         }
-        unsigned int charNo = ((Packet_Change_Guild_Name_From_Web*)pkt)->m_charNo;
+        unsigned int charNo = pb->m_charNo;
         if (guild->IsSubGuildMaster(charNo) == 1 || guild->IsGuildMaster(charNo) == 1)
         {
-            guild->ChangeGuildName(((Packet_Change_Guild_Name_From_Web*)pkt)->m_name, 0);
+            guild->ChangeGuildName(pb->m_name, 0);
             guild->SendGuildInfoToMembers(false);
         }
         else

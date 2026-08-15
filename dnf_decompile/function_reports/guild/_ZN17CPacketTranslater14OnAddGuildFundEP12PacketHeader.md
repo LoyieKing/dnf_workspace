@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80883b2` | `0x328` | `0x807e2b2` | `0x328` |
+| guild | NEAR | `0x80883b2` | `0x328` | `0x807e326` | `0x328` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -309,7 +309,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14OnAddGuildFundEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5504 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5516 行）：
 
 ```cpp
 void CPacketTranslater::OnAddGuildFund(PacketHeader* pkt)
