@@ -63,6 +63,31 @@
 `empty()`↔`size()==0`、make_pair 标准差异、内联拷贝↔memcpy、异常清理差异），
 字符串/调用/常量/字段偏移无差异。
 
+## guild 补审（guild_diff_audit2，167/167 全覆盖）
+
+- 无新增真实语义 bug；上一轮 A 类修复复核一致。
+- 5 处"错误函数名"异常串（OnGuildCargoUpgrade→OnGuildApplyOriginalPowerSide、
+  OnNoticeGuildWarPointChange→OnNoticeGuildWarEnd、OnRequestGuildMasterDelegate→
+  OnRequestGuildSecede、OnDBMWGuildJoin→OnReplyGuildInvite、
+  OnSetGuildMemberGradeFromWeb→OnSetGuildMemberGrade）经 ORIG 二进制逐字节核实为
+  复制粘贴 bug，OURS 复刻正确，非差异。
+- 四重信号（字符串差集/调用集合差/单侧常量/call 实参字段装载 290 处）+ 人工深核，
+  其余全部为编译器形态（帧移、同址分解、min/clamp/abs 等价、分支镜像、CSE、
+  异常清理顺序），无需再改源码。
+
+## 审计覆盖汇总（截至 2026-08-16）
+
+| 服务 | 非 identical | 覆盖 | 真实 bug 修复 |
+|---|---|---|---|
+| dbmw | 133 | b8(34) + 补审(99) = 133/133 | 12（含 SendGuildCoinByMail） |
+| guild | 167 | 两轮 = 167/167 | 3（sendGuildBoardData/SaveDBPowerWarRank/ChatMsg throw 等） |
+| monitor | 156 | 全量 156/156 | 2（delDB/setMinIPCount） |
+| statics | 26 | 语义验证文档 26/26 | 4 + 22 SEMANTIC_EQ |
+
+四个服务全部完成全覆盖审计，源码可修复的真实语义差异均已修复并提交；
+剩余全部为编译器版本形态（ORIG 为 4.1.2-52/4.4.4-13/4.4.6-3/4.4.7-1 混合产物），
+现有编译器组合已穷尽，无法在源码/TU 编译器层面继续消除。
+
 ## 通用结论
 - 剩余 DIFF/NEAR 绝大多数为编译器形态：CSE、栈槽/帧尺寸、分支方向镜像
   （xor+je/jne、jbe/ja）、寄存器分配、异常 landing pad 摆放、跳转目标偏移、
