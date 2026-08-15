@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807e1e2` | `0x2c5` | `0x8074526` | `0x2c3` |
+| guild | DIFF | `0x807e1e2` | `0x2c5` | `0x807455a` | `0x2ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,190 +1,184 @@
+@@ -1,190 +1,192 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -37,7 +37,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2be>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
 +mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
@@ -63,7 +63,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2be>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
  lea    -0x65(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Register_To_BlackList_RESULTC1Ev>
@@ -85,14 +85,12 @@
 +mov    -0x14(%ebp),%eax
  mov    0x2c(%eax),%eax
  cmp    $0xffffffff,%eax
--jne    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x120>
-+jne    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x11d>
+ jne    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x120>
  movb   $0x3,-0x35(%ebp)
--movzwl -0x63(%ebp),%eax
--movzwl %ax,%edx
+ movzwl -0x63(%ebp),%eax
+ movzwl %ax,%edx
  lea    -0x65(%ebp),%eax
--mov    %edx,0x8(%esp)
-+movl   $0x31,0x8(%esp)
+ mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
 +mov    -0x10(%ebp),%eax
@@ -100,7 +98,7 @@
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2be>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
 +mov    -0x14(%ebp),%eax
  mov    0x2c(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -123,14 +121,13 @@
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2be>
 -mov    -0x14(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x1c3>
++je     <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x1cb>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16GetBlackListSizeEv>
--cmp    $0x9,%eax
+ cmp    $0x9,%eax
 -setg   %al
-+cmp    $0x9,%ax
-+setbe  %al
++setle  %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x19a>
 -movb   $0x4,-0x35(%ebp)
@@ -139,7 +136,7 @@
 -lea    -0x65(%ebp),%eax
 -mov    %edx,0x8(%esp)
 -mov    %eax,0x4(%esp)
-+je     <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x1a0>
++je     <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x1a5>
  mov    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
@@ -160,37 +157,40 @@
 +mov    -0x14(%ebp),%eax
  mov    0x2c(%eax),%eax
  mov    %eax,-0x39(%ebp)
--movzwl -0x63(%ebp),%eax
--movzwl %ax,%edx
+ movzwl -0x63(%ebp),%eax
+ movzwl %ax,%edx
  lea    -0x65(%ebp),%eax
--mov    %edx,0x8(%esp)
-+movl   $0x31,0x8(%esp)
+ mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2be>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
 +movb   $0x4,-0x35(%ebp)
++movzwl -0x63(%ebp),%eax
++movzwl %ax,%edx
 +lea    -0x65(%ebp),%eax
-+movl   $0x31,0x8(%esp)
++mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
 +movb   $0x2,-0x35(%ebp)
++movzwl -0x63(%ebp),%eax
++movzwl %ax,%edx
 +lea    -0x65(%ebp),%eax
-+movl   $0x31,0x8(%esp)
++mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x264>
-+jne    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x262>
++jne    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x26d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -214,7 +214,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x25d>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x25b>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x266>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -224,7 +224,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2be>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2bc>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xf92,0x8(%esp)
@@ -238,7 +238,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2b9>
-+jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2b7>
++jmp    <T> <_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader+0x2c2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -356,7 +356,7 @@ void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)
     if (pb->m2c == (unsigned int)-1)
     {
         reply.m_result = 3;
-        user->SendToGameserver((char*)&reply, 0x31);
+        user->SendToGameserver((char*)&reply, reply.packetSize);
         return;
     }
     if (user->IsBlackUser(pb->m2c) == 0)
@@ -366,18 +366,18 @@ void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)
             user->RegisterToBlackList(pb->m2c, pb->m_name);
             reply.m_result = 1;
             reply.m2c = pb->m2c;
-            user->SendToGameserver((char*)&reply, 0x31);
+            user->SendToGameserver((char*)&reply, reply.packetSize);
         }
         else
         {
             reply.m_result = 4;
-            user->SendToGameserver((char*)&reply, 0x31);
+            user->SendToGameserver((char*)&reply, reply.packetSize);
         }
     }
     else
     {
         reply.m_result = 2;
-        user->SendToGameserver((char*)&reply, 0x31);
+        user->SendToGameserver((char*)&reply, reply.packetSize);
     }
     }
     catch (CDNFException& e)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807fad0` | `0x4ba` | `0x8075df2` | `0x4b5` |
+| guild | DIFF | `0x807fad0` | `0x4ba` | `0x8075e3e` | `0x4b6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,318 +1,315 @@
+@@ -1,318 +1,316 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -36,7 +36,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4af>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4aa>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4ab>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
@@ -47,17 +47,17 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4ae>
-+je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4aa>
++je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4ab>
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    $0x1,%al
 -je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f9>
-+je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f8>
++je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f6>
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    $0x2,%al
 -je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f9>
-+je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f8>
++je     <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f6>
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
  test   %al,%al
@@ -100,7 +100,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4af>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4aa>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4ab>
  mov    -0x34(%ebp),%eax
  movzbl 0x2b(%eax),%eax
  movzbl %al,%eax
@@ -137,21 +137,17 @@
  lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x34(%ebp),%edx
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    $0x3,%al
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f2>
--mov    -0x34(%ebp),%eax
--movb   $0x1,0xa(%eax)
++jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1ef>
+ mov    -0x34(%ebp),%eax
+ movb   $0x1,0xa(%eax)
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f9>
--mov    -0x34(%ebp),%eax
--movb   $0x2,0xa(%eax)
-+jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f0>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f5>
-+mov    $0x2,%eax
-+mov    %al,0xa(%edx)
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f6>
+ mov    -0x34(%ebp),%eax
+ movb   $0x2,0xa(%eax)
  mov    -0x34(%ebp),%eax
  movzbl 0x2b(%eax),%eax
  movzbl %al,%edx
@@ -163,19 +159,20 @@
  mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager13IncPowerScoreE20ENUM_POWER_SIDE_TYPEi>
--cwtl
+ cwtl
  mov    %eax,-0x2c(%ebp)
--movl   $0x1,-0x28(%ebp)
- mov    -0x34(%ebp),%eax
- movzbl 0xa(%eax),%eax
- cmp    $0x1,%al
++mov    -0x34(%ebp),%eax
++movzbl 0xa(%eax),%eax
++cmp    $0x1,%al
++jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x235>
++movl   $0x2,-0x28(%ebp)
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x23c>
+ movl   $0x1,-0x28(%ebp)
+-mov    -0x34(%ebp),%eax
+-movzbl 0xa(%eax),%eax
+-cmp    $0x1,%al
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x23d>
 -movl   $0x2,-0x28(%ebp)
-+jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x234>
-+mov    $0x2,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x239>
-+mov    $0x1,%eax
-+mov    %eax,-0x28(%ebp)
  mov    -0x34(%ebp),%eax
  movzbl 0x2c(%eax),%eax
  movzbl %al,%eax
@@ -185,7 +182,7 @@
  mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager13IncPowerScoreE20ENUM_POWER_SIDE_TYPEi>
--cwtl
+ cwtl
  mov    %eax,-0x24(%ebp)
  mov    -0x34(%ebp),%eax
  movzbl 0x2c(%eax),%eax
@@ -258,7 +255,7 @@
  call   <T> <_ZN35Packet_Guild_Change_Power_War_Point11GetUserListERSt6vectorIjSaIjEE>
  movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x39a>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x398>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x399>
  mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  lea    -0x70(%ebp),%eax
@@ -278,8 +275,8 @@
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x373>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x3c6>
-+jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x371>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x3c4>
++jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x372>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x3c5>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x70(%ebp),%eax
@@ -288,15 +285,15 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x3d6>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x3d4>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x3d5>
  lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEED1Ev>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4af>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4aa>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4ab>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x452>
-+jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x450>
++jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x451>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -320,7 +317,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x44b>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x449>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x44a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -330,7 +327,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4af>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4aa>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4ab>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x121c,0x8(%esp)
@@ -344,7 +341,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4a7>
-+jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4a5>
++jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4a6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -522,16 +519,28 @@ void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
                     ((Packet_Guild_Change_Power_War_Point*)pb)->m_field13,
                     ((Packet_Guild_Change_Power_War_Point*)pb)->m_field17,
                     (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
-                ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA =
-                    (unsigned char)(((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 3 ? 1 : 2);
+                if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 3)
+                {
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA = 1;
+                }
+                else
+                {
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA = 2;
+                }
             }
-            int winScore = pm->IncPowerScore(
+            int winScore = (int)(short)pm->IncPowerScore(
                 (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
                 ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
-            ENUM_POWER_SIDE_TYPE loseSide =
-                ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 1 ?
-                (ENUM_POWER_SIDE_TYPE)2 : (ENUM_POWER_SIDE_TYPE)1;
-            int loseScore = pm->IncPowerScore(
+            ENUM_POWER_SIDE_TYPE loseSide;
+            if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 1)
+            {
+                loseSide = (ENUM_POWER_SIDE_TYPE)2;
+            }
+            else
+            {
+                loseSide = (ENUM_POWER_SIDE_TYPE)1;
+            }
+            int loseScore = (int)(short)pm->IncPowerScore(
                 loseSide, ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C);
             {
                 DNF_LOG_SCOPE_LINE(0x11e1,"./log/Power", "win side(%d), win pp(%d, %d), lose pp(%d, %d)",
