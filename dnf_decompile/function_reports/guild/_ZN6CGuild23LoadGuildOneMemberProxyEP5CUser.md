@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090968` | `0x200` | `0x8056318` | `0x1e3` |
+| guild | DIFF | `0x8090968` | `0x200` | `0x80562f6` | `0x1e3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -168,7 +168,7 @@
 -jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1df>
 +jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1c9>
 +movl   $0x73d,0x8(%esp)
-+movl   $"LoadGuildOneMemberProxy",0x4(%esp)
++movl   $&_ZZN6CGuild23LoadGuildOneMemberProxyEP5CUserE12__FUNCTION__,0x4(%esp)
 +lea    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -275,7 +275,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser(CGuild *this,CUser *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1645 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1641 行）：
 
 ```cpp
 bool CGuild::LoadGuildOneMemberProxy(CUser* user)
@@ -299,7 +299,7 @@ bool CGuild::LoadGuildOneMemberProxy(CUser* user)
     }
     if (m_totalCnt > 0x12b)
     {
-        CMyFileLog log("LoadGuildOneMemberProxy", 0x73d);
+        CMyFileLog log(__FUNCTION__, 0x73d);
         log("./log/GuildErr", "Guild Member Cnt Full Or Over : G Key(%d), Cnt(%d)", m_guildKey,
             (unsigned int)m_totalCnt);
         if (m_totalCnt > 0x12c)

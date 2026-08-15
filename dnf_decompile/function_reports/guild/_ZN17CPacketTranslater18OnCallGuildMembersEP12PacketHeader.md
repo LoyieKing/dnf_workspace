@@ -545,7 +545,7 @@
  movl   $"CPacketTranslater::OnCallGuildMembers() Exception Break : %s\n",(%esp)
  call   <T> <printf>
 +movl   $0x812,0x8(%esp)
-+movl   $"OnCallGuildMembers",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater18OnCallGuildMembersEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -742,7 +742,7 @@ void CPacketTranslater::OnCallGuildMembers(PacketHeader* pkt)
     catch (std::exception& e)
     {
         printf("CPacketTranslater::OnCallGuildMembers() Exception Break : %s\n", e.what());
-        CMyFileLog log("OnCallGuildMembers", 0x812);
+        CMyFileLog log(__FUNCTION__, 0x812);
         log("./log/Except",
             "CPacketTranslater::OnCallGuildMembers() Exception Break : %s\n", e.what());
     }

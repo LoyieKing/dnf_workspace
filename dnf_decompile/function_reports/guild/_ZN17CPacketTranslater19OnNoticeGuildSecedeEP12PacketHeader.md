@@ -259,7 +259,7 @@
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
 +movl   $0x2f9,0x8(%esp)
-+movl   $"OnNoticeGuildSecede",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x68(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -474,7 +474,7 @@ void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
     }
     catch (std::exception& e)
     {
-        CMyFileLog log("OnNoticeGuildSecede", 0x2f9);
+        CMyFileLog log(__FUNCTION__, 0x2f9);
         log("./log/Except",
             "CPacketTranslater::OnNoticeGuildSecede() Exception Break : %s\n", e.what());
     }

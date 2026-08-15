@@ -1,2 +1,3 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
 guild	1550	1003	379	16	152	0	0	5501	168
+statics	843	581	236	1	25	0	0	5241	26

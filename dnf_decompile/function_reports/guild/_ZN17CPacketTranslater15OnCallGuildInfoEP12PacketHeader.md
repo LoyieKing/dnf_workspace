@@ -121,12 +121,11 @@
 -mov    -0x28(%ebp),%eax
 -mov    0xe(%eax),%ebx
  movl   $0xdc5,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+movl   $"OnCallGuildInfo",0x4(%esp)
 +lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -175,12 +174,11 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader+0x1ed>
  movl   $0xdd3,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x20(%ebp),%eax
-+movl   $"OnCallGuildInfo",0x4(%esp)
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -316,7 +314,7 @@
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
 +movl   $0xde9,0x8(%esp)
-+movl   $"OnCallGuildInfo",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -496,7 +494,7 @@ void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
         CUser* user;
         if ((user = um->FindUser_CharNo(pb->m_charNo)) == 0)
         {
-            CMyFileLog log("OnCallGuildInfo", 0xdc5);
+            CMyFileLog log(__FUNCTION__, 0xdc5);
             log("./log/Except",
                 "CPacketTranslater::OnCallGuildInfo() pclUser = 0, Char Key : %d\n",
                 pb->m_charNo);
@@ -510,7 +508,7 @@ void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
         {
             if (pb->m_guildKeys[i] == 0)
             {
-                CMyFileLog log("OnCallGuildInfo", 0xdd3);
+                CMyFileLog log(__FUNCTION__, 0xdd3);
                 log("./log/Guild",
                     "CPacketTranslater::OnCallGuildInfo : packet->m_uGuildKey[%d] == 0", i);
                 continue;
@@ -532,7 +530,7 @@ void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
     }
     catch (std::exception& e)
     {
-        CMyFileLog log("OnCallGuildInfo", 0xde9);
+        CMyFileLog log(__FUNCTION__, 0xde9);
         log("./log/Except",
             "CPacketTranslater::OnCallGuildInfo() Exception Break : %s\n", e.what());
     }
