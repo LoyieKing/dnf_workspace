@@ -58,4 +58,23 @@ OnMonitorSecuServiceConnWeb、OnVillageMonsterFightResult、
 OnDBMWResponseBlackListOnLogin、OnNoticeMemberChatMsgHyperLink、
 onSocialEventRewardItemResponse、onItemLimitEditionBuyableRequest。
 
-## 第 4 批（42 个）：进行中
+## 第 4 批（42 个）：42 SEMANTIC_EQ / 0 REAL_DIFF / 0 跳过
+
+OnVillageMonsterFightResult、OnDBMWResponseBlackListOnLogin、
+OnNoticeMemberChatMsgHyperLink、onSocialEventRewardItemInfoAll/Response、
+onItemLimitEditionBuyableRequest、OnLogin、CTcpNetworkThread/CUdpNetworkThread::
+dispatch、GetFrameCountInfo、CMemoryCashManager 系列（含
+InsertCashMemorySetCharacterObject 用重建二进制实证 insert 判定一致）、
+CEventActionManager、COnTimeEventManager、CItemLimitEditionMgr、
+CTask_ChristmasEvent、LimitNpcBuyItemManager、TowerOfDespairWaitGameServerResponse_Task、
+CPeer 系列、CUser::MemberEnterProcess、CMember 系列、CUdpHandler 系列、
+makeItemInfo 全部 SEMANTIC_EQ。
+
+## 汇总
+
+monitor 156 个非 identical 全部完成逐函数语义验证：
+**149 SEMANTIC_EQ / 4 REAL_DIFF（已修）/ 2 已 identical / 1 无需判定**
+（b1 30 + b2 42 + b3 42 + b4 42，含少量重复与已翻越项）。
+核心结论：4 个 REAL_DIFF 均为日志参数取错对象/控制流穿透类，已修复；
+其余全部为编译器形态（栈槽/帧、寄存器分配、分支镜像、CSE、异常 landing
+pad、`{0}`/movzbl 形态、浮点指令形态等），语义与 ORIG 等价。
