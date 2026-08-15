@@ -1,4 +1,2 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
-auction	1848	1060	618	0	1	169	0	6653	1
-point	1848	1060	618	0	1	169	0	6653	1
-bridge	740	350	195	0	0	195	0	3450	0
+dbmw	1277	757	387	13	120	0	0	6875	133
