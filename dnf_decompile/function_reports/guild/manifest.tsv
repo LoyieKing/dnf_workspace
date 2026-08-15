@@ -1,4 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size
+status	name	orig_addr	orig_size	new_addr	new_size	md_file
 DIFF	_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser	0x809d342	0x559	0x8090c80	0x540
 NEAR	_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii	0x809f75e	0x239	0x809311c	0x239
 NEAR	_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption	0x80a0140	0x11a	0x8093b02	0x11a
@@ -124,7 +124,6 @@ DIFF	_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser	0x808e73e	0x287	0x8054664
 DIFF	_ZN6CGuild13BuyGuildSkillEiisj	0x808e42e	0x30f	0x805435e	0x305
 DIFF	_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser	0x8090b68	0x16e	0x80565e6	0x159
 DIFF	_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj	0x8090e28	0x170	0x8056882	0x16f
-DIFF	_ZN6CGuild17InsertGuildMemberEjP5CUser	0x808cec6	0x10f	0x8052e54	0x10e
 DIFF	_ZN6CGuild17ReplyGuildMembersEP5CUser	0x808f520	0x737	0x805546a	0x556
 DIFF	_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede	0x8090cd6	0x151	0x8056740	0x141
 DIFF	_ZN6CGuild17SetSubGuildMasterEjb	0x8091138	0x15d	0x8056b92	0x15e
@@ -167,3 +166,4 @@ DIFF	_ZN9CGuildWar13DBSaveProcessEP12CApplication	0x809b142	0x9d	0x8061858	0xa2
 DIFF	_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info	0x809a95c	0x120	0x8061054	0x12c
 DIFF	_ZNK11CUdpHandler12SendToServerEPcitPKc	0x8050a46	0x27b	0x8089b98	0x27b
 DIFF	_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo	0x80915e4	0x95	0x805703c	0x9b
+DIFF	_ZN6CGuild17InsertGuildMemberEjP5CUser	0x808cec6	0x10f	0x8052e54	0x10b	_ZN6CGuild17InsertGuildMemberEjP5CUser.md
