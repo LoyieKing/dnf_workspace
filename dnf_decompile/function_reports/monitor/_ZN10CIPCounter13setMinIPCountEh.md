@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e906` | `0x20` | `0x8094060` | `0x1a` |
+| monitor | DIFF | `0x805e906` | `0x20` | `0x809404c` | `0x1a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,23 +14,28 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,13 +1,11 @@
++mov    0xc(%ebp),%eax
++mov    %al,-0x4(%ebp)
++cmpb   $0xc8,-0x4(%ebp)
++jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x18>
++mov    0x8(%ebp),%eax
++movb   $0xc8,(%eax)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
- sub    $0x4,%esp
- mov    0xc(%ebp),%eax
- mov    %al,-0x4(%ebp)
+-sub    $0x4,%esp
+-mov    0xc(%ebp),%eax
+-mov    %al,-0x4(%ebp)
 -movzbl -0x4(%ebp),%eax
 -cmp    $0xc8,%al
 -jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x19>
 -mov    $0xffffffc8,%eax
 -mov    0x8(%ebp),%edx
 -mov    %al,(%edx)
-+cmpb   $0xc8,-0x4(%ebp)
-+jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x18>
-+mov    0x8(%ebp),%eax
-+movb   $0xc8,(%eax)
- leave
- ret
+-leave
+-ret
++sub    $0x10,%esp
 ```
 ## 2. Ghidra 反编译 C
 

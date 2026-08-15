@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80918c4` | `0x301` | `0x807ce44` | `0x309` |
+| monitor | DIFF | `0x80918c4` | `0x301` | `0x807ce30` | `0x309` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,208 +1,209 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
  sub    $0x5c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
@@ -266,6 +266,11 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
 ```
 ## 2. Ghidra 反编译 C
 
@@ -335,7 +340,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5514 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5510 行）：
 
 ```cpp
 void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)

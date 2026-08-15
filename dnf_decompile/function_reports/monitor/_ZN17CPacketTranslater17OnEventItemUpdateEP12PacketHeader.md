@@ -252,11 +252,9 @@
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,%ebx
--movl   $0x4c3,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ movl   $0x4c3,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+movl   $0x4dd,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -281,11 +279,9 @@
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnCoinUpdate() Exception Break",(%esp)
  call   <T> <puts>
--movl   $0x4c9,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ movl   $0x4c9,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $0x4e3,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -448,12 +444,12 @@ void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnCoinUpdate() Exception Break : %s\n", e.what());
-        DNF_LOG_SCOPE_LINE(0x4dd, "./log/Except", "CPacketTranslater::OnCoinUpdate() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x4c3, "./log/Except", "CPacketTranslater::OnCoinUpdate() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnCoinUpdate() Exception Break");
-        DNF_LOG_SCOPE_LINE(0x4e3, "./log/Except", "CPacketTranslater::OnCoinUpdate() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x4c9, "./log/Except", "CPacketTranslater::OnCoinUpdate() Exception Break\n");
     }
 }
 ```

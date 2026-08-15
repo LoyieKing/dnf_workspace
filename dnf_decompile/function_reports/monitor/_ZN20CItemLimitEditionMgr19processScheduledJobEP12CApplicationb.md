@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a5e58` | `0x29b` | `0x8094708` | `0x2b3` |
+| monitor | DIFF | `0x80a5e58` | `0x29b` | `0x80946f4` | `0x2b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,185 +1,192 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x1d4,%esp
-+sub    $0x264,%esp
  mov    0x10(%ebp),%eax
 -mov    %al,-0x1bc(%ebp)
 +mov    %al,-0x24c(%ebp)
@@ -27,7 +26,7 @@
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x292>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2aa>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a8>
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x10(%ebp)
@@ -46,7 +45,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x295>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ad>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ab>
  mov    0x8(%ebp),%eax
 -mov    -0x10(%ebp),%edx
 +mov    -0x20(%ebp),%edx
@@ -83,7 +82,7 @@
 -call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEC1ERKSt17_Rb_tree_iteratorIS4_E>
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x11c>
 -lea    -0x20(%ebp),%eax
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xf3>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xf1>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
@@ -91,15 +90,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNK17CItemLimitEdition14getSellEndTimeEv>
 -cmp    -0x10(%ebp),%eax
--setl   %al
-+mov    -0x20(%ebp),%edx
-+cmp    %edx,%eax
-+setb   %al
++cmp    -0x20(%ebp),%eax
+ setl   %al
  test   %al,%al
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x111>
 -mov    -0x9c(%ebp),%ebx
 -lea    -0x20(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xe8>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xe6>
 +mov    -0x1c(%ebp),%ebx
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -142,7 +139,7 @@
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x20d>
 +jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xa2>
 +cmpl   $0x0,-0x1c(%ebp)
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x215>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x213>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -160,7 +157,7 @@
 -lea    -0xaa(%ebp),%eax
 -add    $0x4,%edx
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x204>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x202>
 +mov    -0x14(%ebp),%edx
 +lea    -0xb0(%ebp),%eax
  shl    $0x2,%edx
@@ -192,7 +189,7 @@
  test   %al,%al
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1f5>
 -lea    -0x28(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x200>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1fe>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
@@ -200,11 +197,11 @@
 +mov    0x4(%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1ee>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1ec>
 +mov    -0x10(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1e3>
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1ee>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1ec>
  mov    %ebx,(%esp)
  call   <T> <_ZN17CItemLimitEditionD1Ev>
  mov    %ebx,(%esp)
@@ -225,7 +222,7 @@
 +setb   %al
  test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x169>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x16d>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x16b>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
@@ -233,7 +230,7 @@
  test   %al,%al
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x296>
 -lea    -0x1b8(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ae>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ac>
 +lea    -0x240(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Item_Limit_Edition_UpdateC1Ev>
@@ -272,14 +269,19 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x296>
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ae>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ac>
  nop
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x296>
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ae>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ac>
  nop
  mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++pop    %ebp
++ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -423,7 +425,7 @@ void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
         for (std::map<unsigned int, CItemLimitEdition*>::const_iterator it = m_items.begin();
              it != m_items.end(); ++it)
         {
-            if (it->second->getSellEndTime() < (unsigned int)now)
+            if ((int)it->second->getSellEndTime() < (int)now)
             {
                 expired[count] = it->second->getIPGNO();
                 count++;

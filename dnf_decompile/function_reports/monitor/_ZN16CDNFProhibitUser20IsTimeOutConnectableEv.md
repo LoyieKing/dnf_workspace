@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f2ba` | `0x2e` |
+| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f2a6` | `0x2e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,9 +14,9 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,18 +1,16 @@
- push   %ebp
- mov    %esp,%ebp
- mov    0x8(%ebp),%eax
+-push   %ebp
+-mov    %esp,%ebp
+-mov    0x8(%ebp),%eax
  movzwl 0x4(%eax),%eax
  lea    -0x1(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -34,6 +34,9 @@
  mov    $0x0,%eax
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
 ```
 ## 2. Ghidra 反编译 C
 

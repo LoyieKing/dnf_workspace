@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80872e6` | `0x254` | `0x807026c` | `0x254` |
+| monitor | DIFF | `0x80872e6` | `0x254` | `0x8070250` | `0x24e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,169 +1,170 @@
+@@ -1,169 +1,167 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,35 +27,29 @@
  mov    %eax,-0x2c(%ebp)
 -mov    -0x30(%ebp),%eax
 +mov    0x8(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
-+movzbl 0xe(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x28(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
--mov    %eax,-0x28(%ebp)
+ mov    %eax,-0x28(%ebp)
 -mov    -0x30(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x28(%ebp)
++mov    0x8(%ebp),%eax
+ movzbl 0xe(%eax),%eax
+ movzbl %al,%eax
+ mov    %eax,-0x24(%ebp)
+ cmpl   $0x0,-0x28(%ebp)
 -jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x4e>
 -mov    -0x30(%ebp),%eax
-+test   %eax,%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x4e>
-+mov    -0x28(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x48>
++mov    0x8(%ebp),%eax
++movb   $0x1,0xe(%eax)
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x4f>
++mov    0x8(%ebp),%eax
  movb   $0x0,0xe(%eax)
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x55>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x55>
 -mov    -0x30(%ebp),%eax
-+mov    -0x28(%ebp),%eax
- movb   $0x1,0xe(%eax)
+-movb   $0x1,0xe(%eax)
 +mov    -0x24(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    -0x24(%ebp),%edx
@@ -64,8 +58,9 @@
  call   <T> <_ZN12CApplication14FindGameServerEi>
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
- jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x147>
+-jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x147>
 -lea    -0x41(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x141>
 +lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -90,7 +85,8 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0xf8>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0xf8>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0xf2>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -103,20 +99,25 @@
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0xf2>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0xf2>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0xec>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x10f>
+-jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x10f>
++jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x109>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x10f>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x10f>
 -lea    -0x48(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x109>
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x124>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x124>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x11e>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x10f>
+-jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x10f>
++jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x109>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -126,8 +127,9 @@
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x166>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x166>
 -lea    -0x41(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x160>
 +lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -144,9 +146,11 @@
 -mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12SendToServerEPci>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x24c>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x24c>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x246>
  cmp    $0x2,%edx
- jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x1ea>
+-jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x1ea>
++jne    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x1e4>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -172,7 +176,8 @@
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x1e3>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x1e3>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x1dd>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -181,7 +186,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x24c>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x24c>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x246>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xfcd,0x8(%esp)
@@ -197,7 +203,8 @@
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x247>
+-jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x247>
++jmp    <T> <_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader+0x241>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -269,7 +276,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnRelayServerUserCheckEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2079 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2075 行）：
 
 ```cpp
 void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt)
@@ -278,15 +285,17 @@ void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt)
 
 
     CUserManager* userMgr = &m_pclApp->m_userManager;
-    Packet_Relay_Server_User_Check* check = (Packet_Relay_Server_User_Check*)pkt;
-    unsigned int channel = (unsigned int)(unsigned char)check->m_channel;
-    if (userMgr->FindUser(check->m_dbid) == 0)
+    CUser* user =
+        userMgr->FindUser(((Packet_Relay_Server_User_Check*)pkt)->m_dbid);
+    unsigned int channel =
+        (unsigned int)(unsigned char)((Packet_Relay_Server_User_Check*)pkt)->m_channel;
+    if (user != 0)
     {
-        check->m_channel = 0;
+        ((Packet_Relay_Server_User_Check*)pkt)->m_channel = 1;
     }
     else
     {
-        check->m_channel = 1;
+        ((Packet_Relay_Server_User_Check*)pkt)->m_channel = 0;
     }
     CServerInterface* gs =
         (CServerInterface*)m_pclApp->FindGameServer((int)channel);

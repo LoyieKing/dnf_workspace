@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808605a` | `0x2f6` | `0x8071a84` | `0x2f6` |
+| monitor | DIFF | `0x808605a` | `0x2f6` | `0x8071a5c` | `0x2f6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,204 +1,204 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x70,%esp
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x70,%esp
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -270,6 +270,11 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x70,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -351,7 +356,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2464 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2461 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)

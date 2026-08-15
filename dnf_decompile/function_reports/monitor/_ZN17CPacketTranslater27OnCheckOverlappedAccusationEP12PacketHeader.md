@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808cf32` | `0x1a9` | `0x8078652` | `0x1a6` |
+| monitor | DIFF | `0x808cf32` | `0x1a9` | `0x8078634` | `0x1a6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,127 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x40,%esp
+@@ -1,129 +1,126 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x40,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,-0x18(%ebp)
  mov    -0x18(%ebp),%eax
@@ -149,6 +149,10 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x54,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -206,7 +210,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4362 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4357 行）：
 
 ```cpp
 void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt)

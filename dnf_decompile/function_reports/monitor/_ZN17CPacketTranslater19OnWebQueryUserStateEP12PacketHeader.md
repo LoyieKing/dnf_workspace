@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8085164` | `0x2c3` | `0x806fd60` | `0x2e2` |
+| monitor | DIFF | `0x8085164` | `0x2c3` | `0x806fd4a` | `0x2db` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,194 +1,203 @@
+@@ -1,194 +1,202 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,15 +27,14 @@
  add    $0x10,%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x28(%ebp),%eax
-+mov    %eax,-0x38(%ebp)
-+mov    0x8(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
-+movl   $0x0,-0x30(%ebp)
-+mov    -0x34(%ebp),%eax
++mov    0x8(%ebp),%eax
++mov    %eax,-0x30(%ebp)
++mov    -0x30(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x38(%ebp),%eax
++mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
 -mov    %eax,-0x20(%ebp)
@@ -45,29 +44,26 @@
 +test   %eax,%eax
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x48>
-+mov    -0x34(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x41>
++mov    -0x30(%ebp),%eax
  movb   $0x0,0x12(%eax)
--jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x48>
+ jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x48>
 -mov    -0x28(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x4f>
-+mov    -0x34(%ebp),%eax
++mov    -0x30(%ebp),%eax
  movb   $0x1,0x12(%eax)
 -mov    -0x28(%ebp),%eax
-+mov    -0x34(%ebp),%eax
++mov    -0x30(%ebp),%eax
  movzbl 0x12(%eax),%eax
  cmp    $0x1,%al
--jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x5a>
+ jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x5a>
 -mov    $"true",%ebx
--jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x5f>
++mov    $"true",%eax
+ jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x5f>
 -mov    $"false",%ebx
 -mov    -0x28(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x61>
-+mov    $"true",%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x66>
 +mov    $"false",%eax
 +mov    %eax,-0x2c(%ebp)
-+mov    -0x34(%ebp),%eax
++mov    -0x30(%ebp),%eax
  mov    0xa(%eax),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -77,7 +73,7 @@
  movl   $0xb78,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
@@ -89,16 +85,16 @@
  movl   $"WebQueryUserState Result[m_id: %s] : [%s] : %d\n",0x8(%esp)
  movl   $"./log/User",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x28(%ebp),%eax
 -mov    0x6(%eax),%edi
 -mov    -0x28(%ebp),%eax
-+mov    -0x34(%ebp),%eax
++mov    -0x30(%ebp),%eax
 +mov    0x6(%eax),%eax
 +mov    %eax,-0x24(%ebp)
-+mov    -0x34(%ebp),%eax
++mov    -0x30(%ebp),%eax
  movzwl 0x4(%eax),%eax
 -movzwl %ax,%esi
 -mov    -0x28(%ebp),%ebx
@@ -123,8 +119,8 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2bb>
 -lea    -0x39(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2da>
-+lea    -0x49(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2d3>
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  call   <T> <__errno_location>
@@ -132,15 +128,15 @@
  mov    %eax,(%esp)
  call   <T> <strerror>
 -lea    -0x39(%ebp),%edx
-+lea    -0x49(%ebp),%edx
++lea    -0x45(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x50(%ebp),%esi
++lea    -0x4c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -149,7 +145,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x186>
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1a5>
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x19e>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -159,41 +155,41 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x180>
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x19f>
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x198>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x19d>
-+jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1bc>
++jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1b5>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x19d>
 -lea    -0x40(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1bc>
-+lea    -0x50(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1b5>
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1b2>
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1d1>
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1ca>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x19d>
-+jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1bc>
++jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1b5>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x39(%ebp),%eax
-+lea    -0x49(%ebp),%eax
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1d5>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1f4>
-+lea    -0x49(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x1ed>
++lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -202,7 +198,7 @@
  call   <T> <__cxa_throw>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x259>
-+jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x278>
++jne    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x271>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -217,7 +213,7 @@
  movl   $0xb7f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0x10(%esp)
@@ -225,11 +221,11 @@
  movl   $"%s Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x252>
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x271>
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x26a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -239,24 +235,24 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2bb>
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2da>
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2d3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xb84,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $&_ZZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeaderE12__FUNCTION__,0xc(%esp)
  movl   $"%s Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2b6>
-+jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2d5>
++jmp    <T> <_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader+0x2ce>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -346,7 +342,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2016 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2013 行）：
 
 ```cpp
 void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt)
@@ -356,7 +352,6 @@ void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt)
 
     CUserManager* userMgr = &m_pclApp->m_userManager;
     Packet_Web_Query_User_State* q = (Packet_Web_Query_User_State*)pkt;
-    int found = 0;
     if (userMgr->FindUser(q->m_dbid) == 0)
     {
         q->m_online = 0;

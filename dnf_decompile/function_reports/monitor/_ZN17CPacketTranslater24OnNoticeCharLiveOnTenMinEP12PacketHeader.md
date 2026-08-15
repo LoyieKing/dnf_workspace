@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8086b34` | `0x3de` | `0x8072642` | `0x417` |
+| monitor | DIFF | `0x8086b34` | `0x3de` | `0x8072604` | `0x417` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,14 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,277 +1,288 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
 -sub    $0x70,%esp
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x38(%ebp)
-+sub    $0xa0,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 -mov    %eax,-0x34(%ebp)
@@ -496,6 +495,11 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
 ```
 ## 2. Ghidra 反编译 C
 
@@ -589,7 +593,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2717 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2711 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt)

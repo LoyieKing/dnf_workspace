@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80880d0` | `0x258` | `0x8073554` | `0x24f` |
+| monitor | DIFF | `0x80880d0` | `0x258` | `0x8073516` | `0x24f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,157 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x50,%esp
+@@ -1,159 +1,156 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x50,%esp
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -206,6 +206,10 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x48,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -262,7 +266,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3050 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3044 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt)

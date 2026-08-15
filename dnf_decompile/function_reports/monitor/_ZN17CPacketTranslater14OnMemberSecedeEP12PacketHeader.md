@@ -389,10 +389,10 @@
 -movzbl &_ZL12MEMBER_UPPER,%eax
 -mov    %al,-0x6f(%ebp)
 -mov    -0x34(%ebp),%eax
-+movb   $0x2,-0x6f(%ebp)
++movb   $0x1,-0x6f(%ebp)
 +cmpb   $0x1,-0x11(%ebp)
 +jne    <T> <_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader+0x38c>
-+movb   $0x1,-0x6f(%ebp)
++movb   $0x2,-0x6f(%ebp)
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -726,10 +726,10 @@ void CPacketTranslater::OnMemberSecede(PacketHeader* pkt)
                         Packet_Monitor_Member_Secede_To_Seceder spkt;
                         spkt.m_idByChannel = target->GetIdByChannel();
                         spkt.m_uniqCharNo = targetKey;
-                        spkt.m_type = 2;
+                        spkt.m_type = 1;
                         if (result == 1)
                         {
-                            spkt.m_type = 1;
+                            spkt.m_type = 2;
                         }
                         memcpy(spkt.m_name, seceder->GetCharName(), 0x1d);
                         target->SendTcpGameserver(&spkt);

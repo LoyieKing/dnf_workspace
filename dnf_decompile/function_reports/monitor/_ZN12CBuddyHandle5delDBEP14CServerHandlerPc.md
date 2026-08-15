@@ -10,146 +10,144 @@
 
 归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
 
-```diff
---- ORIG（伪代码化）
-+++ OURS（伪代码化）
-@@ -1,135 +1,135 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x60,%esp
- mov    0x8(%ebp),%eax
- mov    0x18(%eax),%eax
- test   %eax,%eax
- je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x24>
- mov    0x8(%ebp),%eax
- mov    0x18(%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- test   %eax,%eax
- jne    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x2b>
- mov    $0x1,%eax
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x30>
- mov    $0x0,%eax
- test   %al,%al
- je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x74>
- movl   $0xb7,0x8(%esp)
- movl   $&_ZZN12CBuddyHandle5delDBEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"Buddy::addDB m_prUser is NULL",0x8(%esp)
- movl   $"./log/buddy",0x4(%esp)
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x1,%eax
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
- cmpl   $0x0,0x10(%ebp)
- jne    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x84>
- mov    $0x1,%eax
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <strlen>
- cmp    $0x1d,%eax
- jbe    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x9e>
- mov    $0xffffffff,%eax
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
- lea    -0xd(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcEC1Ev>
- lea    -0xd(%ebp),%eax
- mov    %eax,0x8(%esp)
- mov    0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1EPKcRKSaIcE>
- mov    0x8(%ebp),%edx
- lea    -0x20(%ebp),%eax
- lea    -0x14(%ebp),%ecx
- mov    %ecx,0x8(%esp)
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4findERS5_>
- sub    $0x4,%esp
- lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x11b>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x100>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0xd(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0xd(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    0x8(%ebp),%edx
- lea    -0xc(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
- sub    $0x4,%esp
- lea    -0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEeqERKS5_>
- test   %al,%al
- je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x158>
--mov    $0x15,%eax
-+mov    $0x12,%eax
- jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
- lea    -0x50(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN21Packet_DBMW_Del_BuddyC1Ev>
- mov    0x8(%ebp),%eax
- mov    0x18(%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,-0x46(%ebp)
- lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEptEv>
- mov    0x4(%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
- mov    0x22(%eax),%eax
- mov    %eax,-0x42(%ebp)
- movl   $0x1d,0x8(%esp)
- mov    0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x50(%ebp),%eax
- add    $0x12,%eax
- mov    %eax,(%esp)
- call   <T> <memcpy>
- lea    -0x50(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
- mov    $0x0,%eax
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+（伪代码化后完全一致：数据地址差异已解析为相同内容/符号）
+
+```asm
+push   %ebp
+mov    %esp,%ebp
+push   %esi
+push   %ebx
+sub    $0x60,%esp
+mov    0x8(%ebp),%eax
+mov    0x18(%eax),%eax
+test   %eax,%eax
+je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x24>
+mov    0x8(%ebp),%eax
+mov    0x18(%eax),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN5CUser13GetUniqCharNoEv>
+test   %eax,%eax
+jne    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x2b>
+mov    $0x1,%eax
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x30>
+mov    $0x0,%eax
+test   %al,%al
+je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x74>
+movl   $0xb7,0x8(%esp)
+movl   $&_ZZN12CBuddyHandle5delDBEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
+lea    -0x1c(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN10CMyFileLogC1EPKci>
+movl   $"Buddy::addDB m_prUser is NULL",0x8(%esp)
+movl   $"./log/buddy",0x4(%esp)
+lea    -0x1c(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+mov    $0x1,%eax
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
+cmpl   $0x0,0x10(%ebp)
+jne    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x84>
+mov    $0x1,%eax
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
+mov    0x10(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <strlen>
+cmp    $0x1d,%eax
+jbe    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x9e>
+mov    $0xffffffff,%eax
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
+lea    -0xd(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNSaIcEC1Ev>
+lea    -0xd(%ebp),%eax
+mov    %eax,0x8(%esp)
+mov    0x10(%ebp),%eax
+mov    %eax,0x4(%esp)
+lea    -0x14(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNSsC1EPKcRKSaIcE>
+mov    0x8(%ebp),%edx
+lea    -0x20(%ebp),%eax
+lea    -0x14(%ebp),%ecx
+mov    %ecx,0x8(%esp)
+mov    %edx,0x4(%esp)
+mov    %eax,(%esp)
+call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4findERS5_>
+sub    $0x4,%esp
+lea    -0x14(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNSsD1Ev>
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x11b>
+mov    %edx,%ebx
+mov    %eax,%esi
+lea    -0x14(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNSsD1Ev>
+mov    %esi,%eax
+mov    %ebx,%edx
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x100>
+mov    %edx,%ebx
+mov    %eax,%esi
+lea    -0xd(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNSaIcED1Ev>
+mov    %esi,%eax
+mov    %ebx,%edx
+mov    %eax,(%esp)
+call   <T> <_Unwind_Resume>
+lea    -0xd(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNSaIcED1Ev>
+mov    0x8(%ebp),%edx
+lea    -0xc(%ebp),%eax
+mov    %edx,0x4(%esp)
+mov    %eax,(%esp)
+call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
+sub    $0x4,%esp
+lea    -0xc(%ebp),%eax
+mov    %eax,0x4(%esp)
+lea    -0x20(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEeqERKS5_>
+test   %al,%al
+je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x158>
+mov    $0x15,%eax
+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
+lea    -0x50(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN21Packet_DBMW_Del_BuddyC1Ev>
+mov    0x8(%ebp),%eax
+mov    0x18(%eax),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN5CUser13GetUniqCharNoEv>
+mov    %eax,-0x46(%ebp)
+lea    -0x20(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEptEv>
+mov    0x4(%eax),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+mov    0x22(%eax),%eax
+mov    %eax,-0x42(%ebp)
+movl   $0x1d,0x8(%esp)
+mov    0x10(%ebp),%eax
+mov    %eax,0x4(%esp)
+lea    -0x50(%ebp),%eax
+add    $0x12,%eax
+mov    %eax,(%esp)
+call   <T> <memcpy>
+lea    -0x50(%ebp),%eax
+mov    %eax,0x4(%esp)
+mov    0xc(%ebp),%eax
+mov    %eax,(%esp)
+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+mov    $0x0,%eax
+lea    -0x8(%ebp),%esp
+add    $0x0,%esp
+pop    %ebx
+pop    %esi
+pop    %ebp
+ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -260,7 +258,7 @@ int CBuddyHandle::delDB(CServerHandler* handler, char* name)
     std::map<std::string, CBuddy*>::iterator it = m_buddies.find(name);
     if (it == m_buddies.end())
     {
-        return 0x12;
+        return 0x15;
     }
     Packet_DBMW_Del_Buddy pkt;
     pkt.m_uniqCharNo = m_prUser->GetUniqCharNo();

@@ -221,7 +221,7 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+mov    -0x34(%ebp),%eax
++mov    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22IsAbleToRegisterMemberEv>
  movzbl %al,%eax
@@ -996,7 +996,7 @@ void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x5a2,"./log/MemberModify",
             "Err Member Register Restrict : requester(%d:%d) responser(%d:%d)",
             requester->GetUniqCharNo(), requester->IsAbleToRegisterMember(),
-            target->GetUniqCharNo(), target->IsAbleToRegisterMember());
+            target->GetUniqCharNo(), requester->IsAbleToRegisterMember());
         return;
     }
     if (requester->IsBlackUser(target->GetUniqCharNo()) != 0)

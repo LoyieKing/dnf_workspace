@@ -1023,7 +1023,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser12GetMemberKeyEv>
 +mov    %eax,%esi
-+mov    -0x50(%ebp),%eax
++mov    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,%ebx
@@ -1630,7 +1630,7 @@ void CPacketTranslater::OnMemberEnterReply(PacketHeader* pkt)
                                         short l8 = responser->GetLevel();
                                         DNF_LOG_SCOPE_LINE(0x681,"./log/MemberModify",
                                             "CPacketTranslater::OnMemberEnterReply  :  RegisterMember return false , Caller Char id(%d), Caller Member id(%d), Caller Level(%d), Responser Level(%d)!",
-                                            responser->GetUniqCharNo(),
+                                            requester->GetUniqCharNo(),
                                             responser->GetMemberKey(), (int)l8, (int)l7);
                                     }
                                 }

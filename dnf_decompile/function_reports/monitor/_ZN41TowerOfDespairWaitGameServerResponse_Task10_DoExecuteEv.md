@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805cb64` | `0xac` | `0x80a7388` | `0xaa` |
+| monitor | DIFF | `0x805cb64` | `0xac` | `0x80a7372` | `0xaa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,44 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x24,%esp
+@@ -1,45 +1,43 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
  movl   $0x46,0x8(%esp)
  movl   $&_ZZN41TowerOfDespairWaitGameServerResponse_Task10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
@@ -61,6 +61,9 @@
  pop    %ebx
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x40,%esp
 ```
 ## 2. Ghidra 反编译 C
 

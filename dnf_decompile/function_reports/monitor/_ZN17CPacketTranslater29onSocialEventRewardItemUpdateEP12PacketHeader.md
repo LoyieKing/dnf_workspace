@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090738` | `0x2ac` | `0x807bd5e` | `0x2ce` |
+| monitor | DIFF | `0x8090738` | `0x2ac` | `0x807bd4a` | `0x2ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,187 +1,197 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
 -sub    $0x6c,%esp
 +sub    $0x7c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -261,6 +261,11 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++add    $0xffffff80,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -327,7 +332,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5251 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5247 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader* pkt)

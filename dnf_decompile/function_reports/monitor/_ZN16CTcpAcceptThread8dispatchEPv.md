@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8059e70` | `0x405` | `0x80845ca` | `0x410` |
+| monitor | DIFF | `0x8059e70` | `0x405` | `0x80845b6` | `0x410` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,302 +1,307 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
+@@ -1,302 +1,305 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
 -sub    $0x3c,%esp
 +sub    $0x4c,%esp
  mov    0x8(%ebp),%eax
@@ -229,20 +229,17 @@
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,0x4(%esp)
--movl   $"CTcpNetworkThread::dispatch() Except Break : %s\n",(%esp)
--call   <T> <printf>
+ movl   $"CTcpNetworkThread::dispatch() Except Break : %s\n",(%esp)
+ call   <T> <printf>
 -lea    -0x29(%ebp),%eax
-+movl   $"CTcpAcceptThread::dispatch() 예외 발생 : %s\n",(%esp)
-+call   <T> <printf>
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x29(%ebp),%eax
 +lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CTcpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
+ movl   $"CTcpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+movl   $"CTcpAcceptThread::dispatch() 예외 발생!",0x4(%esp)
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -326,8 +323,7 @@
  call   <T> <_Unwind_Resume>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
--movl   $"CTcpNetworkThread::dispatch() Except Break",(%esp)
-+movl   $"CTcpAcceptThread::dispatch() 예외 발생",(%esp)
+ movl   $"CTcpNetworkThread::dispatch() Except Break",(%esp)
  call   <T> <puts>
 -lea    -0x21(%ebp),%eax
 +lea    -0x31(%ebp),%eax
@@ -336,9 +332,8 @@
 -lea    -0x21(%ebp),%eax
 +lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CTcpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
+ movl   $"CTcpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+movl   $"CTcpAcceptThread::dispatch() 예외 발생!",0x4(%esp)
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -427,6 +422,9 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -550,13 +548,13 @@ void CTcpAcceptThread::dispatch(void* param)
     }
     catch (CDNFException& e)
     {
-        printf("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-        throw CDNFException("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
+        printf("CTcpNetworkThread::dispatch() Except Break : %s\n", e.what());
+        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
     catch (...)
     {
-        puts("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
-        throw CDNFException("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
+        puts("CTcpNetworkThread::dispatch() Except Break");
+        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
 }
 ```

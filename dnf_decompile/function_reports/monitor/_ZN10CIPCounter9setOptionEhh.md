@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x805e830` | `0x89` | `0x809407a` | `0x89` |
+| monitor | NEAR | `0x805e830` | `0x89` | `0x8094066` | `0x89` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,10 +14,9 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,43 +1,43 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -sub    $0x28,%esp
-+sub    $0x10,%esp
  mov    0xc(%ebp),%edx
  mov    0x10(%ebp),%eax
 -mov    %dl,-0xc(%ebp)
@@ -67,6 +66,9 @@
  movb   $0x0,0x11(%eax)
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
 ```
 ## 2. Ghidra 反编译 C
 

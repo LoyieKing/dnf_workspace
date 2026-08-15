@@ -415,72 +415,54 @@
  movl   $&_ZZN17CPacketTranslater11OnCharLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x6c(%ebp),%eax
 +lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
 +mov    %ebx,0x10(%esp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
+ movl   $"uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+-lea    -0x6c(%ebp),%eax
 +lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x3c(%ebp),%eax
 +mov    -0x58(%ebp),%eax
-+mov    0xf(%eax),%eax
+ mov    0xf(%eax),%eax
+-mov    -0x44(%ebp),%edx
 +mov    -0x50(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+-mov    -0x38(%ebp),%eax
 +mov    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser>
-+xor    $0x1,%eax
-+test   %al,%al
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser>
+ xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x476>
+-mov    -0x3c(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x50d>
 +mov    -0x58(%ebp),%eax
-+lea    0x1f(%eax),%esi
+ lea    0x1f(%eax),%esi
+-mov    -0x3c(%ebp),%eax
 +mov    -0x58(%ebp),%eax
-+mov    0xf(%eax),%ebx
-+movl   $0x401,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater11OnCharLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ mov    0xf(%eax),%ebx
+ movl   $0x401,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater11OnCharLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x64(%ebp),%eax
 +lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
--movl   $"uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!",0x8(%esp)
-+movl   $"uDBID(%d) uCharName(%s) is already exist at m_mapCharNoUsers!",0x8(%esp)
+ movl   $"Insert Fail!\tChar ID : %d\t캐릭터 이름:%s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x6c(%ebp),%eax
+-lea    -0x64(%ebp),%eax
 +lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x3c(%ebp),%eax
--mov    0xf(%eax),%eax
--mov    -0x44(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser>
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x476>
--mov    -0x3c(%ebp),%eax
--lea    0x1f(%eax),%esi
--mov    -0x3c(%ebp),%eax
--mov    0xf(%eax),%ebx
--movl   $0x401,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater11OnCharLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x64(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"Insert Fail!\tChar ID : %d\t캐릭터 이름:%s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x64(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x44(%ebp),%eax
 +mov    -0x50(%ebp),%eax
  mov    %eax,(%esp)
@@ -1155,7 +1137,7 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
                 if (userMgr->InsertUser_CharNo(info->m_charNo, user) != 1)
                 {
                     DNF_LOG_SCOPE_LINE(0x401,"./log/Except",
-                        "uDBID(%d) uCharName(%s) is already exist at m_mapCharNoUsers!",
+                        "Insert Fail!\tChar ID : %d\t\xc4\xb3\xb8\xaf\xc5\xcd \xc0\xcc\xb8\xa7:%s\n",
                         info->m_charNo, info->m_name);
                 }
                 ((CMemoryCashManager*)m_pclApp->Get_MemoryCashManager())
