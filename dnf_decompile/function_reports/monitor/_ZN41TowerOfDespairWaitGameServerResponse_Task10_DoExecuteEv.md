@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805cb64` | `0xac` | `0x80a728a` | `0xaa` |
+| monitor | DIFF | `0x805cb64` | `0xac` | `0x80a7308` | `0xaa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,7 +99,7 @@ void TowerOfDespairWaitGameServerResponse_Task::
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp](source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp)（约第 69 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp](source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp)（约第 68 行）：
 
 ```cpp
 void TowerOfDespairWaitGameServerResponse_Task::_DoExecute()

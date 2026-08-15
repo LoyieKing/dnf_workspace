@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8059e70` | `0x405` | `0x808451e` | `0x41c` |
+| monitor | DIFF | `0x8059e70` | `0x405` | `0x8084600` | `0x41c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -230,19 +230,14 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,0x4(%esp)
 -movl   $"CTcpNetworkThread::dispatch() Except Break : %s\n",(%esp)
 -call   <T> <printf>
 -lea    -0x29(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0x4(%esp)
 +movl   $"CTcpAcceptThread::dispatch() 예외 발생 : %s\n",(%esp)
 +call   <T> <printf>
 +lea    -0x39(%ebp),%eax

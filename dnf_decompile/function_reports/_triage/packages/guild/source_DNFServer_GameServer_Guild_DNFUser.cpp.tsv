@@ -1,4 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN5CUser17SendTcpGameserverEP12PacketHeader	DIFF	16	N			N	Y	source/DNFServer/GameServer/Guild/DNFUser.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN5CUser18GuildInviteProcessEv	DIFF	20	N			N	Y	source/DNFServer/GameServer/Guild/DNFUser.cpp	11	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN5CUser19AddGuildMemberPointEj	DIFF	7	N			N	Y	source/DNFServer/GameServer/Guild/DNFUser.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

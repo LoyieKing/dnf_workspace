@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8079026` | `0x389` | `0x806f58c` | `0x379` |
+| guild | DIFF | `0x8079026` | `0x389` | `0x806f4c8` | `0x379` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -436,7 +436,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2554 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1835 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWGuildJoin(PacketHeader* pkt)
@@ -446,38 +446,38 @@ void CPacketTranslater::OnDBMWGuildJoin(PacketHeader* pkt)
         THROW_IF_NO_APP("CPacketTranslater::OnReplyGuildInvite : 0 == m_pclApp");
         CUser* joinUser;
         if ((joinUser = (&m_pclApp->m_userManager)->FindUser_CharNo(
-                 ((PTL_DBMWGuildJoinPkt*)pkt)->m_joiner)) == 0)
+                 ((Packet_DBMW_Guild_Join*)pkt)->m_joiner)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x9d8, "./log/GuildModify", "CPacketTranslater::OnDBMWGuildJoin() 0 == pclJoinUser");
         }
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(
-            ((PTL_DBMWGuildJoinPkt*)pkt)->m_guildKey);
+            ((Packet_DBMW_Guild_Join*)pkt)->m_guildKey);
         if (guild == 0)
         {
             DNF_LOG_SCOPE_LINE(0x9dc, "./log/GuildModify", "CPacketTranslater::OnDBMWGuildJoin() 0 == pclGuild");
         }
-        if (((PTL_DBMWGuildJoinPkt*)pkt)->m_result == 0)
+        if (((Packet_DBMW_Guild_Join*)pkt)->m_result == 0)
         {
-            GuildJoin(guild, joinUser, ((PTL_DBMWGuildJoinPkt*)pkt)->m_caller);
+            GuildJoin(guild, joinUser, ((Packet_DBMW_Guild_Join*)pkt)->m_caller);
         }
         else
         {
             CUser* caller;
             if ((caller = (&m_pclApp->m_userManager)->FindUser_CharNo(
-                     ((PTL_DBMWGuildJoinPkt*)pkt)->m_caller)) != 0)
+                     ((Packet_DBMW_Guild_Join*)pkt)->m_caller)) != 0)
             {
                 Packet_Guild_Reply_Guild_Invite_To_Caller callerPkt;
-                callerPkt.m_a = ((PTL_DBMWGuildJoinPkt*)pkt)->m_caller;
+                callerPkt.m_a = ((Packet_DBMW_Guild_Join*)pkt)->m_caller;
                 callerPkt.m_e = caller->GetIdByChannel();
-                callerPkt.m_12 = ((PTL_DBMWGuildJoinPkt*)pkt)->m_result;
+                callerPkt.m_12 = ((Packet_DBMW_Guild_Join*)pkt)->m_result;
                 caller->SendToGameserver((char*)&callerPkt, 0x34);
             }
             if (joinUser != 0)
             {
                 Packet_Guild_Reply_Guild_Invite_To_Invited invitedPkt;
-                invitedPkt.m_a = ((PTL_DBMWGuildJoinPkt*)pkt)->m_joiner;
+                invitedPkt.m_a = ((Packet_DBMW_Guild_Join*)pkt)->m_joiner;
                 invitedPkt.m_e = joinUser->GetIdByChannel();
-                invitedPkt.m_12 = ((PTL_DBMWGuildJoinPkt*)pkt)->m_result;
+                invitedPkt.m_12 = ((Packet_DBMW_Guild_Join*)pkt)->m_result;
                 joinUser->SendToGameserver((char*)&invitedPkt, 0x16);
             }
         }

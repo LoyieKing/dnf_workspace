@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-manager	_ZN5CPeer7parsingEi	DIFF	23	N			N	Y	source/DNFServer/GameServer/Manager/Peer.cpp	0	NEEDS_REVERSE	large mixed structural diff

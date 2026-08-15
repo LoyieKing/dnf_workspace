@@ -1,5 +1,0 @@
-header	shared	depending_tus	direct_included_by
-DNFServer/StunServer/stun_server/global_func.h	True	3	0
-DNFServer/StunServer/stun_server/server.h	False	1	0
-DNFServer/StunServer/stun_server/stun.h	True	2	0
-DNFServer/StunServer/stun_server/udp.h	True	3	0

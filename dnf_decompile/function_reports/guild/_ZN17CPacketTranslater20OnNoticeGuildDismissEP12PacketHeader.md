@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073948` | `0x328` | `0x8069f36` | `0x321` |
+| guild | DIFF | `0x8073948` | `0x328` | `0x8069ea6` | `0x321` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -342,7 +342,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 739 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 750 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildDismiss(PacketHeader* pkt)

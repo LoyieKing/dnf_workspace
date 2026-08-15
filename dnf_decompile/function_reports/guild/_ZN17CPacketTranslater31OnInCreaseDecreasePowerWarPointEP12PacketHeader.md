@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081faa` | `0x25b` | `0x8078246` | `0x244` |
+| guild | DIFF | `0x8081faa` | `0x25b` | `0x80781b2` | `0x244` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -302,7 +302,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4694 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3965 行）：
 
 ```cpp
 void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)
@@ -315,7 +315,7 @@ void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)
                 "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == m_pclApp");
             return;
         }
-        unsigned int guildKey = ((PTL_PowerWarPointPkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_Guild_Increase_Decrease_Power_War_Point*)pkt)->m_guildKey;
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
@@ -323,12 +323,12 @@ void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)
                 "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == pclGuild");
             return;
         }
-        int point = ((PTL_PowerWarPointPkt*)pkt)->m_point;
+        int point = ((Packet_Guild_Increase_Decrease_Power_War_Point*)pkt)->m_point;
         if (point == 0)
         {
             DNF_LOG_SCOPE_LINE(0x15e2,"./log/Power",
                 "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : Invalid Power War Point Reached(characNo:%d, PowerWarPoint:%d)",
-            ((PTL_PowerWarPointPkt*)pkt)->m_charNo, point);
+            ((Packet_Guild_Increase_Decrease_Power_War_Point*)pkt)->m_charNo, point);
             return;
         }
         if (point < 1)

@@ -1,4 +1,0 @@
-DIFF  _ZN17CSignalTranslator11init_signalEv
-DIFF  _ZN17CSignalTranslator12init_handlerEP12CApplication
-DIFF  _ZN17CSignalTranslator13regist_signalEiPFviE
-DIFF  _ZN17CSignalTranslator4initEP12CApplication

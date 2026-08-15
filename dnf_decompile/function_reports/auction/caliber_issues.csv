@@ -1,2 +1,0 @@
-symbol,demangled,category,reason,diff_excerpt,date
-_ZN3nsl9TCPSocket8shutdownEi,nsl::TCPSocket::shutdown(int),REMAIN_asm_rollback,用户规矩（2026-08-11）：禁止硬套内联 asm。该函数此前用内联 asm 强制死比较/指令形态/控制流才达到逐字节一致；已回滚为语义还原版本，判定为“到头了”，留存记录，不再用 asm。,语义还原：见源码注释,2026-08-11

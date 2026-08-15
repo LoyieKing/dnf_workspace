@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805345c` | `0x2f1` | `0x80a308c` | `0x313` |
+| monitor | DIFF | `0x805345c` | `0x2f1` | `0x80a310a` | `0x313` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -462,12 +462,12 @@ int CTcpNetSystem::SendPacket()
     {
         return 0;
     }
-    unsigned int fd = ((RA_UINT<6>*)buf)->v;
+    unsigned int fd = ((PacketHeader*)buf)->m_connNo;
     std::map<unsigned int, CPeer*>::iterator it = m_peers.find(fd);
     if (it == m_peers.end())
     {
-        unsigned short size = ((RA_U16<2>*)buf)->v;
-        unsigned short id = *(unsigned short*)buf;
+        unsigned short size = ((PacketHeader*)buf)->packetSize;
+        unsigned short id = ((PacketHeader*)buf)->packetId;
         DNF_LOG_SCOPE_LINE(0xba,"./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)", (unsigned int)id,
             (unsigned int)size, fd);
         PopDeleteTcpSendPacketQ(buf);
@@ -481,19 +481,19 @@ int CTcpNetSystem::SendPacket()
     }
     if (invalid)
     {
-        unsigned short size = ((RA_U16<2>*)buf)->v;
-        unsigned short id = *(unsigned short*)buf;
+        unsigned short size = ((PacketHeader*)buf)->packetSize;
+        unsigned short id = ((PacketHeader*)buf)->packetId;
         DNF_LOG_SCOPE_LINE(0xc3,"./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
             (unsigned int)id, (unsigned int)size, fd);
         PopDeleteTcpSendPacketQ(buf);
         return 0;
     }
-    int result = peer->send_packet((char*)buf, (unsigned int)((RA_U16<2>*)buf)->v);
+    int result = peer->send_packet((char*)buf, (unsigned int)((PacketHeader*)buf)->packetSize);
     if (result < 1)
     {
         unsigned int cnt = (unsigned int)m_sendQ.size();
-        unsigned short size = ((RA_U16<2>*)buf)->v;
-        unsigned short id = *(unsigned short*)buf;
+        unsigned short size = ((PacketHeader*)buf)->packetSize;
+        unsigned short id = ((PacketHeader*)buf)->packetId;
         DNF_LOG_SCOPE_LINE(0xd5,"./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)", (unsigned int)id,
             (unsigned int)size, fd, cnt);
     }

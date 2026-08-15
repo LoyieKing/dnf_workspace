@@ -1,2 +1,0 @@
-DIFF  _ZN13CAppStartInit11Init_DaemonEiPPc
-DIFF  _ZN13CAppStartInit4InitEP12CApplicationiPPc

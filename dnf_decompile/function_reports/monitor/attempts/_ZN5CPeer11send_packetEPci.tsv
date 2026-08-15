@@ -1,5 +1,0 @@
-m_sendRemain += len	NEAR(同：load eax; mov edx; add mem)	2026-08-12
-m_sendRemain = len + m_sendRemain	NEAR(同)	2026-08-12
-int tmpLen=len; m_sendRemain=m_sendRemain+tmpLen	DIFF(tmpLen 栈溢 -0xc)	2026-08-12
-register int tmp=m_sendRemain+len; m_sendRemain=tmp	DIFF(钉 ebx，push/pop)	2026-08-12
-ORIG 形态为 load 0x1834→edx; len→eax; add eax,edx；4.4.4-13 均 load eax→edx; add mem，寄存器分配差异	NEAR(同)	2026-08-12

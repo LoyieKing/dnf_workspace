@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80743e8` | `0x589` | `0x806a9ee` | `0x54e` |
+| guild | DIFF | `0x80743e8` | `0x589` | `0x806a938` | `0x54e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -736,7 +736,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1577 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 864 行）：
 
 ```cpp
 void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
@@ -744,7 +744,7 @@ void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnIncreaseGuildExp : 0 == m_pclApp")
-    PTL_IncreaseGuildExpPkt* pb = (PTL_IncreaseGuildExpPkt*)pkt;
+    Packet_Monitor_Increase_Guild_Exp* pb = (Packet_Monitor_Increase_Guild_Exp*)pkt;
     if (pb->m_guildKey == 0)
     {
         throw CDNFException(

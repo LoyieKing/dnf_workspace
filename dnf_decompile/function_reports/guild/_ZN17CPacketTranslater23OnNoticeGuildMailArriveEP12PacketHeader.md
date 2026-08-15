@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d15a` | `0x21f` | `0x8073566` | `0x21d` |
+| guild | DIFF | `0x807d15a` | `0x21f` | `0x80734b6` | `0x24f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,155 +1,154 @@
+@@ -1,155 +1,166 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -116,18 +116,13 @@
  test   %al,%al
  jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xee>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x217>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x215>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x247>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1bd>
-+jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1bb>
++jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1e1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0xe10,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
@@ -136,12 +131,22 @@
  mov    %eax,(%esp)
  call   *%edx
 -mov    %eax,%ebx
--movl   $0xe10,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %eax,0x4(%esp)
++movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n",(%esp)
++call   <T> <printf>
+ movl   $0xe10,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    -0x1c(%ebp),%eax
++mov    (%eax),%eax
++add    $0x8,%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -149,7 +154,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1b6>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1b4>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1da>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -159,9 +164,11 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x217>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x215>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x247>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
++movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break",(%esp)
++call   <T> <puts>
  movl   $0xe15,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -175,7 +182,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x212>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x210>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x242>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -236,7 +243,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3466 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2747 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildMailArrive(PacketHeader* pkt)
@@ -244,7 +251,7 @@ void CPacketTranslater::OnNoticeGuildMailArrive(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildMailArrive : 0 == m_pclApp");
-    PTL_GuildMailArrivePkt* pb = (PTL_GuildMailArrivePkt*)pkt;
+    Packet_Notice_Guild_Mail_Arrive* pb = (Packet_Notice_Guild_Mail_Arrive*)pkt;
     for (int i = 0; i < (int)(unsigned int)(unsigned char)pb->m_count; i++)
     {
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(pb->m_guildKeys[i]);

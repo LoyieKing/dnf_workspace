@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f23e` | `0x193` | `0x80551fa` | `0x19f` |
+| guild | DIFF | `0x808f23e` | `0x193` | `0x8055160` | `0x19f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -231,7 +231,7 @@ CGuild::_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc(CGuild *this,CUser *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1265 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1267 行）：
 
 ```cpp
 void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)

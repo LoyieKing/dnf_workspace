@@ -1,9 +1,0 @@
-m_field0=(unsigned char)(p->tm_year-100); m_field1=... (direct expr, no register)	DIFF(lea folding: lea -0x64(%eax),%edx vs ORIG sub $0x64,%eax;mov %eax,%edx)	2026-08-12
-int v0/v1 locals (plain int)	DIFF(stack spill +0x10, same lea folds gone but extra spills)	2026-08-12
-unsigned char v0/v1 locals	DIFF(mov %al,-0xa(%ebp) spills, movzbl reloads)	2026-08-12
-single int v reused	DIFF(spill -0xc/-0x10, sub but with stack roundtrip)	2026-08-12
-register v0 only + direct v1	DIFF(lea -0x64(%eax),%ebx; mov %ebx,%edx; frame +push ebx)	2026-08-12
-compiler A/B: c5-g++ 4.1.2-55 / c6444r 4.4.4-13 / c6-g++ 4.4.7 / c6-g++-446r 4.4.6-3	ALL DIFF: every compiler folds lea; ORIG sub+mov (toolchain scheduling artifact, candidate §39/§81 archive)	2026-08-12
-flags: -fno-tree-ter/-fno-forward-propagate/-fno-tree-fre/-fno-tree-copyrename/-fno-tree-sra/-fno-tree-dse/-fno-peephole2	ALL DIFF (no change)	2026-08-12
--O1/-O2	DIFF(worse: esi/ebx frame, shorter body)	2026-08-12
--march=i386/i486/i586/-mtune=i486	DIFF(outgoing args become push style, worse)	2026-08-12

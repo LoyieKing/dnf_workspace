@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN13CAppStartInit4InitEP12CApplicationiPPc	DIFF	30	N			N	Y	source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp	4	NEEDS_REVERSE	large mixed structural diff

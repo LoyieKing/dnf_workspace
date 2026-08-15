@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f1f2` | `0x3d` |
+| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f2e2` | `0x38` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,18 +1,20 @@
+@@ -1,18 +1,18 @@
  push   %ebp
  mov    %esp,%ebp
 +sub    $0x4,%esp
@@ -25,16 +25,16 @@
  mov    0x8(%ebp),%eax
  movzwl 0x4(%eax),%eax
  test   %ax,%ax
- setle  %al
- test   %al,%al
+-setle  %al
+-test   %al,%al
 -je     <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x31>
 -mov    $0x0,%eax
 -pop    %ebp
-+je     <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x31>
++jg     <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
 +movl   $0x1,-0x4(%ebp)
-+jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x38>
++jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x33>
 +movl   $0x0,-0x4(%ebp)
 +mov    -0x4(%ebp),%eax
 +leave
@@ -63,8 +63,7 @@ CDNFProhibitUser::_ZN16CDNFProhibitUser20IsTimeOutConnectableEv(CDNFProhibitUser
 bool CDNFProhibitUser::IsTimeOutConnectable()
 {
     m_remain--;
-    register bool b = ((short)m_remain <= 0);
-    if (b)
+    if ((short)m_remain <= 0)
     {
         return true;
     }

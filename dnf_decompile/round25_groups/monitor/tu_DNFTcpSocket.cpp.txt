@@ -1,5 +1,0 @@
-_ZN9TCPSocket4bindEtb
-_ZN9TCPSocket4openEv
-_ZN9TCPSocket4sendEPci
-_ZN9TCPSocket6acceptERS_
-_ZN9TCPSocket7connectEPKct

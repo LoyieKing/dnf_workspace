@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8087e72` | `0x25d` | `0x80732aa` | `0x257` |
+| monitor | DIFF | `0x8087e72` | `0x25d` | `0x807336c` | `0x25a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,158 @@
+@@ -1,159 +1,159 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,27 +27,32 @@
 +jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x4c>
  movl   $0x10b1,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDelBuddyDBReply : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x256>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x250>
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x253>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 -mov    %eax,-0x10(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
++mov    %eax,-0x1c(%ebp)
 +mov    0x8(%ebp),%eax
++mov    %eax,-0x18(%ebp)
++mov    -0x18(%ebp),%eax
  mov    0xa(%eax),%eax
--mov    %eax,0x4(%esp)
+ mov    %eax,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x18(%ebp)
 -cmpl   $0x0,-0x18(%ebp)
 -setne  %al
@@ -69,9 +74,9 @@
 -jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x11f>
 -mov    -0x14(%ebp),%eax
 -add    $0x12,%eax
- mov    %eax,0x4(%esp)
- mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x18(%ebp),%eax
+-mov    %eax,(%esp)
 -call   <T> <_ZN5CUser8DelBuddyEPc>
 -mov    -0x14(%ebp),%eax
 -add    $0x12,%eax
@@ -106,58 +111,59 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x256>
-+call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0xb0>
++jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0xb6>
  movl   $0x10cf,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x30(%ebp),%eax
+-lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDelBuddyDBReply\tpclUser is NULL",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
- lea    -0x30(%ebp),%eax
+-lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x256>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x250>
-+lea    -0x69(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x253>
++lea    -0x6d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN30Packet_Monitor_Del_Buddy_ReplyC1Ev>
-+mov    0x8(%ebp),%eax
++mov    -0x18(%ebp),%eax
 +mov    0xa(%eax),%eax
-+mov    %eax,-0x5f(%ebp)
++mov    %eax,-0x63(%ebp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
-+mov    %eax,-0x5b(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %eax,-0x5f(%ebp)
++mov    -0x18(%ebp),%eax
 +movzbl 0x30(%eax),%eax
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x151>
-+mov    0x8(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x157>
++mov    -0x18(%ebp),%eax
 +add    $0x12,%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser8DelBuddyEPc>
-+mov    0x8(%ebp),%eax
++mov    -0x18(%ebp),%eax
 +add    $0x12,%eax
 +movl   $0x1d,0x8(%esp)
 +mov    %eax,0x4(%esp)
-+lea    -0x69(%ebp),%eax
++lea    -0x6d(%ebp),%eax
 +add    $0x12,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+mov    0x8(%ebp),%eax
++mov    -0x18(%ebp),%eax
 +movzbl 0x30(%eax),%eax
-+mov    %al,-0x39(%ebp)
++mov    %al,-0x3d(%ebp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,-0x10(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x18(%ebp),%eax
 +mov    0xe(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +lea    0x300(%edx),%ecx
@@ -166,21 +172,20 @@
 +mov    %eax,0x4(%esp)
 +mov    %ecx,(%esp)
 +call   <T> <_ZN21CBuddyRegisterManager16delBuddyRegisterEjj>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x155>
-+movb   $0x3,-0x39(%ebp)
-+lea    -0x69(%ebp),%eax
-+movzwl 0x2(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x15b>
++movb   $0x3,-0x3d(%ebp)
++movzwl -0x6b(%ebp),%eax
 +movzwl %ax,%edx
-+lea    -0x69(%ebp),%eax
++lea    -0x6d(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x250>
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x253>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x1fc>
-+jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x1f6>
++jne    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x1f9>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -194,17 +199,19 @@
  mov    %eax,%ebx
  movl   $0x10d5,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnDelBuddyDBReply Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x1f5>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x1ef>
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x1f2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -214,21 +221,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x256>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x250>
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x253>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x10da,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDelBuddyDBReply Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x251>
-+jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x24b>
++jmp    <T> <_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader+0x24e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -305,7 +314,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2991 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3003 行）：
 
 ```cpp
 void CPacketTranslater::OnDelBuddyDBReply(PacketHeader* pkt)
@@ -318,8 +327,9 @@ void CPacketTranslater::OnDelBuddyDBReply(PacketHeader* pkt)
         }
         else
         {
-            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-            CUser* user = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
+            CUserManager* userMgr = &m_pclApp->m_userManager;
+            Packet_DBMW_Del_Buddy_Reply* db = (Packet_DBMW_Del_Buddy_Reply*)pkt;
+            CUser* user = userMgr->FindUser_CharNo(db->m_charNo);
             if (user == 0)
             {
                 DNF_LOG_SCOPE_LINE(0x10cf, "./log/buddy", "CPacketTranslater::OnDelBuddyDBReply\tpclUser is NULL");
@@ -327,23 +337,22 @@ void CPacketTranslater::OnDelBuddyDBReply(PacketHeader* pkt)
             else
             {
                 Packet_Monitor_Del_Buddy_Reply reply;
-                reply.m_charNo = ((RA_UINT<10>*)pkt)->v;
+                reply.m_charNo = db->m_charNo;
                 reply.m_idByChannel = user->GetIdByChannel();
-                if (((RA_S8<48>*)pkt)->v == 0)
+                if (db->m_result == 0)
                 {
-                    user->DelBuddy((char*)pkt + 0x12);
-                    memcpy(reply.m_name, (char*)pkt + 0x12, 0x1d);
-                    reply.m_result = ((RA_U8<48>*)pkt)->v;
+                    user->DelBuddy(db->m_name);
+                    memcpy(reply.m_name, db->m_name, 0x1d);
+                    reply.m_result = (unsigned char)db->m_result;
                     unsigned int uniq = user->GetUniqCharNo();
-                    ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
-                        ->delBuddyRegister(((RA_UINT<14>*)pkt)->v, uniq);
+                    (&m_pclApp->m_buddyMgr)
+                        ->delBuddyRegister(db->m_buddyCharNo, uniq);
                 }
                 else
                 {
                     reply.m_result = 3;
                 }
-                user->SendToGameserver((char*)&reply,
-                                       ((RA_U16<2>*)&reply)->v);
+                user->SendToGameserver((char*)&reply, reply.packetSize);
             }
         }
     }

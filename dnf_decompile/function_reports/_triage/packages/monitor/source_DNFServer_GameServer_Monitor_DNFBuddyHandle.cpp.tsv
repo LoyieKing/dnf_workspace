@@ -1,6 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN12CBuddyHandle11addFromCashEP6CBuddy	DIFF	12	N			N	Y	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN12CBuddyHandle11printBuddysEPc	DIFF	94	N			N	Y	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN12CBuddyHandle5addDBEP14CServerHandlerPc	DIFF	91	N			N	Y	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN12CBuddyHandle5delDBEP14CServerHandlerPc	DIFF	79	N			N	Y	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN12CBuddyHandle6insertEP6CBuddy	DIFF	7	N			N	Y	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	3	CODEGEN_TAIL	very small structural diff

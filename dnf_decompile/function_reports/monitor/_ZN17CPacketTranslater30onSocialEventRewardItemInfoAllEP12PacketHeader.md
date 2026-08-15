@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80903c6` | `0x371` | `0x807b950` | `0x376` |
+| monitor | DIFF | `0x80903c6` | `0x371` | `0x807ba5c` | `0x376` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -106,7 +106,7 @@
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
 +mov    %eax,-0x2c(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    0xe(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
@@ -124,10 +124,10 @@
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
 +jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x259>
-+mov    0x8(%ebp),%eax
++mov    -0x2c(%ebp),%eax
 +mov    0x12(%eax),%eax
 +mov    %eax,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    0xe(%eax),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -255,13 +255,12 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+mov    0x8(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
 -mov    -0x24(%ebp),%edx
--mov    %edx,0x4(%esp)
-+mov    %ebx,0x4(%esp)
++mov    -0x2c(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll>
 -mov    -0x24(%ebp),%eax
@@ -420,7 +419,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5207 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5223 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt)
@@ -431,14 +430,13 @@ void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt)
         {
             throw CDNFException("CPacketTranslater::onSocialEventRewardItemInfoAll");
         }
-        PacketHeader* rpkt = pkt;
+        LimitNpcBuyItemInfoAll* rpkt = (LimitNpcBuyItemInfoAll*)pkt;
         CUser* user =
-            ((CUserManager*)((char*)m_pclApp + 0x10))
-                ->FindUser(((RA_UINT<14>*)pkt)->v);
+            (&m_pclApp->m_userManager)->FindUser(rpkt->m_dbid);
         if (user == 0)
         {
-            unsigned int cn = ((RA_UINT<18>*)pkt)->v;
-            char* s = NumberToString(((RA_UINT<14>*)pkt)->v, 0);
+            unsigned int cn = rpkt->m_charNo;
+            char* s = NumberToString(rpkt->m_dbid, 0);
             DNF_LOG_SCOPE_LINE(0x1e1c,"./log/Except",
                 "CPacketTranslater::onSocialEventRewardItemInfoAll(), buyUser(%s), "
                 "characNo(%u)",
@@ -446,8 +444,7 @@ void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt)
             throw CDNFException(
                 "CPacketTranslater::onSocialEventRewardItemInfoAll : Not Exist User");
         }
-        m_pclApp->getLimitNpcBuyItemManager()->getNpcLimitBuyItemInfoAll(
-            (LimitNpcBuyItemInfoAll*)pkt);
+        m_pclApp->getLimitNpcBuyItemManager()->getNpcLimitBuyItemInfoAll(rpkt);
         user->SendTcpGameserver(pkt);
     }
     catch (CDNFException& e)

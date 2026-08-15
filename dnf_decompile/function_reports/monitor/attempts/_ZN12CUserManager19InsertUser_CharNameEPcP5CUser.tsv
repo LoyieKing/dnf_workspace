@@ -1,4 +1,0 @@
-register bool ok + register dbid,nm（原状）	NEAR	2026-08-12
-nm/dbid 声明互换	DIFF(更差)	2026-08-12
-ok 改普通 bool	DIFF(更差,多出 mov %al,-0x9(%ebp))	2026-08-12
-去掉 ok 变量直写 if(insert(...).second)	NEAR(同)	2026-08-12

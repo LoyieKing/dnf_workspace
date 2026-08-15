@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a931c` | `0x258` | `0x80a853a` | `0x17a` |
+| monitor | DIFF | `0x80a931c` | `0x258` | `0x80a85b6` | `0x258` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,134 +13,123 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,194 +1,113 @@
+@@ -1,194 +1,195 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0xac,%esp
--mov    %esp,%eax
--mov    %eax,%edi
--lea    -0x43(%ebp),%eax
-+sub    $0xa0,%esp
-+lea    -0x1b(%ebp),%eax
+ sub    $0xac,%esp
+ mov    %esp,%eax
+ mov    %eax,%edi
+ lea    -0x43(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN29Packet_DB_VillageAttackedRankC1Ev>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--mov    %al,-0x39(%ebp)
-+mov    %al,-0x11(%ebp)
+ mov    %al,-0x39(%ebp)
  call   <T> <_Z10GetNowTimev>
--mov    %eax,-0x48(%ebp)
--lea    -0x48(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
-+lea    -0x20(%ebp),%eax
+ mov    %eax,-0x48(%ebp)
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
--mov    %eax,-0x20(%ebp)
--mov    &_ZN16village_attacked19MAX_SCHEDULER_COUNTE,%eax
--lea    -0x1(%eax),%ecx
--mov    %ecx,-0x28(%ebp)
--mov    %ecx,%eax
--mov    $0x0,%edx
--mov    %eax,%ebx
--and    $0xff,%bh
--mov    %edx,%esi
--and    $0xf,%esi
--mov    %ebx,%eax
--mov    %esi,%edx
--add    $0x1,%eax
--adc    $0x0,%edx
--mov    %eax,%ebx
--and    $0xff,%bh
--mov    %ebx,-0x50(%ebp)
--mov    %edx,%ebx
--and    $0xf,%ebx
--mov    %ebx,-0x4c(%ebp)
--mov    -0x50(%ebp),%eax
--mov    -0x4c(%ebp),%edx
--shld   $0x5,%eax,%edx
--shl    $0x5,%eax
--mov    %eax,%ebx
--and    $0xff,%bh
--mov    %ebx,-0x58(%ebp)
--mov    %edx,%ebx
--and    $0xf,%ebx
--mov    %ebx,-0x54(%ebp)
--mov    -0x58(%ebp),%eax
--mov    -0x54(%ebp),%edx
--mov    %ecx,%eax
--mov    $0x0,%edx
--mov    %eax,%ebx
--and    $0xff,%bh
--mov    %ebx,-0x60(%ebp)
--mov    %edx,%ebx
--and    $0xf,%ebx
--mov    %ebx,-0x5c(%ebp)
--mov    -0x60(%ebp),%eax
--mov    -0x5c(%ebp),%edx
--add    $0x1,%eax
--adc    $0x0,%edx
--mov    %eax,%ebx
--and    $0xff,%bh
--mov    %ebx,-0x68(%ebp)
--mov    %edx,%ebx
--and    $0xf,%ebx
--mov    %ebx,-0x64(%ebp)
--mov    -0x68(%ebp),%eax
--mov    -0x64(%ebp),%edx
--shld   $0x5,%eax,%edx
--shl    $0x5,%eax
--mov    %eax,%ebx
--and    $0xff,%bh
--mov    %ebx,-0x70(%ebp)
--mov    %edx,%ebx
--and    $0xf,%ebx
--mov    %ebx,-0x6c(%ebp)
--mov    -0x70(%ebp),%eax
--mov    -0x6c(%ebp),%edx
--mov    %ecx,%eax
--add    $0x1,%eax
--shl    $0x2,%eax
--add    $0xf,%eax
--add    $0xf,%eax
--shr    $0x4,%eax
--shl    $0x4,%eax
--sub    %eax,%esp
--lea    0x38(%esp),%eax
--add    $0xf,%eax
--shr    $0x4,%eax
--shl    $0x4,%eax
--mov    %eax,-0x24(%ebp)
--movl   $0x0,-0x1c(%ebp)
+ mov    %eax,-0x20(%ebp)
+ mov    &_ZN16village_attacked19MAX_SCHEDULER_COUNTE,%eax
+ lea    -0x1(%eax),%ecx
+ mov    %ecx,-0x28(%ebp)
+ mov    %ecx,%eax
+ mov    $0x0,%edx
+ mov    %eax,%ebx
+ and    $0xff,%bh
+ mov    %edx,%esi
+ and    $0xf,%esi
+ mov    %ebx,%eax
+ mov    %esi,%edx
+ add    $0x1,%eax
+ adc    $0x0,%edx
+ mov    %eax,%ebx
+ and    $0xff,%bh
+ mov    %ebx,-0x50(%ebp)
+ mov    %edx,%ebx
+ and    $0xf,%ebx
+ mov    %ebx,-0x4c(%ebp)
+ mov    -0x50(%ebp),%eax
+ mov    -0x4c(%ebp),%edx
+ shld   $0x5,%eax,%edx
+ shl    $0x5,%eax
+ mov    %eax,%ebx
+ and    $0xff,%bh
+ mov    %ebx,-0x58(%ebp)
+ mov    %edx,%ebx
+ and    $0xf,%ebx
+ mov    %ebx,-0x54(%ebp)
+ mov    -0x58(%ebp),%eax
+ mov    -0x54(%ebp),%edx
+ mov    %ecx,%eax
+ mov    $0x0,%edx
+ mov    %eax,%ebx
+ and    $0xff,%bh
+ mov    %ebx,-0x60(%ebp)
+ mov    %edx,%ebx
+ and    $0xf,%ebx
+ mov    %ebx,-0x5c(%ebp)
+ mov    -0x60(%ebp),%eax
+ mov    -0x5c(%ebp),%edx
+ add    $0x1,%eax
+ adc    $0x0,%edx
+ mov    %eax,%ebx
+ and    $0xff,%bh
+ mov    %ebx,-0x68(%ebp)
+ mov    %edx,%ebx
+ and    $0xf,%ebx
+ mov    %ebx,-0x64(%ebp)
+ mov    -0x68(%ebp),%eax
+ mov    -0x64(%ebp),%edx
+ shld   $0x5,%eax,%edx
+ shl    $0x5,%eax
+ mov    %eax,%ebx
+ and    $0xff,%bh
+ mov    %ebx,-0x70(%ebp)
+ mov    %edx,%ebx
+ and    $0xf,%ebx
+ mov    %ebx,-0x6c(%ebp)
+ mov    -0x70(%ebp),%eax
+ mov    -0x6c(%ebp),%edx
+ mov    %ecx,%eax
+ add    $0x1,%eax
+ shl    $0x2,%eax
+ add    $0xf,%eax
+ add    $0xf,%eax
+ shr    $0x4,%eax
+ shl    $0x4,%eax
+ sub    %eax,%esp
+ lea    0x38(%esp),%eax
+ add    $0xf,%eax
+ shr    $0x4,%eax
+ shl    $0x4,%eax
+ mov    %eax,-0x24(%ebp)
+ movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x1c8>
--mov    -0x1c(%ebp),%ebx
--mov    -0x1c(%ebp),%edx
-+mov    %eax,-0x10(%ebp)
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0xee>
-+mov    -0xc(%ebp),%ebx
-+mov    -0xc(%ebp),%edx
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x1ca>
+ mov    -0x1c(%ebp),%ebx
+ mov    -0x1c(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  add    $0x1,%eax
 -mov    &_ZN16village_attacked26village_attacked_schedulerE(,%eax,8),%esi
--mov    -0x1c(%ebp),%edx
 +add    %eax,%eax
 +mov    &_ZN16village_attacked26village_attacked_schedulerE(,%eax,4),%esi
-+mov    -0xc(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  add    %eax,%eax
  add    $0x1,%eax
  mov    &_ZN16village_attacked26village_attacked_schedulerE(,%eax,4),%ecx
--mov    -0x1c(%ebp),%edx
-+mov    -0xc(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
@@ -151,8 +140,7 @@
  mov    %esi,0x34(%esp)
  mov    %ecx,0x30(%esp)
  mov    %eax,0x2c(%esp)
--mov    -0x20(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    (%eax),%edx
  mov    %edx,(%esp)
  mov    0x4(%eax),%edx
@@ -176,78 +164,57 @@
  mov    0x28(%eax),%eax
  mov    %eax,0x28(%esp)
  call   <T> <_Z15GetPrevSchedule2tmiii>
--mov    -0x24(%ebp),%edx
--mov    %eax,(%edx,%ebx,4)
--addl   $0x1,-0x1c(%ebp)
-+mov    %eax,-0x68(%ebp,%ebx,4)
-+addl   $0x1,-0xc(%ebp)
+ mov    -0x24(%ebp),%edx
+ mov    %eax,(%edx,%ebx,4)
+ addl   $0x1,-0x1c(%ebp)
  mov    &_ZN16village_attacked19MAX_SCHEDULER_COUNTE,%eax
--cmp    %eax,-0x1c(%ebp)
-+cmp    %eax,-0xc(%ebp)
+ cmp    %eax,-0x1c(%ebp)
  setl   %al
  test   %al,%al
--jne    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x122>
+ jne    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x122>
 -mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x48>
- mov    &_ZN16village_attacked19MAX_SCHEDULER_COUNTE,%edx
-+lea    -0x68(%ebp),%eax
- shl    $0x2,%edx
+-mov    &_ZN16village_attacked19MAX_SCHEDULER_COUNTE,%edx
+-shl    $0x2,%edx
 -lea    (%eax,%edx,1),%edx
--mov    -0x24(%ebp),%eax
-+add    %edx,%eax
++mov    &_ZN16village_attacked19MAX_SCHEDULER_COUNTE,%eax
++shl    $0x2,%eax
++mov    %eax,%edx
++add    -0x24(%ebp),%edx
+ mov    -0x24(%ebp),%eax
  movl   $&_Z11compareTimeRKiS0_,0x8(%esp)
--mov    %edx,0x4(%esp)
-+mov    %eax,0x4(%esp)
-+lea    -0x68(%ebp),%eax
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt4sortIPiPFbRKiS2_EEvT_S5_T0_>
--mov    -0x24(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x38(%ebp)
--mov    -0x24(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x34(%ebp)
--mov    -0x24(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,-0x30(%ebp)
--mov    -0x24(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,-0x2c(%ebp)
-+lea    -0x1b(%ebp),%eax
-+movzbl -0x11(%ebp),%edx
-+mov    %dl,0xa(%eax)
-+lea    -0x1b(%ebp),%eax
-+mov    -0x68(%ebp),%edx
-+mov    %edx,0xb(%eax)
-+lea    -0x1b(%ebp),%eax
-+mov    -0x68(%ebp),%edx
-+mov    %edx,0xf(%eax)
-+lea    -0x1b(%ebp),%eax
-+mov    -0x64(%ebp),%edx
-+mov    %edx,0x13(%eax)
-+lea    -0x1b(%ebp),%eax
-+mov    -0x64(%ebp),%edx
-+mov    %edx,0x17(%eax)
+ mov    -0x24(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x38(%ebp)
+ mov    -0x24(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x34(%ebp)
+ mov    -0x24(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,-0x30(%ebp)
+ mov    -0x24(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
--lea    -0x43(%ebp),%edx
-+lea    -0x1b(%ebp),%edx
+ lea    -0x43(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--jmp    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x24b>
--mov    %edi,%esp
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--mov    %edi,%esp
--lea    -0xc(%ebp),%esp
--add    $0x0,%esp
-+add    $0xa0,%esp
+ jmp    <T> <_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv+0x24b>
+ mov    %edi,%esp
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ mov    %edi,%esp
+ lea    -0xc(%ebp),%esp
+ add    $0x0,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -375,10 +342,10 @@ _ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttack
 void CVillageAttackedManager::OnServerGroupRewardVillageAttacked()
 {
     Packet_DB_VillageAttackedRank pkt;
-    unsigned char group = m_app->Get_ServerGroup();
+    pkt.m_group = (char)m_app->Get_ServerGroup();
     time_t now = GetNowTime();
     tm* pt = localtime(&now);
-    int times[18];
+    int times[MAX_SCHEDULER_COUNT];
     for (int i = 0; i < MAX_SCHEDULER_COUNT; i++)
     {
         times[i] = GetPrevSchedule(*pt, village_attacked_scheduler[i * 6],
@@ -386,11 +353,10 @@ void CVillageAttackedManager::OnServerGroupRewardVillageAttacked()
                                    village_attacked_scheduler[i * 6 + 2]);
     }
     std::sort(&times[0], &times[MAX_SCHEDULER_COUNT], compareTime);
-    ((RA_S8<10>*)&pkt)->v = (char)group;
-    ((RA_INT<11>*)&pkt)->v = times[0];
-    ((RA_INT<15>*)&pkt)->v = times[0];
-    ((RA_INT<19>*)&pkt)->v = times[1];
-    ((RA_INT<23>*)&pkt)->v = times[1];
+    pkt.m_time0a = times[0];
+    pkt.m_time0b = times[0];
+    pkt.m_time1a = times[1];
+    pkt.m_time1b = times[1];
     m_app->Get_ServerHandler()->SendToDB(&pkt);
 }
 ```

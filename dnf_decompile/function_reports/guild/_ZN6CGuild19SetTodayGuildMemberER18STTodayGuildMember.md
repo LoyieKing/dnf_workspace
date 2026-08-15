@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808b01c` | `0x70` | `0x8052b6a` | `0x72` |
+| guild | NEAR | `0x808b01c` | `0x70` | `0x8052b64` | `0x70` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,28 +1,29 @@
+@@ -1,28 +1,28 @@
  push   %ebp
  mov    %esp,%ebp
-+mov    0xc(%ebp),%eax
-+mov    %eax,%edx
++mov    0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
 -mov    0xc(%ebp),%edx
  mov    (%edx),%ecx
@@ -78,6 +77,6 @@ CGuild::_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember
 ```cpp
 void CGuild::SetTodayGuildMember(STTodayGuildMember& member)
 {
-    m_board.m_today = *(const CGuildBoard::TodayMemberBlock*)member.m_data;
+    this->m_board.m_today = *(const CGuildBoard::TodayMemberBlock*)&member;
 }
 ```

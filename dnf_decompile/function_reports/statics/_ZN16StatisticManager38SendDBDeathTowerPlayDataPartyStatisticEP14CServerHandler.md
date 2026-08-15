@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807015c` | `0x269` | `0x807014c` | `0x23b` |
+| statics | DIFF | `0x807015c` | `0x269` | `0x80702d4` | `0x263` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,167 +1,151 @@
+@@ -1,167 +1,164 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -30,7 +30,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x25f>
-+je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x231>
++je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x259>
  mov    0x8(%ebp),%eax
  lea    0xb0(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -39,7 +39,7 @@
  call   <T> <_ZNSt3mapI37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x1c9>
-+jmp    <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x19b>
++jmp    <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x1c3>
  mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -66,19 +66,19 @@
  lea    (%ecx,%eax,1),%eax
  sub    $0x1812,%eax
  mov    %dl,0xf(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticEEptEv>
--mov    0x8(%eax),%edx
--mov    %ebx,%eax
--shl    $0x2,%eax
--add    %ebx,%eax
--add    %eax,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1812,%eax
--mov    %edx,0x14(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticEEptEv>
+ mov    0x8(%eax),%edx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ add    %ebx,%eax
+ add    %eax,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1812,%eax
+ mov    %edx,0x14(%eax)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticEEptEv>
@@ -86,8 +86,7 @@
  test   %eax,%eax
  sete   %al
  test   %al,%al
--je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0xfd>
-+je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0xd5>
+ je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0xfd>
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticEEptEv>
@@ -122,7 +121,7 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x1be>
 +cmpl   $0x263,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x190>
++jbe    <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x1b8>
  movl   $0x264,-0x1810(%ebp)
  lea    -0x181a(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -161,7 +160,7 @@
  jne    <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x5b>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x25f>
-+je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x231>
++je     <T> <_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler+0x259>
  mov    -0xc(%ebp),%eax
  mov    %eax,-0x1810(%ebp)
  movl   $0x27f,0x8(%esp)
@@ -304,13 +303,13 @@ StatisticManager::_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 597 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 602 行）：
 
 ```cpp
 void StatisticManager::SendDBDeathTowerPlayDataPartyStatistic(CServerHandler* handler)
 {
     Packet_DBMW_DeathTower_Statistic_Playdata_Party pkt;
-    int idx = 0;
+    unsigned int idx = 0;
     if (!m_deathTowerParty.empty())
     {
         for (std::map<STDeathTowerPlayDataPartyStatisticKey, PlayDataPartyStatistic>::iterator it =
@@ -318,13 +317,14 @@ void StatisticManager::SendDBDeathTowerPlayDataPartyStatistic(CServerHandler* ha
         {
             pkt.m_items[idx].m_deathTowerType = it->first.m_deathTowerType;
             pkt.m_items[idx].m_partyCount = it->first.m_partyCount;
+            pkt.m_items[idx].m_playCount = it->second.m_data[1];
             if (it->second.m_data[1] == 0)
             {
                 it->second.m_data[1] = 1;
             }
             pkt.m_items[idx].m_avgClearCount = it->second.m_data[0] / it->second.m_data[1];
             idx++;
-            if (0x263 < idx)
+            if (idx > 0x263)
             {
                 pkt.m_count = 0x264;
                 handler->SendToDB((PacketHeader*)&pkt);

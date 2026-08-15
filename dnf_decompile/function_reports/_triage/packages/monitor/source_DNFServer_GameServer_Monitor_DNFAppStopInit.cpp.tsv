@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN12CAppStopInit4InitEP12CApplicationiPPc	DIFF	79	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present

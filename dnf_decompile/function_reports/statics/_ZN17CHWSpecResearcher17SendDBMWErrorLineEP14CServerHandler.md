@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8063362` | `0x186` | `0x80678a6` | `0x184` |
+| statics | DIFF | `0x8063362` | `0x186` | `0x80679c0` | `0x184` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -229,7 +229,7 @@ void CHWSpecResearcher::SendDBMWErrorLine(CServerHandler* handler)
              it != m_errorSpec.end(); ++it)
         {
             pkt.m_items[count].m_errorLine = it->first.m_errorLine;
-            pkt.m_items[count].m_errorCode = it->first.ErrorValue::m_errorCode;
+            pkt.m_items[count].m_errorCode = it->first.m_errorCode;
             pkt.m_items[count].m_cnt = (int)it->second;
             if (0x263U < (++count))
             {

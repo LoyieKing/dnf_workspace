@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8084332` | `0x28a` | `0x806f712` | `0x29a` |
+| monitor | DIFF | `0x8084332` | `0x28a` | `0x806f7e2` | `0x29a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -92,13 +92,13 @@
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +movzwl 0x10(%eax),%eax
 +mov    %ax,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +movzwl 0xe(%eax),%eax
 +mov    %ax,-0x22(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
@@ -130,10 +130,10 @@
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x31c(%eax),%eax
 -mov    -0x20(%ebp),%edx
++mov    -0x28(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start>
@@ -278,7 +278,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnEventStartEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1933 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1939 行）：
 
 ```cpp
 void CPacketTranslater::OnEventStart(PacketHeader* pkt)
@@ -289,16 +289,16 @@ void CPacketTranslater::OnEventStart(PacketHeader* pkt)
         {
             throw CDNFException("CPacketTranslater::OnEventStart : 0 == m_pclApp");
         }
-        PacketHeader* rpkt = pkt;
-        unsigned short p2 = ((RA_U16<16>*)pkt)->v;
-        unsigned short p1 = ((RA_U16<14>*)pkt)->v;
-        unsigned int code = ((RA_UINT<10>*)pkt)->v;
+        Packet_Monitor_Event_Start* rpkt = (Packet_Monitor_Event_Start*)pkt;
+        unsigned short p2 = rpkt->m_eventParam2;
+        unsigned short p1 = rpkt->m_eventParam1;
+        unsigned int code = rpkt->m_eventCode;
         DNF_LOG_SCOPE_LINE(0x9f4,"./log/Web",
             "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), "
             "eventParam2(%d)\n",
             code, (unsigned int)p1, (unsigned int)p2);
-        ((CEventActionManager*)((RA_INT<796>*)m_pclApp)->v)
-            ->OnStartAction((Packet_Monitor_Event_Start*)pkt);
+        m_pclApp->m_eventActionMgr
+            ->OnStartAction(rpkt);
         (m_pclApp->m_serverHandler2)
             ->SendAllTcpGameServer(pkt);
     }

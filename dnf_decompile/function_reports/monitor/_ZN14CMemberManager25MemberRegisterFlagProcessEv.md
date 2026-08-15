@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061aa0` | `0x10d` |
+| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061abc` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,82 +1,75 @@
+@@ -1,82 +1,81 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
-+sub    $0x48,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x20(%ebp)
@@ -45,9 +44,9 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x10d>
-+sete   %al
++setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x10b>
++je     <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x10d>
  mov    0x8(%ebp),%eax
  lea    0x8(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -55,7 +54,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP7CMemberSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
- jmp    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x93>
+-jmp    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x93>
++jmp    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x95>
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP7CMemberEEptEv>
@@ -84,25 +84,22 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP7CMemberEEneERKS5_>
  test   %al,%al
- jne    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x6c>
+-jne    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x6c>
 -mov    -0xc(%ebp),%eax
--mov    0x4(%eax),%esi
++jne    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x6e>
++mov    -0x10(%ebp),%eax
+ mov    0x4(%eax),%esi
 -mov    -0xc(%ebp),%eax
--mov    0x8(%eax),%ebx
++mov    -0x10(%ebp),%eax
+ mov    0x8(%eax),%ebx
  movl   $0x19a,0x8(%esp)
  movl   $&_ZZN14CMemberManager25MemberRegisterFlagProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    0x8(%eax),%edx
-+mov    -0x10(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CMemberManager::MemberRegisterFlagProcess(%d,%d)",0x8(%esp)
  movl   $"./log/MemberModify",0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -111,12 +108,11 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN14CMemberManager25MemberRegisterFlagProcessEv+0x10e>
 -nop
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -184,7 +180,7 @@ void CMemberManager::MemberRegisterFlagProcess()
 {
     time_t t = time(0);
     struct tm* lt = localtime(&t);
-    if (!m_scheduler.IsOnTimeSpecialHour(lt->tm_hour, lt->tm_min))
+    if (m_scheduler.IsOnTimeSpecialHour(lt->tm_hour, lt->tm_min))
     {
         for (std::map<unsigned int, CMember*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
@@ -192,9 +188,11 @@ void CMemberManager::MemberRegisterFlagProcess()
             CMember* member = it->second;
             member->CheckMemberRegisterFlag();
         }
+        register int min = lt->tm_min;
+        register int hour = lt->tm_hour;
         CMyFileLog log(__FUNCTION__, 0x19a);
         log("./log/MemberModify", "CMemberManager::MemberRegisterFlagProcess(%d,%d)",
-            lt->tm_min, lt->tm_hour);
+            hour, min);
     }
 }
 ```

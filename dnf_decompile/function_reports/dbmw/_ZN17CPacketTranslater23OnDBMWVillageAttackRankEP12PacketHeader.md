@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ce38` | `0x1d6` | `0x80d597a` | `0x1d1` |
+| dbmw | DIFF | `0x809ce38` | `0x1d6` | `0x80d5d48` | `0x1d1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -255,9 +255,9 @@ void CPacketTranslater::OnDBMWVillageAttackRank(PacketHeader* header)
         if (flag)
         {
             Packet_Monitor_Event_Start ev;
-            ev.m_fieldA = 4;
-            ev.m_fieldE = (unsigned short)a;
-            ev.m_field10 = (unsigned short)b;
+            ev.m_eventCode = 4;
+            ev.m_eventParam1 = (unsigned short)a;
+            ev.m_eventParam2 = (unsigned short)b;
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
                 (char*)&ev, ev.packetSize);
         }

@@ -1,6 +1,0 @@
-memcpy(&pkt.m_cargo,this,sizeof) 原始 c6	DIFF(size→src→dst 装载序 vs ORIG src→size→dst)	2026-08-12
-memcpy(&pkt.m_cargo,(char*)this,0x18dc)	DIFF(同)	2026-08-12
-register const void* src=this; memcpy(...,src,...)	DIFF(src 入 ebx，仍 size 先)	2026-08-12
-c6444r 原始形态	DIFF(同 size 先)	2026-08-12
-c6446r 原始形态	DIFF(同 size 先)	2026-08-12
-register unsigned int n=sizeof(...); memcpy(...,n)	DIFF(n→ebx 仍 size 先)	2026-08-12

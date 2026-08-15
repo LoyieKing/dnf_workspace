@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x805a69c` | `0x9b2` | `0x80550bc` | `0x9bd` |
+| statics | DIFF | `0x805a69c` | `0x9b2` | `0x80550bc` | `0x9b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,548 +1,555 @@
+@@ -1,548 +1,549 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -74,7 +74,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8d1>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8dc>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8d0>
  lea    -0xf1(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -96,7 +96,7 @@
  mov    %eax,-0x34(%ebp)
  cmpl   $0x0,-0x34(%ebp)
 -jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x894>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x89f>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x893>
  mov    -0x38(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%ebx
@@ -282,7 +282,7 @@
  mov    %edx,&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%eax,4)
  movl   $0x0,-0x28(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x76b>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x773>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x767>
  mov    -0x28(%ebp),%eax
  mov    -0x38(%ebp),%ecx
  shl    $0x3,%eax
@@ -373,21 +373,18 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x0,-0x24(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x758>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x760>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x754>
  mov    -0x28(%ebp),%edx
 -mov    -0x24(%ebp),%ebx
 -mov    -0x38(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
--sub    %edx,%eax
+ sub    %edx,%eax
 -add    %ebx,%eax
-+mov    %eax,%ecx
-+sub    %edx,%ecx
-+mov    %ecx,%edx
-+mov    -0x24(%ebp),%eax
- add    $0x4,%eax
+-add    $0x4,%eax
 -mov    0xc(%ecx,%eax,8),%ebx
-+add    %eax,%edx
++add    -0x24(%ebp),%eax
++lea    0x4(%eax),%edx
 +mov    -0x38(%ebp),%eax
 +mov    0xc(%eax,%edx,8),%ebx
  movl   $0x13e,0x8(%esp)
@@ -410,15 +407,12 @@
 -mov    -0x38(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
--sub    %edx,%eax
+ sub    %edx,%eax
 -add    %ebx,%eax
-+mov    %eax,%ecx
-+sub    %edx,%ecx
-+mov    %ecx,%edx
-+mov    -0x24(%ebp),%eax
- add    $0x4,%eax
+-add    $0x4,%eax
 -flds   0x10(%ecx,%eax,8)
-+add    %eax,%edx
++add    -0x24(%ebp),%eax
++lea    0x4(%eax),%edx
 +mov    -0x38(%ebp),%eax
 +flds   0x10(%eax,%edx,8)
  fstpl  -0x110(%ebp)
@@ -470,10 +464,8 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x104(%ebp),%eax
  mov    %eax,0x20(%esp)
--mov    -0x100(%ebp),%eax
--mov    %eax,0x1c(%esp)
-+mov    -0x100(%ebp),%ecx
-+mov    %ecx,0x1c(%esp)
+ mov    -0x100(%ebp),%eax
+ mov    %eax,0x1c(%esp)
  mov    -0xfc(%ebp),%eax
  mov    %eax,0x18(%esp)
  mov    %edi,0x14(%esp)
@@ -511,11 +503,11 @@
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8c5>
-+movl   $0x0,-0x20(%ebp)
- jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8ba>
--movl   $0x0,-0x20(%ebp)
+-jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8ba>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8b9>
+ movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8af>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8ae>
  mov    -0x20(%ebp),%eax
  movl   $0x0,&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%eax,4)
  addl   $0x1,-0x20(%ebp)
@@ -523,17 +515,17 @@
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x89d>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8a8>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x89c>
  mov    -0x38(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a7>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9b2>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a6>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x94d>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x958>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x94c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -557,7 +549,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x946>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x951>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x945>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -567,7 +559,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a7>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9b2>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a6>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x159,0x8(%esp)
@@ -581,7 +573,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a2>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9ad>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -829,10 +821,10 @@ void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)
                 {
                     CMyFileLog(__FUNCTION__, 0x13e)("./log/FrameLag.log",
                           "m_frameLagArray[%d].framelag[%d].frame : %d", i, j,
-                          pck->m_lag.m_frameLag[i * 7 + (4 + j)].m_frame);
+                          pck->m_lag.m_frameLag[i * 7 + j + 4].m_frame);
                     CMyFileLog(__FUNCTION__, 0x13f)("./log/FrameLag.log",
                           "m_frameLagArray[%d].framelag[%d].time : %.3f", i, j,
-                          (double)pck->m_lag.m_frameLag[i * 7 + (4 + j)].m_time);
+                          (double)pck->m_lag.m_frameLag[i * 7 + j + 4].m_time);
                 }
             }
             register unsigned int t5 = chk_ting[5];

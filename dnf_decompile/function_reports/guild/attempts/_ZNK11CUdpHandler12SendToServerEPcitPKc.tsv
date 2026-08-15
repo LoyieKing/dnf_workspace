@@ -1,4 +1,0 @@
-register void* pto = &to; memset(pto,0,0x10) (c6 4.4.7)	NEAR(lea-first 顺序对，但 pto 落 ebx vs ORIG eax)	2026-08-12
-memset(&to,0,0x10) 无 register (c6)	DIFF(常数先入栈，lea 在最后；ORIG lea-first)	2026-08-12
-sockaddr_in to={0} 聚合初始化 (c6)	DIFF(常数-first + eax)	2026-08-12
-工具链 A/B: c6444r/c6446r 均常数-first+eax(顺序错); 4.1.2-52 内联展开 memset(4×movl) 完全不同	DIFF	2026-08-12

@@ -1,1 +1,0 @@
-buf 0x100->0xff; 定义 Packet_DB_Insert_Guild_Cargo_History 具名字段(DNFPacket.h); 改 req->m_* 访问; char r=exec	DIFF(762 vs 763, h 偏移 -0x20 vs -0x1c 仍差)

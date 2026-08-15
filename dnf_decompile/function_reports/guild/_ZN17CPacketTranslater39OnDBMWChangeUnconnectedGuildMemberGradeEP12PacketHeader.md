@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807ea8a` | `0x47c` | `0x8074e82` | `0x45e` |
+| guild | DIFF | `0x807ea8a` | `0x47c` | `0x8074dda` | `0x45e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -605,12 +605,13 @@ void CPacketTranslater::
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3849 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3130 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
+    Packet_DB_Monitor_Change_Unconnected_GuildMember_Grade* pb =
+        (Packet_DB_Monitor_Change_Unconnected_GuildMember_Grade*)pkt;
     try
     {
         if (m_pclApp == 0)
@@ -620,41 +621,38 @@ void CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade(PacketHeader* pk
             return;
         }
         CGuild* guild;
-        if ((guild = (&m_pclApp->m_guildManager)->FindGuild(
-                 ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_guildKey)) == 0)
+        if ((guild = (&m_pclApp->m_guildManager)->FindGuild(pb->m_guildId)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x103c,"./log/GuildModify",
                 "CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade : 0 == pclGuild(%d)",
-                ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_guildKey);
+                pb->m_guildId);
             return;
         }
         Packet_Monitor_Set_Sub_Guild_Master_Reply reply;
         int result = 0;
-        if (((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade == 0xff)
+        if (pb->m_result == 0xff)
         {
             result = 2;
         }
-        else if (((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade == 0xfe)
+        else if (pb->m_result == 0xfe)
         {
             result = 0x66;
         }
-        else if (((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_prevGrade == 1)
+        else if (pb->m_grade == 1)
         {
             result = 0x58;
         }
-        else if (((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade ==
-                 ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_prevGrade)
+        else if (pb->m_result == pb->m_grade)
         {
             result = 0x65;
         }
         else
         {
-            if (((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade == 2)
+            if (pb->m_result == 2)
             {
                 if (guild->GetCurSubGuildMasterCnt() < 5)
                 {
-                    guild->SetSubGuildMaster(
-                        ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_targetCharNo, true);
+                    guild->SetSubGuildMaster(pb->m_newGrade, true);
                     guild->SendGuildInfoToMembers(false);
                 }
                 else
@@ -664,38 +662,34 @@ void CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade(PacketHeader* pk
                     result = 0x59;
                 }
             }
-            else if (((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_prevGrade == 2)
+            else if (pb->m_grade == 2)
             {
-                guild->SetSubGuildMaster(
-                    ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_targetCharNo, false);
+                guild->SetSubGuildMaster(pb->m_newGrade, false);
                 guild->SendGuildInfoToMembers(false);
             }
             if (result == 0)
             {
-                guild->ChangeUnconnectedGuildMemberGrade(
-                    ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_targetCharNo,
-                    ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade);
+                guild->ChangeUnconnectedGuildMemberGrade(pb->m_newGrade, pb->m_result);
             }
         }
         {
             DNF_LOG_SCOPE_LINE(0x1073,"./log/GuildModify",
                 "Change Guild(%d) Grade(%d) Prev Grade(%d) result(%d) unconnected charNo(%d) RequestNo(%d)",
-                ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_guildKey,
-                (unsigned int)((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade,
-                (unsigned int)((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_prevGrade,
+                pb->m_guildId,
+                (unsigned int)pb->m_result,
+                (unsigned int)pb->m_grade,
                 result,
-                ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_targetCharNo,
-                ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_charNo);
+                pb->m_newGrade,
+                pb->m_characNo);
         }
-        CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(
-            ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_charNo);
+        CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(pb->m_characNo);
         if (user != 0)
         {
             reply.m_a = result;
             reply.m_e = user->GetIdByChannel();
             reply.m_12 = user->GetUniqCharNo();
-            reply.m_16 = ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_grade;
-            memcpy(reply.m_name, ((PTL_ChangeUnconnectedGuildMemberGradePkt*)pb)->m_name, 0x1d);
+            reply.m_16 = pb->m_result;
+            memcpy(reply.m_name, pb->m_name, 0x1d);
             user->SendToGameserver((char*)&reply, 0x3a);
         }
     }

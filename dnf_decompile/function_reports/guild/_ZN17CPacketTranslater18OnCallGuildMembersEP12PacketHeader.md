@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076c9a` | `0x51c` | `0x806d1e4` | `0x511` |
+| guild | DIFF | `0x8076c9a` | `0x51c` | `0x806d124` | `0x511` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -690,7 +690,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnCallGuildMembersEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2149 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1430 行）：
 
 ```cpp
 void CPacketTranslater::OnCallGuildMembers(PacketHeader* pkt)
@@ -698,19 +698,19 @@ void CPacketTranslater::OnCallGuildMembers(PacketHeader* pkt)
     THROW_IF_NO_APP("CPacketTranslater::OnCallGuildMembers : 0 == m_pclApp")
     try
     {
-        unsigned int key = ((PTL_CallGuildMembersPkt*)pkt)->m_guildKey;
+        unsigned int key = ((Packet_Monitor_Call_Guild_Members*)pkt)->m_guildKey;
         if (key == 0)
         {
             throw CDNFException("CPacketTranslater::OnCallGuildMembers : packet->m_uGuildKey == 0");
         }
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(
-            ((PTL_CallGuildMembersPkt*)pkt)->m_charNo);
+            ((Packet_Monitor_Call_Guild_Members*)pkt)->m_charNo);
         if (user == 0)
         {
             throw CDNFException("CPacketTranslater::OnCallGuildMembers : 0 == pclUser");
         }
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(
-            ((PTL_CallGuildMembersPkt*)pkt)->m_guildKey);
+            ((Packet_Monitor_Call_Guild_Members*)pkt)->m_guildKey);
         if (guild == 0)
         {
             throw CDNFException("CPacketTranslater::OnCallGuildMembers : 0 == pclGuild");

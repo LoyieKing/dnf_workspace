@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80776e4` | `0x4e6` | `0x806dc0c` | `0x4d5` |
+| guild | DIFF | `0x80776e4` | `0x4e6` | `0x806db4c` | `0x4d5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -299,23 +299,17 @@
 +call   <T> <__cxa_throw>
 +mov    0x8(%ebp),%eax
  movzbl 0x13(%eax),%eax
-+movzbl %al,%ecx
-+mov    0x8(%ebp),%eax
-+movzbl 0x12(%eax),%eax
  movzbl %al,%edx
 -mov    -0x20(%ebp),%eax
--movzbl 0x12(%eax),%eax
--movzbl %al,%eax
--mov    -0x20(%ebp),%ecx
--add    $0x14,%ecx
--mov    %edx,0xc(%esp)
--mov    %eax,0x8(%esp)
--mov    %ecx,0x4(%esp)
 +mov    0x8(%ebp),%eax
-+add    $0x14,%eax
-+mov    %ecx,0xc(%esp)
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
+ movzbl 0x12(%eax),%eax
+ movzbl %al,%eax
+-mov    -0x20(%ebp),%ecx
++mov    0x8(%ebp),%ecx
+ add    $0x14,%ecx
+ mov    %edx,0xc(%esp)
+ mov    %eax,0x8(%esp)
+ mov    %ecx,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh>
@@ -641,7 +635,7 @@ LAB_0807795c:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2235 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1516 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildAllMembers(PacketHeader* pkt)
@@ -649,7 +643,7 @@ void CPacketTranslater::OnDBReplyGuildAllMembers(PacketHeader* pkt)
     try
     {
         THROW_IF_NO_APP("CPacketTranslater::OnDBReplyGuildAllMembers : 0 == m_pclApp");
-        unsigned int guildKey = ((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_DB_Reply_Guild_All_Members*)pkt)->m_guildId;
         if (guildKey == 0)
         {
             throw CDNFException(
@@ -662,20 +656,20 @@ void CPacketTranslater::OnDBReplyGuildAllMembers(PacketHeader* pkt)
                 "CPacketTranslater::OnDBReplyGuildAllMembers : 0 == pclGuild ,the guild is out");
         }
         guild->LoadGuildAllMembersProxy(
-            (STGuildMemberProxy*)&((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_members,
-            ((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_count,
-            ((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_field13);
+            (STGuildMemberProxy*)&((Packet_DB_Reply_Guild_All_Members*)pkt)->m_members,
+            ((Packet_DB_Reply_Guild_All_Members*)pkt)->m_count,
+            ((Packet_DB_Reply_Guild_All_Members*)pkt)->m_field13);
         CUser* user = 0;
-        if (((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_count == 2)
+        if (((Packet_DB_Reply_Guild_All_Members*)pkt)->m_count == 2)
         {
             user = (&m_pclApp->m_userManager)->FindUser_CharNo(
-                ((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_charNo);
+                ((Packet_DB_Reply_Guild_All_Members*)pkt)->m_characNo);
             if (user != 0)
             {
                 guild->SetGuildDBFlag(0x10);
                 guild->ReplyGuildAllMembers(user);
                 DNF_LOG_SCOPE_LINE(0x87b,"./log/GuildModify", "OnDBReplyGuildAllMembers gKey(%d), cKey(%d)", guildKey,
-                    ((PTL_DBReplyGuildAllMembersPkt*)pkt)->m_charNo);
+                    ((Packet_DB_Reply_Guild_All_Members*)pkt)->m_characNo);
             }
         }
     }

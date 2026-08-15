@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070874` | `0x239` | `0x8070832` | `0x208` |
+| statics | DIFF | `0x8070874` | `0x239` | `0x80709e2` | `0x231` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,135 +1,121 @@
+@@ -1,135 +1,131 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x1274,%esp
--lea    -0x1268(%ebp),%eax
-+sub    $0x1288,%esp
-+lea    -0x126c(%ebp),%eax
+ push   %ebx
+ sub    $0x1274,%esp
+ lea    -0x1268(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_DBMW_Assert_Manager_Info_Write_QueryC1Ev>
--movl   $0x0,-0xc(%ebp)
-+movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  add    $0xe0,%eax
  mov    %eax,(%esp)
@@ -32,179 +29,148 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x234>
-+je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x206>
++je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x22c>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%edx
--lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x19e>
--lea    -0x24(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x170>
-+mov    -0x10(%ebp),%eax
-+lea    -0x126c(%ebp),%edx
-+imul   $0x206,%eax,%eax
-+lea    (%edx,%eax,1),%eax
-+add    $0xe,%eax
-+mov    %eax,-0xc(%ebp)
-+lea    -0x28(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x196>
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
-+mov    %eax,%edx
-+mov    -0xc(%ebp),%eax
-+movl   $0x100,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
-+movzwl 0x100(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %dx,0x100(%eax)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
-+mov    0x204(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %edx,0x102(%eax)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
-+add    $0x102,%eax
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
 -lea    -0x1268(%ebp),%ecx
 -imul   $0x206,%edx,%edx
 -lea    (%ecx,%edx,1),%edx
 -add    $0xe,%edx
-+add    $0x106,%edx
++lea    -0x1268(%ebp),%edx
++mov    -0xc(%ebp),%ecx
++imul   $0x206,%ecx,%ecx
++add    $0xe,%ecx
++add    %ecx,%edx
  movl   $0x100,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <memcpy>
 -mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
--movzwl 0x100(%eax),%eax
++mov    -0xc(%ebp),%eax
++imul   $0x206,%eax,%eax
++add    $0x10e,%eax
++lea    -0x1268(%ebp),%ebx
++add    %eax,%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
+ movzwl 0x100(%eax),%eax
 -imul   $0x206,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1160,%edx
 -mov    %ax,0xe(%edx)
 -mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
--mov    0x204(%eax),%eax
++mov    %ax,(%ebx)
++lea    -0x1268(%ebp),%eax
++mov    -0xc(%ebp),%edx
++imul   $0x206,%edx,%edx
++add    $0x110,%edx
++lea    (%eax,%edx,1),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
+ mov    0x204(%eax),%eax
 -imul   $0x206,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1150,%edx
 -mov    %eax,(%edx)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
--add    $0x102,%eax
--mov    -0xc(%ebp),%ecx
++mov    %eax,(%ebx)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
+ add    $0x102,%eax
++lea    -0x1268(%ebp),%edx
+ mov    -0xc(%ebp),%ecx
 -lea    -0x1268(%ebp),%edx
--imul   $0x206,%ecx,%ecx
+ imul   $0x206,%ecx,%ecx
 -add    $0x100,%ecx
--add    %ecx,%edx
++add    $0x114,%ecx
+ add    %ecx,%edx
 -add    $0x14,%edx
--movl   $0x100,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <memcpy>
--addl   $0x1,-0xc(%ebp)
+ movl   $0x100,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <memcpy>
+ addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x8,%eax
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x193>
--movl   $0x9,-0x125e(%ebp)
--lea    -0x1268(%ebp),%eax
-+addl   $0x1,-0x10(%ebp)
-+cmpl   $0x8,-0x10(%ebp)
-+jle    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x165>
-+movl   $0x9,-0x1262(%ebp)
-+lea    -0x126c(%ebp),%eax
++cmpl   $0x8,-0xc(%ebp)
++jbe    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x18b>
+ movl   $0x9,-0x125e(%ebp)
+ lea    -0x1268(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x2e1,0x8(%esp)
  movl   $&_ZZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movl   $0x0,-0xc(%ebp)
--lea    -0x24(%ebp),%eax
-+movl   $0x0,-0x10(%ebp)
-+lea    -0x28(%ebp),%eax
+ movl   $0x0,-0xc(%ebp)
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEppEv>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%edx
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE3endEv>
  sub    $0x4,%esp
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEneERKS4_>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x5a>
--cmpl   $0x0,-0xc(%ebp)
+ jne    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x5a>
+ cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x234>
--mov    -0xc(%ebp),%eax
--mov    %eax,-0x125e(%ebp)
--lea    -0x1268(%ebp),%eax
-+jne    <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x59>
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x206>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,-0x1262(%ebp)
-+lea    -0x126c(%ebp),%eax
++je     <T> <_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler+0x22c>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,-0x125e(%ebp)
+ lea    -0x1268(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x2eb,0x8(%esp)
  movl   $&_ZZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x4(%ebp),%ebx
+ mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -296,25 +262,25 @@ StatisticManager::_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 697 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 703 行）：
 
 ```cpp
 void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
 {
     Packet_DBMW_Assert_Manager_Info_Write_Query pkt;
-    int idx = 0;
+    unsigned int idx = 0;
     if (!m_assertManager.empty())
     {
         for (std::map<STAssertManagerKey, int>::iterator it = m_assertManager.begin();
              it != m_assertManager.end(); ++it)
         {
-            STAssertManagerWriteItem* slot = &pkt.m_items[idx];
-            memcpy(slot->m_fileName, it->first.m_fileName, 0x100);
-            slot->m_fileLine = it->first.m_fileLine;
-            slot->m_count = it->second;
-            memcpy(slot->m_reason, it->first.m_reason, 0x100);
+            memcpy((char*)&pkt + idx * 0x206 + 0xe, it->first.m_fileName, 0x100);
+            *(unsigned short*)((char*)&pkt + idx * 0x206 + 0x10e) =
+                it->first.m_fileLine;
+            *(int*)((char*)&pkt + idx * 0x206 + 0x110) = it->second;
+            memcpy((char*)&pkt + idx * 0x206 + 0x114, it->first.m_reason, 0x100);
             idx++;
-            if (8 < idx)
+            if (idx > 8)
             {
                 pkt.m_count = 9;
                 handler->SendToDB((PacketHeader*)&pkt);

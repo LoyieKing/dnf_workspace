@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d152` | `0x168` | `0x80c9174` | `0x166` |
+| dbmw | DIFF | `0x808d152` | `0x168` | `0x80c95d0` | `0x166` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -161,7 +161,7 @@ CMySql::_ZN6CMySql4openEPKcS1_S1_S1_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 339 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 336 行）：
 
 ```cpp
 char CMySql::open(const char* host, const char* user, const char* pass, const char* db)

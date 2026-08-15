@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807a888` | `0x6c9` | `0x8070d78` | `0x6af` |
+| guild | DIFF | `0x807a888` | `0x6c9` | `0x8070cb4` | `0x6af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -816,7 +816,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2915 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2196 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
@@ -825,12 +825,12 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp");
     Packet_Guild_Reply_Guild_Secede resp;
-    unsigned int guildKey = ((PTL_DBReplyGuildSecedePkt*)pkt)->m_guildKey;
-    unsigned int requesterCharNo = ((PTL_DBReplyGuildSecedePkt*)pkt)->m_requesterCharNo;
-    unsigned int targetCharNo = ((PTL_DBReplyGuildSecedePkt*)pkt)->m_targetCharNo;
-    int secedeType = ((PTL_DBReplyGuildSecedePkt*)pkt)->m_secedeType;
-    unsigned char secedeFlag = ((PTL_DBReplyGuildSecedePkt*)pkt)->m_secedeFlag;
-    unsigned int dbid = ((PTL_DBReplyGuildSecedePkt*)pkt)->m_dbid;
+    unsigned int guildKey = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_guildKey;
+    unsigned int requesterCharNo = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_requesterCharNo;
+    unsigned int targetCharNo = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_targetCharNo;
+    int secedeType = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_secedeType;
+    unsigned char secedeFlag = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_secedeFlag;
+    unsigned int dbid = ((Packet_DB_Reply_Guild_Secede*)pkt)->m_dbid;
     CUser* requester;
     if ((requester = (&m_pclApp->m_userManager)->FindUser_CharNo(requesterCharNo)) == 0)
     {
@@ -852,8 +852,8 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
     resp.m_requester = requesterCharNo;
     resp.m_channel = requester->GetIdByChannel();
     resp.m_secedeFlag = secedeFlag;
-    memcpy(resp.m_name, ((PTL_DBReplyGuildSecedePkt*)pkt)->m_name,
-           ((PTL_DBReplyGuildSecedePkt*)pkt)->m_nameLen);
+    memcpy(resp.m_name, ((Packet_DB_Reply_Guild_Secede*)pkt)->m_name,
+           ((Packet_DB_Reply_Guild_Secede*)pkt)->m_nameLen);
     memcpy(resp.m_guildName, guild->GetGuildName(), 0x16);
     if (secedeType == 0 || secedeType == 1)
     {
@@ -893,7 +893,7 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
         notice.m_guildKey = guildKey;
         notice.m_charNo = targetCharNo;
         notice.m_secedeFlag = (unsigned short)(signed char)secedeFlag;
-        memcpy(notice.m_charName, ((PTL_DBReplyGuildSecedePkt*)pkt)->m_name, 0x1d);
+        memcpy(notice.m_charName, ((Packet_DB_Reply_Guild_Secede*)pkt)->m_name, 0x1d);
         memcpy(notice.m_guildName, guild->GetGuildName(), 0x16);
         guild->NoticeSecedeToGuildMember((char*)&notice);
         (&m_pclApp->m_guildManager)->GuildSecede(guildKey, notice);

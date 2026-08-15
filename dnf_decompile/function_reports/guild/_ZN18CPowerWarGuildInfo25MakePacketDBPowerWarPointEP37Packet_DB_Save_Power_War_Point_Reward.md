@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a13d0` | `0x188` |
+| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a1416` | `0x188` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,15 +29,6 @@
  cmpl   $0x0,-0x1c(%ebp)
 -je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x170>
 +je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x17e>
-+cmpl   $0xfa,-0x1c(%ebp)
-+ja     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x42>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x49>
-+movl   $0xfa,-0x18(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0xf,%eax
-+mov    %eax,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x28(%eax),%edx
  lea    -0x2c(%ebp),%eax
@@ -50,11 +41,15 @@
 -jbe    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x5c>
 -movl   $0xfa,-0x18(%ebp)
 -jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x62>
--mov    -0x1c(%ebp),%eax
--mov    %eax,-0x18(%ebp)
--mov    0xc(%ebp),%eax
--add    $0xf,%eax
--mov    %eax,-0x10(%ebp)
++cmpl   $0xfa,-0x1c(%ebp)
++ja     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x5a>
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,-0x18(%ebp)
++jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x61>
++movl   $0xfa,-0x18(%ebp)
+ mov    0xc(%ebp),%eax
+ add    $0xf,%eax
+ mov    %eax,-0x10(%ebp)
 -jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x132>
 -mov    -0x18(%ebp),%eax
 -cmp    -0x14(%ebp),%eax
@@ -138,7 +133,7 @@
 +je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x168>
 +mov    -0x14(%ebp),%eax
 +cmp    -0x18(%ebp),%eax
-+jg     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x168>
++jge    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x168>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x16d>
 +mov    $0x0,%eax
@@ -235,17 +230,13 @@ void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Poin
     int i = 0;
     if (n != 0)
     {
-        if (n <= 0xfa)
-        {
+        std::vector<STDBSavePowerWarPoint*>::iterator it = m_vec2.begin();
+        if (n < 0xfb)
             count = (int)n;
-        }
         else
-        {
             count = 0xfa;
-        }
         char* out = (char*)pkt + 0xf;
-        for (std::vector<STDBSavePowerWarPoint*>::iterator it = m_vec2.begin();
-             it != m_vec2.end() && i <= count; )
+        while (it != m_vec2.end() && i < count)
         {
             STDBSavePowerWarPoint* p = *it;
             *(unsigned int*)(out + i * 8) = p->m_field[0];

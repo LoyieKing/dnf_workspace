@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x807556e` | `0x160` |
+| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x8075622` | `0x175` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,49 +13,43 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,102 @@
+@@ -1,100 +1,100 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x1830,%esp
-+sub    $0x40,%esp
+ sub    $0x1830,%esp
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +add    $0x10,%eax
-+mov    %eax,-0x10(%ebp)
++mov    %eax,-0x14(%ebp)
  mov    0x8(%ebp),%eax
--mov    %eax,-0x10(%ebp)
-+mov    0xa(%eax),%eax
-+mov    %eax,0x4(%esp)
+ mov    %eax,-0x10(%ebp)
  mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%eax
+ mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x10,%edx
--mov    %eax,0x4(%esp)
+ mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
++mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x173>
--mov    -0x10(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16b>
+ mov    -0x10(%ebp),%eax
 -mov    0x26(%eax),%eax
 -mov    %eax,%ebx
--mov    -0x10(%ebp),%eax
++mov    0x26(%eax),%ebx
+ mov    -0x10(%ebp),%eax
 -mov    0x22(%eax),%eax
 -mov    %eax,%ecx
--mov    -0x10(%ebp),%eax
++mov    0x22(%eax),%ecx
+ mov    -0x10(%ebp),%eax
 -mov    0x1a(%eax),%eax
 -mov    %eax,%edx
--mov    -0x10(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x159>
-+mov    0x8(%ebp),%eax
-+mov    0x26(%eax),%ebx
-+mov    0x8(%ebp),%eax
-+mov    0x22(%eax),%ecx
-+mov    0x8(%ebp),%eax
 +mov    0x1a(%eax),%edx
-+mov    0x8(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    0x16(%eax),%eax
  mov    %ebx,0x10(%esp)
  mov    %ecx,0xc(%esp)
@@ -72,38 +66,29 @@
 -lea    -0x1810(%ebp),%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x159>
-+lea    -0x22(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16b>
++lea    -0x1815(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_PvPChannelInfoC1Ev>
--mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%eax
+ mov    -0x10(%ebp),%eax
+ mov    0xa(%eax),%eax
 -mov    %eax,-0x1806(%ebp)
--mov    -0x10(%ebp),%eax
--mov    0xe(%eax),%eax
++mov    %eax,-0x180b(%ebp)
+ mov    -0x10(%ebp),%eax
+ mov    0xe(%eax),%eax
 -mov    %eax,-0x1802(%ebp)
--mov    -0x10(%ebp),%eax
--mov    0x12(%eax),%eax
++mov    %eax,-0x1807(%ebp)
+ mov    -0x10(%ebp),%eax
+ mov    0x12(%eax),%eax
 -mov    %eax,-0x17fe(%ebp)
 -movb   $0xff,-0x17f9(%ebp)
 -lea    -0x1810(%ebp),%eax
 -add    $0x17,%eax
-+lea    -0x22(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xa(%edx),%edx
-+mov    %edx,0xa(%eax)
-+lea    -0x22(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xe(%edx),%edx
-+mov    %edx,0xe(%eax)
-+lea    -0x22(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x12(%edx),%edx
-+mov    %edx,0x12(%eax)
-+movb   $0xff,-0x23(%ebp)
-+lea    -0x22(%ebp),%eax
++mov    %eax,-0x1803(%ebp)
++movb   $0xff,-0x1d(%ebp)
++lea    -0x1815(%ebp),%eax
 +lea    0x18(%eax),%edx
-+lea    -0x23(%ebp),%eax
++lea    -0x1d(%ebp),%eax
  mov    %eax,0x8(%esp)
 -lea    -0x1810(%ebp),%eax
 -add    $0x18,%eax
@@ -113,39 +98,37 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser19GetChannelUserCountEP16STPvPChannelInfoRh>
 -movzbl -0x17f9(%ebp),%eax
--movzbl %al,%eax
--shl    $0x4,%eax
--add    $0x18,%eax
++movzbl -0x1d(%ebp),%eax
+ movzbl %al,%eax
+ shl    $0x4,%eax
+ add    $0x18,%eax
 -mov    %ax,-0x180e(%ebp)
 -lea    -0x1810(%ebp),%eax
-+lea    -0x22(%ebp),%eax
-+movzbl -0x23(%ebp),%edx
-+movzbl %dl,%edx
-+shl    $0x4,%edx
-+add    $0x18,%edx
-+mov    %dx,0x2(%eax)
-+lea    -0x22(%ebp),%eax
++mov    %ax,-0x1813(%ebp)
++lea    -0x1815(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x173>
-+jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x159>
++jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x13d3,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $&_ZZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeaderE12__FUNCTION__,0xc(%esp)
  movl   $"%s Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16e>
-+jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x154>
++jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x166>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -154,8 +137,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0x1830,%esp
-+add    $0x40,%esp
+ add    $0x1830,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
@@ -207,28 +189,29 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3621 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3639 行）：
 
 ```cpp
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt)
 {
     try
     {
-        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-        CUser* user = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
+        CUserManager* userMgr = &m_pclApp->m_userManager;
+        Packet_PvPChannelUserCount* cnt = (Packet_PvPChannelUserCount*)pkt;
+        CUser* user = userMgr->FindUser_CharNo(cnt->m_charNo);
         if (user != 0)
         {
-            user->SetChannelUserCount(((RA_INT<22>*)pkt)->v, ((RA_INT<26>*)pkt)->v,
-                                      ((RA_INT<34>*)pkt)->v, ((RA_INT<38>*)pkt)->v);
+            user->SetChannelUserCount(cnt->m_countA, cnt->m_countB,
+                                      cnt->m_countC, cnt->m_countD);
             if (user->IsCompleteChannelUserCount())
             {
                 Packet_PvPChannelInfo reply;
-                ((RA_UINT<10>*)&reply)->v = ((RA_UINT<10>*)pkt)->v;
-                ((RA_UINT<14>*)&reply)->v = ((RA_UINT<14>*)pkt)->v;
-                ((RA_UINT<18>*)&reply)->v = ((RA_UINT<18>*)pkt)->v;
+                reply.m_charNo = cnt->m_charNo;
+                reply.m_fieldE = cnt->m_fieldE;
+                reply.m_field12 = cnt->m_field12;
                 unsigned char count = 0xff;
-                user->GetChannelUserCount((STPvPChannelInfo*)((char*)&reply + 0x18), count);
-                ((RA_U16<2>*)&reply)->v =
+                user->GetChannelUserCount((STPvPChannelInfo*)reply.m_channels, count);
+                reply.packetSize =
                     (unsigned short)((unsigned int)count * 0x10 + 0x18);
                 user->SendTcpGameserver(&reply);
             }

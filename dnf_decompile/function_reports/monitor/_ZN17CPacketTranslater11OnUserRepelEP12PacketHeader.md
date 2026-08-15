@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8083aec` | `0x2ea` | `0x806f1d4` | `0x2f0` |
+| monitor | DIFF | `0x8083aec` | `0x2ea` | `0x806f29e` | `0x2f0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -313,7 +313,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnUserRepelEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1860 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1865 行）：
 
 ```cpp
 void CPacketTranslater::OnUserRepel(PacketHeader* pkt)
@@ -327,17 +327,17 @@ void CPacketTranslater::OnUserRepel(PacketHeader* pkt)
     }
     CUser* user;
     unsigned int id;
-    PacketHeader* pkt2 = pkt;
+    Packet_Monitor_User_Repel* pkt2 = (Packet_Monitor_User_Repel*)pkt;
     DNF_LOG_SCOPE_LINE(0x954,"./log/Web", "CPacketTranslater::OnUserRepel m_id(%s) , charNo(%d)\n",
-        NumberToString(((RA_UINT<10>*)pkt2)->v, 0), ((RA_UINT<14>*)pkt2)->v);
-    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-    if ((user = userMgr->FindUser(((RA_UINT<10>*)pkt2)->v)) == 0) goto onend;
-    if (((RA_UINT<14>*)pkt2)->v != 0)
+        NumberToString(pkt2->m_idByChannel, 0), pkt2->m_charNo);
+    CUserManager* userMgr = &m_pclApp->m_userManager;
+    if ((user = userMgr->FindUser(pkt2->m_idByChannel)) == 0) goto onend;
+    if (pkt2->m_charNo != 0)
     {
-        if ((user = userMgr->FindUser_CharNo(((RA_UINT<14>*)pkt2)->v)) == 0) goto onend;
+        if ((user = userMgr->FindUser_CharNo(pkt2->m_charNo)) == 0) goto onend;
     }
     id = user->GetIdByChannel();
-    ((RA_UINT<10>*)pkt2)->v = id;
+    pkt2->m_idByChannel = id;
     user->SendToGameserver((char*)pkt2, 0x12);
 onend:
     ;

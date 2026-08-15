@@ -1,5 +1,0 @@
-原始 option->m_field0..c 直接	DIFF(每字段重装 0x20(%ebp) vs ORIG 复用 eax)	2026-08-12
-register const RandomOption* o	NEAR(o 落 ebx vs ORIG eax; 余字符串地址差异)	2026-08-12
-const RandomOption* o 普通	DIFF(o 落栈槽 -0xc)	2026-08-12
-c6444r 同 ebx NEAR	NEAR	2026-08-12
-register const unsigned int* p; p[i]	DIFF(lea 0x4/0x8/0xc 形态)	2026-08-12

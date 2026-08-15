@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809078a` | `0xc7` | `0x80562b6` | `0xcf` |
+| guild | DIFF | `0x809078a` | `0xc7` | `0x805620c` | `0xd0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,21 +29,25 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc5>
-+je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc9>
++je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xca>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x8,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc5>
-+je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc9>
++je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xca>
  cmpb   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0x76>
-+jne    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0x77>
- movzbl -0x10(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
+-movzbl -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
++jne    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0x78>
++movzbl -0x10(%ebp),%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++lea    (%edx,%eax,1),%eax
  mov    0x8(%ebp),%edx
  add    $0xdd,%edx
  mov    %eax,0x8(%esp)
@@ -55,11 +59,15 @@
  mov    0x8(%ebp),%eax
  mov    %dx,0x1e(%eax)
 -jmp    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc5>
-+jmp    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc9>
- movzbl -0x10(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- lea    (%eax,%edx,1),%ecx
+-movzbl -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-lea    (%eax,%edx,1),%ecx
++jmp    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xca>
++movzbl -0x10(%ebp),%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++lea    (%edx,%eax,1),%ecx
 +mov    0x8(%ebp),%ebx
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
@@ -115,4 +123,4 @@ CGuild::_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 276 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 280 个文件*

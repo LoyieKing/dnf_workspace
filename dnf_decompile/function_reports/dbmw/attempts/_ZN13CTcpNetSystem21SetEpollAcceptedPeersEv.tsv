@@ -1,2 +1,0 @@
-timestamp	verdict	size	note
-2026-08-14T17:18:43Z	DIFF	412vs409	added ret=0 init in loop body; remaining setne/branch+landing-pad order tail

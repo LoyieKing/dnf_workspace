@@ -1,8 +1,0 @@
-DIFF   _ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi
-DIFF   _ZN14CPacketCounterILi1000ELi10240EE13BeforeProcessEv
-DIFF   _ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi
-DIFF   _ZN14CPacketCounterILi1000ELi10240EE5ResetEv
-DIFF   _ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_
-DIFF   _ZN14CPacketCounterILi1000ELi10240EEC2EPcS1_
-DIFF   _ZN30Packet_Guild_Reply_Guild_BoardC1Ev
-DIFF   _ZN30Packet_Guild_Reply_Guild_BoardC2Ev

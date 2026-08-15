@@ -1,2 +1,0 @@
-sendto 参数装载寄存器差异(eax vs edx/ebx)	DIFF(同)	2026-08-12
-char* sn=(char*)n; printf(...,sn,len); CMyFileLog(...,sn,len)	DIFF(更差,栈帧0x74→0x84)	2026-08-12

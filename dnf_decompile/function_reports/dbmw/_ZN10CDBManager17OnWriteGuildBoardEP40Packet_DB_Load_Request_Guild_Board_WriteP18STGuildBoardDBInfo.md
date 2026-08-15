@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8084a8a` | `0x307` | `0x804d7b6` | `0x312` |
+| dbmw | DIFF | `0x8084a8a` | `0x307` | `0x804d7e6` | `0x30b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,211 +1,220 @@
+@@ -1,211 +1,213 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,19 +22,13 @@
  sub    $0x6c,%esp
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
+-mov    %eax,-0x1c(%ebp)
 +mov    %eax,-0x20(%ebp)
-+mov    0xc(%ebp),%eax
- mov    %eax,-0x1c(%ebp)
--mov    0xc(%ebp),%eax
--mov    0xf(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%eax
+ mov    0xc(%ebp),%eax
+ mov    0xf(%eax),%eax
  test   %eax,%eax
--jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x3c>
--mov    0xc(%ebp),%eax
-+jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x44>
-+mov    -0x1c(%ebp),%eax
+ jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x3c>
+ mov    0xc(%ebp),%eax
  add    $0x9e,%eax
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
@@ -46,18 +40,11 @@
  add    $0x1c,%eax
  mov    (%eax),%eax
  mov    %eax,-0x44(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x9c(%eax),%eax
--movsbl %al,%ebx
--mov    0xc(%ebp),%eax
--movzbl 0x9b(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x9c,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%esi
-+mov    -0x1c(%ebp),%eax
-+add    $0x9b,%eax
-+movzbl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzbl 0x9c(%eax),%eax
+ movsbl %al,%ebx
+ mov    0xc(%ebp),%eax
+ movzbl 0x9b(%eax),%eax
  movsbl %al,%eax
  mov    %eax,-0x40(%ebp)
 -mov    -0x1c(%ebp),%eax
@@ -65,49 +52,33 @@
  mov    (%eax),%eax
  add    $0x28,%eax
  mov    (%eax),%edx
--mov    0xc(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    0xc(%ebp),%eax
  add    $0x17,%eax
  movl   $0x78,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%esi
--mov    0xc(%ebp),%eax
 +mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+mov    %eax,%ebx
-+mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%esi
+ mov    0xc(%ebp),%eax
  add    $0x9e,%eax
  mov    %eax,-0x3c(%ebp)
--mov    0xc(%ebp),%eax
--mov    0x13(%eax),%edi
--mov    0xc(%ebp),%eax
--mov    0xf(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%edi
-+mov    -0x1c(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%eax
+ mov    0xc(%ebp),%eax
+ mov    0x13(%eax),%edi
+ mov    0xc(%ebp),%eax
+ mov    0xf(%eax),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
  mov    %eax,%edx
--mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
--mov    %ebx,0x24(%esp)
-+mov    -0x1c(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
-+mov    %esi,0x24(%esp)
+ mov    0xc(%ebp),%eax
+ mov    0xb(%eax),%eax
+ mov    %ebx,0x24(%esp)
  mov    -0x40(%ebp),%ecx
  mov    %ecx,0x20(%esp)
--mov    %esi,0x1c(%esp)
-+mov    %ebx,0x1c(%esp)
+ mov    %esi,0x1c(%esp)
  mov    -0x3c(%ebp),%ecx
  mov    %ecx,0x18(%esp)
  mov    %edi,0x14(%esp)
@@ -130,15 +101,14 @@
 -call   *%edx
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x166>
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x16f>
++mov    %al,-0x19(%ebp)
++movzbl -0x19(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x166>
  movl   $0x22fc,0x8(%esp)
 +movl   $&_ZZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfoE12__FUNCTION__,0x4(%esp)
 +lea    -0x28(%ebp),%eax
@@ -150,7 +120,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x303>
 +mov    -0x20(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
@@ -168,9 +138,11 @@
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   *%edx
++mov    %al,-0x19(%ebp)
++movzbl -0x19(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x1f2>
++je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x1f0>
 +movl   $0x2306,0x8(%esp)
  movl   $&_ZZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfoE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -218,28 +190,22 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2ff>
 -mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x303>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
  mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x213>
--mov    $0x0,%eax
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x213>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2ff>
 -mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x215>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x303>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -249,22 +215,16 @@
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x248>
--mov    $0x0,%eax
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x248>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2ff>
 -mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x24a>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x303>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -274,51 +234,37 @@
  mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x27d>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2ff>
--mov    0xc(%ebp),%eax
--mov    0xf(%eax),%eax
 +mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x27f>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x30a>
-+mov    -0x1c(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x27d>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2ff>
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x303>
+ mov    0xc(%ebp),%eax
+ mov    0xf(%eax),%eax
  test   %eax,%eax
--jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x296>
-+jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x29a>
+ jne    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x296>
  mov    0x10(%ebp),%eax
  movl   $0x0,0x80(%eax)
 -jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2a5>
 -mov    0xc(%ebp),%eax
 -mov    0x13(%eax),%edx
-+jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x305>
-+mov    -0x1c(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo+0x2fe>
++mov    0xc(%ebp),%eax
++mov    0x13(%eax),%eax
 +mov    %eax,%edx
  mov    0x10(%ebp),%eax
  mov    %edx,0x80(%eax)
--mov    0xc(%ebp),%eax
+ mov    0xc(%ebp),%eax
 -movzbl 0x9b(%eax),%edx
-+mov    -0x1c(%ebp),%eax
-+add    $0x9b,%eax
-+movzbl (%eax),%eax
++movzbl 0x9b(%eax),%eax
 +mov    %eax,%edx
  mov    0x10(%ebp),%eax
  mov    %dl,0x84(%eax)
--mov    0xc(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    0xc(%ebp),%eax
  lea    0x9e(%eax),%edx
  mov    0x10(%ebp),%eax
  add    $0x87,%eax
@@ -326,10 +272,9 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    0xc(%ebp),%eax
+ mov    0xc(%ebp),%eax
 -lea    0x17(%eax),%edx
 -mov    0x10(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
 +add    $0x17,%eax
  movl   $0x78,0x8(%esp)
 -mov    %edx,0x4(%esp)
@@ -437,4 +382,4 @@ _ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP1
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*

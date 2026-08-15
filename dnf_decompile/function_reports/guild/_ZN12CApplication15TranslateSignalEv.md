@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8063640` | `0x44d` | `0x804efb4` | `0x471` |
+| guild | DIFF | `0x8063640` | `0x44d` | `0x804efae` | `0x459` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,294 +1,306 @@
+@@ -1,294 +1,298 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -78,7 +78,7 @@
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN12CApplication15TranslateSignalEv+0x442>
-+jne    <T> <_ZN12CApplication15TranslateSignalEv+0x466>
++jne    <T> <_ZN12CApplication15TranslateSignalEv+0x44e>
  lea    -0x1c(%ebp),%eax
  mov    -0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -86,7 +86,7 @@
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x411>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x435>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x41d>
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -95,8 +95,8 @@
  cmp    $0x10,%eax
 -ja     <T> <_ZN12CApplication15TranslateSignalEv+0x406>
 -mov    &data#4b157ab8(.rodata)(,%eax,4),%eax
-+ja     <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
-+mov    &data#69993b33(.rodata)(,%eax,4),%eax
++ja     <T> <_ZN12CApplication15TranslateSignalEv+0x412>
++mov    &data#95d2b392(.rodata)(,%eax,4),%eax
  jmp    *%eax
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -110,34 +110,32 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
 +lea    -0x165(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN30Packet_Monitor_Send_Guild_MailC1Ev>
-+lea    -0x165(%ebp),%ebx
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 +mov    (%eax),%eax
 +mov    0x4(%eax),%eax
-+mov    %eax,0xc(%ebx)
-+lea    -0x165(%ebp),%ebx
++mov    %eax,-0x15b(%ebp)
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 +mov    (%eax),%eax
 +mov    0x8(%eax),%eax
-+mov    %eax,0x10(%ebx)
-+lea    -0x165(%ebp),%eax
-+add    $0x14,%eax
++mov    %eax,-0x157(%ebp)
 +movl   $0x17,0x8(%esp)
 +movl   $"태스트 길드메일입니다.",0x4(%esp)
++lea    -0x165(%ebp),%eax
++add    $0x12,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +lea    -0x165(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  mov    0x5c(%eax),%eax
  mov    %eax,(%esp)
@@ -151,38 +149,6 @@
 -lea    -0x165(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN30Packet_Monitor_Send_Guild_MailC1Ev>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
-+lea    -0x165(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
-+lea    -0x165(%ebp),%ebx
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
- mov    (%eax),%eax
- mov    0x4(%eax),%eax
--mov    %eax,-0x15b(%ebp)
-+mov    %eax,0xc(%ebx)
-+lea    -0x165(%ebp),%ebx
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
- mov    (%eax),%eax
- mov    0x8(%eax),%eax
--mov    %eax,-0x157(%ebp)
--movl   $0x17,0x8(%esp)
--movl   $"태스트 길드메일입니다.",0x4(%esp)
--lea    -0x165(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
--lea    -0x165(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader>
--jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
--lea    -0x165(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -195,49 +161,80 @@
 -mov    (%eax),%eax
 -mov    0x8(%eax),%eax
 -mov    %eax,-0x157(%ebp)
-+mov    %eax,0x10(%ebx)
-+lea    -0x165(%ebp),%ebx
+-movl   $0x17,0x8(%esp)
+-movl   $"태스트 길드메일입니다.",0x4(%esp)
+-lea    -0x165(%ebp),%eax
+-add    $0x12,%eax
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
+-lea    -0x165(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader>
+-jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
+ lea    -0x165(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
+ lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
+ mov    (%eax),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,-0x15b(%ebp)
+ lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
+ mov    (%eax),%eax
+ mov    0x8(%eax),%eax
+ mov    %eax,-0x157(%ebp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
  mov    0xc(%eax),%eax
--mov    %eax,-0x153(%ebp)
-+mov    %eax,0x14(%ebx)
-+lea    -0x165(%ebp),%eax
-+add    $0x18,%eax
+ mov    %eax,-0x153(%ebp)
  movl   $0x16,0x8(%esp)
  movl   $"눈사람",0x4(%esp)
--lea    -0x165(%ebp),%eax
--add    $0x16,%eax
+ lea    -0x165(%ebp),%eax
+ add    $0x16,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  lea    -0x165(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  lea    -0x33(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN44Packet_Monitor_Set_GuildMember_Grade_FromWebC1Ev>
 -movl   $0x2,-0x25(%ebp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
+-mov    (%eax),%eax
+-mov    0x4(%eax),%eax
+-mov    %eax,-0x29(%ebp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
+-mov    (%eax),%eax
+-mov    0x8(%eax),%eax
+-mov    %eax,-0x20(%ebp)
 +lea    -0x33(%ebp),%eax
 +movl   $0x2,0x14(%eax)
 +lea    -0x33(%ebp),%ebx
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
- mov    (%eax),%eax
- mov    0x4(%eax),%eax
--mov    %eax,-0x29(%ebp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
++mov    (%eax),%eax
++mov    0x4(%eax),%eax
 +mov    %eax,0xc(%ebx)
 +lea    -0x33(%ebp),%ebx
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
- mov    (%eax),%eax
- mov    0x8(%eax),%eax
--mov    %eax,-0x20(%ebp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
++mov    (%eax),%eax
++mov    0x8(%eax),%eax
 +mov    %eax,0x10(%ebx)
 +lea    -0x33(%ebp),%ebx
  lea    -0x1c(%ebp),%eax
@@ -251,55 +248,47 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  lea    -0x165(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN36Packet_Guild_Master_Delegate_FromWebC1Ev>
-+lea    -0x165(%ebp),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
  mov    0x4(%eax),%eax
--mov    %eax,-0x15b(%ebp)
-+mov    %eax,0xc(%ebx)
-+lea    -0x165(%ebp),%ebx
+ mov    %eax,-0x15b(%ebp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
  mov    0x8(%eax),%eax
--mov    %eax,-0x157(%ebp)
-+mov    %eax,0x10(%ebx)
-+lea    -0x165(%ebp),%ebx
+ mov    %eax,-0x157(%ebp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
  mov    0xc(%eax),%eax
--mov    %eax,-0x153(%ebp)
-+mov    %eax,0x14(%ebx)
-+lea    -0x165(%ebp),%eax
-+add    $0x18,%eax
+ mov    %eax,-0x153(%ebp)
  movl   $0x4,0x8(%esp)
 -movl   $"야메",0x4(%esp)
--lea    -0x165(%ebp),%eax
--add    $0x16,%eax
 +movl   $"겪蔘",0x4(%esp)
+ lea    -0x165(%ebp),%eax
+ add    $0x16,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  lea    -0x165(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater28OnGuildMasterDelegateFromWebEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  movl   $"./script/power_war_event.tbl",0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager15LoadPowerWarCfgEPc>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  mov    %eax,(%esp)
@@ -315,7 +304,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  mov    %eax,(%esp)
@@ -335,20 +324,20 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16Get_TcpNetSystemEv>
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  add    $0x290,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager9CargoLockEv>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x42a>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x412>
  mov    0x8(%ebp),%eax
  add    $0x290,%eax
  mov    %eax,(%esp)
@@ -370,7 +359,7 @@
  test   %al,%al
  jne    <T> <_ZN12CApplication15TranslateSignalEv+0xe5>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x443>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x467>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x44f>
  nop
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -577,16 +566,9 @@ void CApplication::TranslateSignal()
             case 3:
             {
                 Packet_Monitor_Send_Guild_Mail mail;
-                struct MailFields
-                {
-                    char pad[0xa];
-                    unsigned int f1;
-                    unsigned int f2;
-                    char msg[0x17];
-                };
-                ((MailFields*)&mail)->f1 = (unsigned int)(*it)->m_param1;
-                ((MailFields*)&mail)->f2 = (unsigned int)(*it)->m_param2;
-                memcpy(((MailFields*)&mail)->msg,
+                mail.m_charNo = (unsigned int)(*it)->m_param1;
+                mail.m_guildId = (unsigned int)(*it)->m_param2;
+                memcpy(mail.m_msg,
                        "\xc5\xc2\xbd\xba\xc6\xae \xb1\xe6\xb5\xe5\xb8\xde\xc0\xcf\xc0\xd4\xb4\xcf\xb4\xd9.",
                        0x17);
                 CPacketTranslater::OnMonitorSendGuildLetter(&mail);
@@ -598,18 +580,10 @@ void CApplication::TranslateSignal()
             case 7:
             {
                 Packet_Monitor_Notice_Guild_Enter enter;
-                struct EnterFields
-                {
-                    char pad[0xa];
-                    unsigned int f1;
-                    unsigned int f2;
-                    unsigned int f3;
-                    char msg[0x16];
-                };
-                ((EnterFields*)&enter)->f1 = (unsigned int)(*it)->m_param1;
-                ((EnterFields*)&enter)->f2 = (unsigned int)(*it)->m_param2;
-                ((EnterFields*)&enter)->f3 = (unsigned int)(*it)->m_param3;
-                memcpy(((EnterFields*)&enter)->msg,
+                enter.m_info.m_guildKey = (unsigned int)(*it)->m_param1;
+                enter.m_info.m_dbid = (unsigned int)(*it)->m_param2;
+                enter.m_info.m_charNo = (unsigned int)(*it)->m_param3;
+                memcpy(enter.m_info.m_guildName,
                        "\xb4\xab\xbb\xe7\xb6\xf7\x00\xb0\xde\xdf\xb8\xde\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
                        0x16);
                 CPacketTranslater::OnNoticeGuildEnter(&enter);
@@ -636,18 +610,10 @@ void CApplication::TranslateSignal()
             case 9:
             {
                 Packet_Guild_Master_Delegate_FromWeb delegate;
-                struct DelegateFields
-                {
-                    char pad[0xa];
-                    unsigned int f1;
-                    unsigned int f2;
-                    unsigned int f3;
-                    char msg[4];
-                };
-                ((DelegateFields*)&delegate)->f1 = (unsigned int)(*it)->m_param1;
-                ((DelegateFields*)&delegate)->f2 = (unsigned int)(*it)->m_param2;
-                ((DelegateFields*)&delegate)->f3 = (unsigned int)(*it)->m_param3;
-                memcpy(((DelegateFields*)&delegate)->msg, "\xb0\xde\xdf\xb8", 4);
+                delegate.m_guildKey = (unsigned int)(*it)->m_param1;
+                delegate.m_requesterCharNo = (unsigned int)(*it)->m_param2;
+                delegate.m_delegateeCharNo = (unsigned int)(*it)->m_param3;
+                memcpy(delegate.m_msg, "\xb0\xde\xdf\xb8", 4);
                 CPacketTranslater::OnGuildMasterDelegateFromWeb(&delegate);
                 break;
             }

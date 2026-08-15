@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808f03e` | `0xa79` | `0x807a6b8` | `0x972` |
+| monitor | DIFF | `0x808f03e` | `0xa79` | `0x807a7b8` | `0x982` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,705 +1,639 @@
+@@ -1,705 +1,644 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -74,7 +74,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x995>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x88e>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x89e>
  lea    -0x69(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -82,18 +82,14 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--mov    0x8(%ebp),%eax
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0x10,%eax
+ mov    0x8(%ebp),%eax
  mov    %eax,-0x40(%ebp)
--mov    -0x40(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  movzbl 0x1b(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1b4>
--mov    -0x40(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1aa>
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  movzbl 0x1b(%eax),%eax
  cmp    $0x1d,%al
 -ja     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1b4>
@@ -101,8 +97,7 @@
  lea    -0x61(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--mov    -0x40(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  lea    0x1c(%eax),%edx
  lea    -0x61(%ebp),%eax
  mov    %eax,0x8(%esp)
@@ -110,13 +105,11 @@
  lea    -0x68(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--lea    0x10(%eax),%edx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ lea    0x10(%eax),%edx
  lea    -0x68(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+mov    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager17FindUser_CharNameESs>
 -mov    %eax,-0x3c(%ebp)
 -cmpl   $0x0,-0x3c(%ebp)
@@ -144,7 +137,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x995>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x88e>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x89e>
  lea    -0x61(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -153,34 +146,29 @@
 -mov    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    -0x40(%ebp),%edx
--mov    %eax,0x17(%edx)
--jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1b4>
--mov    -0x40(%ebp),%eax
--movl   $0xffffffff,0x17(%eax)
--mov    -0x40(%ebp),%eax
-+mov    0x8(%ebp),%ebx
 +cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1a2>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x19f>
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1a7>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1a4>
 +mov    $0xffffffff,%eax
-+mov    %eax,0x17(%ebx)
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%edx
+ mov    %eax,0x17(%edx)
+-jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1b4>
+-mov    -0x40(%ebp),%eax
+-movl   $0xffffffff,0x17(%eax)
+ mov    -0x40(%ebp),%eax
  mov    0x13(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x874>
--mov    -0x40(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1d0>
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    0x17(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x874>
--mov    -0x40(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x1d0>
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  movzbl 0x173(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x874>
@@ -606,16 +594,13 @@
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -nop
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0xa6e>
--mov    -0x40(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x2f4>
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  movzbl 0x173(%eax),%eax
  movzbl %al,%edi
--mov    -0x40(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    0x17(%eax),%esi
--mov    -0x40(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    0x13(%eax),%ebx
  movl   $0x1d71,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -687,7 +672,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x995>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x88e>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x89e>
  lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -698,27 +683,29 @@
 +lea    -0x2e0(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN51Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_LinkC1Ev>
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %eax,-0x2d6(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    0x13(%eax),%eax
-+mov    %eax,0x4(%esp)
 +mov    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
++mov    0x13(%eax),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x3c(%ebp)
 +cmpl   $0x0,-0x3c(%ebp)
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x966>
-+mov    0x8(%ebp),%eax
-+mov    0x17(%eax),%eax
-+mov    %eax,0x4(%esp)
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x976>
 +mov    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
++mov    0x17(%eax),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x38(%ebp)
 +cmpl   $0x0,-0x38(%ebp)
-+jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x42c>
++jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x43a>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -727,7 +714,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,-0x2cd(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +add    $0x1c,%eax
 +movl   $0x1d,0x8(%esp)
 +mov    %eax,0x4(%esp)
@@ -736,41 +723,42 @@
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +movb   $0x1,-0x2ab(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +mov    %al,-0x2aa(%ebp)
 +movl   $0x0,-0x2c(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x3ea>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x3fb>
 +mov    -0x2c(%ebp),%eax
 +imul   $0x68,%eax,%eax
-+add    $0x3b,%eax
-+add    0x8(%ebp),%eax
-+lea    -0x2e0(%ebp),%edx
-+lea    0x37(%edx),%ecx
-+mov    -0x2c(%ebp),%edx
-+imul   $0x68,%edx,%edx
-+lea    (%ecx,%edx,1),%edx
++add    $0x30,%eax
++add    -0x40(%ebp),%eax
++lea    0xb(%eax),%edx
++mov    -0x2c(%ebp),%ecx
++lea    -0x2e0(%ebp),%eax
++imul   $0x68,%ecx,%ecx
++add    $0x30,%ecx
++add    %ecx,%eax
++add    $0x7,%eax
 +movl   $0x68,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
 +call   <T> <memcpy>
 +addl   $0x1,-0x2c(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +movzbl %al,%eax
 +cmp    -0x2c(%ebp),%eax
 +setg   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x3b4>
-+lea    -0x2e0(%ebp),%eax
-+movw   $0x170,0x2(%eax)
++jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x3c0>
++movw   $0x170,-0x2de(%ebp)
 +lea    -0x2e0(%ebp),%eax
 +movl   $0x170,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x967>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
 +movb   $0x0,-0x32(%ebp)
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -780,7 +768,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11IsBlackUserEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x479>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x487>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -790,17 +778,17 @@
 +call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x479>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x487>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x47e>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x48c>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x486>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x494>
 +movb   $0x1,-0x32(%ebp)
 +movzbl -0x32(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4da>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4e8>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -809,7 +797,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11IsBlackUserEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4da>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4e8>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -819,15 +807,15 @@
 +call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4da>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4e8>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4df>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4ed>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4e7>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x4f5>
 +movb   $0x1,-0x32(%ebp)
 +cmpb   $0x0,-0x32(%ebp)
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x5cb>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x5db>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -837,33 +825,35 @@
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,-0x2cd(%ebp)
 +movb   $0x2,-0x2ab(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +mov    %al,-0x2aa(%ebp)
 +movl   $0x0,-0x28(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x566>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x579>
 +mov    -0x28(%ebp),%eax
 +imul   $0x68,%eax,%eax
-+add    $0x3b,%eax
-+add    0x8(%ebp),%eax
-+lea    -0x2e0(%ebp),%edx
-+lea    0x37(%edx),%ecx
-+mov    -0x28(%ebp),%edx
-+imul   $0x68,%edx,%edx
-+lea    (%ecx,%edx,1),%edx
++add    $0x30,%eax
++add    -0x40(%ebp),%eax
++lea    0xb(%eax),%edx
++mov    -0x28(%ebp),%ecx
++lea    -0x2e0(%ebp),%eax
++imul   $0x68,%ecx,%ecx
++add    $0x30,%ecx
++add    %ecx,%eax
++add    $0x7,%eax
 +movl   $0x68,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
 +call   <T> <memcpy>
 +addl   $0x1,-0x28(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +movzbl %al,%eax
 +cmp    -0x28(%ebp),%eax
 +setg   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x530>
-+mov    0x8(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x53e>
++mov    -0x40(%ebp),%eax
 +add    $0x1c,%eax
 +movl   $0x1d,0x8(%esp)
 +mov    %eax,0x4(%esp)
@@ -871,15 +861,14 @@
 +add    $0x17,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+lea    -0x2e0(%ebp),%eax
-+movw   $0x170,0x2(%eax)
++movw   $0x170,-0x2de(%ebp)
 +lea    -0x2e0(%ebp),%eax
 +movl   $0x170,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x967>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -888,7 +877,7 @@
 +mov    %edx,(%esp)
 +call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x61a>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x62a>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -910,7 +899,7 @@
 +mov    %edx,(%esp)
 +call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x678>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x688>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -925,10 +914,10 @@
 +call   <T> <_ZN12CApplication20isAbleUserChatWithGMEjj>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x678>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x688>
 +movb   $0x1,-0x31(%ebp)
 +cmpb   $0x0,-0x31(%ebp)
-+je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x75c>
++je     <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x76e>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -938,33 +927,35 @@
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,-0x2cd(%ebp)
 +movb   $0x3,-0x2ab(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +mov    %al,-0x2aa(%ebp)
 +movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x6f7>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x70c>
 +mov    -0x24(%ebp),%eax
 +imul   $0x68,%eax,%eax
-+add    $0x3b,%eax
-+add    0x8(%ebp),%eax
-+lea    -0x2e0(%ebp),%edx
-+lea    0x37(%edx),%ecx
-+mov    -0x24(%ebp),%edx
-+imul   $0x68,%edx,%edx
-+lea    (%ecx,%edx,1),%edx
++add    $0x30,%eax
++add    -0x40(%ebp),%eax
++lea    0xb(%eax),%edx
++mov    -0x24(%ebp),%ecx
++lea    -0x2e0(%ebp),%eax
++imul   $0x68,%ecx,%ecx
++add    $0x30,%ecx
++add    %ecx,%eax
++add    $0x7,%eax
 +movl   $0x68,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
 +call   <T> <memcpy>
 +addl   $0x1,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +movzbl %al,%eax
 +cmp    -0x24(%ebp),%eax
 +setg   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x6c1>
-+mov    0x8(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x6d1>
++mov    -0x40(%ebp),%eax
 +add    $0x1c,%eax
 +movl   $0x1d,0x8(%esp)
 +mov    %eax,0x4(%esp)
@@ -972,15 +963,14 @@
 +add    $0x17,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+lea    -0x2e0(%ebp),%eax
-+movw   $0x170,0x2(%eax)
++movw   $0x170,-0x2de(%ebp)
 +lea    -0x2e0(%ebp),%eax
 +movl   $0x170,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x967>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11GetCharNameEv>
@@ -998,39 +988,41 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,-0x2cd(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +mov    %al,-0x2aa(%ebp)
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x7f2>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x809>
 +mov    -0x20(%ebp),%eax
 +imul   $0x68,%eax,%eax
-+add    $0x3b,%eax
-+add    0x8(%ebp),%eax
-+lea    -0x2e0(%ebp),%edx
-+lea    0x37(%edx),%ecx
-+mov    -0x20(%ebp),%edx
-+imul   $0x68,%edx,%edx
-+lea    (%ecx,%edx,1),%edx
++add    $0x30,%eax
++add    -0x40(%ebp),%eax
++lea    0xb(%eax),%edx
++mov    -0x20(%ebp),%ecx
++lea    -0x2e0(%ebp),%eax
++imul   $0x68,%ecx,%ecx
++add    $0x30,%ecx
++add    %ecx,%eax
++add    $0x7,%eax
 +movl   $0x68,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
 +call   <T> <memcpy>
 +addl   $0x1,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x3a(%eax),%eax
 +movzbl %al,%eax
 +cmp    -0x20(%ebp),%eax
 +setg   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x7bc>
-+mov    0x8(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x7ce>
++mov    -0x40(%ebp),%eax
 +movzbl 0x173(%eax),%eax
 +mov    %al,-0x171(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movzbl 0x173(%eax),%eax
 +movzbl %al,%eax
-+mov    0x8(%ebp),%edx
++mov    -0x40(%ebp),%edx
 +add    $0x174,%edx
 +mov    %eax,0x8(%esp)
 +mov    %edx,0x4(%esp)
@@ -1038,14 +1030,12 @@
 +add    $0x170,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+lea    -0x2e0(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+movzbl 0x173(%edx),%edx
-+movzbl %dl,%edx
-+add    $0x170,%dx
-+mov    %dx,0x2(%eax)
-+lea    -0x2e0(%ebp),%eax
-+movzwl 0x2(%eax),%eax
++mov    -0x40(%ebp),%eax
++movzbl 0x173(%eax),%eax
++movzbl %al,%eax
++add    $0x170,%ax
++mov    %ax,-0x2de(%ebp)
++movzwl -0x2de(%ebp),%eax
 +movzwl %ax,%edx
 +lea    -0x2e0(%ebp),%eax
 +mov    %edx,0x8(%esp)
@@ -1053,10 +1043,10 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x967>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0xa11>
-+jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x90a>
++jne    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x91a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -1080,7 +1070,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0xa0a>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x903>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x913>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -1090,7 +1080,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0xa6e>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x967>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1d7c,0x8(%esp)
@@ -1104,7 +1094,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0xa66>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x95f>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x96f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -1114,7 +1104,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0xa6e>
-+jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x967>
++jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
  nop
  add    $0x2fc,%esp
  pop    %ebx
@@ -1353,7 +1343,7 @@ LAB_0808f697:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4943 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4959 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
@@ -1366,47 +1356,48 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         throw CDNFException(
             "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink : 0 == m_pclApp");
     }
-    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-    if (((RA_S8<27>*)pkt)->v != 0 &&
-        (unsigned char)((RA_S8<27>*)pkt)->v < 0x1e)
+    Packet_Monitor_Other_Channel_Chat_Hyper_Link* chat =
+        (Packet_Monitor_Other_Channel_Chat_Hyper_Link*)pkt;
+    if (chat->what_0x1b != 0 &&
+        (unsigned char)chat->what_0x1b < 0x1e)
     {
-        CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x1c);
-        ((RA_UINT<23>*)pkt)->v =
-            target != 0 ? target->GetUniqCharNo() : 0xffffffff;
+        CUser* target = (&m_pclApp->m_userManager)->FindUser_CharName(chat->buddy_n_user_id_what);
+        chat->what_0x17 =
+            target != 0 ? (int)target->GetUniqCharNo() : (int)0xffffffff;
     }
-    if (((RA_UINT<19>*)pkt)->v == 0 ||
-        ((RA_UINT<23>*)pkt)->v == 0 ||
-        ((RA_S8<371>*)pkt)->v == 0)
+    if (chat->what_0x13 == 0 ||
+        chat->what_0x17 == 0 ||
+        chat->what_0x173 == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1d71,"./log/Except",
             "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink, sender(%d), "
             "receiver(%d), msglen(%d)",
-            ((RA_UINT<19>*)pkt)->v, ((RA_UINT<23>*)pkt)->v,
-            (unsigned int)(unsigned char)((RA_S8<371>*)pkt)->v);
+            chat->what_0x13, chat->what_0x17,
+            (unsigned int)(unsigned char)chat->what_0x173);
         throw CDNFException(
             "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink : packet->m_uSenderCharID "
             "&&  packet->m_uRecverCharID && packet->m_msgLen");
     }
     Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link reply;
-    reply.m_senderCharId = ((RA_UINT<10>*)pkt)->v;
-    CUser* sender = userMgr->FindUser_CharNo(((RA_UINT<19>*)pkt)->v);
+    reply.m_senderCharId = (unsigned int)chat->what_0x0a;
+    CUser* sender = (&m_pclApp->m_userManager)->FindUser_CharNo((unsigned int)chat->what_0x13);
     if (sender == 0)
     {
         return;
     }
-    CUser* receiver = userMgr->FindUser_CharNo(((RA_UINT<23>*)pkt)->v);
+    CUser* receiver = (&m_pclApp->m_userManager)->FindUser_CharNo((unsigned int)chat->what_0x17);
     if (receiver == 0)
     {
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
-        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        memcpy(reply.m_name, chat->buddy_n_user_id_what, 0x1d);
         reply.m_type = 1;
-        reply.m_itemCount = ((RA_U8<58>*)pkt)->v;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)((RA_S8<58>*)pkt)->v; i++)
+        reply.m_itemCount = chat->what_0x3a;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
         {
-            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
         }
-        ((RA_U16<2>*)&reply)->v = 0x170;
+        reply.packetSize = 0x170;
         sender->SendToGameserver((char*)&reply, 0x170);
         return;
     }
@@ -1426,13 +1417,13 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         reply.m_type = 2;
-        reply.m_itemCount = ((RA_U8<58>*)pkt)->v;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)((RA_S8<58>*)pkt)->v; i++)
+        reply.m_itemCount = chat->what_0x3a;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
         {
-            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
         }
-        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
-        ((RA_U16<2>*)&reply)->v = 0x170;
+        memcpy(reply.m_name, chat->buddy_n_user_id_what, 0x1d);
+        reply.packetSize = 0x170;
         sender->SendToGameserver((char*)&reply, 0x170);
         return;
     }
@@ -1454,13 +1445,13 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         reply.m_type = 3;
-        reply.m_itemCount = ((RA_U8<58>*)pkt)->v;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)((RA_S8<58>*)pkt)->v; i++)
+        reply.m_itemCount = chat->what_0x3a;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
         {
-            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
         }
-        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
-        ((RA_U16<2>*)&reply)->v = 0x170;
+        memcpy(reply.m_name, chat->buddy_n_user_id_what, 0x1d);
+        reply.packetSize = 0x170;
         sender->SendToGameserver((char*)&reply, 0x170);
     }
     else
@@ -1468,17 +1459,17 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         memcpy(reply.m_name, sender->GetCharName(), 0x1d);
         reply.m_idByChannel = receiver->GetIdByChannel();
         reply.m_uniqCharNo = receiver->GetUniqCharNo();
-        reply.m_itemCount = ((RA_U8<58>*)pkt)->v;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)((RA_S8<58>*)pkt)->v; i++)
+        reply.m_itemCount = chat->what_0x3a;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
         {
-            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
         }
-        reply.m_msgLen = ((RA_U8<371>*)pkt)->v;
-        memcpy(reply.m_msg, (char*)pkt + 0x174,
-               (unsigned int)(unsigned char)((RA_S8<371>*)pkt)->v);
-        ((RA_U16<2>*)&reply)->v =
-            (unsigned short)((unsigned char)((RA_S8<371>*)pkt)->v + 0x170);
-        receiver->SendToGameserver((char*)&reply, ((RA_U16<2>*)&reply)->v);
+        reply.m_msgLen = chat->what_0x173;
+        memcpy(reply.m_msg, chat->what_0x174,
+               (unsigned int)(unsigned char)chat->what_0x173);
+        reply.packetSize =
+            (unsigned short)((unsigned char)chat->what_0x173 + 0x170);
+        receiver->SendToGameserver((char*)&reply, reply.packetSize);
     }
 
 

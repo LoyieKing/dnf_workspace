@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x809f75e` | `0x239` | `0x8092d66` | `0x239` |
+| guild | NEAR | `0x809f75e` | `0x239` | `0x8092e32` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -284,7 +284,7 @@ int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned cha
     info = m_info.m_items[slot];
     if (a == 1)
     {
-        info.m_addInfo = b;
+        info.m_addInfo = (int)b;
         int oldCount = m_info.m_items[slot].m_addInfo;
         int subCount = info.m_addInfo;
         if (oldCount < subCount)

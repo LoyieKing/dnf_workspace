@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807bc44` | `0x645` | `0x80720d6` | `0x620` |
+| guild | DIFF | `0x807bc44` | `0x645` | `0x8072012` | `0x620` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -799,7 +799,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnGuildMasterDelegateFromWebEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3209 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2490 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildMasterDelegateFromWeb(PacketHeader* pkt)
@@ -807,9 +807,9 @@ void CPacketTranslater::OnGuildMasterDelegateFromWeb(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnGuildMasterDelegateFromWeb : 0 == m_pclApp");
-    unsigned int guildKey = ((PTL_GuildMasterDelegateFromWebPkt*)pkt)->m_guildKey;
-    unsigned int requesterCharNo = ((PTL_GuildMasterDelegateFromWebPkt*)pkt)->m_requesterCharNo;
-    unsigned int delegateeCharNo = ((PTL_GuildMasterDelegateFromWebPkt*)pkt)->m_delegateeCharNo;
+    unsigned int guildKey = ((Packet_Guild_Master_Delegate_FromWeb*)pkt)->m_guildKey;
+    unsigned int requesterCharNo = ((Packet_Guild_Master_Delegate_FromWeb*)pkt)->m_requesterCharNo;
+    unsigned int delegateeCharNo = ((Packet_Guild_Master_Delegate_FromWeb*)pkt)->m_delegateeCharNo;
     if (guildKey == 0)
     {
         throw CDNFException(
@@ -857,7 +857,7 @@ void CPacketTranslater::OnGuildMasterDelegateFromWeb(PacketHeader* pkt)
                 }
                 guild->SendGuildInfoToMembers(false);
                 guild->NoticeGuildMasterDelegateToMembers(
-                    ((PTL_GuildMasterDelegateFromWebPkt*)pkt)->m_msg);
+                    ((Packet_Guild_Master_Delegate_FromWeb*)pkt)->m_msg);
                 CUser* delegatee;
                 if ((delegatee = (&m_pclApp->m_userManager)->FindUser_CharNo(delegateeCharNo)) != 0)
                 {

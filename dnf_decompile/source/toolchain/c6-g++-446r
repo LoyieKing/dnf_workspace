@@ -1,6 +1,0 @@
-#!/bin/sh
-# c6root(4.4.7) 驱动 + CentOS 6.2 cc1plus(4.4.6-3) —— auction/point 精确对齐 ORIG 用。
-# 根目录：优先 $DNF_TC_ROOT，回退 /tmp（bootstrap_toolchain.sh 生成）。
-TC="${DNF_TC_ROOT:-/tmp}"
-export LD_LIBRARY_PATH="$TC/c6root/usr/lib64:$TC/c6root/usr/lib"
-exec "$TC/c6root/usr/bin/g++" -B "$TC/cc1plus446bin/" "$@"

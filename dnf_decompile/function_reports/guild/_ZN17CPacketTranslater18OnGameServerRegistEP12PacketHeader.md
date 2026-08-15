@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088152` | `0x25f` | `0x807df90` | `0x243` |
+| guild | DIFF | `0x8088152` | `0x25f` | `0x807e000` | `0x243` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -46,22 +46,21 @@
 -mov    -0x1c(%ebp),%eax
 -mov    %dx,0x14(%eax)
 -mov    -0x20(%ebp),%eax
--add    $0xd,%eax
--mov    %eax,%edx
--mov    -0x1c(%ebp),%eax
-+movzbl 0x9(%eax),%eax
++movzbl 0xb(%eax),%eax
 +mov    %al,-0x42(%ebp)
 +mov    0x8(%ebp),%eax
-+movzbl 0xa(%eax),%eax
++movzbl 0xc(%eax),%eax
 +mov    %al,-0x41(%ebp)
 +mov    0x8(%ebp),%eax
-+movzbl 0x8(%eax),%eax
++movzbl 0xa(%eax),%eax
 +mov    %al,-0x40(%ebp)
 +mov    0x8(%ebp),%eax
-+movzwl 0x1b(%eax),%eax
++movzwl 0x1d(%eax),%eax
 +mov    %ax,-0x2e(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xb,%eax
+ add    $0xd,%eax
+-mov    %eax,%edx
+-mov    -0x1c(%ebp),%eax
 +movl   $0x10,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +lea    -0x42(%ebp),%eax
@@ -71,9 +70,8 @@
  mov    %eax,(%esp)
  call   <T> <strncpy>
 -mov    -0x20(%ebp),%eax
--mov    0x6(%eax),%ebx
 +mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%ebx
+ mov    0x6(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -155,10 +153,9 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x23d>
 -mov    -0x20(%ebp),%eax
--movzbl 0xc(%eax),%eax
 +je     <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x1d8>
 +mov    0x8(%ebp),%eax
-+movzbl 0xa(%eax),%eax
+ movzbl 0xc(%eax),%eax
  movzbl %al,%eax
  mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
@@ -169,7 +166,7 @@
 -movzbl 0x1(%eax),%eax
 -movzbl %al,%ebx
 +mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%ebx
++mov    0x6(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -178,9 +175,8 @@
  call   <T> <_ZN14CServerHandler13GetGameServerEj>
  mov    %eax,-0xc(%ebp)
 -mov    -0x20(%ebp),%eax
--mov    0x6(%eax),%eax
 +mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%eax
+ mov    0x6(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -322,20 +318,20 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6281 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5539 行）：
 
 ```cpp
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
 {
     stServerInfo info;
     memset(&info, 0, sizeof(info));
-    info.m_group = ((PTL_GameServerRegistPkt*)pkt)->m_group;
-    info.m_field1 = ((PTL_GameServerRegistPkt*)pkt)->m_field1;
-    info.m_field2 = ((PTL_GameServerRegistPkt*)pkt)->m_field2;
-    info.m_port = ((PTL_GameServerRegistPkt*)pkt)->m_port;
-    strncpy(info.m_name, ((PTL_GameServerRegistPkt*)pkt)->m_name, 0x10);
+    info.m_group = ((Packet_Game_Server_Regist*)pkt)->m_group;
+    info.m_field1 = ((Packet_Game_Server_Regist*)pkt)->m_channel;
+    info.m_field2 = ((Packet_Game_Server_Regist*)pkt)->m_type;
+    info.m_port = ((Packet_Game_Server_Regist*)pkt)->m_port;
+    strncpy(info.m_name, ((Packet_Game_Server_Regist*)pkt)->m_name, 0x10);
     CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->GetTcpGameServer(
-        ((PTL_GameServerRegistPkt*)pkt)->m_connNo);
+        ((Packet_Game_Server_Regist*)pkt)->m_connNo);
     if (tgs != 0)
     {
         DNF_LOG_SCOPE_LINE(0x1ec6,"./log/GameServer", "Get Packet - OnGameServerRegist from Channel:%d",
@@ -347,10 +343,10 @@ void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
             {
                 if (m_pclApp->Get_ServerHandler()->RegistGameServer(&info) == 1)
                 {
-                    tgs->SetChannelNo(((PTL_GameServerRegistPkt*)pkt)->m_field1);
+                    tgs->SetChannelNo(((Packet_Game_Server_Regist*)pkt)->m_channel);
                     CGameServer* gs = m_pclApp->Get_ServerHandler()->GetGameServer(
-                        ((PTL_GameServerRegistPkt*)pkt)->m_connNo);
-                    gs->SetSocket(((PTL_GameServerRegistPkt*)pkt)->m_connNo);
+                        ((Packet_Game_Server_Regist*)pkt)->m_connNo);
+                    gs->SetSocket(((Packet_Game_Server_Regist*)pkt)->m_connNo);
                     reply[0xb] = 0;
                     DNF_LOG_SCOPE_LINE(0x1eeb,"./log/GameServer", "Game server regist success. Channel: %d",
                         (unsigned int)(unsigned char)info.m_field1);

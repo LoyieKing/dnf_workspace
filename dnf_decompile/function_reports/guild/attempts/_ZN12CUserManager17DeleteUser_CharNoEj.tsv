@@ -1,5 +1,0 @@
-无 register: DIFF (charNo/栈重载)	DIFF	2026-08-12
-register unsigned int charNo 参数: DIFF (忽略)	DIFF(同)	2026-08-12
-register int nSize + register uint nCharNo(charNo): NEAR (nSize->esi,nCharNo->ebx; ORIG nSize->ebx,charNo->esi 对调)	NEAR(改善)	2026-08-12
-交换声明顺序 (nCharNo先): DIFF (装载顺序变)	DIFF(更差)	2026-08-12
-c6444r/c6446r A/B 同 NEAR 但寄存器仍对调; c5r52 全栈溢出	NEAR(同)	2026-08-12

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807c28a` | `0x61d` | `0x80726f6` | `0x5ec` |
+| guild | DIFF | `0x807c28a` | `0x61d` | `0x8072632` | `0x5ec` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -708,7 +708,7 @@ void CPacketTranslater::_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFrom
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3301 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2582 行）：
 
 ```cpp
 void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
@@ -716,9 +716,9 @@ void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnCheckGuildMemberConnectionFromWeb : 0 == m_pclApp");
-    unsigned int guildKey = ((PTL_CheckGuildMemberConnectionFromWebPkt*)pkt)->m_guildKey;
-    unsigned short port = ((PTL_CheckGuildMemberConnectionFromWebPkt*)pkt)->m_port;
-    unsigned int ip = ((PTL_CheckGuildMemberConnectionFromWebPkt*)pkt)->m_ip;
+    unsigned int guildKey = ((Packet_Check_Guild_Member_Connection_From_Web*)pkt)->m_guildKey;
+    unsigned short port = pkt->reversed1;
+    unsigned int ip = pkt->m_connNo;
     if (guildKey == 0)
     {
         throw CDNFException(

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808902a` | `0x287` | `0x807ee08` | `0x26b` |
+| guild | DIFF | `0x808902a` | `0x287` | `0x807ee92` | `0x26b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -292,7 +292,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6519 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5778 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
@@ -304,14 +304,14 @@ void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x200e, "./log/Guild", "CPacketTranslater::OnGuildAttendanceInfo : 0 == m_pclApp");
             return;
         }
-        unsigned int guildKey = ((PTL_GuildAttendanceInfoPkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_Guild_Attendance_Info*)pkt)->m_guildKey;
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x2014, "./log/Guild", "CPacketTranslater::OnGuildAttendanceInfo : 0 == pGuild");
             return;
         }
-        unsigned int charNo = ((PTL_GuildAttendanceInfoPkt*)pkt)->m_charNo;
+        unsigned int charNo = ((Packet_Guild_Attendance_Info*)pkt)->m_charNo;
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
         if (user == 0)
         {
@@ -321,7 +321,7 @@ void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
         Packet_Guild_Attendance_Info_Reply reply;
         reply.m_a = user->GetUniqCharNo();
         reply.m_b = user->GetIdByChannel();
-        reply.m_c = ((PTL_GuildAttendanceInfoPkt*)pkt)->m_field12;
+        reply.m_c = ((Packet_Guild_Attendance_Info*)pkt)->m_field12;
         (&m_pclApp->m_guildManager)->GetAttendanceInfo(
             guildKey, reply.m_info);
         user->SendToGameserver((char*)&reply, 0x2f);

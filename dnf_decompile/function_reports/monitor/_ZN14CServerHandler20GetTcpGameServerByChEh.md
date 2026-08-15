@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a4d8` | `0x98` | `0x8080544` | `0xa2` |
+| monitor | DIFF | `0x807a4d8` | `0x98` | `0x808062e` | `0x97` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,50 +1,52 @@
+@@ -1,50 +1,49 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -27,31 +27,26 @@
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x63>
-+jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x6d>
++jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x62>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEptEv>
  mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x57>
-+je     <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x54>
+ je     <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x57>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer12GetChannelNoEv>
  cmp    -0x1c(%ebp),%al
--sete   %al
-+jne    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x54>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x59>
-+mov    $0x0,%eax
+ sete   %al
  test   %al,%al
 -je     <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x58>
-+je     <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x62>
++je     <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x57>
  mov    -0xc(%ebp),%eax
 -jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x96>
 -nop
-+jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0xa0>
++jmp    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x95>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEppEv>
@@ -129,9 +124,12 @@ CTcpGameServer* CServerHandler::GetTcpGameServerByCh(unsigned char channel)
          it != m_tcpGameServers.end(); ++it)
     {
         CTcpGameServer* tcp = it->second;
-        if (tcp != 0 && tcp->GetChannelNo() == channel)
+        if (tcp != 0)
         {
-            return tcp;
+            if (tcp->GetChannelNo() == channel)
+            {
+                return tcp;
+            }
         }
     }
     return 0;

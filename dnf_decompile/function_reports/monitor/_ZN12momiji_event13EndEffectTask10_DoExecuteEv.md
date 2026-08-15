@@ -164,7 +164,7 @@ momiji_event::EndEffectTask::_ZN12momiji_event13EndEffectTask10_DoExecuteEv(EndE
 ```cpp
 void EndEffectTask::_DoExecute()
 {
-    if (((RA_S8<16>*)this)->v != 0)
+    if (m_flag != 0)
     {
         time_t next = time(0) +
                       (EventManager::Get()->GetIntervalTime() -

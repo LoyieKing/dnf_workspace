@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-manager	_ZN13CTcpNetSystem10SendPacketEv	NEAR	12	Y			N	Y	source/DNFServer/GameServer/Manager/TcpNetSystem.cpp	14	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail

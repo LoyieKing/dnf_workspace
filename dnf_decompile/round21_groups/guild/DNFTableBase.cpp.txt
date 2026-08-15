@@ -1,4 +1,0 @@
-DIFF   _ZN10CTableBase19Load_Txt_Table_DataEPKci
-DIFF   _ZN13CDNFExceptionD1Ev
-DIFF   _ZN13CDNFExceptionD2Ev
-DIFF   _ZNK13CDNFException4whatEv

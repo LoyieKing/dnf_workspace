@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8067c1a` | `0x179` | `0x8060d30` | `0x185` |
+| statics | DIFF | `0x8067c1a` | `0x179` | `0x8060e54` | `0x17f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,96 @@
+@@ -1,91 +1,94 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,16 +26,14 @@
  je     <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x21>
  mov    $0x2,%eax
 -jmp    <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x16e>
-+jmp    <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x17a>
++jmp    <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x174>
  mov    0x8(%ebp),%eax
  mov    0x9c(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x98(%eax),%eax
  cmp    %eax,%edx
 -je     <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x169>
-+jne    <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x41>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x17a>
++je     <T> <_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler+0x16f>
  mov    0x8(%ebp),%eax
  mov    0x98(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -182,7 +180,7 @@ FrameLagCollector::_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 552 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 558 行）：
 
 ```cpp
 int FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
@@ -191,11 +189,9 @@ int FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
     {
         return 2;
     }
-    if (m_field9c == m_today)
+    if (m_field9c != m_today)
     {
-        return 0;
-    }
-    m_field9c = m_today;
+        m_field9c = m_today;
     Packet_Frame_Lag_Statistic_Write_Query pkt;
     time_t now;
     time(&now);
@@ -206,8 +202,9 @@ int FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
              (unsigned int)m_directx.m_data[2], (unsigned int)m_directx.m_data[3],
              (unsigned int)m_directx.m_data[4], (unsigned int)m_directx.m_data[5],
              (unsigned int)m_directx.m_data[6], (unsigned int)m_directx.m_data[7]);
-    handler->SendToDB((PacketHeader*)&pkt);
-    m_directx.init();
+        handler->SendToDB((PacketHeader*)&pkt);
+        m_directx.init();
+    }
     return 0;
 }
 ```

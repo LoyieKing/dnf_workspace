@@ -1,2 +1,0 @@
-mangled	status	note
-_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader	IDENTICAL_AE	use req local + char* buf intermediate (makePacketHeader double-store), inline strlen/GetCharName

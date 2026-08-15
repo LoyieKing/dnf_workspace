@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806eee4` | `0x4ba` | `0x806ef48` | `0x4b3` |
+| statics | DIFF | `0x806eee4` | `0x4ba` | `0x806f062` | `0x4b3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -421,7 +421,7 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x417>
 +cmpl   $0x63,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x410>
++jbe    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x410>
  movl   $0x64,-0x1798(%ebp)
  lea    -0x17a2(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -658,13 +658,13 @@ StatisticManager::_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 383 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 386 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
 {
     Packet_DBMW_Dungeon_Statistic_Party pkt;
-    int idx = 0;
+    unsigned int idx = 0;
     if (!m_party.empty())
     {
         for (std::map<STPartyStatisticKey, PartyStatistic>::iterator it = m_party.begin();
@@ -691,7 +691,7 @@ void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
             pkt.m_elem[idx].m_data[10] = it->second.m_data[10];
             pkt.m_elem[idx].m_data[11] = it->second.m_data[11];
             idx++;
-            if (99 < idx)
+            if (idx > 0x63)
             {
                 pkt.m_count = 100;
                 handler->SendToDB((PacketHeader*)&pkt);

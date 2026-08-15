@@ -1,3 +1,0 @@
-unsigned short len=header->packetSize; char* dst=buf+0xa; char* src=header+0xa; memcpy(dst,src,len-0xa);	DIFF(更差,栈帧0x28→0x38)	2026-08-12
-memcpy(buf+0xa, (char*)header+0xa, packetSize-0xa);	DIFF(同,寄存器分配仍反)	2026-08-12
-memcpy(..., (unsigned short)(packetSize-0xa));	DIFF(同)	2026-08-12

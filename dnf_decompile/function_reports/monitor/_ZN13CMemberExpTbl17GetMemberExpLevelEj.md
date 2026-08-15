@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8062120` | `0x82` | `0x80616da` | `0x86` |
+| monitor | DIFF | `0x8062120` | `0x82` | `0x80616f6` | `0x86` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -115,8 +115,8 @@ CMemberExpTbl::_ZN13CMemberExpTbl17GetMemberExpLevelEj(CMemberExpTbl *this,uint 
 ```cpp
 int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)
 {
-    char* p = (char*)this + 8;
-    int local_c = (int)(unsigned char)((RA_S8<4>*)this)->v - 1;
+    char* p = (char*)m_table;
+    int local_c = (int)m_count - 1;
     int local_8 = 1;
     if (exp >= (unsigned int)m_table[local_c])
     {

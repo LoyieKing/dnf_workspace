@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f494` | `0x44d` | `0x8075862` | `0x44f` |
+| guild | DIFF | `0x807f494` | `0x44d` | `0x80757ba` | `0x44f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -553,7 +553,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBReplyGuildCreateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4039 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3307 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildCreate(PacketHeader* pkt)
@@ -565,7 +565,7 @@ void CPacketTranslater::OnDBReplyGuildCreate(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x112c, "./log/GuildModify", "CPacketTranslater::OnDBReplyGuildCreate : 0 == m_pclApp");
         return;
     }
-    unsigned int charNo = ((PTL_DBReplyGuildCreatePkt*)pkt)->m_charNo;
+    unsigned int charNo = ((Packet_DBMW_Reply_Guild_Create*)pkt)->m_characNo;
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo)) == 0)
     {
@@ -575,15 +575,15 @@ void CPacketTranslater::OnDBReplyGuildCreate(PacketHeader* pkt)
     }
     Packet_Notice_GuildName_On_Guild_Create notice;
     Packet_Reply_Guild_Create reply;
-    unsigned int guildKey = ((PTL_DBReplyGuildCreatePkt*)pkt)->m_guildKey;
+    unsigned int guildKey = ((Packet_DBMW_Reply_Guild_Create*)pkt)->m_guildId;
     notice.m_charNo = charNo;
     reply.m_charNo = charNo;
     unsigned int channel = user->GetIdByChannel();
     notice.m_channel = channel;
     reply.m_channel = channel;
-    int result = ((PTL_DBReplyGuildCreatePkt*)pkt)->m_result;
+    int result = ((Packet_DBMW_Reply_Guild_Create*)pkt)->m_result;
     reply.m_result = result;
-    memcpy(reply.m_name, ((PTL_DBReplyGuildCreatePkt*)pkt)->m_name, 0x16);
+    memcpy(reply.m_name, ((Packet_DBMW_Reply_Guild_Create*)pkt)->m_name, 0x16);
     if (result == 0)
     {
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
@@ -600,7 +600,7 @@ void CPacketTranslater::OnDBReplyGuildCreate(PacketHeader* pkt)
         uniqCharNo = user->GetUniqCharNo();
         user->SendSetGuildKeyToUser(guildKey, uniqCharNo);
         notice.m_guildKey = guildKey;
-        memcpy((char*)&notice + 0x16, ((PTL_DBReplyGuildCreatePkt*)pkt)->m_name, 0x16);
+        memcpy((char*)&notice + 0x16, ((Packet_DBMW_Reply_Guild_Create*)pkt)->m_name, 0x16);
         notice.m_group = m_pclApp->Get_ServerGroup();
         m_pclApp->m_serverHandler->SendAllTcpGameServer(&notice);
         (&m_pclApp->m_guildManager)->AttendGuild(guildKey, charNo);

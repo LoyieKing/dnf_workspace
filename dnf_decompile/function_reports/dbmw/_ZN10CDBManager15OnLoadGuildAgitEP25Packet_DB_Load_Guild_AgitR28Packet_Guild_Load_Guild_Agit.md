@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807fd6c` | `0x176` | `0x804dd80` | `0x161` |
+| dbmw | NEAR | `0x807fd6c` | `0x176` | `0x804ddaa` | `0x176` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,98 +1,92 @@
+@@ -1,98 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -40,27 +40,25 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0xa3>
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x9c>
+ je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0xa3>
  movl   $0x19c3,0x8(%esp)
  movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"OnLoadGuildAgit Query Error\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15f>
+ jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -68,27 +66,23 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x100>
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0xf2>
+ je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x100>
  movl   $0x19cb,0x8(%esp)
  movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"OnLoadGuildAgit Fetch Error\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15f>
+ jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
@@ -100,27 +94,25 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x16f>
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15a>
+ je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x16f>
  movl   $0x19d3,0x8(%esp)
  movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"OnLoadGuildAgit get_ubyte(0, reply.m_stGuildAgitInfo.m_ucUpgrade) Error\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15f>
+ jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
  mov    $0x1,%eax
  leave
  ret
@@ -182,4 +174,4 @@ _ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Loa
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*

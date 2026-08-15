@@ -1,7 +1,0 @@
-#!/bin/sh
-# CentOS 5.11 (清华镜像 vault) gcc-4.1.2-55.el5 包装脚本 —— 与原始 df_community_r 编译器完全同版本。
-# 根目录：优先 $DNF_TC_ROOT/c5root，回退 /tmp/c5root（bootstrap_toolchain.sh 生成）。
-C5ROOT="${DNF_TC_ROOT:+$DNF_TC_ROOT/c5root}"; C5ROOT="${C5ROOT:-/tmp/c5root}"
-export GCC_EXEC_PREFIX="$C5ROOT/usr/libexec/gcc/"
-export PATH="$C5ROOT/usr/libexec/gcc/x86_64-redhat-linux/4.1.2:$PATH"
-exec "$C5ROOT/usr/bin/g++" "$@"

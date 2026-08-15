@@ -1,4 +1,0 @@
-栈布局:CMyFileLog -0x18 vs -0x20(差8B)	DIFF(同)	2026-08-12
-connect分支 unsigned short p=port; 中间变量	DIFF(更差,peer栈槽-0x14+mov往返)	2026-08-12
-logOpen/logConnect 不同变量名	DIFF(同,栈槽仍对调)	2026-08-12
-A/B TU 4.1.2	DIFF(同,open=-0x18/connect=-0x20; ORIG反序无法复现)	2026-08-12

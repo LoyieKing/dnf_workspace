@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d268` | `0x172` | `0x8053212` | `0x174` |
+| guild | DIFF | `0x808d268` | `0x172` | `0x80531f4` | `0x174` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -197,7 +197,7 @@ CGuild::_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 605 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 585 行）：
 
 ```cpp
 void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
@@ -220,7 +220,7 @@ void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
                 (int)info.m_skillLearnCnt, (int)local11);
             info.m_skillLearnCnt = (unsigned char)local11;
         }
-        memcpy((char*)this + 0x20, (char*)&info, 0xbd);
+        memcpy(&m_dbInfo.m_info, (char*)&info, 0xbd);
         SetGuildMessage(name);
         if (local18 != 0 && (int)info.m_guildPoint < local18)
         {

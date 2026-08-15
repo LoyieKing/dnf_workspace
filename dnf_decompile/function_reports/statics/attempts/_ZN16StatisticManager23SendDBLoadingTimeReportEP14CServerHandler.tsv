@@ -1,3 +1,0 @@
-source_excerpt	result	date
-`unsigned int denom = m_loading.m_data2[i]` 局部变量	DIFF(更差)	2026-08-12
-编译器 A/B：c5/c6444r/c6446r/c6 均 NEAR（除数装载临时寄存器 ebx vs edx）	NEAR(同)	2026-08-12

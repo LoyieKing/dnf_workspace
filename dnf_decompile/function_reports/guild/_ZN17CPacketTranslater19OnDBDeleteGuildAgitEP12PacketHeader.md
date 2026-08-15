@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082be6` | `0x25e` | `0x8078e00` | `0x240` |
+| guild | DIFF | `0x8082be6` | `0x25e` | `0x8078d6c` | `0x240` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -295,7 +295,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4900 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4171 行）：
 
 ```cpp
 void CPacketTranslater::OnDBDeleteGuildAgit(PacketHeader* pkt)
@@ -307,9 +307,9 @@ void CPacketTranslater::OnDBDeleteGuildAgit(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x16dd, "./log/Except", "CPacketTranslater::OnDBDeleteGuildAgit : 0 == m_pclApp");
             return;
         }
-        if (((PTL_GuildAgitPkt*)pkt)->m_field12 == 0)
+        if (((Packet_DB_Delete_Guild_Agit_Reply*)pkt)->m_field12 == 0)
         {
-            unsigned int guildKey = ((PTL_GuildAgitPkt*)pkt)->m_guildKey;
+            unsigned int guildKey = ((Packet_DB_Delete_Guild_Agit_Reply*)pkt)->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
@@ -319,16 +319,16 @@ void CPacketTranslater::OnDBDeleteGuildAgit(PacketHeader* pkt)
             {
                 guild->SetGuildAgitFlag(false);
                 guild->NotifyDeleteGuildAgitToGuildMember(
-                    ((PTL_GuildAgitPkt*)pkt)->m_charNo);
+                    ((Packet_DB_Delete_Guild_Agit_Reply*)pkt)->m_charNo);
                 guild->SendGuildInfoToMembers(false);
             }
             return;
         }
         DNF_LOG_SCOPE_LINE(0x16e6,"./log/GuildAgit",
             "CPacketTranslater::OnDBDeleteGuildAgit / Failure! Delete Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
-            ((PTL_GuildAgitPkt*)pkt)->m_guildKey,
-            ((PTL_GuildAgitPkt*)pkt)->m_charNo,
-            ((PTL_GuildAgitPkt*)pkt)->m_field12);
+            ((Packet_DB_Delete_Guild_Agit_Reply*)pkt)->m_guildKey,
+            ((Packet_DB_Delete_Guild_Agit_Reply*)pkt)->m_charNo,
+            ((Packet_DB_Delete_Guild_Agit_Reply*)pkt)->m_field12);
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnDBDeleteGuildAgit Exception Break", 0x16fe, 0x1703);
 }

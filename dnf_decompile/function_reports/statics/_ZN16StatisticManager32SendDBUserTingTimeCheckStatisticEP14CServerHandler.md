@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x8070f02` | `0x19f` |
+| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x80710d2` | `0x19f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -58,7 +58,7 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0xff>
 +cmpl   $0x2fd,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0xf9>
++jbe    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0xf9>
  movl   $0x2fe,-0x1818(%ebp)
  lea    -0x1822(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -202,13 +202,13 @@ StatisticManager::_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CSe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 803 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 808 行）：
 
 ```cpp
 void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
 {
     Packet_DBMW_User_Ting_TimeCheck_Write_Query pkt;
-    int idx = 0;
+    unsigned int idx = 0;
     if (!m_userTing.empty())
     {
         for (std::map<STUserTingTimeCheckKey, int>::iterator it = m_userTing.begin();
@@ -217,7 +217,7 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
             pkt.m_items[idx].m_minute = it->first.m_minute;
             pkt.m_items[idx].m_cnt = it->second;
             idx++;
-            if (0x2fd < idx)
+            if (idx > 0x2fd)
             {
                 pkt.m_count = 0x2fe;
                 handler->SendToDB((PacketHeader*)&pkt);

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808bea0` | `0x6fe` | `0x8064d24` | `0x70c` |
+| guild | DIFF | `0x808bea0` | `0x6fe` | `0x8064c10` | `0x70c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -977,7 +977,7 @@ void CUdpNetworkThread::dispatch(void* param)
                         }
                         else
                         {
-                            ((PacketHeader*)buf2)->reversed2 = ip;
+                            ((PacketHeader*)buf2)->m_connNo = ip;
                             ((PacketHeader*)buf2)->reversed1 = port;
                             {
                                 CGuard<CMutex> g((CMutex*)m_lock);

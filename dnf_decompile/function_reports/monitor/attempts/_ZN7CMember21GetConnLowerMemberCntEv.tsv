@@ -1,9 +1,0 @@
-register bool b=(user==0); if(b) continue; for+continue, user declared top	sete %bl/test %bl vs ORIG sete %al/test %al (only diff; slots/frame match)	2026-08-12
-while+register bool user!=0 (原 ab6ec03c)	setne %bl/je + push ebx vs ORIG sete %al/jne	2026-08-12
-if(user==0)continue direct (for)	je vs ORIG sete/test/jne	2026-08-12
-if(user==0){}else{cnt++}	je vs ORIG sete/test/jne	2026-08-12
-bool b=(user==0); if(b) continue	mov %al,-0x9+cmpb (extra store)	2026-08-12
-if(bool b=(user==0)) continue	same store form	2026-08-12
-goto inc label form	je	2026-08-12
-A/B c5/c5r52 register bool	sete %al matches if-form but loop cond jl (not setl/test) + add %edx,%eax (not lea); overall worse	2026-08-12
-A/B 10 cc1plus variants (444/445/446/447, g3) register bool	all sete %bl (push ebx)	2026-08-12

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809e0d8` | `0x5c7` | `0x80d77b6` | `0x4d3` |
+| dbmw | DIFF | `0x809e0d8` | `0x5c7` | `0x80d7b84` | `0x4d3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,7 +19,7 @@
  push   %esi
  push   %ebx
 -sub    $0x2db0,%esp
-+sub    $0x2730,%esp
++sub    $0x2690,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5b9>
@@ -36,9 +36,10 @@
 -lea    -0x2d92(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
 +movl   $0x0,-0x54(%ebp)
-+lea    -0x2716(%ebp),%eax
++lea    -0x2671(%ebp),%eax
  mov    %eax,%ebx
- mov    $0x31,%esi
+-mov    $0x31,%esi
++mov    $0x30,%esi
  jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x58>
  mov    %ebx,(%esp)
  call   <T> <_ZN18STGuildBoardDBInfoC1Ev>
@@ -54,7 +55,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x50(%edx),%ecx
 -lea    -0x2d92(%ebp),%edx
-+lea    -0x2716(%ebp),%edx
++lea    -0x2671(%ebp),%edx
  mov    %edx,0xc(%esp)
 -lea    -0x48(%ebp),%edx
 +lea    -0x54(%ebp),%edx
@@ -151,7 +152,7 @@
 -mov    %ebx,%eax
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%edx
-+lea    -0x2716(%ebp),%ecx
++lea    -0x2671(%ebp),%ecx
 +mov    -0x28(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
@@ -329,7 +330,7 @@
 +add    $0x16,%edx
 +add    %edx,%eax
 +mov    %eax,-0x14(%ebp)
-+lea    -0x2716(%ebp),%ecx
++lea    -0x2671(%ebp),%ecx
 +mov    -0x30(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x2,%eax
@@ -580,7 +581,7 @@
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5bd>
 -nop
 -add    $0x2db0,%esp
-+add    $0x2730,%esp
++add    $0x2690,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
@@ -726,7 +727,7 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
             (Packet_DB_Load_Request_Guild_Board_Open*)header;
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         int count = 0;
-        STGuildBoardDBInfo boards[0x32];
+        STGuildBoardDBInfo boards[0x31];
         if (!m_pclApp->m_dbManager.OnLoadGuildBoard(
                 ((FieldViewP<0xa,int>*)pkt)->v, count, boards))
         {

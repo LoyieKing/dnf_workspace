@@ -1,5 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN18CFrameCountHandler11SaveProcessEi	NEAR	4	Y			N	Y	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	6	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-guild	_ZN18CFrameCountHandler11SaveProcessEv	NEAR	4	Y			N	Y	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	6	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-guild	_ZN18CFrameCountHandler17GetFrameCountInfoEv	DIFF	306	N			Y	Y	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt	NEAR	4	Y			N	N	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	5	NEEDS_REVERSE	source location missing from md

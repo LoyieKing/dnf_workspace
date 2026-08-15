@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807e4a8` | `0x269` | `0x80748aa` | `0x25e` |
+| guild | DIFF | `0x807e4a8` | `0x269` | `0x8074800` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -282,14 +282,14 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3737 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3018 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
 {
     try
     {
-    PTL_BlackListPkt* pb = (PTL_BlackListPkt*)pkt;
+    Packet_DMBW_Delete_To_BlackList* pb = (Packet_DMBW_Delete_To_BlackList*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xfa6,"./log/BlackList",
@@ -306,19 +306,19 @@ void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
     Packet_Delete_To_BlackList_Result reply;
     reply.m_channel = user->GetIdByChannel();
     memcpy(reply.m_name, pb->m_name, 0x1d);
-    if (pb->m_charNo == (unsigned int)-1)
+    if (pb->m2c == (unsigned int)-1)
     {
         reply.m_result = 3;
         user->SendToGameserver((char*)&reply, 0x31);
         return;
     }
-    if (user->DeleteToBlackList(pb->m_charNo) != 1)
+    if (user->DeleteToBlackList(pb->m2c) != 1)
     {
         reply.m_result = 2;
         user->SendToGameserver((char*)&reply, 0x31);
     }
     reply.m_result = 1;
-    reply.m2c = pb->m_charNo;
+    reply.m2c = pb->m2c;
     user->SendToGameserver((char*)&reply, 0x31);
     }
     catch (CDNFException& e)

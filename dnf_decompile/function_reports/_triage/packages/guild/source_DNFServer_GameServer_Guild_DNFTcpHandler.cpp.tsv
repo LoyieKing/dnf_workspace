@@ -1,3 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN11CTcpHandlerC1Ev	DIFF	3	N			N	Y	source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp	4	CODEGEN_TAIL	very small structural diff
-guild	_ZN11CTcpHandlerC2Ev	DIFF	3	N			N	Y	source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp	4	CODEGEN_TAIL	very small structural diff

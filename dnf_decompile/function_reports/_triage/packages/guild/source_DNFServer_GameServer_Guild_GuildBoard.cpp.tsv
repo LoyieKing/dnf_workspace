@@ -1,5 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser	DIFF	148	N			N	N	source/DNFServer/GameServer/Guild/GuildBoard.cpp	0	NEEDS_REVERSE	source location missing from md
-guild	_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser	DIFF	131	N			Y	Y	source/DNFServer/GameServer/Guild/GuildBoard.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser	DIFF	95	N			Y	N	source/DNFServer/GameServer/Guild/GuildBoard.cpp	0	NEEDS_REVERSE	source location missing from md
-guild	_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc	DIFF	85	N			Y	N	source/DNFServer/GameServer/Guild/GuildBoard.cpp	0	NEEDS_REVERSE	source location missing from md

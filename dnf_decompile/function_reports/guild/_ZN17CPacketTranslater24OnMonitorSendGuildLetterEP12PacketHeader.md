@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80797ec` | `0x5d7` | `0x806fd42` | `0x5b1` |
+| guild | DIFF | `0x80797ec` | `0x5d7` | `0x806fc7e` | `0x5b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -717,7 +717,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2689 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1970 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorSendGuildLetter(PacketHeader* pkt)
@@ -726,9 +726,9 @@ void CPacketTranslater::OnMonitorSendGuildLetter(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnMonitorSendGuildLetter : 0 == m_pclApp");
     char* pb = (char*)pkt;
-    unsigned int charNo = ((PTL_SendGuildLetterPkt*)pb)->m_charNo;
-    unsigned int guildId = ((PTL_SendGuildLetterPkt*)pb)->m_guildId;
-    const char* msg = ((PTL_SendGuildLetterPkt*)pb)->m_msg;
+    unsigned int charNo = ((Packet_Monitor_Send_Guild_Mail*)pb)->m_charNo;
+    unsigned int guildId = ((Packet_Monitor_Send_Guild_Mail*)pb)->m_guildId;
+    const char* msg = ((Packet_Monitor_Send_Guild_Mail*)pb)->m_msg;
     Packet_Monitor_Reply_Guild_Mail reply;
     {
         DNF_LOG_SCOPE_LINE(0xa98, "./log/GuildLetter", "charNo(%d),guildId(%d),msg(%s)", charNo, guildId, msg);

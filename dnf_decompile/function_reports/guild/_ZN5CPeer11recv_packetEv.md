@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051086` | `0x1a1` | `0x8099014` | `0x1bf` |
+| guild | DIFF | `0x8051086` | `0x1a1` | `0x8099056` | `0x1bf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -228,10 +228,10 @@ int CPeer::recv_packet()
     if (getHandle() < 0)
         return 0;
     errno = 0;
-    int remaining = ((char*)this + 0x1c) - m_buf + 0x1800;
+    int remaining = m_data - m_buf + 0x1800;
     if (remaining == 0)
     {
-        m_buf = (char*)this + 0x1c;
+        m_buf = m_data;
         m_remainLen = 0;
         remaining = 0x1800;
     }

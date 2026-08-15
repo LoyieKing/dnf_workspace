@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082902` | `0x2e3` | `0x8078b34` | `0x2cb` |
+| guild | DIFF | `0x8082902` | `0x2e3` | `0x8078aa0` | `0x2cb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -335,7 +335,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4858 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4129 行）：
 
 ```cpp
 void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
@@ -348,9 +348,9 @@ void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x1696, "./log/Except", "CPacketTranslater::OnDBCreateGuildAgit : 0 == m_pclApp");
             return;
         }
-        if (((PTL_GuildAgitPkt*)pb)->m_field12 == 0)
+        if (((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_field12 == 0)
         {
-            unsigned int guildKey = ((PTL_GuildAgitPkt*)pb)->m_guildKey;
+            unsigned int guildKey = ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
@@ -365,7 +365,7 @@ void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
                 cargoInfo.m_capacity = 8;
                 guild->GetGuildCargo()->SetGuildCargoDBInfo(cargoInfo);
                 guild->NotifyCreateGuildAgitToGuildMember(
-                    ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                    ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_charNo);
                 guild->SendGuildAgitInfoToMembers();
                 guild->SendGuildInfoToMembers(false);
             }
@@ -373,9 +373,9 @@ void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
         }
         DNF_LOG_SCOPE_LINE(0x16a0,"./log/GuildAgit",
             "CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
-            ((PTL_GuildAgitPkt*)pb)->m_guildKey,
-            ((PTL_GuildAgitPkt*)pb)->m_charNo,
-            ((PTL_GuildAgitPkt*)pb)->m_field12);
+            ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_guildKey,
+            ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_charNo,
+            ((Packet_DB_Create_Guild_Agit_Reply*)pb)->m_field12);
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnDBCreateGuildAgit Exception Break", 0x16c4, 0x16c9);
 }

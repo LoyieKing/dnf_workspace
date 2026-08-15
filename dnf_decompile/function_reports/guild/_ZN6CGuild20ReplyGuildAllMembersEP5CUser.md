@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808fcd4` | `0xa29` | `0x8055ad8` | `0x750` |
+| guild | DIFF | `0x808fcd4` | `0xa29` | `0x8055a28` | `0x758` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,753 +1,545 @@
+@@ -1,753 +1,549 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,14 +23,14 @@
 +sub    $0x301c,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0xa1d>
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x73e>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x746>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0xa1e>
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x741>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x749>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
@@ -38,7 +38,7 @@
  test   %eax,%eax
 -je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0xa1e>
 -lea    -0x2fcb(%ebp),%eax
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x744>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x74c>
 +lea    -0x2fef(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev>
@@ -108,25 +108,14 @@
 -mov    -0x24(%ebp),%ecx
 -mov    0x8(%ebp),%ebx
 -mov    %ecx,%eax
-+movl   $0x0,-0x40(%ebp)
-+movl   $0x0,-0x40(%ebp)
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x36c>
-+mov    0x8(%ebp),%ecx
-+mov    -0x40(%ebp),%edx
-+mov    %edx,%eax
- shl    $0x6,%eax
+-shl    $0x6,%eax
 -add    %ecx,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0xf0,%eax
 -movzbl 0xf(%eax),%ecx
-+add    %edx,%eax
-+add    $0xdd,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    %eax,-0x3c(%ebp)
-+mov    -0x44(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- sub    %edx,%eax
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-sub    %edx,%eax
 -lea    -0x18(%ebp),%edx
 -lea    (%edx,%eax,1),%eax
 -sub    $0x2f7f,%eax
@@ -164,11 +153,15 @@
 -sub    $0x2f83,%eax
 -mov    %cx,0x6(%eax)
 -mov    -0x24(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
--add    $0xd0,%eax
--add    0x8(%ebp),%eax
++movl   $0x0,-0x40(%ebp)
++movl   $0x0,-0x40(%ebp)
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x36e>
++mov    -0x40(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
+ add    $0xd0,%eax
+ add    0x8(%ebp),%eax
 -lea    0x11(%eax),%ecx
 -mov    -0x20(%ebp),%edx
 -lea    -0x2fcb(%ebp),%ebx
@@ -178,6 +171,14 @@
 -add    $0x30,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0x8,%eax
++add    $0xd,%eax
++mov    %eax,-0x3c(%ebp)
++mov    -0x44(%ebp),%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++mov    %edx,%ecx
++sub    %eax,%ecx
++mov    %ecx,%eax
 +add    $0x34,%eax
 +add    -0x4c(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
@@ -296,7 +297,7 @@
 -mov    -0x28(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
 +cmpl   $0x0,-0x34(%ebp)
-+jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x217>
++jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x21b>
 +mov    -0x3c(%ebp),%eax
 +lea    0x2c(%eax),%edx
 +mov    -0x38(%ebp),%eax
@@ -305,7 +306,7 @@
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x35e>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x360>
 +mov    -0x38(%ebp),%eax
 +lea    0x1(%eax),%ebx
 +mov    -0x34(%ebp),%eax
@@ -399,7 +400,7 @@
 -mov    0xd(%eax),%eax
 -mov    %eax,-0x2fe0(%ebp)
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x2d9>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x2dd>
 +mov    -0x3c(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x3000(%ebp)
@@ -433,7 +434,7 @@
 +lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x332>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x334>
 +mov    -0x38(%ebp),%eax
 +lea    0x37(%eax),%ebx
 +mov    -0x34(%ebp),%eax
@@ -456,8 +457,7 @@
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17GetGuildMemDBInfoEv>
-+add    $0x15,%eax
-+movzbl (%eax),%eax
++movzbl 0x15(%eax),%eax
 +mov    %al,(%ebx)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -478,7 +478,7 @@
 -lea    -0x18(%ebp),%edx
 -lea    (%edx,%eax,1),%eax
 -sub    $0x2f46,%eax
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x35e>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x360>
 +mov    -0x38(%ebp),%eax
 +add    $0x39,%eax
  movb   $0x1,(%eax)
@@ -506,7 +506,7 @@
 -cmpl   $0x5f,-0x20(%ebp)
 +addl   $0x1,-0x44(%ebp)
 +cmpl   $0x5f,-0x44(%ebp)
-+jg     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x380>
++jg     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x382>
 +addl   $0x1,-0x40(%ebp)
 +movzwl -0x46(%ebp),%eax
 +cmp    -0x40(%ebp),%eax
@@ -523,26 +523,30 @@
 -jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x11d>
 -jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x4e6>
 +jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x127>
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x381>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x383>
  nop
 -mov    -0x20(%ebp),%eax
 -mov    %al,-0x2f98(%ebp)
 -movzbl -0x2f98(%ebp),%eax
 -movzbl %al,%edx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-sub    %dx,%ax
 +mov    -0x4c(%ebp),%eax
 +lea    0x33(%eax),%edx
 +mov    -0x44(%ebp),%eax
 +mov    %al,(%edx)
 +mov    -0x4c(%ebp),%eax
-+lea    0x2(%eax),%ecx
++lea    0x2(%eax),%edx
 +mov    -0x44(%ebp),%eax
-+mov    %eax,%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- sub    %dx,%ax
++mov    %eax,%ecx
++shl    $0x6,%ecx
++mov    %ecx,%ebx
++sub    %ax,%bx
++mov    %ebx,%eax
  add    $0x34,%eax
 -mov    %ax,-0x2fc9(%ebp)
-+mov    %ax,(%ecx)
++mov    %ax,(%edx)
 +mov    -0x4c(%ebp),%eax
 +lea    0xa(%eax),%ebx
  mov    0xc(%ebp),%eax
@@ -571,7 +575,7 @@
 -lea    -0x17f7(%ebp),%eax
 +movzwl -0x46(%ebp),%eax
 +cmp    -0x44(%ebp),%eax
-+jle    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x745>
++jle    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x74d>
 +lea    -0x181b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN52Packet_Monitor_Call_Guild_All_Members_ToChannel_NextC1Ev>
@@ -591,27 +595,14 @@
 -mov    -0x1c(%ebp),%ecx
 -mov    0x8(%ebp),%ebx
 -mov    %ecx,%eax
-+mov    %eax,(%edx)
-+movl   $0x0,-0x2c(%ebp)
-+mov    -0x40(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x6c8>
-+mov    0x8(%ebp),%ecx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,%eax
- shl    $0x6,%eax
+-shl    $0x6,%eax
 -add    %ecx,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0xf0,%eax
 -movzbl 0xf(%eax),%ecx
-+add    %edx,%eax
-+add    $0xdd,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x2c(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- sub    %edx,%eax
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-sub    %edx,%eax
 -lea    -0x18(%ebp),%edx
 -lea    (%edx,%eax,1),%eax
 -sub    $0x17c8,%eax
@@ -649,11 +640,17 @@
 -sub    $0x17cf,%eax
 -mov    %cx,0x9(%eax)
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
--add    $0xd0,%eax
--add    0x8(%ebp),%eax
++mov    %eax,(%edx)
++movl   $0x0,-0x2c(%ebp)
++mov    -0x40(%ebp),%eax
++mov    %eax,-0x28(%ebp)
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x6ce>
++mov    -0x28(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
+ add    $0xd0,%eax
+ add    0x8(%ebp),%eax
 -lea    0x11(%eax),%ecx
 -mov    -0x20(%ebp),%edx
 -lea    -0x17f7(%ebp),%ebx
@@ -663,6 +660,14 @@
 -add    $0x10,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0xb,%eax
++add    $0xd,%eax
++mov    %eax,-0x24(%ebp)
++mov    -0x2c(%ebp),%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++mov    %edx,%ecx
++sub    %eax,%ecx
++mov    %ecx,%eax
 +add    $0x17,%eax
 +add    -0x30(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
@@ -781,7 +786,7 @@
 -mov    -0x28(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x51e>
++jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x526>
 +mov    -0x20(%ebp),%eax
 +movb   $0xff,(%eax)
 +mov    -0x20(%ebp),%eax
@@ -793,7 +798,7 @@
 +mov    -0x20(%ebp),%eax
 +add    $0x38,%eax
 +movb   $0x0,(%eax)
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x665>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x66b>
 +mov    -0x20(%ebp),%eax
 +lea    0x1(%eax),%ebx
 +mov    -0x1c(%ebp),%eax
@@ -887,7 +892,7 @@
 -mov    0xd(%eax),%eax
 -mov    %eax,-0x2fdc(%ebp)
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x5e0>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x5e8>
 +mov    -0x24(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x2ffc(%ebp)
@@ -921,7 +926,7 @@
 +lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x639>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x63f>
 +mov    -0x20(%ebp),%eax
 +lea    0x37(%eax),%ebx
 +mov    -0x1c(%ebp),%eax
@@ -944,8 +949,7 @@
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17GetGuildMemDBInfoEv>
-+add    $0x15,%eax
-+movzbl (%eax),%eax
++movzbl 0x15(%eax),%eax
 +mov    %al,(%ebx)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -966,7 +970,7 @@
 -lea    -0x18(%ebp),%edx
 -lea    (%edx,%eax,1),%eax
 -sub    $0x178f,%eax
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x665>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x66b>
 +mov    -0x20(%ebp),%eax
 +add    $0x39,%eax
  movb   $0x1,(%eax)
@@ -1003,7 +1007,7 @@
 -cmpl   $0x5f,-0x20(%ebp)
 +addl   $0x1,-0x2c(%ebp)
 +cmpl   $0x5f,-0x2c(%ebp)
-+jle    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x6c4>
++jle    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x6ca>
 +mov    -0x30(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x2c(%ebp),%eax
@@ -1038,51 +1042,23 @@
 -mov    -0x20(%ebp),%eax
 -mov    %al,-0x17e1(%ebp)
 -movw   $0x17b7,-0x17f5(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x17ed(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x17e9(%ebp)
--lea    -0x17f7(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
--movl   $0x0,-0x20(%ebp)
--addl   $0x1,-0x1c(%ebp)
--mov    0x8(%ebp),%eax
--movzwl 0x1e(%eax),%eax
--movzwl %ax,%eax
--cmp    -0x1c(%ebp),%eax
--setg   %al
--test   %al,%al
--jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x584>
--cmpl   $0x0,-0x20(%ebp)
--je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0xa1e>
--mov    -0x20(%ebp),%eax
--mov    %al,-0x17e1(%ebp)
--movzbl -0x17e1(%ebp),%eax
--movzbl %al,%edx
-+jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x421>
++jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x425>
 +cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x745>
++je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x74d>
 +mov    -0x30(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x2c(%ebp),%eax
 +mov    %al,(%edx)
 +mov    -0x30(%ebp),%eax
-+lea    0x2(%eax),%ecx
++lea    0x2(%eax),%edx
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- sub    %dx,%ax
- add    $0x17,%eax
--mov    %ax,-0x17f5(%ebp)
-+mov    %ax,(%ecx)
++mov    %eax,%ecx
++shl    $0x6,%ecx
++mov    %ecx,%ebx
++sub    %ax,%bx
++mov    %ebx,%eax
++add    $0x17,%eax
++mov    %ax,(%edx)
 +mov    -0x30(%ebp),%eax
 +lea    0xa(%eax),%ebx
  mov    0xc(%ebp),%eax
@@ -1103,13 +1079,46 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-movl   $0x0,-0x20(%ebp)
+-addl   $0x1,-0x1c(%ebp)
+-mov    0x8(%ebp),%eax
+-movzwl 0x1e(%eax),%eax
+-movzwl %ax,%eax
+-cmp    -0x1c(%ebp),%eax
+-setg   %al
+-test   %al,%al
+-jne    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x584>
+-cmpl   $0x0,-0x20(%ebp)
+-je     <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0xa1e>
+-mov    -0x20(%ebp),%eax
+-mov    %al,-0x17e1(%ebp)
+-movzbl -0x17e1(%ebp),%eax
+-movzbl %al,%edx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-sub    %dx,%ax
+-add    $0x17,%eax
+-mov    %ax,-0x17f5(%ebp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser14GetIdByChannelEv>
+-mov    %eax,-0x17ed(%ebp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,-0x17e9(%ebp)
+-lea    -0x17f7(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0xa1e>
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x745>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x74d>
  nop
 -add    $0x2ffc,%esp
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x745>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x74d>
 +nop
-+jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x745>
++jmp    <T> <_ZN6CGuild20ReplyGuildAllMembersEP5CUser+0x74d>
 +nop
 +add    $0x301c,%esp
  pop    %ebx
@@ -1328,7 +1337,7 @@ void __thiscall CGuild::_ZN6CGuild20ReplyGuildAllMembersEP5CUser(CGuild *this,CU
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1450 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1436 行）：
 
 ```cpp
 void CGuild::ReplyGuildAllMembers(CUser* user)
@@ -1340,7 +1349,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
     Packet_Monitor_Call_Guild_All_Members_ToChannel pkt;
     char* buf = (char*)&pkt;
     pkt.m_fieldC = m_guildKey;
-    memcpy(buf + 0x16, (char*)this + 0x20, 0x16);
+    memcpy(buf + 0x16, m_dbInfo.m_info.m_guildName, 0x16);
     pkt.m_fieldD = m_dbInfo.m_info.m_guildPoint;
     unsigned short total = m_totalCnt;
     int count = 0;
@@ -1354,7 +1363,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
     int idx = 0;
     for (idx = 0; idx < (int)total; idx++)
     {
-        char* src = (char*)this + idx * 0x41 + 0xdd;
+        char* src = (char*)&m_dbInfo.m_members[idx];
         char* rec = buf + 0x34 + count * 0x3f;
         rec[0] = src[0x22];
         rec[1] = src[0x23];
@@ -1382,7 +1391,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
             {
                 rec[0x37] = m->GetGameServer()->GetChannelNo();
                 memcpy(rec + 0x22, (char*)m->GetGuildMemDBInfo(), 0x14);
-                rec[0x3a] = *(char*)((char*)m->GetGuildMemDBInfo() + 0x15);
+                rec[0x3a] = (char)m->GetGuildMemDBInfo()->m_grade;
             }
             if (m->IsBlackUser(user->GetUniqCharNo()) != 0)
             {
@@ -1408,7 +1417,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
         int cnt2 = 0;
         for (int i = idx; i < (int)total; i++)
         {
-            char* src = (char*)this + i * 0x41 + 0xdd;
+            char* src = (char*)&m_dbInfo.m_members[i];
             char* rec = buf2 + 0x17 + cnt2 * 0x3f;
             rec[0] = src[0x22];
             rec[1] = src[0x23];
@@ -1438,7 +1447,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
                 {
                     rec[0x37] = m->GetGameServer()->GetChannelNo();
                     memcpy(rec + 0x22, (char*)m->GetGuildMemDBInfo(), 0x14);
-                    rec[0x3a] = *(char*)((char*)m->GetGuildMemDBInfo() + 0x15);
+                    rec[0x3a] = (char)m->GetGuildMemDBInfo()->m_grade;
                 }
                 if (m->IsBlackUser(user->GetUniqCharNo()) != 0)
                 {

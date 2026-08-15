@@ -1,5 +1,0 @@
-DIFF  _ZN11CUdpHandler16InitServerSocketEi
-DIFF  _ZNK11CUdpHandler12SendToClientEPcitPKcj
-DIFF  _ZNK11CUdpHandler12SendToServerEPcitPKc
-DIFF  _ZNK11CUdpHandler14RecvFromClientEPcPiPjPt
-DIFF  _ZNK11CUdpHandler14RecvFromServerEPcPiPjPt

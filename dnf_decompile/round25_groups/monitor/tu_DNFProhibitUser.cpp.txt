@@ -1,2 +1,0 @@
-_ZN16CDNFProhibitUser20IsTimeOutConnectableEv
-_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb

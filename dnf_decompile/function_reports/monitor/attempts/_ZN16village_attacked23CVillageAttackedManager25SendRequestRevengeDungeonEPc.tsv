@@ -1,4 +1,0 @@
-this+0x30 restored to m_rewardType; pkt remains RA_UINT<10/14> (char* has no named packet type)	DIFF	2026-08-14
-local_c + int* dst + this+0x30	DIFF worse	2026-08-14
-2026-08-14T17:43:46Z	scratch iteration; source shape/local ordering/type adjustment; see diff
-named Packet_Request_Revenge_Dungeon members, no local; 仍为 ORIG 栈槽 vs ebx 尾音	DIFF	2026-08-15

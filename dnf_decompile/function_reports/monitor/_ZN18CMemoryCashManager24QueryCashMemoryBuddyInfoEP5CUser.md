@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a150e` | `0x290` | `0x8097d64` | `0x28d` |
+| monitor | DIFF | `0x80a150e` | `0x290` | `0x8097e50` | `0x264` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,181 +1,179 @@
+@@ -1,181 +1,171 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
- sub    $0xb0,%esp
+-sub    $0xb0,%esp
++sub    $0xc0,%esp
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
@@ -27,15 +28,18 @@
  je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x27>
  mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x286>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x283>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x25a>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
- mov    %eax,-0x20(%ebp)
+-mov    %eax,-0x20(%ebp)
++mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x18(%eax),%ecx
- lea    -0x24(%ebp),%eax
- lea    -0x20(%ebp),%edx
+-lea    -0x24(%ebp),%eax
+-lea    -0x20(%ebp),%edx
++lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -43,25 +47,31 @@
  sub    $0x4,%esp
  mov    0x8(%ebp),%eax
  lea    0x18(%eax),%edx
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEneERKS5_>
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x281>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x27e>
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x255>
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEptEv>
  mov    0x4(%eax),%eax
- mov    %eax,-0x18(%ebp)
- mov    -0x18(%ebp),%eax
+-mov    %eax,-0x18(%ebp)
+-mov    -0x18(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject11GetCharacNoEv>
  mov    %eax,%ebx
@@ -72,64 +82,84 @@
  setne  %al
  test   %al,%al
  je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0xcd>
- mov    -0x18(%ebp),%eax
+-mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject12DeleteBuddysEv>
  mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x286>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x283>
- lea    -0xa8(%ebp),%eax
+-lea    -0xa8(%ebp),%eax
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x25a>
++lea    -0xac(%ebp),%eax
  mov    %eax,0x4(%esp)
- mov    -0x18(%ebp),%eax
+-mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy>
- mov    %eax,-0x14(%ebp)
- movl   $0x0,-0x10(%ebp)
+-mov    %eax,-0x14(%ebp)
+-movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x222>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x21f>
- mov    -0x10(%ebp),%eax
- mov    -0xa8(%ebp,%eax,4),%eax
+-mov    -0x10(%ebp),%eax
+-mov    -0xa8(%ebp,%eax,4),%eax
++mov    %eax,-0x18(%ebp)
++movl   $0x0,-0x14(%ebp)
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1f6>
++mov    -0x14(%ebp),%eax
++mov    -0xac(%ebp,%eax,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x21d>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x21b>
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1f2>
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
- mov    -0x10(%ebp),%eax
- mov    -0xa8(%ebp,%eax,4),%eax
+-mov    -0x10(%ebp),%eax
+-mov    -0xa8(%ebp,%eax,4),%eax
++mov    -0x14(%ebp),%eax
++mov    -0xac(%ebp,%eax,4),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
++mov    %eax,-0x10(%ebp)
++mov    -0x10(%ebp),%eax
  mov    0x22(%eax),%eax
- lea    -0x28(%ebp),%edx
+-lea    -0x28(%ebp),%edx
++lea    -0x2c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager22QueryUpdatedCharacNameEjRSs>
  test   %al,%al
- je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x19a>
+-je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x19a>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x180>
  mov    -0x10(%ebp),%eax
- mov    -0xa8(%ebp,%eax,4),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+-mov    -0xa8(%ebp,%eax,4),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memset>
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
- mov    %eax,%ebx
- mov    -0x10(%ebp),%eax
- mov    -0xa8(%ebp,%eax,4),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+-mov    %eax,%ebx
+-mov    -0x10(%ebp),%eax
+-mov    -0xa8(%ebp,%eax,4),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
++mov    -0x10(%ebp),%edx
  movl   $0x1d,0x8(%esp)
- mov    %ebx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %ebx,0x4(%esp)
+-mov    %eax,(%esp)
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
  call   <T> <strncpy>
- mov    -0x10(%ebp),%eax
- mov    -0xa8(%ebp,%eax,4),%eax
+-mov    -0x10(%ebp),%eax
+-mov    -0xa8(%ebp,%eax,4),%eax
++mov    -0x14(%ebp),%eax
++mov    -0xac(%ebp,%eax,4),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -140,9 +170,9 @@
 -mov    %eax,%ebx
 +mov    %eax,%esi
  mov    -0x10(%ebp),%eax
- mov    -0xa8(%ebp,%eax,4),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+-mov    -0xa8(%ebp,%eax,4),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -mov    0x22(%eax),%esi
 +mov    0x22(%eax),%ebx
  mov    0x8(%ebp),%eax
@@ -155,30 +185,37 @@
 +mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN21CBuddyRegisterManager16addBuddyRegisterEjj>
- jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x210>
+-jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x210>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1e7>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x21e>
 -nop
- addl   $0x1,-0x10(%ebp)
- mov    -0x10(%ebp),%eax
- cmp    -0x14(%ebp),%eax
+-addl   $0x1,-0x10(%ebp)
+-mov    -0x10(%ebp),%eax
+-cmp    -0x14(%ebp),%eax
++addl   $0x1,-0x14(%ebp)
++mov    -0x14(%ebp),%eax
++cmp    -0x18(%ebp),%eax
  setl   %al
  test   %al,%al
  jne    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0xf1>
- cmpl   $0x0,-0x14(%ebp)
+-cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x25c>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x259>
++cmpl   $0x0,-0x18(%ebp)
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x230>
  mov    0x8(%ebp),%eax
  mov    0x30(%eax),%eax
  mov    %eax,(%esp)
@@ -198,7 +235,7 @@
  call   <T> <_ZN18CMemoryCashManager18incBuddyCashHitCntEv>
  mov    $0x1,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x286>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x283>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x25a>
  mov    $0x0,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -335,14 +372,15 @@ int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
             if (buddies[i] != 0)
             {
                 std::string name;
-                if (QueryUpdatedCharacName(((RA_UINT<34>*)buddies[i]->getBuddyDBInfo())->v, name))
+                STBuddyDBInfo* buddyDb = (STBuddyDBInfo*)buddies[i]->getBuddyDBInfo();
+                if (QueryUpdatedCharacName(buddyDb->m_characNo, name))
                 {
-                    memset(buddies[i]->getBuddyDBInfo(), 0, 0x1e);
-                    strncpy((char*)buddies[i]->getBuddyDBInfo(), name.c_str(), 0x1d);
+                    memset(buddyDb->m_name, 0, 0x1e);
+                    strncpy(buddyDb->m_name, name.c_str(), 0x1d);
                 }
                 user->AddBuddyFromCash(buddies[i]);
                 register unsigned int uniqNo = user->GetUniqCharNo();
-                register unsigned int charNo = ((RA_UINT<34>*)buddies[i]->getBuddyDBInfo())->v;
+                register unsigned int charNo = buddyDb->m_characNo;
                 m_app->Get_BuddyRegisterManager()->addBuddyRegister(charNo, uniqNo);
             }
         }

@@ -1,1 +1,0 @@
-buf 0x100->0xff; exec 结果存 char r; log 指针改内联 reply.m_logs[j]; col++ 计数器	NEAR(h 偏移仍 -0x18 vs -0x14)

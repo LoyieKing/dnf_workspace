@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bd5c` | `0x19c` | `0x80f55d0` | `0x192` |
+| dbmw | DIFF | `0x805bd5c` | `0x19c` | `0x80f59d2` | `0x199` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,117 +1,116 @@
+@@ -1,117 +1,117 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -31,10 +31,10 @@
  call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x187>
-+jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x161>
++jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x168>
  movl   $0x0,-0x30(%ebp)
 -jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x14f>
-+jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x144>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x14b>
 +nop
  mov    0x8(%ebp),%eax
  add    $0x11c,%eax
@@ -42,7 +42,7 @@
  call   <T> <_ZNSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5frontEv>
  mov    (%eax),%eax
  mov    %eax,-0x30(%ebp)
--movl   $0x0,-0xc(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
@@ -61,7 +61,7 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0xd9>
-+je     <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0xce>
++je     <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0xd5>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
@@ -117,7 +117,7 @@
  test   %al,%al
  jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x41>
 -jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x187>
-+jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x162>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x169>
 +nop
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -223,6 +223,7 @@ void CTcpNetSystem::SetEpollAcceptedPeers()
         goto check;
     body:
         peer = m_peerQueue.front();
+        ret = 0;
         ret = m_tcpHandler->SetPeer(peer, peer->GetTcpSocket()->getHandle(), false);
         if (ret != 0)
         {

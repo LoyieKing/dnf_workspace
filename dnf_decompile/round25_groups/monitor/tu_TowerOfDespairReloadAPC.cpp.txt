@@ -1,2 +1,0 @@
-_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv
-_ZN41TowerOfDespairWaitGameServerResponse_Task10_DoExecuteEv

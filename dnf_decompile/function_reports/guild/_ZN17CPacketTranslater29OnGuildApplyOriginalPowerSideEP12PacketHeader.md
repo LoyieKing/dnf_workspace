@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087c5c` | `0x374` | `0x807dab0` | `0x35d` |
+| guild | DIFF | `0x8087c5c` | `0x374` | `0x807db20` | `0x35d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -456,7 +456,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6211 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5469 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)
@@ -469,21 +469,21 @@ void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)
                 "CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == m_pclApp");
             return;
         }
-        unsigned int charNo = ((PTL_PowerSidePkt*)pkt)->m_charNo;
+        unsigned int charNo = ((Packet_Guild_Apply_Origial_Power_Side*)pkt)->m_charNo;
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
         if (user == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1e4e, "./log/Power", "CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == pclUser");
             return;
         }
-        unsigned int guildKey = ((PTL_PowerSidePkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_Guild_Apply_Origial_Power_Side*)pkt)->m_guildKey;
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1e55, "./log/Power", "CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == pclGuild");
             return;
         }
-        unsigned char side = ((PTL_PowerSidePkt*)pkt)->m_field12;
+        unsigned char side = ((Packet_Guild_Apply_Origial_Power_Side*)pkt)->m_field12;
         if (!((side == 3 || side == 4) && side == guild->GetPowerSide()))
         {
             DNF_LOG_SCOPE_LINE(0x1e5d,"./log/Power",

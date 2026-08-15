@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x804c96a` | `0x13c` | `0x8088788` | `0x13c` |
+| guild | NEAR | `0x804c96a` | `0x13c` | `0x8088810` | `0x13c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -156,4 +156,4 @@ void CFrameCountHandler::_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplica
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFTickHandler.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 272 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFTickHandler.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 276 个文件*

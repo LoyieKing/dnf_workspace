@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088688` | `0x1f8` | `0x8073da2` | `0x1d1` |
+| monitor | DIFF | `0x8088688` | `0x1f8` | `0x8073e4c` | `0x1d7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,141 +1,129 @@
+@@ -1,141 +1,131 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,37 +23,40 @@
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
++mov    %eax,-0x28(%ebp)
++mov    -0x28(%ebp),%eax
  movzbl 0xa(%eax),%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x2f>
-+je     <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x29>
+ je     <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x2f>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication12getTowerRankEv>
  mov    %eax,(%esp)
  call   <T> <_ZN10CTowerRank5resetEv>
 -mov    -0x24(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xf(%eax),%esi
 -mov    -0x24(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xb(%eax),%ebx
  movl   $0x1172,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x3c(%ebp),%eax
+-lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"%d/%d\n",0x8(%esp)
  movl   $"./log/DeathTower",0x4(%esp)
- lea    -0x3c(%ebp),%eax
+-lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x101>
 +movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0xde>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0xe4>
 +mov    0x8(%ebp),%edx
 +mov    -0x24(%ebp),%eax
 +imul   $0x65,%eax,%eax
@@ -103,19 +106,18 @@
 -addl   $0x1,-0x20(%ebp)
 -mov    -0x24(%ebp),%eax
 +addl   $0x1,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xb(%eax),%eax
 -cmp    -0x20(%ebp),%eax
 +cmp    -0x24(%ebp),%eax
  seta   %al
  test   %al,%al
--jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x82>
+ jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x82>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1f0>
-+jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x7c>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1c9>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1cf>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x196>
-+jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x16f>
++jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x175>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -129,17 +131,19 @@
  mov    %eax,%ebx
  movl   $0x117e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x18f>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x168>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x16e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -149,21 +153,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1f0>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1c9>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1cf>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1183,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1eb>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1ca>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -225,20 +231,22 @@ void CPacketTranslater::_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3202 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3216 行）：
 
 ```cpp
 void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
 {
     try
     {
-        if (((RA_S8<10>*)pkt)->v != 0)
+        Packet_Reply_Load_Tower_Full_Rank* rank =
+            (Packet_Reply_Load_Tower_Full_Rank*)pkt;
+        if (rank->m_reset != 0)
         {
             ((CTowerRank*)m_pclApp->getTowerRank())->reset();
         }
-        DNF_LOG_SCOPE_LINE(0x1172,"./log/DeathTower", "%d/%d\n", ((RA_UINT<11>*)pkt)->v,
-            ((RA_UINT<15>*)pkt)->v);
-        for (unsigned int i = 0; i < ((RA_UINT<11>*)pkt)->v; i++)
+        DNF_LOG_SCOPE_LINE(0x1172,"./log/DeathTower", "%d/%d\n", rank->m_count,
+            rank->m_total);
+        for (unsigned int i = 0; i < rank->m_count; i++)
         {
             MonitorTowerFullRankRec* rec = (MonitorTowerFullRankRec*)pkt + i;
             ((CTowerRank*)m_pclApp->getTowerRank())->registRank(

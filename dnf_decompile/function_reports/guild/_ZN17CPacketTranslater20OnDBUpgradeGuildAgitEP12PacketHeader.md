@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80834ae` | `0x232` | `0x8079660` | `0x21b` |
+| guild | DIFF | `0x80834ae` | `0x232` | `0x80795cc` | `0x21b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -268,7 +268,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5045 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4315 行）：
 
 ```cpp
 void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
@@ -280,9 +280,9 @@ void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x17a8, "./log/Except", "CPacketTranslater::OnDBUpgradeGuildAgit : 0 == m_pclApp");
             return;
         }
-        if (((PTL_GuildAgitPkt*)pkt)->m_field12 == 0)
+        if (((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_field12 == 0)
         {
-            unsigned int guildKey = ((PTL_GuildAgitPkt*)pkt)->m_guildKey;
+            unsigned int guildKey = ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
@@ -298,9 +298,9 @@ void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
         }
         DNF_LOG_SCOPE_LINE(0x17b2,"./log/GuildAgit",
             "CPacketTranslater::OnDBUpgradeGuildAgit / Failure! Upgrade Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
-            ((PTL_GuildAgitPkt*)pkt)->m_guildKey,
-            ((PTL_GuildAgitPkt*)pkt)->m_charNo,
-            ((PTL_GuildAgitPkt*)pkt)->m_field12);
+            ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_guildKey,
+            ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_charNo,
+            ((Packet_DB_Upgrade_Guild_Agit_Reply*)pkt)->m_field12);
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnDBUpgradeGuildAgit Exception Break", 0x17c5, 0x17ca);
 }

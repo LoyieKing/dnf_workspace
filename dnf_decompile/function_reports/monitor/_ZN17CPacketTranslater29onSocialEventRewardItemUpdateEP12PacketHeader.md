@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090738` | `0x2ac` | `0x807bcc6` | `0x2ce` |
+| monitor | DIFF | `0x8090738` | `0x2ac` | `0x807bdd2` | `0x2ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,12 +99,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN25LimitNpcBuyItemChangeInfoC1Ev>
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x34(%ebp),%eax
  mov    0x16(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader+0x11b>
 +jne    <T> <_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader+0x1cf>
-+mov    0x8(%ebp),%eax
++mov    -0x34(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %eax,-0x30(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -151,13 +151,13 @@
 -mov    0xa(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%ebx
-+mov    0x8(%ebp),%eax
++mov    -0x34(%ebp),%eax
 +mov    0x12(%eax),%eax
 +mov    %eax,-0x28(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x34(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %eax,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x34(%ebp),%eax
 +mov    0xe(%eax),%eax
 +mov    %eax,-0x20(%ebp)
  movl   $0x1e46,0x8(%esp)
@@ -327,7 +327,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5247 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5261 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader* pkt)
@@ -338,19 +338,19 @@ void CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader* pkt)
         {
             throw CDNFException("CPacketTranslater::onSocialEventRewardItemUpdate");
         }
-        PacketHeader* rpkt = pkt;
+        LimitNpcBuyItemUpdate* rpkt = (LimitNpcBuyItemUpdate*)pkt;
         LimitNpcBuyItemChangeInfo change;
-        if (((RA_INT<22>*)pkt)->v == 0)
+        if ((int)rpkt->m_errorNo == 0)
         {
-            unsigned int itemId = ((RA_UINT<10>*)pkt)->v;
+            unsigned int itemId = rpkt->m_itemId;
             LimitNpcBuyItemManager* mgr = m_pclApp->getLimitNpcBuyItemManager();
             mgr->getNpcLimitBuyItemCount(itemId, change);
             (m_pclApp->m_serverHandler2)
                 ->SendAllTcpGameServer(&change);
             (m_pclApp->m_serverHandler2)->SendToDB(pkt);
-            unsigned int buyCount = ((RA_UINT<18>*)pkt)->v;
-            unsigned int itemId2 = ((RA_UINT<10>*)pkt)->v;
-            unsigned int charNo = ((RA_UINT<14>*)pkt)->v;
+            unsigned int buyCount = rpkt->m_cancelCount;
+            unsigned int itemId2 = rpkt->m_itemId;
+            unsigned int charNo = rpkt->m_charNo;
             DNF_LOG_SCOPE_LINE(0x1e46,"./log/NpcBuyLimitItem",
                 "DB Update-> characNo: %u, itemId: %u, buyCount: %u)", charNo, itemId2,
                 buyCount);

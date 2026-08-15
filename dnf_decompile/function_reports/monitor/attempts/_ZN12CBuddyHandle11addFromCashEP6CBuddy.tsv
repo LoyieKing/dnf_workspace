@@ -1,1 +1,0 @@
-if(size>0x1f)return0; else return insert.second; 剩余 movzbl al,ebx 与 jmp/nop 尾音	DIFF	2026-08-15

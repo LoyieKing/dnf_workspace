@@ -1,5 +1,0 @@
-source_excerpt	result	date
-iterator it 声明在 if(flag) 块内（copy-init：iterator it = find(...)），guard 在嵌套 {} 块	NEAR(guard=-0x4c,it=-0x50 与 ORIG 互换)	2026-08-14
-iterator it 提到函数作用域（guard 块之前声明，块内赋值 it=find(...)）	DIFF(更差)	2026-08-14
-iterator it 拆分声明/赋值（iterator it; it=find(...) 在 if 块内）	DIFF(更差)	2026-08-14
-iterator it 包一层嵌套 {} 块（与 guard 块同为 naked block）	NEAR(同，仍互换)	2026-08-14

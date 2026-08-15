@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807ec9e` | `0x313` | `0x806ab3c` | `0x30d` |
+| monitor | DIFF | `0x807ec9e` | `0x313` | `0x806abc2` | `0x30d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -302,12 +302,12 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 676 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 670 行）：
 
 ```cpp
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
 {
-    PacketHeader* p = pkt;
+    Packet_Monitor_UDP_HeartBeat* p = (Packet_Monitor_UDP_HeartBeat*)pkt;
     if (m_pclApp != 0)
     {
         CServerHandler* handler = m_pclApp->m_serverHandler2;
@@ -315,7 +315,7 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
         {
             try
             {
-                unsigned char channel = ((RA_U8<10>*)p)->v;
+                unsigned char channel = p->m_channel;
                 if (channel == 0xc8)
                 {
                     handler->ResetDBHeartBeat();
@@ -350,7 +350,7 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
                 else
                 {
                     DNF_LOG_SCOPE_LINE(0x341,"./log/Except", "[ERROR - HEART BEAT] Channel Index(%d) Over.",
-                        (unsigned int)((RA_U8<10>*)p)->v);
+                        (unsigned int)p->m_channel);
                 }
             }
             catch (CDNFException& e)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808cf32` | `0x1a9` | `0x80785d2` | `0x1ad` |
+| monitor | DIFF | `0x808cf32` | `0x1a9` | `0x80786c6` | `0x1a6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,128 @@
+@@ -1,129 +1,127 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x40,%esp
  mov    0x8(%ebp),%eax
--mov    %eax,-0x18(%ebp)
--mov    -0x18(%ebp),%eax
--mov    0x6(%eax),%edx
-+mov    0xa(%eax),%edx
+ mov    %eax,-0x18(%ebp)
+ mov    -0x18(%ebp),%eax
+ mov    0x6(%eax),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -31,154 +30,109 @@
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x1a1>
--mov    -0x18(%ebp),%eax
--movzbl 0x15e(%eax),%eax
--movsbl %al,%esi
--mov    -0x18(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x1a6>
-+mov    0x8(%ebp),%eax
- mov    0x12(%eax),%eax
++je     <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x19f>
+ mov    -0x18(%ebp),%eax
+ movzbl 0x15e(%eax),%eax
+ movsbl %al,%esi
+ mov    -0x18(%ebp),%eax
+-mov    0x12(%eax),%eax
 -mov    %eax,%ebx
--lea    -0x21(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+lea    -0x16(%ebp),%eax
++mov    0x12(%eax),%ebx
+ lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  lea    0x40(%eax),%edx
--lea    -0x21(%ebp),%eax
-+lea    -0x16(%ebp),%eax
+ lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x19(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcEC1Ev>
--mov    -0x18(%ebp),%eax
--lea    0x22(%eax),%edx
--lea    -0x19(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    %edx,0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsC1EPKcRKSaIcE>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--lea    -0x28(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    -0x20(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication19AddAccusationCharacERKSsS1_ic>
+ lea    -0x19(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcEC1Ev>
+ mov    -0x18(%ebp),%eax
+ lea    0x22(%eax),%edx
+ lea    -0x19(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    %edx,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsC1EPKcRKSaIcE>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ lea    -0x28(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    -0x20(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication19AddAccusationCharacERKSsS1_ic>
 -mov    -0x18(%ebp),%edx
 -mov    %al,0x15e(%edx)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x10b>
-+jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x79>
++mov    %eax,%edx
++mov    -0x18(%ebp),%eax
++mov    %dl,0x15e(%eax)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x10b>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0xe3>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x19(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x123>
--lea    -0x19(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x13e>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x21(%ebp),%eax
-+lea    -0x16(%ebp),%eax
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0xe3>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x19(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x123>
+ lea    -0x19(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x13e>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x21(%ebp),%eax
-+lea    -0x16(%ebp),%eax
+ lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
-+lea    -0x15(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcEC1Ev>
-+mov    0x8(%ebp),%eax
-+lea    0x22(%eax),%edx
-+lea    -0x15(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1EPKcRKSaIcE>
-+jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0xc5>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x15(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x180>
-+lea    -0x15(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    0x8(%ebp),%ebx
-+mov    0x8(%ebp),%eax
-+movzbl 0x15e(%eax),%eax
-+movsbl %al,%edx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %edx,0x10(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+lea    -0x1c(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x20(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication19AddAccusationCharacERKSsS1_ic>
-+mov    %al,0x15e(%ebx)
  movl   $0x15f,0x8(%esp)
  movl   $0x1b66,0x4(%esp)
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x1a2>
--mov    -0x10(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x19f>
+ mov    -0x10(%ebp),%eax
  mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x173>
  movl   $0x15f,0x8(%esp)
--mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -190,31 +144,6 @@
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x1a2>
 -nop
-+jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x173>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x180>
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader+0x19b>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
  add    $0x40,%esp
  pop    %ebx
  pop    %esi
@@ -277,26 +206,28 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4352 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4372 行）：
 
 ```cpp
 void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt)
 {
+    Packet_Check_Overlapped_Accusation* acc =
+        (Packet_Check_Overlapped_Accusation*)pkt;
     CTcpGameServer* tcpGs =
-        (CTcpGameServer*)m_pclApp->FindTcpGameServer(
-            ((RA_UINT<10>*)pkt)->v);
+        (CTcpGameServer*)m_pclApp->FindTcpGameServer(acc->m_connNo);
     if (tcpGs != 0)
     {
-        int type = ((RA_INT<18>*)pkt)->v;
-        std::string name2((char*)pkt + 0x40);
-        std::string name1((char*)pkt + 0x22);
-        ((RA_S8<350>*)pkt)->v = (char)m_pclApp->AddAccusationCharac(
-            name1, name2, type, ((RA_S8<350>*)pkt)->v);
+        acc->m_result = m_pclApp->AddAccusationCharac(
+            std::string(acc->m_name1),
+            std::string(acc->m_name2),
+            acc->m_type,
+            acc->m_result);
         char* buf = tcpGs->makePacketHeader(0x1b66, 0x15f);
         if (buf != 0)
         {
-            memcpy(buf, pkt, 0x15f);
-            tcpGs->SendToGameServer(buf);
+            char* out = buf;
+            memcpy(out, acc, 0x15f);
+            tcpGs->SendToGameServer(out);
         }
     }
 }

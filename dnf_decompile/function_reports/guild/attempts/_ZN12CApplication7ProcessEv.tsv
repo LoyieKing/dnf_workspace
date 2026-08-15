@@ -1,4 +1,0 @@
-原始 m_field24 != 0 (int 32位读)	DIFF(mov vs ORIG movzbl)	2026-08-12
-unsigned char 局部变量	DIFF(f 落栈槽，寻址变 add)	2026-08-12
-*(unsigned char*)&f->m_field24 内联	NEAR(movzbl 形态对，但 add %0x24+movzbl vs ORIG 直接 movzbl 0x24)	2026-08-12
-((unsigned char*)f)[0x24]	NEAR(同上 add+movzbl)	2026-08-12

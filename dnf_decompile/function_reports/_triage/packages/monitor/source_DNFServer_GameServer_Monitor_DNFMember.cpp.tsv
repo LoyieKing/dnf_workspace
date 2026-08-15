@@ -1,8 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN7CMember10LoadMemberER14STMemberDBInfosjj	DIFF	13	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMember.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN7CMember21GetConnLowerMemberCntEv	DIFF	10	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMember.cpp	9	CODEGEN_TAIL	very small structural diff
-monitor	_ZN7CMember21IncConnLowerMemberExpEijj	DIFF	86	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMember.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN7CMember21NoticeLevelUpToLowersEj	DIFF	36	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMember.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN7CMember21NoticeMemberLogin_OutEP5CUserc	DIFF	306	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMember.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser	DIFF	101	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMember.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser	DIFF	134	N			N	N	source/DNFServer/GameServer/Monitor/DNFMember.cpp	0	NEEDS_REVERSE	source location missing from md

@@ -1,3 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-dbmw	_ZN18CFrameCountHandler17GetFrameCountInfoEv	DIFF	209	N			Y	Y	source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-dbmw	_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt	DIFF	16	N			N	Y	source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp	2	CODEGEN_TAIL	very small structural diff

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088fd4` | `0x29b` | `0x80746dc` | `0x2b9` |
+| monitor | DIFF | `0x8088fd4` | `0x29b` | `0x8074792` | `0x2b9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -315,7 +315,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3378 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3395 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
@@ -329,7 +329,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
         else
         {
             CServerHandler* handler = m_pclApp->Get_ServerHandler();
-            if (handler->GetTcpDBServer()->GetSock() == ((RA_INT<6>*)pkt)->v)
+            if (handler->GetTcpDBServer()->GetSock() == (int)pkt->m_connNo)
             {
                 handler = m_pclApp->Get_ServerHandler();
                 handler->GetTcpDBServer()->DisConnected();
@@ -337,7 +337,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
             else
             {
                 handler = m_pclApp->Get_ServerHandler();
-                if (handler->GetTcpManagerServer()->GetSock() == ((RA_INT<6>*)pkt)->v)
+                if (handler->GetTcpManagerServer()->GetSock() == (int)pkt->m_connNo)
                 {
                     handler = m_pclApp->Get_ServerHandler();
                     handler->GetTcpManagerServer()->DisConnected();
@@ -345,7 +345,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
                 else
                 {
                     CTcpGameServer* tcp = (CTcpGameServer*)m_pclApp->FindTcpGameServer(
-                        ((RA_UINT<6>*)pkt)->v);
+                        pkt->m_connNo);
                     m_pclApp->OnTcpGameServerDown(tcp);
                     unsigned char channel = tcp->GetChannelNo();
                     if (channel != 0)
@@ -354,7 +354,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
                         handler->UnregistGameServer((unsigned int)channel);
                     }
                     handler = m_pclApp->Get_ServerHandler();
-                    handler->DeleteTcpGameServer(((RA_UINT<6>*)pkt)->v);
+                    handler->DeleteTcpGameServer(pkt->m_connNo);
                     void* net = m_pclApp->Get_TcpNetSystem();
                     DNF_LOG_SCOPE_LINE(0x12af, "./log/Tcp", "OnInnerPacketLogout : Network system (%x)", net);
                 }

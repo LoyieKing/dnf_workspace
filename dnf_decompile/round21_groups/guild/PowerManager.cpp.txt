@@ -1,8 +1,0 @@
-DIFF   _ZN13CPowerManager18SaveDBPowerWarRankEv
-DIFF   _ZN13CPowerManager18UpdatePowerWarInfoEb20ENUM_POWER_SIDE_TYPEiPj
-DIFF   _ZN13CPowerManager23SendPowerWarProcessInfoEj
-DIFF   _ZN13CPowerManager24RewardGuildPowerWarPointEv
-DIFF   _ZN13CPowerManager24SaveDBPowerWarBonusPointEv
-DIFF   _ZN13CPowerManager25SaveDBPowerWarPointRewardEv
-DIFF   _ZN13CPowerManager33SendPowerWarEndInfoToSpecificUserEP5CUserjhjjjjj
-DIFF   _ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc

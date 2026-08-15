@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807fad0` | `0x4ba` | `0x8075ea0` | `0x4b5` |
+| guild | DIFF | `0x807fad0` | `0x4ba` | `0x8075df8` | `0x4b5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -62,11 +62,9 @@
  movzbl 0xa(%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x14c>
--mov    -0x34(%ebp),%eax
--movzbl 0x2b(%eax),%eax
 +jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x149>
-+mov    -0x34(%ebp),%eax
-+movzbl 0x1f(%eax),%eax
+ mov    -0x34(%ebp),%eax
+ movzbl 0x2b(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x90(%ebp)
  mov    -0x34(%ebp),%eax
@@ -102,11 +100,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4af>
--mov    -0x34(%ebp),%eax
--movzbl 0x2b(%eax),%eax
 +jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x4aa>
-+mov    -0x34(%ebp),%eax
-+movzbl 0x1f(%eax),%eax
+ mov    -0x34(%ebp),%eax
+ movzbl 0x2b(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x84(%ebp)
  mov    -0x34(%ebp),%eax
@@ -151,15 +147,13 @@
 -jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f9>
 -mov    -0x34(%ebp),%eax
 -movb   $0x2,0xa(%eax)
--mov    -0x34(%ebp),%eax
--movzbl 0x2b(%eax),%eax
 +jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f0>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x1f5>
 +mov    $0x2,%eax
 +mov    %al,0xa(%edx)
-+mov    -0x34(%ebp),%eax
-+movzbl 0x1f(%eax),%eax
+ mov    -0x34(%ebp),%eax
+ movzbl 0x2b(%eax),%eax
  movzbl %al,%edx
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
@@ -177,15 +171,13 @@
  cmp    $0x1,%al
 -jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x23d>
 -movl   $0x2,-0x28(%ebp)
--mov    -0x34(%ebp),%eax
--movzbl 0x2c(%eax),%eax
 +jne    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x234>
 +mov    $0x2,%eax
 +jmp    <T> <_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader+0x239>
 +mov    $0x1,%eax
 +mov    %eax,-0x28(%ebp)
-+mov    -0x34(%ebp),%eax
-+movzbl 0x20(%eax),%eax
+ mov    -0x34(%ebp),%eax
+ movzbl 0x2c(%eax),%eax
  movzbl %al,%eax
  mov    %eax,0x8(%esp)
  mov    -0x28(%ebp),%eax
@@ -196,12 +188,10 @@
 -cwtl
  mov    %eax,-0x24(%ebp)
  mov    -0x34(%ebp),%eax
--movzbl 0x2c(%eax),%eax
-+movzbl 0x20(%eax),%eax
+ movzbl 0x2c(%eax),%eax
  movzbl %al,%edi
  mov    -0x34(%ebp),%eax
--movzbl 0x2b(%eax),%eax
-+movzbl 0x1f(%eax),%eax
+ movzbl 0x2b(%eax),%eax
  movzbl %al,%esi
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
@@ -226,8 +216,7 @@
  mov    -0x34(%ebp),%eax
  lea    0xb(%eax),%ecx
  mov    -0x34(%ebp),%eax
--movzbl 0x2b(%eax),%eax
-+movzbl 0x1f(%eax),%eax
+ movzbl 0x2b(%eax),%eax
  movzbl %al,%edx
  mov    -0x34(%ebp),%eax
  movzbl 0xa(%eax),%eax
@@ -242,8 +231,7 @@
  mov    -0x34(%ebp),%eax
  lea    0x1b(%eax),%edx
  mov    -0x34(%ebp),%eax
--movzbl 0x2c(%eax),%eax
-+movzbl 0x20(%eax),%eax
+ movzbl 0x2c(%eax),%eax
  movzbl %al,%eax
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
@@ -495,7 +483,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4128 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3396 行）：
 
 ```cpp
 void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
@@ -511,54 +499,54 @@ void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
         CPowerManager* pm = m_pclApp->GetPowerManager();
         if (pm->IsPowerWarOn() == 1)
         {
-            if (((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA != 1 &&
-                ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA != 2)
+            if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA != 1 &&
+                ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA != 2)
             {
-                if (((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA == 0)
+                if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 0)
                 {
                     DNF_LOG_SCOPE_LINE(0x11c9,"./log/Power",
                         "ChangePowerWarPoint Invalid Power Side Income(side:%d, 0:%d, 1:%d, 2:%d, 3:%d, pp:%d)",
-                        (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA,
-                        ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldB,
-                        ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldF,
-                        ((PTL_ChangePowerWarPointPkt*)pb)->m_field13,
-                        ((PTL_ChangePowerWarPointPkt*)pb)->m_field17,
-                        (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_field2B);
+                        (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldB,
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldF,
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_field13,
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_field17,
+                        (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
                     return;
                 }
                 DNF_LOG_SCOPE_LINE(0x11ce,"./log/Power",
                     "ChangePowerWarPoint Invalid Power Side Income(side:%d, 0:%d, 1:%d, 2:%d, 3:%d, pp:%d)",
-                    (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA,
-                    ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldB,
-                    ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldF,
-                    ((PTL_ChangePowerWarPointPkt*)pb)->m_field13,
-                    ((PTL_ChangePowerWarPointPkt*)pb)->m_field17,
-                    (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_field2B);
-                ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA =
-                    (unsigned char)(((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA == 3 ? 1 : 2);
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldB,
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldF,
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_field13,
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_field17,
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
+                ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA =
+                    (unsigned char)(((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 3 ? 1 : 2);
             }
             int winScore = pm->IncPowerScore(
-                (ENUM_POWER_SIDE_TYPE)((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA,
-                ((PTL_ChangePowerWarPointPkt*)pb)->m_field2B);
+                (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
+                ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
             ENUM_POWER_SIDE_TYPE loseSide =
-                ((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA == 1 ?
+                ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 1 ?
                 (ENUM_POWER_SIDE_TYPE)2 : (ENUM_POWER_SIDE_TYPE)1;
             int loseScore = pm->IncPowerScore(
-                loseSide, ((PTL_ChangePowerWarPointPkt*)pb)->m_field2C);
+                loseSide, ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C);
             {
                 DNF_LOG_SCOPE_LINE(0x11e1,"./log/Power", "win side(%d), win pp(%d, %d), lose pp(%d, %d)",
-                    (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA,
-                    (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_field2B,
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B,
                     winScore,
-                    (unsigned int)((PTL_ChangePowerWarPointPkt*)pb)->m_field2C, loseScore);
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C, loseScore);
             }
             pm->UpdatePowerWarInfo(1,
-                                   (ENUM_POWER_SIDE_TYPE)((PTL_ChangePowerWarPointPkt*)pb)->m_fieldA,
-                                   ((PTL_ChangePowerWarPointPkt*)pb)->m_field2B,
-                                   &((PTL_ChangePowerWarPointPkt*)pb)->m_fieldB);
+                                   (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
+                                   ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B,
+                                   &((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldB);
             pm->UpdatePowerWarInfo(0, loseSide,
-                                   ((PTL_ChangePowerWarPointPkt*)pb)->m_field2C,
-                                   &((PTL_ChangePowerWarPointPkt*)pb)->m_field1B);
+                                   ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C,
+                                   &((Packet_Guild_Change_Power_War_Point*)pb)->m_field1B);
             std::vector<unsigned int> users;
             users.reserve(8);
             ((Packet_Guild_Change_Power_War_Point*)pkt)->GetUserList(users);

@@ -1,2 +1,0 @@
-_ZN12CApplication4LoadEiPPc
-_ZN12CApplication8App_StopEv

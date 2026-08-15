@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806833a` | `0x17b` | `0x80614be` | `0x161` |
+| statics | DIFF | `0x806833a` | `0x17b` | `0x8061594` | `0x17d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,56 +13,37 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,105 +1,95 @@
+@@ -1,105 +1,106 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x450,%esp
-+sub    $0x454,%esp
+ sub    $0x450,%esp
  mov    0x8(%ebp),%eax
  mov    0x1e4(%eax),%eax
  lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1e4(%eax)
  mov    0x8(%ebp),%eax
--mov    0x1e4(%eax),%edx
-+mov    0x88(%eax),%edx
+ mov    0x1e4(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    0x88(%eax),%eax
-+mov    0x1e4(%eax),%eax
+ mov    0x88(%eax),%eax
  cmp    %eax,%edx
 -jl     <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x16c>
-+jg     <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x158>
++jl     <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x16e>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1e4(%eax)
--lea    -0x41e(%ebp),%eax
-+lea    -0x426(%ebp),%eax
+ lea    -0x41e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_Frame_Lag_Used_Memory_Write_QueryC1Ev>
--movl   $0x0,-0x14(%ebp)
+ movl   $0x0,-0x14(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x15d>
--movl   $0x0,-0x10(%ebp)
++jmp    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x15f>
+ movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x12b>
--mov    -0x14(%ebp),%edx
--mov    -0x10(%ebp),%ebx
-+movl   $0x0,-0x1c(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x149>
-+movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x117>
-+mov    -0x1c(%ebp),%edx
-+mov    -0x18(%ebp),%ebx
-+mov    0x8(%ebp),%ecx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    %ebx,%eax
-+add    $0x30,%eax
-+mov    0x4(%ecx,%eax,4),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    -0x1c(%ebp),%edx
-+mov    -0x18(%ebp),%ebx
++jmp    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x12d>
+ mov    -0x14(%ebp),%edx
+ mov    -0x10(%ebp),%ebx
  mov    0x8(%ebp),%ecx
  mov    %edx,%eax
  add    %eax,%eax
@@ -71,69 +52,59 @@
  add    %ebx,%eax
  add    $0x34,%eax
  mov    0xc(%ecx,%eax,4),%eax
--test   %eax,%eax
+ test   %eax,%eax
 -je     <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x127>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x113>
-+mov    -0x10(%ebp),%eax
++je     <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x129>
  mov    -0x14(%ebp),%edx
--mov    -0x10(%ebp),%ebx
--mov    0x8(%ebp),%ecx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    %ebx,%eax
--add    $0x34,%eax
+ mov    -0x10(%ebp),%ebx
+ mov    0x8(%ebp),%ecx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    %ebx,%eax
+ add    $0x34,%eax
 -mov    0xc(%ecx,%eax,4),%ecx
--mov    -0x14(%ebp),%edx
--mov    -0x10(%ebp),%esi
--mov    0x8(%ebp),%ebx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    %esi,%eax
--add    $0x30,%eax
--mov    0x4(%ebx,%eax,4),%eax
--mov    %eax,-0x42c(%ebp)
--mov    %ecx,%eax
-+mov    %edx,-0x42c(%ebp)
++mov    0xc(%ecx,%eax,4),%eax
++mov    %eax,%ecx
+ mov    -0x14(%ebp),%edx
+ mov    -0x10(%ebp),%esi
+ mov    0x8(%ebp),%ebx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    %esi,%eax
+ add    $0x30,%eax
+ mov    0x4(%ebx,%eax,4),%eax
+ mov    %eax,-0x42c(%ebp)
+ mov    %ecx,%eax
  mov    $0x0,%edx
  divl   -0x42c(%ebp)
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,0x14(%esp)
--mov    -0x10(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
--mov    -0x14(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into used_memory (occ_time, minute_type, module, memory) values (now(),%d,%d,%d)",0x8(%esp)
  movl   $0x400,0x4(%esp)
--lea    -0x41e(%ebp),%eax
-+lea    -0x426(%ebp),%eax
+ lea    -0x41e(%ebp),%eax
  add    $0xa,%eax
  mov    %eax,(%esp)
  call   <T> <snprintf>
--lea    -0x41e(%ebp),%eax
-+lea    -0x426(%ebp),%eax
+ lea    -0x41e(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--addl   $0x1,-0x10(%ebp)
--cmpl   $0x5,-0x10(%ebp)
-+addl   $0x1,-0x18(%ebp)
-+cmpl   $0x5,-0x18(%ebp)
+ addl   $0x1,-0x10(%ebp)
+ cmpl   $0x5,-0x10(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x6d>
--mov    -0x14(%ebp),%edx
-+jne    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x6c>
-+mov    -0x1c(%ebp),%edx
+ jne    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x6d>
+ mov    -0x14(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
@@ -143,19 +114,15 @@
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17FrameLagCollector16UsedMemoryStruct4initEv>
--addl   $0x1,-0x14(%ebp)
--cmpl   $0x5,-0x14(%ebp)
-+addl   $0x1,-0x1c(%ebp)
-+cmpl   $0x5,-0x1c(%ebp)
+ addl   $0x1,-0x14(%ebp)
+ cmpl   $0x5,-0x14(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x61>
--mov    $0x0,%eax
--add    $0x450,%esp
-+jne    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x60>
-+add    $0x454,%esp
+ jne    <T> <_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler+0x61>
+ mov    $0x0,%eax
+ add    $0x450,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```
@@ -200,13 +167,13 @@ FrameLagCollector::_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 647 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 652 行）：
 
 ```cpp
-void FrameLagCollector::SaveUsedMemory(CServerHandler* handler)
+int FrameLagCollector::SaveUsedMemory(CServerHandler* handler)
 {
     m_field1e4++;
-    if (m_collectInterval <= m_field1e4)
+    if (m_field1e4 >= m_collectInterval)
     {
         m_field1e4 = 0;
         Packet_Frame_Lag_Used_Memory_Write_Query pkt;
@@ -214,11 +181,10 @@ void FrameLagCollector::SaveUsedMemory(CServerHandler* handler)
         {
             for (int j = 0; j < 6; j++)
             {
-                int count = m_memory[i].m_counts[j];
-                int sum = m_memory[i].m_sums[j];
-                if (sum != 0)
+                if (m_memory[i].m_sums[j] != 0)
                 {
-                    unsigned int avg = (unsigned int)sum / (unsigned int)count;
+                    unsigned int avg = (unsigned int)m_memory[i].m_sums[j] /
+                                       (unsigned int)m_memory[i].m_counts[j];
                     snprintf((char*)&pkt + 10, 0x400,
                              "inSert into used_memory (occ_time, minute_type, module, memory) values (now(),%d,%d,%d)",
                              i, j, avg);
@@ -228,5 +194,6 @@ void FrameLagCollector::SaveUsedMemory(CServerHandler* handler)
             m_memory[i].init();
         }
     }
+    return 0;
 }
 ```

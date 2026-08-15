@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088880` | `0x178` | `0x8073f74` | `0x172` |
+| monitor | DIFF | `0x8088880` | `0x178` | `0x8074024` | `0x178` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,108 +1,104 @@
+@@ -1,108 +1,106 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -22,14 +22,13 @@
 -sub    $0x5c,%esp
 +sub    $0x50,%esp
  mov    0x8(%ebp),%eax
--mov    %eax,-0x28(%ebp)
+ mov    %eax,-0x28(%ebp)
 -movl   $0x0,-0x24(%ebp)
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
 -mov    %eax,-0x20(%ebp)
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
-+mov    0xe(%eax),%eax
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -42,25 +41,22 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x16f>
--mov    -0x28(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x16b>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x171>
+ mov    -0x28(%ebp),%eax
  mov    0x16(%eax),%eax
 -mov    %eax,-0x3c(%ebp)
--mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%edi
 +mov    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+-mov    0xe(%eax),%edi
 +mov    0xe(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
 -mov    %eax,%ebx
--mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%esi
 +mov    %eax,-0x18(%ebp)
-+mov    0x8(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+-mov    0x12(%eax),%esi
 +mov    0x12(%eax),%eax
 +mov    %eax,-0x14(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -84,10 +80,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTowerRank16registCharacRankEjPKcjj>
 -jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x170>
-+jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x16b>
++jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x171>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x113>
-+jne    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x111>
++jne    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x117>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 -mov    %eax,-0x1c(%ebp)
@@ -104,19 +100,17 @@
  mov    %eax,%ebx
  movl   $0x1197,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onRequestCharacTowerUpdateRank Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x10c>
-+jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x10a>
++jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x110>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -126,23 +120,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x170>
-+jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x16b>
++jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x171>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x119c,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onRequestCharacTowerUpdateRank Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x168>
-+jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x166>
++jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x16c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -194,7 +186,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3234 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3250 行）：
 
 ```cpp
 void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)
@@ -202,15 +194,16 @@ void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)
 {
 
 
+    Packet_Request_Charac_Tower_Update_Ranking* req =
+        (Packet_Request_Charac_Tower_Update_Ranking*)pkt;
     CUser* user =
-        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-            ((RA_UINT<14>*)pkt)->v);
+        (&m_pclApp->m_userManager)->FindUser_CharNo(req->m_charNo);
     if (user != 0)
     {
-        unsigned int a = ((RA_UINT<22>*)pkt)->v;
-        unsigned int b = ((RA_UINT<14>*)pkt)->v;
+        unsigned int a = req->m_score;
+        unsigned int b = req->m_job;
         char* name = user->GetCharName();
-        unsigned int c = ((RA_UINT<18>*)pkt)->v;
+        unsigned int c = req->m_floor;
         CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
         tower->registCharacRank(c, name, b, a);
     }

@@ -1,4 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN14CPacketDecoder10TcpProcessEv	DIFF	371	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN14CPacketDecoder10UdpProcessEv	DIFF	364	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader	DIFF	116	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

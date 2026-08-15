@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805a2a0` | `0x457` | `0x80870d6` | `0x45e` |
+| guild | DIFF | `0x805a2a0` | `0x457` | `0x80871a6` | `0x45e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -475,37 +475,34 @@ void CTcpNetworkThread::dispatch(void* param)
             {
                 continue;
             }
-            if (eventCount >= 0 || errno == EINTR || errno == 0)
-            {
-                for (int i = 0; i < eventCount; i++)
-                {
-                    peer = (CPeer*)((CTcpHandler*)m_handler)->GetEventPtr(i);
-                    if (peer != 0 && ((CTcpHandler*)m_handler)->IsSetInEvent(i))
-                    {
-                        if (peer->RecvPacket() != 1)
-                        {
-                            peer->DisConnSig();
-                            m_net->DeletePeer(peer);
-                            peer = 0;
-                        }
-                    }
-                    if (peer != 0 && peer->get_remain_sendlen() != 0 &&
-                        ((CTcpHandler*)m_handler)->IsSetOutEvent(i))
-                    {
-                        if ((unsigned int)peer->get_remain_sendlen() > 0x1800)
-                        {
-                        }
-                        else
-                        {
-                            peer->send_packet();
-                        }
-                    }
-                    ((CTcpHandler*)m_handler)->IsSetErrEvent(i);
-                }
-            }
-            else
+            if (eventCount < 0 && errno != EINTR && errno != 0)
             {
                 break;
+            }
+            for (int i = 0; i < eventCount; i++)
+            {
+                peer = (CPeer*)((CTcpHandler*)m_handler)->GetEventPtr(i);
+                if (peer != 0 && ((CTcpHandler*)m_handler)->IsSetInEvent(i))
+                {
+                    if (peer->RecvPacket() != 1)
+                    {
+                        peer->DisConnSig();
+                        m_net->DeletePeer(peer);
+                        peer = 0;
+                    }
+                }
+                if (peer != 0 && peer->get_remain_sendlen() != 0 &&
+                    ((CTcpHandler*)m_handler)->IsSetOutEvent(i))
+                {
+                    if ((unsigned int)peer->get_remain_sendlen() > 0x1800)
+                    {
+                    }
+                    else
+                    {
+                        peer->send_packet();
+                    }
+                }
+                ((CTcpHandler*)m_handler)->IsSetErrEvent(i);
             }
         }
         DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");

@@ -1,4 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN12CApplication15TranslateSignalEv	DIFF	58	N			N	Y	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN12CApplication4LoadEiPPc	DIFF	567	N			N	Y	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb	DIFF	45	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present

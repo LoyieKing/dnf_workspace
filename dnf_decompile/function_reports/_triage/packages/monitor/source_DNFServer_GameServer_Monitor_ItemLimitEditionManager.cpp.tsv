@@ -1,6 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t	DIFF	53	N			N	Y	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb	DIFF	168	N			N	Y	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionItemInfo_t	DIFF	6	Y			N	Y	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	5	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update	DIFF	45	N			N	N	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	5	NEEDS_REVERSE	source location missing from md
-monitor	_ZNK20CItemLimitEditionMgr35makeItemLimitEditionSellStartPacketER36Packet_Item_Limit_Edition_Sell_Start	DIFF	5	N			N	N	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	5	NEEDS_REVERSE	source location missing from md

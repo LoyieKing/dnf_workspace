@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0cbc` | `0x1bc` | `0x80984ec` | `0x1a8` |
+| monitor | DIFF | `0x80a0cbc` | `0x1bc` | `0x80985ae` | `0x1a8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -262,4 +262,4 @@ _ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/CashObject.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFMember.h 等 286 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/CashObject.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFMember.h 等 290 个文件*

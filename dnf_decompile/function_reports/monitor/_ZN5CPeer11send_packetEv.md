@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8051a7a` | `0x24d` | `0x809b9da` | `0x24e` |
+| monitor | DIFF | `0x8051a7a` | `0x24d` | `0x809ba46` | `0x24e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -97,12 +97,9 @@
 -jle    <T> <_ZN5CPeer11send_packetEv+0x1ef>
 +jle    <T> <_ZN5CPeer11send_packetEv+0x1ee>
  mov    0x8(%ebp),%eax
--lea    0x183c(%eax),%edx
--mov    -0xc(%ebp),%eax
--add    %eax,%edx
-+mov    -0xc(%ebp),%edx
-+add    $0x183c,%edx
-+lea    (%eax,%edx,1),%edx
+ lea    0x183c(%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1838(%eax)
  mov    0x8(%ebp),%eax
@@ -130,10 +127,10 @@
 +mov    %eax,0x4(%esp)
 +mov    %ecx,(%esp)
 +call   <T> <memmove>
-+mov    0x8(%ebp),%edx
++mov    0x8(%ebp),%eax
++lea    0x183c(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x1834(%eax),%eax
-+add    $0x183c,%eax
 +add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x1838(%eax)
@@ -315,19 +312,19 @@ int CPeer::send_packet()
         {
             if (result < m_sendRemain)
             {
-                m_sendPtr = (char*)this + 0x183c + result;
+                m_sendPtr = m_sendBuf + result;
                 m_sendRemain = m_sendRemain - result;
                 if ((unsigned int)m_sendRemain < 0x96001)
                 {
                     memmove(m_sendBuf, m_sendPtr, m_sendRemain);
-                    m_sendPtr = (char*)this + 0x183c + m_sendRemain;
+                    m_sendPtr = m_sendBuf + m_sendRemain;
                 }
                 else
                 {
                     DNF_LOG_SCOPE_LINE(0x17e,"./log/TcpErr",
                         "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
                         m_sendRemain);
-                    m_sendPtr = (char*)this + 0x183c;
+                    m_sendPtr = m_sendBuf;
                     m_sendRemain = 0;
                     return 1;
                 }
@@ -339,7 +336,7 @@ int CPeer::send_packet()
             }
             else
             {
-                m_sendPtr = (char*)this + 0x183c;
+                m_sendPtr = m_sendBuf;
                 m_sendRemain = 0;
             }
         }

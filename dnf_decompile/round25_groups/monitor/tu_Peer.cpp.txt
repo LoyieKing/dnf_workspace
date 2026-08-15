@@ -1,5 +1,0 @@
-_ZN5CPeer10RecvPacketEv
-_ZN5CPeer11recv_packetEv
-_ZN5CPeer11send_packetEPci
-_ZN5CPeer11send_packetEv
-_ZN5CPeer7parsingEi

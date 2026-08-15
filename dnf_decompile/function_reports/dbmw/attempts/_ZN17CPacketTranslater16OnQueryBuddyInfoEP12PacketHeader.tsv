@@ -1,4 +1,0 @@
-STBuddyDBInfo* info=...+0xf; unsigned char* flag=...+0xe; 中间变量	DIFF(更差,栈帧0x520→0x530)	2026-08-12
-命名成员 (STBuddyDBInfo*)reply.m_rest, reply.m_fieldE	DIFF(同,求值顺序不变)	2026-08-12
-A/B TU 4.4.7	DIFF(同,lea ecx提前算+0xf)	2026-08-12
-A/B TU 4.1.2	DIFF(更近但寄存器仍异:ecx/ebx/edx/eax vs ORIG ecx/ecx/eax/edx)	2026-08-12

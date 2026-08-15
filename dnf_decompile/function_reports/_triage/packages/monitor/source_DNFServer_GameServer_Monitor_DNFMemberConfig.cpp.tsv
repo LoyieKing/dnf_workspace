@@ -1,3 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN13CMemberExpTbl11Parse_TableEPci	DIFF	13	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN13CMemberExpTbl17GetMemberExpLevelEj	DIFF	18	N			N	Y	source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp	0	CODEGEN_TAIL	very small structural diff

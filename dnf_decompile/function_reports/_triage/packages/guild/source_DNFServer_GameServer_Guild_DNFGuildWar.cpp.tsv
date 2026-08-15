@@ -1,5 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN9CGuildWar11RankProcessEv	NEAR	4	Y			N	Y	source/DNFServer/GameServer/Guild/DNFGuildWar.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-guild	_ZN9CGuildWar12SameRankWorkEv	DIFF	25	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildWar.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN9CGuildWar13DBSaveProcessEP12CApplication	DIFF	27	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildWar.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info	DIFF	30	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildWar.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

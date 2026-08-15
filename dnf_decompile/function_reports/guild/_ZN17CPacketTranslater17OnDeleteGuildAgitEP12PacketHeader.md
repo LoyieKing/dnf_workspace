@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808252e` | `0x3d3` | `0x807878c` | `0x3a7` |
+| guild | DIFF | `0x808252e` | `0x3d3` | `0x80786f8` | `0x3a7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -491,7 +491,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4788 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4059 行）：
 
 ```cpp
 void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
@@ -506,20 +506,20 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
         }
         else
         {
-            unsigned int guildKey = ((PTL_GuildAgitPkt*)pb)->m_guildKey;
+            unsigned int guildKey = ((Packet_Guild_Delete_Guild_Agit*)pb)->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
                 DNF_LOG_SCOPE_LINE(0x164f, "./log/GuildAgit", "CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild");
             }
-            else if (guild->IsGuildMaster(((PTL_GuildAgitPkt*)pb)->m_charNo) == 1)
+            else if (guild->IsGuildMaster(((Packet_Guild_Delete_Guild_Agit*)pb)->m_charNo) == 1)
             {
                 if (guild->IsExistGuildAgit() == 1)
                 {
                     if (guild->GetGuildCargo()->IsEmpty() == 1)
                     {
                         guild->DeleteGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
-                                               ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                                               ((Packet_Guild_Delete_Guild_Agit*)pb)->m_charNo);
                     }
                     else
                     {
@@ -528,12 +528,12 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
                             guildKey);
                         CUser* user =
                             (&m_pclApp->m_userManager)->FindUser_CharNo(
-                                ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                                ((Packet_Guild_Delete_Guild_Agit*)pb)->m_charNo);
                         if (user == 0)
                         {
                             DNF_LOG_SCOPE_LINE(0x166b,"./log/GuildCargo",
                                 "CPacketTranslater::OnDeleteGuildAgit : 0 == pclUser(%d)",
-                                ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                                ((Packet_Guild_Delete_Guild_Agit*)pb)->m_charNo);
                         }
                         else
                         {
@@ -557,7 +557,7 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
             {
                 DNF_LOG_SCOPE_LINE(0x1655,"./log/GuildAgit",
                     "CPacketTranslater::OnDeleteGuildAgit : %d is not guild master(g:%d)",
-                    ((PTL_GuildAgitPkt*)pb)->m_charNo, guildKey);
+                    ((Packet_Guild_Delete_Guild_Agit*)pb)->m_charNo, guildKey);
             }
         }
     }

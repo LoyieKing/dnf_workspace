@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8079ed6` | `0x384` | `0x8070406` | `0x37c` |
+| guild | DIFF | `0x8079ed6` | `0x384` | `0x8070342` | `0x37c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -434,7 +434,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2795 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2076 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
@@ -444,12 +444,12 @@ void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
     THROW_IF_NO_APP("CPacketTranslater::OnDBMWReplySendGuildLetter : 0 == m_pclApp");
     char* pb = (char*)pkt;
     Packet_Monitor_Reply_Guild_Mail reply;
-    if (((PTL_ReplySendGuildLetterPkt*)pb)->m_guildKey == 0)
+    if (((Packet_DBMW_Reply_Send_Guild_Letter*)pb)->m_guildKey == 0)
     {
         throw CDNFException(
             "CPacketTranslater::OnDBMWReplySendGuildLetter : packet->m_uGuildKey == 0");
     }
-    unsigned int charNo = ((PTL_ReplySendGuildLetterPkt*)pb)->m_charNo;
+    unsigned int charNo = ((Packet_DBMW_Reply_Send_Guild_Letter*)pb)->m_charNo;
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo)) == 0)
     {
@@ -460,7 +460,7 @@ void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
     {
         reply.m_charNo = charNo;
         reply.m_channel = user->GetIdByChannel();
-        reply.m_result = ((PTL_ReplySendGuildLetterPkt*)pb)->m_result;
+        reply.m_result = ((Packet_DBMW_Reply_Send_Guild_Letter*)pb)->m_result;
         user->SendToGameserver((char*)&reply, 0x13);
     }
     }

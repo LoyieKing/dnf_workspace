@@ -1,4 +1,0 @@
-原始形态 (c6/c6444r/c6446r)	DIFF(ORIG mov %ebx,%eax;mov %eax,%edx 双拷贝 vs OURS mov %ebx,%edx 单拷贝，2 处)	2026-08-12
-CAppConfig* cfg 临时变量	NEAR(但槽序更差)	2026-08-12
-register CAppConfig* cfg	DIFF(更差)	2026-08-12
-c5r52(4.1.2-52) 工具链	DIFF(帧 0x2c→0x44 更差)	2026-08-12

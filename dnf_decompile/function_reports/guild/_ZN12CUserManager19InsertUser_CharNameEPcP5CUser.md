@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80696b0` | `0xdf` | `0x808cb40` | `0xe5` |
+| guild | NEAR | `0x80696b0` | `0xdf` | `0x808cbdc` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,68 @@
+@@ -1,66 +1,66 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,10 +21,7 @@
  sub    $0x40,%esp
  mov    0x10(%ebp),%eax
  test   %eax,%eax
--je     <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd0>
-+jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x19>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xdb>
+ je     <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd0>
  lea    0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
  lea    0xc(%ebp),%eax
@@ -51,10 +48,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
  test   %bl,%bl
--jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x7b>
--jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x82>
-+jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x81>
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x88>
+ jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x7b>
+ jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x82>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x18(%ebp),%eax
@@ -66,8 +61,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    $0x1,%eax
--jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd5>
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xdb>
+ jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd5>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
@@ -140,24 +134,23 @@ CUserManager::_ZN12CUserManager19InsertUser_CharNameEPcP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 359 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 361 行）：
 
 ```cpp
 bool CUserManager::InsertUser_CharName(char* name, CUser* user)
 {
-    if (user == 0)
+    if (user != 0)
     {
-        return 0;
+        if (m_charNameUsers.insert(std::pair<const std::string, CUser*>(name, user)).second)
+        {
+            return 1;
+        }
+        register unsigned int dbid = user->GetDBID();
+        register char* nName = name;
+        CMyFileLog log(__FUNCTION__, 0x1a6);
+        log("./log/Except", "[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",
+            nName, dbid);
     }
-    if (m_charNameUsers.insert(std::pair<const std::string, CUser*>(name, user)).second)
-    {
-        return 1;
-    }
-    register unsigned int dbid = user->GetDBID();
-    register char* nName = name;
-    CMyFileLog log(__FUNCTION__, 0x1a6);
-    log("./log/Except", "[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",
-        nName, dbid);
     return 0;
 }
 ```

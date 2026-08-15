@@ -1,2 +1,0 @@
-memcpy unsigned size-10U (lea -0xa like guild)	IDENTICAL	2026-08-14
-restore RA_INT<12>/RA_U16<2> to m_tcpGameServer + pkt->packetId/packetSize	IDENTICAL	2026-08-14

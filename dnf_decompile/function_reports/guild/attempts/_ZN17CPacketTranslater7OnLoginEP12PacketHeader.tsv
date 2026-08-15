@@ -1,3 +1,0 @@
-PTL_LoginPkt::m_guildKey unsigned int -> int（消除 uint->int 参数转换临时寄存器 mov %eax,%edx）	NEAR(更近)	2026-08-12
-QueryCashMemoryBlackList 调用点形态：int 返回只能产生 test/sete，需被调函数返回 bool（跨 TU MemoryCashManager.h/cpp）才能产生 ORIG xor $0x1 形态	REMAIN(跨TU)	2026-08-12
-R33复验: bool返回+if(!f()) 小TU A/B测试复现 xor $0x1/test %al (c6 4.4.7 -O0), int返回为 test/sete/test; 修复=MemoryCashManager.h:32+.cpp:159 返回类型 int->bool (跨TU/共享头, 需父agent)	HEAD(跨TU决策)	2026-08-13

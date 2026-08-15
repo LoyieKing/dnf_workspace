@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809e91a` | `0xb3` | `0x805814e` | `0xb5` |
+| monitor | DIFF | `0x809e91a` | `0xb3` | `0x805814c` | `0xb6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,59 +1,59 @@
+@@ -1,59 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,13 +23,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4sizeEv>
  cmp    $0x1f,%eax
--seta   %al
-+setbe  %al
+ seta   %al
  test   %al,%al
--je     <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0x27>
--mov    $0x0,%ebx
+ je     <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0x27>
+ mov    $0x0,%ebx
 -jmp    <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0xa7>
-+je     <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0xa4>
++jmp    <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0xaa>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
@@ -61,7 +60,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP6CBuddyED1Ev>
 -jmp    <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0xa7>
-+jmp    <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0xa9>
++jmp    <T> <_ZN12CBuddyHandle11addFromCashEP6CBuddy+0xaa>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x18(%ebp),%eax
@@ -71,7 +70,6 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
-+mov    $0x0,%ebx
  mov    %ebx,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -125,13 +123,13 @@ CBuddyHandle::_ZN12CBuddyHandle11addFromCashEP6CBuddy(CBuddyHandle *this,CBuddy 
 ```cpp
 int CBuddyHandle::addFromCash(CBuddy* buddy)
 {
-    if (m_buddies.size() < 0x20)
+    if (m_buddies.size() > 0x1f)
     {
-        return m_buddies.insert(
-                   std::make_pair(((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_name,
-                                  buddy))
-            .second;
+        return 0;
     }
-    return 0;
+    return m_buddies.insert(
+               std::make_pair(((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_name,
+                              buddy))
+        .second;
 }
 ```

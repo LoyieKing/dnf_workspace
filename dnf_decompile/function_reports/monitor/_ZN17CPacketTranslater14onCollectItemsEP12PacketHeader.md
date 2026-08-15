@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090f48` | `0x390` | `0x807c422` | `0x36a` |
+| monitor | DIFF | `0x8090f48` | `0x390` | `0x807c516` | `0x36a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -458,7 +458,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5364 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5379 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItems(PacketHeader* pkt)
@@ -476,35 +476,37 @@ void CPacketTranslater::onCollectItems(PacketHeader* pkt)
         {
             if (state->m_current == 0)
             {
-                SendColletItemsReward(((RA_UINT<14>*)pkt)->v,
-                                      ((RA_UINT<10>*)pkt)->v, (char*)pkt + 0x1b,
-                                      (int)(unsigned char)((RA_S8<26>*)pkt)->v,
+                SendColletItemsReward(((Packet_CollectItems*)pkt)->m_charNo,
+                                      ((Packet_CollectItems*)pkt)->m_idByChannel,
+                                      ((Packet_CollectItems*)pkt)->m_name,
+                                      (int)((Packet_CollectItems*)pkt)->m_nameLen,
                                       TimeGateRewardType::TYPE_0);
             }
             else
             {
                 int cur2 = (int)state->m_current;
-                int add = ((RA_INT<18>*)pkt)->v;
+                int add = ((Packet_CollectItems*)pkt)->m_add;
                 if ((unsigned int)(cur2 + add) < state->m_total)
                 {
                     int cur3 = (int)state->m_current;
-                    unsigned int rem = state->m_current;
-                    if ((cur3 - rem % 0x14) + 0x14 <=
-                        (unsigned int)((int)state->m_current + ((RA_INT<18>*)pkt)->v))
+                    unsigned int rest = state->m_current;
+                    if ((cur3 - rest % 0x14) + 0x14 <=
+                        (unsigned int)((int)state->m_current +
+                                       ((Packet_CollectItems*)pkt)->m_add))
                     {
-                        SendColletItemsReward(((RA_UINT<14>*)pkt)->v,
-                                              ((RA_UINT<10>*)pkt)->v,
-                                              (char*)pkt + 0x1b,
-                                              (int)(unsigned char)((RA_S8<26>*)pkt)->v,
+                        SendColletItemsReward(((Packet_CollectItems*)pkt)->m_charNo,
+                                              ((Packet_CollectItems*)pkt)->m_idByChannel,
+                                              ((Packet_CollectItems*)pkt)->m_name,
+                                              (int)((Packet_CollectItems*)pkt)->m_nameLen,
                                               TimeGateRewardType::TYPE_1);
                     }
                 }
                 else
                 {
-                    SendColletItemsReward(((RA_UINT<14>*)pkt)->v,
-                                          ((RA_UINT<10>*)pkt)->v,
-                                          (char*)pkt + 0x1b,
-                                          (int)(unsigned char)((RA_S8<26>*)pkt)->v,
+                    SendColletItemsReward(((Packet_CollectItems*)pkt)->m_charNo,
+                                          ((Packet_CollectItems*)pkt)->m_idByChannel,
+                                          ((Packet_CollectItems*)pkt)->m_name,
+                                          (int)((Packet_CollectItems*)pkt)->m_nameLen,
                                           TimeGateRewardType::TYPE_2);
                     MonitorCollectItemsState* state2 =
                         (MonitorCollectItemsState*)m_pclApp->getCollectItems();
@@ -513,7 +515,8 @@ void CPacketTranslater::onCollectItems(PacketHeader* pkt)
             }
             MonitorCollectItemsState* state3 =
                 (MonitorCollectItemsState*)m_pclApp->getCollectItems();
-            state3->m_current = state3->m_current + ((RA_INT<18>*)pkt)->v;
+            state3->m_current =
+                state3->m_current + ((Packet_CollectItems*)pkt)->m_add;
         }
     }
     catch (CDNFException& e)

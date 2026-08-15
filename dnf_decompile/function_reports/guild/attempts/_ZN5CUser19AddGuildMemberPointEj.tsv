@@ -1,4 +1,0 @@
-+= 替换 = field + point: 同形态 (cast 触发 LHS-first: this->eax 复用)	DIFF(同)	2026-08-14
-独立实验: 一切带 NOP_CAST 的成员访问(((Q*)t)->f / (*(Q*)t).f / 双cast) 均为 LHS-first; 仅无 cast 的朴素成员/union 访问产生 ORIG 的 RHS-first 形态; 4.4.4/4.4.6/4.1.2 变体均不复现	DIFF(同)	2026-08-14
-L->f = old + p (RHS 用栈上 old): lea 形态	DIFF(更差)	2026-08-14
-unsigned int old=m_guildDBInfo.m_guildPoint; m_guildDBInfo.m_guildPoint=m_guildDBInfo.m_guildPoint+point; (真实成员,pack1)	IDENTICAL	2026-08-14

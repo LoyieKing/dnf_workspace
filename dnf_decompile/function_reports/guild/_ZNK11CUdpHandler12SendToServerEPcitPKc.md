@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050a46` | `0x27b` | `0x8089826` | `0x27b` |
+| guild | DIFF | `0x8050a46` | `0x27b` | `0x808989a` | `0x27b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -245,7 +245,7 @@ CUdpHandler::_ZNK11CUdpHandler12SendToServerEPcitPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp](source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp)（约第 305 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp](source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp)（约第 307 行）：
 
 ```cpp
 int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char const* ip) const

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807e828` | `0x262` | `0x8074c1e` | `0x263` |
+| guild | DIFF | `0x807e828` | `0x262` | `0x8074b74` | `0x265` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,168 +1,168 @@
+@@ -1,168 +1,169 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -39,7 +39,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25b>
 -mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25c>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25e>
 +mov    -0x18(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
@@ -67,10 +67,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25b>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25c>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25e>
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x147>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x14a>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x14c>
  mov    -0x10(%ebp),%edx
 -mov    -0x14(%ebp),%ecx
 +mov    -0x18(%ebp),%ecx
@@ -89,7 +89,7 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x143>
-+je     <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x146>
++je     <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x148>
  mov    -0x10(%ebp),%edx
 -mov    -0x14(%ebp),%ecx
 +mov    -0x18(%ebp),%ecx
@@ -99,7 +99,9 @@
  shl    $0x3,%eax
  lea    (%ecx,%eax,1),%eax
  add    $0x20,%eax
- mov    0x12(%eax),%ecx
+-mov    0x12(%eax),%ecx
++mov    0x12(%eax),%eax
++mov    %eax,%ecx
  mov    -0x10(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
@@ -144,10 +146,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser18SetBlackListDBFlagEt>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25b>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25c>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25e>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x201>
-+jne    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x202>
++jne    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x204>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -178,7 +180,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x1fa>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x1fb>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x1fd>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -188,7 +190,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25b>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25c>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x25e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1020,0x8(%esp)
@@ -204,7 +206,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x256>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x257>
++jmp    <T> <_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader+0x259>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -273,14 +275,14 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3806 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3087 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
 {
     try
     {
-    PTL_ResponseBlackListOnLoginPkt* pb = (PTL_ResponseBlackListOnLoginPkt*)pkt;
+    Packet_DBMW_Reponse_BlackList* pb = (Packet_DBMW_Reponse_BlackList*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1000,"./log/BlackList",
@@ -288,20 +290,20 @@ void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
         return;
     }
     CUser* user;
-    if ((user = (&m_pclApp->m_userManager)->FindUser(pb->m_dbid)) == 0)
+    if ((user = (&m_pclApp->m_userManager)->FindUser(pb->m_mid)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1007,"./log/BlackList",
             "CPacketTranslater::OnDBMWResponseBlackListOnLogin : 0 == pclUser");
         return;
     }
     int i = 0;
-    while (pb->m_items[i].m_uniqCharNo != 0)
+    while (pb->m_blackList[i].m_occurTime != 0)
     {
-        if (user->IsBlackUser(pb->m_items[i].m_charNo) != 1)
+        if (user->IsBlackUser((unsigned int)pb->m_blackList[i].m_field0) != 1)
         {
-            user->RegisterToBlackList(pb->m_items[i].m_charNo,
-                                      pb->m_items[i].m_name,
-                                      pb->m_items[i].m_uniqCharNo);
+            user->RegisterToBlackList((unsigned int)pb->m_blackList[i].m_field0,
+                                      pb->m_blackList[i].m_name,
+                                      (unsigned int)pb->m_blackList[i].m_occurTime);
         }
         i++;
     }

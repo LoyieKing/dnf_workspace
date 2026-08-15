@@ -1,1 +1,0 @@
-if(f()){A} 改为 if(f()==0){}else{A} (复现 xor$1;test;jne 极性)	IDENTICAL_AE	2026-08-13

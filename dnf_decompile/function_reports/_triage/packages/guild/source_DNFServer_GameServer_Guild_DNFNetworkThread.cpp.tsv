@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-guild	_ZN17CUdpNetworkThread8dispatchEPv	DIFF	676	N	_ZN13CDNFExceptionC1ERKSs|_ZNSaIcEC1Ev|_ZNSaIcED1Ev|_ZNSsC1EPKcRKSaIcE|_ZNSsD1Ev		Y	Y	source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp	0	CALL_DIFF	real call set differs

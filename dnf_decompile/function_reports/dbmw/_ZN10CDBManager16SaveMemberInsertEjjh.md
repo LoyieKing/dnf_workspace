@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072890` | `0x647` | `0x8055140` | `0x61b` |
+| dbmw | DIFF | `0x8072890` | `0x647` | `0x80551ee` | `0x653` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,431 +1,419 @@
+@@ -1,431 +1,435 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x88,%esp
@@ -24,7 +24,7 @@
  mov    %eax,-0xc(%ebp)
  cmpb   $0x2,-0x5c(%ebp)
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x338>
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x322>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x33e>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -44,7 +44,7 @@
  movl   $0x455,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
@@ -58,11 +58,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -71,14 +71,11 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
--jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe7>
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe0>
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
+ jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe7>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -88,18 +85,12 @@
  call   *%edx
  or     %edx,%eax
  test   %eax,%eax
--jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xee>
--mov    $0x1,%eax
--jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xf3>
--mov    $0x0,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1b2>
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe7>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xec>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1a4>
+ jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xee>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xf3>
+ mov    $0x0,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1b2>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -115,12 +106,11 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x180>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x179>
+ je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x180>
  movl   $0x466,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -134,11 +124,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -147,18 +137,14 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1b2>
--mov    $0x0,%eax
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1b2>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1a4>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -174,12 +160,11 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x237>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x229>
+ je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x237>
  movl   $0x47b,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -193,11 +178,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -206,14 +191,11 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
--jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x277>
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x262>
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
+ jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x277>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -223,18 +205,13 @@
  call   *%edx
  or     %edx,%eax
  test   %eax,%eax
--jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x27e>
--mov    $0x1,%eax
--jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x283>
--mov    $0x0,%eax
--test   %al,%al
+ jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x27e>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x283>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x269>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x26e>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x318>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x334>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -248,12 +225,11 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x302>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x2ed>
+ je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x302>
  movl   $0x488,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -265,11 +241,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -278,25 +254,23 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x318>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x334>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  cmpb   $0x1,-0x5c(%ebp)
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x332>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x34e>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -313,11 +287,11 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3c7>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3b7>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3d3>
  movl   $0x49d,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
@@ -331,11 +305,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -344,14 +318,12 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x407>
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f0>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x413>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -367,12 +339,12 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4d2>
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f7>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x41a>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3fc>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x41f>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4de>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -389,11 +361,11 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4a0>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x489>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4ac>
  movl   $0x4ae,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -407,11 +379,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -420,18 +392,16 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4d2>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4de>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -446,11 +416,11 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x549>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x52b>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x555>
  movl   $0x4c2,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -462,11 +432,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x44(%ebp),%eax
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -475,14 +445,12 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x589>
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x564>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x595>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -498,12 +466,12 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x56b>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x59c>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x570>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x5a1>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x614>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x64c>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -518,11 +486,11 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x611>
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x5ec>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x61d>
  movl   $0x4cf,0x8(%esp)
  movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -534,11 +502,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+lea    -0x4c(%ebp),%eax
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -547,18 +515,16 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x614>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x64c>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x651>
  mov    $0x1,%eax
  leave
  ret
@@ -747,4 +713,4 @@ CDBManager::_ZN10CDBManager16SaveMemberInsertEjjh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*

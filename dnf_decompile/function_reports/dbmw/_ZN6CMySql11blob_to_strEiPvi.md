@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d92a` | `0xa3` | `0x80c84d8` | `0x96` |
+| dbmw | DIFF | `0x808d92a` | `0xa3` | `0x80c8928` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,24 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,47 @@
+@@ -1,48 +1,48 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  cmpl   $0x0,0xc(%ebp)
--js     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
-+js     <T> <_ZN6CMySql11blob_to_strEiPvi+0x12>
+ js     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
  cmpl   $0x9,0xc(%ebp)
--jg     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
-+jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x19>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0x94>
+ jg     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
  cmpl   $0x0,0x10(%ebp)
--jne    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
-+jne    <T> <_ZN6CMySql11blob_to_strEiPvi+0x2f>
+ jne    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
  cmpl   $0x5fff,0x14(%ebp)
--jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
-+jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x2f>
+ jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0xa1>
 -mov    0xc(%ebp),%eax
@@ -39,15 +33,12 @@
 -lea    (%edx,%eax,1),%eax
 -add    $0x6070,%eax
 -movb   $0x0,0x9(%eax)
-+jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0x94>
++jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0xa0>
 +mov    0x8(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +imul   $0x6001,%edx,%edx
-+add    $0x6070,%edx
++add    $0x6079,%edx
 +add    %edx,%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
-+add    $0x9,%eax
 +movb   $0x0,(%eax)
  cmpl   $0x0,0x14(%ebp)
 -jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x8d>
@@ -55,9 +46,13 @@
 -imul   $0x6001,%eax,%eax
 -add    $0x6070,%eax
 -add    0x8(%ebp),%eax
-+jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x8e>
-+mov    -0x10(%ebp),%eax
- add    $0x9,%eax
+-add    $0x9,%eax
++jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x8c>
++mov    0x8(%ebp),%eax
++mov    0xc(%ebp),%edx
++imul   $0x6001,%edx,%edx
++add    $0x6079,%edx
++add    %edx,%eax
  mov    %eax,-0xc(%ebp)
  mov    0x14(%ebp),%ecx
  mov    0x10(%ebp),%edx
@@ -77,8 +72,12 @@
 -imul   $0x6001,%eax,%eax
 -add    $0x6070,%eax
 -add    0x8(%ebp),%eax
-+mov    -0x10(%ebp),%eax
- add    $0x9,%eax
+-add    $0x9,%eax
++mov    0x8(%ebp),%eax
++mov    0xc(%ebp),%edx
++imul   $0x6001,%edx,%edx
++add    $0x6079,%edx
++add    %edx,%eax
  leave
  ret
 ```
@@ -119,18 +118,15 @@ CMySql::_ZN6CMySql11blob_to_strEiPvi(CMySql *this,int param_1,void *param_2,int 
 ```cpp
 char* CMySql::blob_to_str(int col, void* buf, int len)
 {
-    if (col < 0 || col > 9)
+    if (col < 0 || col > 9 || (buf == 0 && len > 0x5fff))
         return 0;
-    if (buf == 0 && len > 0x5fff)
-        return 0;
-    char* base = (char*)this + col * 0x6001 + 0x6070;
-    base[9] = 0;
+    ((char*)this + col * 0x6001 + 0x6070)[9] = 0;
     if (len > 0)
     {
-        char* dst = base + 9;
+        char* dst = (char*)this + (col * 0x6001 + 0x6070) + 9;
         dst += mysql_real_escape_string(m_mysql, dst, (const char*)buf, len);
         *dst++ = 0;
     }
-    return base + 9;
+    return (char*)this + (col * 0x6001 + 0x6070) + 9;
 }
 ```

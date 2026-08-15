@@ -1,2 +1,0 @@
-timestamp	verdict	note
-2026-08-14T17:11:38Z	IDENTICAL	epoll_event m_event (real member) instead of int/void*/int + cast; fixes lea/add artifact

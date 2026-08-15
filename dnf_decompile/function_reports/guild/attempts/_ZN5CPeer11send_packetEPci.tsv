@@ -1,4 +1,0 @@
-m_sendRemain = m_sendRemain + len (=替换+=): NEAR 同 (mov field,%eax;mov %eax,%edx;add mem,%edx)	NEAR(同)	2026-08-14
-m_sendRemain = (int)((char*)m_sendRemain + len): 出现 lea 形态	DIFF(更差)	2026-08-14
-c6446r/c6444r 变体 A/B: 同 c6 形态	NEAR(同)	2026-08-14
-独立实验(c6/c5r52均同): int成员+=int参数 一切形态(+=/=+/long/unsigned/强转/&取地址/volatile) 均非 ORIG 的 mov field,%edx;mov len,%eax;add %eax,%edx; 仅指针成员+=产生该形态; volatile 形态接近但多 lea	NEAR(同)	2026-08-14

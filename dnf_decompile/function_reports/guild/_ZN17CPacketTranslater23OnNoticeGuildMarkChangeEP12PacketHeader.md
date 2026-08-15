@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80732b8` | `0x2bb` | `0x806988a` | `0x2b6` |
+| guild | DIFF | `0x80732b8` | `0x2bb` | `0x80697fa` | `0x2b6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -83,10 +83,8 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x328,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -99,32 +97,26 @@
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x20(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x290,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
--mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x24(%ebp)
+ mov    %eax,-0x24(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x166>
--mov    -0x20(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
 +je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x161>
-+mov    -0x24(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild29NoticeMarkChangeToGuildMemberEj>
--mov    -0x20(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x331,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -271,7 +263,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 671 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 681 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
@@ -279,10 +271,11 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildMarkChange : 0 == m_pclApp")
+    CGuild* guild;
     Packet_Guild_Mark_Change_Notice* pbinfo = (Packet_Guild_Mark_Change_Notice*)pkt;
     DNF_LOG_SCOPE_LINE(0x328, "./log/Web",
         "[GUILD MARK CHANGE] Recv from web server. (guildkey:%d)\n", pbinfo->m_guildKey);
-    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(pbinfo->m_guildKey);
+    guild = (&m_pclApp->m_guildManager)->FindGuild(pbinfo->m_guildKey);
     if (guild != 0)
     {
         guild->NoticeMarkChangeToGuildMember(pbinfo->m_guildKey);

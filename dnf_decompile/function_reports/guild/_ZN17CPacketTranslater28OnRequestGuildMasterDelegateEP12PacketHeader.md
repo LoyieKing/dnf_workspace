@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807af52` | `0x6b5` | `0x8071428` | `0x690` |
+| guild | DIFF | `0x807af52` | `0x6b5` | `0x8071364` | `0x690` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -926,7 +926,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnRequestGuildMasterDelegateEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3025 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2306 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader* pkt)
@@ -935,8 +935,8 @@ void CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildMasterDelegate : 0 == m_pclApp");
     Packet_Guild_Reply_Guild_Master_Delegate resp;
-    unsigned int guildKey = ((PTL_RequestGuildMasterDelegatePkt*)pkt)->m_guildKey;
-    unsigned int requesterCharNo = ((PTL_RequestGuildMasterDelegatePkt*)pkt)->m_requesterCharNo;
+    unsigned int guildKey = ((Packet_Guild_Request_Guild_Master_Delegate*)pkt)->m_guildKey;
+    unsigned int requesterCharNo = ((Packet_Guild_Request_Guild_Master_Delegate*)pkt)->m_requesterCharNo;
     if (guildKey != 0)
     {
         CUser* requester;
@@ -964,7 +964,7 @@ void CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader* pkt)
             if (guild->IsGuildMaster(requesterCharNo))
             {
                 CUser* delegatee = (&m_pclApp->m_userManager)->FindUser_CharName(
-                    std::string(((PTL_RequestGuildMasterDelegatePkt*)pkt)->m_name));
+                    std::string(((Packet_Guild_Request_Guild_Master_Delegate*)pkt)->m_name));
                 if (delegatee != 0 && !guild->IsSubGuildMaster(delegatee->GetUniqCharNo()))
                 {
                     DNF_LOG_SCOPE_LINE(0xc49,"./log/GuildModify",
@@ -980,7 +980,7 @@ void CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader* pkt)
                     dbPkt.m_guildKey = guildKey;
                     dbPkt.m_charNo = requesterCharNo;
                     dbPkt.m_group = requester->GetGameServer()->GetGroupNo();
-                    memcpy(dbPkt.m_name, ((PTL_RequestGuildMasterDelegatePkt*)pkt)->m_name, 0x1d);
+                    memcpy(dbPkt.m_name, ((Packet_Guild_Request_Guild_Master_Delegate*)pkt)->m_name, 0x1d);
                     m_pclApp->m_serverHandler->SendToDB(&dbPkt);
                 }
             }

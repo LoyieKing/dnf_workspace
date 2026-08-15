@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807b608` | `0x63c` | `0x8071ab8` | `0x61d` |
+| guild | DIFF | `0x807b608` | `0x63c` | `0x80719f4` | `0x61d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -772,7 +772,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnDBReplyGuildMasterDelegateEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3116 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2397 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildMasterDelegate(PacketHeader* pkt)
@@ -781,10 +781,10 @@ void CPacketTranslater::OnDBReplyGuildMasterDelegate(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildMasterDelegate : 0 == m_pclApp");
     Packet_Guild_Reply_Guild_Master_Delegate resp;
-    unsigned int guildKey = ((PTL_DBReplyGuildMasterDelegatePkt*)pkt)->m_guildKey;
-    unsigned int requesterCharNo = ((PTL_DBReplyGuildMasterDelegatePkt*)pkt)->m_requesterCharNo;
-    unsigned int delegateeCharNo = ((PTL_DBReplyGuildMasterDelegatePkt*)pkt)->m_delegateeCharNo;
-    int result = ((PTL_DBReplyGuildMasterDelegatePkt*)pkt)->m_result;
+    unsigned int guildKey = ((Packet_DB_Reply_Guild_Master_Delegate*)pkt)->m_guildKey;
+    unsigned int requesterCharNo = ((Packet_DB_Reply_Guild_Master_Delegate*)pkt)->m_requesterCharNo;
+    unsigned int delegateeCharNo = ((Packet_DB_Reply_Guild_Master_Delegate*)pkt)->m_delegateeCharNo;
+    int result = ((Packet_DB_Reply_Guild_Master_Delegate*)pkt)->m_result;
     if (guildKey == 0)
     {
         throw CDNFException(
@@ -831,7 +831,7 @@ void CPacketTranslater::OnDBReplyGuildMasterDelegate(PacketHeader* pkt)
             requester->ChangeGuildMemberGrade(3);
             guild->SendGuildInfoToMembers(false);
             guild->NoticeGuildMasterDelegateToMembers(
-                ((PTL_DBReplyGuildMasterDelegatePkt*)pkt)->m_name);
+                ((Packet_DB_Reply_Guild_Master_Delegate*)pkt)->m_name);
         }
         if (requester != 0)
         {

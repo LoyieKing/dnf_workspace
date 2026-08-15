@@ -1,3 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv	DIFF	51	N			N	Y	source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader	DIFF	16	N			N	Y	source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

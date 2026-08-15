@@ -1,2 +1,0 @@
-register unsigned int v=(unsigned char)count; if((unsigned char)v>0xc8) v=(unsigned)(int)(signed char)0xc8; m_option=(unsigned char)v	DIFF(更差,钉ebx+push/pop; ORIG 用eax)	2026-08-14
-if(count>200) m_option=200; 不再无条件写回（ORIG 仅超 200 才写）	DIFF	2026-08-14

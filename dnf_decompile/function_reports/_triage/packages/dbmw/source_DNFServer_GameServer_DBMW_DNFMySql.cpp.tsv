@@ -1,5 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-dbmw	_ZN6CMySql10exec_queryEv	DIFF	38	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	1	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN6CMySql11blob_to_strEiPvi	DIFF	39	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	1	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN6CMySql4execEj	DIFF	15	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	5	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN6CMySql4openEPKcS1_S1_S1_	DIFF	11	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	3	CONST_OR_OFFSET	immediate/field/stack offset present

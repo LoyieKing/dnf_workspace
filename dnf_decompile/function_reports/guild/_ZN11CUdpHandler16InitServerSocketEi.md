@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050010` | `0x1b8` | `0x8088df6` | `0x1b1` |
+| guild | DIFF | `0x8050010` | `0x1b8` | `0x8088e64` | `0x1b8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,112 +1,107 @@
+@@ -1,112 +1,112 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
-+sub    $0x58,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
  movl   $0x11,0x8(%esp)
  movl   $0x2,0x4(%esp)
  movl   $0x2,(%esp)
@@ -29,39 +28,35 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0xffffffff,%eax
--jne    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x58>
-+jne    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x56>
+ jne    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x58>
  call   <T> <_Z8getErrnov>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"Could not create a UDP socket : %d\n",(%esp)
  call   <T> <printf>
  mov    $0xffffffff,%eax
--jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x1b1>
+ jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x1b1>
 -lea    -0x24(%ebp),%eax
-+jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x1af>
  movl   $0x10,0x8(%esp)
  movl   $0x0,0x4(%esp)
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
 -movw   $0x2,-0x24(%ebp)
-+movw   $0x2,-0x20(%ebp)
++movw   $0x2,-0x28(%ebp)
  movl   $0x0,(%esp)
  call   <T> <htonl>
 -mov    %eax,-0x20(%ebp)
-+mov    %eax,-0x1c(%ebp)
++mov    %eax,-0x24(%ebp)
  mov    0xc(%ebp),%eax
  movzwl %ax,%eax
  mov    %eax,(%esp)
  call   <T> <htons>
 -mov    %ax,-0x22(%ebp)
 -lea    -0x24(%ebp),%edx
-+mov    %ax,-0x1e(%ebp)
-+lea    -0x20(%ebp),%edx
++mov    %ax,-0x26(%ebp)
++lea    -0x28(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $0x10,0x8(%esp)
@@ -71,32 +66,25 @@
  test   %eax,%eax
  setne  %al
  test   %al,%al
--je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0x12b>
-+je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0x129>
+ je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0x12b>
  call   <T> <_Z8getErrnov>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  cmp    $0x62,%eax
--je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0xda>
-+je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0xd8>
+ je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0xda>
  cmp    $0x63,%eax
--je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0xef>
-+je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0xed>
+ je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0xef>
  test   %eax,%eax
--je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0x121>
--jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0xfd>
-+je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0x11f>
-+jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0xfb>
+ je     <T> <_ZN11CUdpHandler16InitServerSocketEi+0x121>
+ jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0xfd>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"Port %d for receiving UDP is in use\n",(%esp)
  call   <T> <printf>
--jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
-+jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x120>
+ jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
  movl   $"Cannot assign requested address",(%esp)
  call   <T> <puts>
--jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
-+jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x120>
+ jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
@@ -105,54 +93,46 @@
  mov    %eax,0x4(%esp)
  movl   $"Could not bind UDP receive port. Error= %d , strerror = %s\n",(%esp)
  call   <T> <printf>
--jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
-+jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x120>
+ jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
  nop
  mov    0x8(%ebp),%eax
  movl   $0xffffffff,(%eax)
 -movl   $0xf4240,-0x28(%ebp)
-+movl   $0xf4240,-0x24(%ebp)
++movl   $0xf4240,-0x18(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  movl   $0x4,0x10(%esp)
 -lea    -0x28(%ebp),%edx
-+lea    -0x24(%ebp),%edx
++lea    -0x18(%ebp),%edx
  mov    %edx,0xc(%esp)
  movl   $0x8,0x8(%esp)
  movl   $0x1,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <setsockopt>
 -mov    -0x28(%ebp),%esi
--mov    0x8(%ebp),%eax
--mov    (%eax),%ebx
++mov    -0x18(%ebp),%esi
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%ebx
  movl   $0x6e,0x8(%esp)
  movl   $&_ZZN11CUdpHandler16InitServerSocketEiE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
-+mov    -0x24(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %ebx,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Opened port %d with fd %d, recv buf size %d\n",0x8(%esp)
  movl   $"./log/Udp",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--add    $0x40,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ add    $0x40,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -222,13 +202,15 @@ CUdpHandler::_ZN11CUdpHandler16InitServerSocketEi(CUdpHandler *this,int param_1)
 ```cpp
 int CUdpHandler::InitServerSocket(int port)
 {
+    int err;
+    int bufsize;
     m_sock = socket(2, 2, 0x11);
-    if (m_sock == -1) { int err = getErrno(); printf("Could not create a UDP socket : %d\n", err); return -1; }
+    if (m_sock == -1) { err = getErrno(); printf("Could not create a UDP socket : %d\n", err); return -1; }
     sockaddr_in local; memset(&local, 0, 0x10);
     local.sin_family = 2; local.sin_addr.s_addr = htonl(0);
     local.sin_port = htons((unsigned short)port);
     if (bind(m_sock, (sockaddr*)&local, 0x10) != 0) {
-        int err = getErrno();
+        err = getErrno();
         switch (err)
         {
         case 0x62: printf("Port %d for receiving UDP is in use\n", port); break;
@@ -239,8 +221,8 @@ int CUdpHandler::InitServerSocket(int port)
         }
         m_sock = -1;
     }
-    int bufsize = 1000000; setsockopt(m_clientSock, 1, 8, &bufsize, 4);
-    DNF_LOG_SCOPE("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    bufsize = 1000000; setsockopt(m_clientSock, 1, 8, &bufsize, 4);
+    DNF_LOG_SCOPE_LINE(0x6e, "./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
     return m_sock;
 }
 ```

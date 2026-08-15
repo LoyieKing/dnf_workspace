@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8085e92` | `0x588` | `0x807bd96` | `0x4e5` |
+| guild | DIFF | `0x8085e92` | `0x588` | `0x807be06` | `0x4e5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -745,7 +745,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnGuildCargoUpgradeEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5716 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4981 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
@@ -757,14 +757,14 @@ void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x1bd1, "./log/GuildCargo", "CPacketTranslater::OnGuildCargoUpgrade : 0 == m_pclApp");
         return;
     }
-    unsigned int charNo = ((PTL_GuildCargoUpgradePkt*)pkt)->m_charNo;
+    unsigned int charNo = ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_charNo;
     CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
     if (user == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1bdb, "./log/GuildCargo", "CPacketTranslater::OnGuildCargoUpgrade : 0 == pclUser");
         return;
     }
-    unsigned int guildKey = ((PTL_GuildCargoUpgradePkt*)pkt)->m_guildKey;
+    unsigned int guildKey = ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_guildKey;
     CGuild* guild;
     if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
@@ -776,16 +776,16 @@ void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
         if (guild->IsExistGuildAgit() == 1)
         {
             int curCapacity = guild->GetGuildCargo()->GetCapacity();
-            if (((PTL_GuildCargoUpgradePkt*)pkt)->m_field12 == curCapacity)
+            if (((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field12 == curCapacity)
             {
-                unsigned int reqFund = ((PTL_GuildCargoUpgradePkt*)pkt)->m_field1a;
+                unsigned int reqFund = ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field1a;
                 unsigned int guildFund = guild->GetGuildFund();
                 if (guildFund < reqFund)
                 {
                     DNF_LOG_SCOPE_LINE(0x1c00,"./log/GuildCargo",
                         "CPacketTranslater::OnGuildCargoUpgrade guild fund shortage(c:%d,n:%d, gcapa:%d) Error! Guild(%d), User(%d), ReqFund(%d), CurrFund(%d)",
-                        ((PTL_GuildCargoUpgradePkt*)pkt)->m_field12,
-                        ((PTL_GuildCargoUpgradePkt*)pkt)->m_field16, curCapacity,
+                        ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field12,
+                        ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field16, curCapacity,
                         guildKey, charNo, reqFund, guildFund);
                 }
                 else
@@ -793,13 +793,13 @@ void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
                     guild->SubGuildFund(reqFund);
                     guild->SendGuildInfoToMembers(true);
                     guild->GetGuildCargo()->SetCapacity(
-                        ((PTL_GuildCargoUpgradePkt*)pkt)->m_field16);
+                        ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field16);
                     CTcpDBServer* tcpDb = m_pclApp->Get_ServerHandler()->GetTcpDBServer();
                     char* buf = tcpDb->makePacketHeader(0x714, 0x16);
                     *(unsigned int*)(buf + 0xa) = guildKey;
                     *(unsigned int*)(buf + 0xe) = charNo;
                     *(unsigned int*)(buf + 0x12) =
-                        ((PTL_GuildCargoUpgradePkt*)pkt)->m_field16;
+                        ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field16;
                     tcpDb->SendToServer(buf);
                     Packet_Channel_Guild_Cargo_Upgrade reply;
                     reply.m_channel = user->GetIdByChannel();
@@ -813,8 +813,8 @@ void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
             {
                 DNF_LOG_SCOPE_LINE(0x1bf7,"./log/GuildCargo",
                     "CPacketTranslater::OnGuildCargoUpgrade Capacity(c:%d,n:%d, gcapa:%d) Error! Guild(%d), User(%d)",
-                    ((PTL_GuildCargoUpgradePkt*)pkt)->m_field12,
-                    ((PTL_GuildCargoUpgradePkt*)pkt)->m_field16, curCapacity,
+                    ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field12,
+                    ((Packet_Guild_Guild_Cargo_Upgrade*)pkt)->m_field16, curCapacity,
                     guildKey, charNo);
             }
         }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80836e6` | `0x2c3` | `0x8079882` | `0x29c` |
+| guild | DIFF | `0x80836e6` | `0x2c3` | `0x80797ee` | `0x29c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -320,7 +320,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5084 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4354 行）：
 
 ```cpp
 void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
@@ -334,13 +334,13 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
             return;
         }
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(
-            ((PTL_WriteGuildMemberMemoPkt*)pkt)->m_charNo);
+            ((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_charNo);
         if (user == 0)
         {
             DNF_LOG_SCOPE_LINE(0x17f5, "./log/GuildMember", "CPacketTranslater::OnWriteGuildMemberMemo : 0 == pclUser");
             return;
         }
-        unsigned int guildKey = ((PTL_WriteGuildMemberMemoPkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_guildKey;
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
         {
@@ -348,13 +348,13 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
             return;
         }
         Packet_DB_Write_Guild_Member_Memo dbPkt;
-        dbPkt.m_charNo = ((PTL_WriteGuildMemberMemoPkt*)pkt)->m_charNo;
+        dbPkt.m_charNo = ((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_charNo;
         dbPkt.m_guildKey = guildKey;
-        size_t len = strlen(((PTL_WriteGuildMemberMemoPkt*)pkt)->m_memo);
-        memcpy(dbPkt.m_memo, ((PTL_WriteGuildMemberMemoPkt*)pkt)->m_memo, len < 0x15 ? len : 0x14);
+        size_t len = strlen(((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_memo);
+        memcpy(dbPkt.m_memo, ((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_memo, len < 0x15 ? len : 0x14);
         m_pclApp->m_serverHandler->SendToDB(&dbPkt);
-        guild->WriteGuildMemberMemo(user, ((PTL_WriteGuildMemberMemoPkt*)pkt)->m_memo);
-        guild->NotifyMemoToGuildMember(user, ((PTL_WriteGuildMemberMemoPkt*)pkt)->m_memo);
+        guild->WriteGuildMemberMemo(user, ((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_memo);
+        guild->NotifyMemoToGuildMember(user, ((Packet_Guild_Write_Guild_Member_Memo*)pkt)->m_memo);
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnWriteGuildMemberMemo Exception Break", 0x1818, 0x181d);
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090e28` | `0x170` | `0x8056904` | `0x16f` |
+| guild | DIFF | `0x8090e28` | `0x170` | `0x8056866` | `0x16f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -210,7 +210,7 @@ CGuild::_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1741 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1725 行）：
 
 ```cpp
 bool CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo)
@@ -228,7 +228,7 @@ bool CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned in
         GetGuildBoard()->sendMessageToDBMW_GuildMasterChanging(handler, user, name);
         if (getUnconnectedGuildMemberName(charNo) != 0)
         {
-            strncpy((char*)this + 0xc4, getUnconnectedGuildMemberName(charNo), 0x14);
+            strncpy(m_dbInfo.m_info.m_masterName, getUnconnectedGuildMemberName(charNo), 0x14);
         }
     }
     else
@@ -236,7 +236,7 @@ bool CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned in
         member->ChangeGuildMemberGrade(1);
         GetGuildBoard()->sendMessageToDBMW_GuildMasterChanging(
             handler, user, member->GetCharName());
-        strncpy((char*)this + 0xc4, member->GetCharName(), 0x14);
+        strncpy(m_dbInfo.m_info.m_masterName, member->GetCharName(), 0x14);
     }
     return 1;
 }

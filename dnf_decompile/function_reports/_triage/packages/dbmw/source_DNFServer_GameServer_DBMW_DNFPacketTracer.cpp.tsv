@@ -1,4 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-dbmw	_ZN13CPacketTracer21WritePacketProcessLogEv	DIFF	51	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp	1	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN13CPacketTracerC1Ev	DIFF	7	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp	2	CODEGEN_TAIL	very small structural diff
-dbmw	_ZN13CPacketTracerC2Ev	DIFF	7	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp	2	CODEGEN_TAIL	very small structural diff

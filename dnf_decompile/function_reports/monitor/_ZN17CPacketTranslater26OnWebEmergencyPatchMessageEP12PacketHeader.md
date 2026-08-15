@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80918c4` | `0x301` | `0x807cd78` | `0x309` |
+| monitor | DIFF | `0x80918c4` | `0x301` | `0x807ce6c` | `0x309` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,16 +99,16 @@
 +mov    %eax,-0x38(%ebp)
 +movl   $0x0,-0x30(%ebp)
 +jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1cf>
-+mov    -0x38(%ebp),%edx
 +mov    -0x30(%ebp),%eax
++mov    -0x38(%ebp),%edx
  movzbl 0xa(%edx,%eax,1),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1c7>
 -mov    -0x2c(%ebp),%eax
 -mov    -0x30(%ebp),%edx
 +je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1cb>
-+mov    -0x38(%ebp),%edx
 +mov    -0x30(%ebp),%eax
++mov    -0x38(%ebp),%edx
  movzbl 0xa(%edx,%eax,1),%eax
 -movzbl %al,%ebx
 +mov    %al,-0x29(%ebp)
@@ -134,7 +134,7 @@
 +je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1cb>
 +mov    -0x24(%ebp),%eax
 +lea    0xa(%eax),%edx
-+mov    0x8(%ebp),%eax
++mov    -0x38(%ebp),%eax
 +movzbl 0x3c(%eax),%eax
 +mov    %al,(%edx)
  mov    -0x24(%ebp),%eax
@@ -151,11 +151,11 @@
  mov    %eax,(%esp)
  call   <T> <memset>
 -mov    -0x30(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x38(%ebp),%eax
  movzbl 0x3c(%eax),%eax
  movzbl %al,%eax
 -mov    -0x30(%ebp),%edx
-+mov    0x8(%ebp),%edx
++mov    -0x38(%ebp),%edx
  lea    0x3d(%edx),%ecx
  mov    -0x20(%ebp),%edx
  add    $0xb,%edx
@@ -335,7 +335,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5514 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5532 行）：
 
 ```cpp
 void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)
@@ -346,13 +346,13 @@ void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)
         {
             throw CDNFException("CPacketTranslater::OnWebEmergencyPatchMessage");
         }
-        PacketHeader* rpkt = pkt;
+        Packet_Web_Emergency_Patch_Message* rpkt =
+            (Packet_Web_Emergency_Patch_Message*)pkt;
         for (int i = 0; i < 0x32; i++)
         {
-            if (((MonitorEmergencyPatchPkt*)rpkt)->m_channels[i] != 0)
+            if (rpkt->m_channels[i] != 0)
             {
-                unsigned char ch =
-                    (unsigned char)((MonitorEmergencyPatchPkt*)rpkt)->m_channels[i];
+                unsigned char ch = (unsigned char)rpkt->m_channels[i];
                 CTcpGameServer* tcp =
                     m_pclApp->Get_ServerHandler()->GetTcpGameServerByCh(ch);
                 if (tcp != 0)
@@ -360,11 +360,10 @@ void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)
                     char* buf = tcp->makePacketHeader(0x27f2, 0x10a);
                     if (buf != 0)
                     {
-                        *(char*)(buf + 10) = ((RA_S8<60>*)pkt)->v;
+                        *(char*)(buf + 10) = (char)rpkt->m_len;
                         char* out = buf;
                         memset(buf + 0xb, 0, 0xff);
-                        memcpy(out + 0xb, (char*)pkt + 0x3d,
-                               (unsigned int)(unsigned char)((RA_S8<60>*)pkt)->v);
+                        memcpy(out + 0xb, rpkt->m_text, (unsigned int)rpkt->m_len);
                         tcp->SendToGameServer(out);
                     }
                 }

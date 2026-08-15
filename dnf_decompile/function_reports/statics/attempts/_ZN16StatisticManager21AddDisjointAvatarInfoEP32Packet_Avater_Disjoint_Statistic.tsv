@@ -1,7 +1,0 @@
-source_excerpt	result	date
-baseline `((Wire*)pkt)->m_items[i].m_a` struct 访问（c6446r）→ pkt 先装载，ORIG 为 i 先装载	NEAR(同)	2026-08-14
-int 强转地址运算 `*(int*)((unsigned int)pkt + i*0xd + 0xe)` → 地址塌缩 lea+add 单寄存器	DIFF(更差)	2026-08-14
-int 强转+组件偏移 `((Wire*)((unsigned int)pkt + i*0xd))->m_items[0].m_a` → 顺序对(i先)但 lea 塌缩 `0xe(%eax)` 单寄存器	DIFF(更差)	2026-08-14
-工具链 A/B：c6(4.4.7) / c6444r(4.4.4) 重编 → 与 c6446r 相同 pkt-first 形态	NEAR(同)	2026-08-14
-工具链 A/B：c5(4.1.2) 重编 → 装载顺序与 ORIG 一致(i先) 但栈帧 0x38/槽位布局/levs add 形态全异	DIFF(更差)	2026-08-14
-harness 变体：unsigned 下标 / `*(int*)&((char*)pkt)[i*0xd+0xe]` / `i[arr]` 反向下标 / 临时变量提出循环 / `((Item*)((char*)pkt+0xe))[i]` → 全部 pkt-first（4.4 结构性）	NEAR(同)	2026-08-14

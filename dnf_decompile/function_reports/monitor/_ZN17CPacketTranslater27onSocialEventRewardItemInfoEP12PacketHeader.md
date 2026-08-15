@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ffb6` | `0x40f` | `0x807b528` | `0x428` |
+| monitor | DIFF | `0x808ffb6` | `0x40f` | `0x807b634` | `0x428` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -110,7 +110,7 @@
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
 +mov    %eax,-0x40(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
  mov    0xe(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
@@ -128,10 +128,10 @@
 +mov    %eax,-0x3c(%ebp)
 +cmpl   $0x0,-0x3c(%ebp)
 +jne    <T> <_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader+0x25f>
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +mov    0x12(%eax),%eax
 +mov    %eax,-0x34(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
  mov    0xe(%eax),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -237,13 +237,12 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+mov    0x8(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
 -mov    -0x28(%ebp),%edx
--mov    %edx,0x4(%esp)
-+mov    %ebx,0x4(%esp)
++mov    -0x40(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN22LimitNpcBuyItemManager19sellNpcLimitBuyItemEP19LimitNpcBuyItemInfo>
 +mov    %eax,-0x38(%ebp)
@@ -255,26 +254,26 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 +jmp    <T> <_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader+0x41d>
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +movl   $0x0,0x1a(%eax)
-+mov    0x8(%ebp),%eax
 +mov    -0x38(%ebp),%edx
++mov    -0x40(%ebp),%eax
 +mov    %edx,0x22(%eax)
 +mov    0x8(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +mov    0x1a(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +mov    0x16(%eax),%eax
 +mov    %eax,-0x28(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +mov    0x22(%eax),%eax
 +mov    %eax,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x40(%ebp),%eax
 +mov    0x12(%eax),%eax
  mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
@@ -498,7 +497,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5151 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5169 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt)
@@ -509,14 +508,13 @@ void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt)
         {
             throw CDNFException("CPacketTranslater::onSocialEventRewardItemInfo");
         }
-        PacketHeader* rpkt = pkt;
+        LimitNpcBuyItemInfo* rpkt = (LimitNpcBuyItemInfo*)pkt;
         CUser* user =
-            ((CUserManager*)((char*)m_pclApp + 0x10))
-                ->FindUser(((RA_UINT<14>*)pkt)->v);
+            (&m_pclApp->m_userManager)->FindUser(rpkt->m_dbid);
         if (user == 0)
         {
-            unsigned int cn = ((RA_UINT<18>*)pkt)->v;
-            char* s = NumberToString(((RA_UINT<14>*)pkt)->v, 0);
+            unsigned int cn = rpkt->m_charNo;
+            char* s = NumberToString(rpkt->m_dbid, 0);
             DNF_LOG_SCOPE_LINE(0x1dee,"./log/Except",
                 "CPacketTranslater::onSocialEventRewardItemInfo(), buyUser(%s), "
                 "characNo(%u)",
@@ -524,21 +522,20 @@ void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt)
             throw CDNFException(
                 "CPacketTranslater::onSocialEventRewardItemInfo : Not Exist User characNo");
         }
-        int result = m_pclApp->getLimitNpcBuyItemManager()->sellNpcLimitBuyItem(
-            (LimitNpcBuyItemInfo*)pkt);
+        int result = m_pclApp->getLimitNpcBuyItemManager()->sellNpcLimitBuyItem(rpkt);
         if (result < 1)
         {
             user->SendTcpGameserver(pkt);
         }
         else
         {
-            ((RA_UINT<26>*)pkt)->v = 0;
-            ((RA_INT<34>*)pkt)->v = result;
+            rpkt->m_count = 0;
+            rpkt->m_errorNo = (unsigned int)result;
             user->SendTcpGameserver(pkt);
-            unsigned int buyCount = ((RA_UINT<26>*)pkt)->v;
-            unsigned int itemId = ((RA_UINT<22>*)pkt)->v;
-            unsigned int errorNo = ((RA_UINT<34>*)pkt)->v;
-            unsigned int charNo = ((RA_UINT<18>*)pkt)->v;
+            unsigned int buyCount = rpkt->m_count;
+            unsigned int itemId = rpkt->m_itemId;
+            unsigned int errorNo = rpkt->m_errorNo;
+            unsigned int charNo = rpkt->m_charNo;
             DNF_LOG_SCOPE_LINE(0x1dfc,"./log/NpcBuyLimitItem",
                 "don\'t sell-> characNo: %u, errorNo: %u, itemId: %u, buyCount: %u)",
                 charNo, errorNo, itemId, buyCount);

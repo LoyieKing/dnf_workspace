@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fdce` | `0x56` | `0x80933d6` | `0x59` |
+| guild | DIFF | `0x809fdce` | `0x56` | `0x80934a2` | `0x59` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,7 +22,7 @@
 -jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x13>
 -mov    $0x32,%eax
  mov    %eax,-0x10(%ebp)
-+cmpl   $0x32,-0x10(%ebp)
++cmpl   $0x32,0xc(%ebp)
 +jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x19>
 +movl   $0x32,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
@@ -40,12 +40,9 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE10push_frontERKS0_>
  addl   $0x1,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--cmp    -0x10(%ebp),%eax
--setl   %al
-+mov    -0x10(%ebp),%eax
-+cmp    -0xc(%ebp),%eax
-+setg   %al
+ mov    -0xc(%ebp),%eax
+ cmp    -0x10(%ebp),%eax
+ setl   %al
  test   %al,%al
 -jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x1f>
 +jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x22>
@@ -84,12 +81,12 @@ CGuildCargo::_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog
 ```cpp
 void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)
 {
-    unsigned int c = idx;
-    if (c > 0x32)
+    int c = idx;
+    if (idx > 0x32)
     {
         c = 0x32;
     }
-    for (int i = 0; i < (int)c; i++)
+    for (int i = 0; i < c; i++)
     {
         m_history.push_front(log[i]);
     }

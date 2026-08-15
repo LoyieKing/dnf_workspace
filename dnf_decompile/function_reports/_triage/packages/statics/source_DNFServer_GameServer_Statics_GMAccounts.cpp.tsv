@@ -1,3 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-statics	_ZN25stDisjointAvatarInfoTotal5clearEv	DIFF	59	N			N	Y	source/DNFServer/GameServer/Statics/GMAccounts.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-statics	_ZN25stDisjointAvatarInfoTotal8incCountEiiii	DIFF	66	N			N	Y	source/DNFServer/GameServer/Statics/GMAccounts.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

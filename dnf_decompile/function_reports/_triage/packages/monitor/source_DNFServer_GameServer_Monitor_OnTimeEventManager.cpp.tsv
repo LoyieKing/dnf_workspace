@@ -1,7 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN19COnTimeEventManager10StartEventEjj	DIFF	31	N			Y	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN19COnTimeEventManager11OnRewardEndEv	DIFF	18	N			N	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN19COnTimeEventManager13OnRewardStartEv	DIFF	40	N			Y	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN19COnTimeEventManager15GetCurIdxByDBMWEv	DIFF	37	N			Y	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj	DIFF	6	N			N	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	3	CODEGEN_TAIL	very small structural diff
-monitor	_ZN19COnTimeEventManager9AttachAppEP12CApplication	DIFF	21	N			Y	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present

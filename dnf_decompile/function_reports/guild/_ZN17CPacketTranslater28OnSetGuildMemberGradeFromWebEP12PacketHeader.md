@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8074ede` | `0x71d` | `0x806b4a8` | `0x6db` |
+| guild | DIFF | `0x8074ede` | `0x71d` | `0x806b3f2` | `0x6db` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -821,7 +821,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1700 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 987 行）：
 
 ```cpp
 void CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader* pkt)
@@ -829,10 +829,10 @@ void CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnSetGuildMemberGradeFromWeb : 0 == m_pclApp");
-    unsigned int guildKey = ((PTL_SetGuildMemberGradeFromWebPkt*)pkt)->m_guildKey;
-    unsigned int masterCharNo = ((PTL_SetGuildMemberGradeFromWebPkt*)pkt)->m_masterCharNo;
-    unsigned char newGrade = ((PTL_SetGuildMemberGradeFromWebPkt*)pkt)->m_newGrade;
-    unsigned int targetCharNo = ((PTL_SetGuildMemberGradeFromWebPkt*)pkt)->m_targetCharNo;
+    unsigned int guildKey = ((Packet_Monitor_Set_GuildMember_Grade_FromWeb*)pkt)->m_guildKey;
+    unsigned int masterCharNo = ((Packet_Monitor_Set_GuildMember_Grade_FromWeb*)pkt)->m_masterCharNo;
+    unsigned char newGrade = ((Packet_Monitor_Set_GuildMember_Grade_FromWeb*)pkt)->m_newGrade;
+    unsigned int targetCharNo = ((Packet_Monitor_Set_GuildMember_Grade_FromWeb*)pkt)->m_targetCharNo;
     if (guildKey == 0)
     {
         DNF_LOG_SCOPE_LINE(0x515,"./log/GuildModify",

@@ -1,5 +1,0 @@
-file	diff	near	missing	sum
-DNFServer/StunServer/stun_server/global_func.cpp	1	9	0	10
-DNFServer/StunServer/stun_server/server.cpp	0	3	0	3
-DNFServer/StunServer/stun_server/stun.cpp	0	4	0	4
-DNFServer/StunServer/stun_server/udp.cpp	0	3	0	3

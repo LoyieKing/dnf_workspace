@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074b0a` | `0xd2` |
+| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074be8` | `0xa4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,100 +13,63 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,71 @@
+@@ -1,51 +1,53 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  cmpl   $0x0,0xc(%ebp)
--je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9b>
-+je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xc9>
+ je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9b>
  mov    0xc(%ebp),%eax
  mov    0xe(%eax),%eax
  test   %eax,%eax
 -jle    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x97>
-+jle    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xcc>
++jle    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9e>
  mov    0xc(%ebp),%eax
  mov    0xe(%eax),%eax
  cmp    $0x64,%eax
 -jg     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9a>
-+jg     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xcf>
++jg     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xa1>
  mov    0xc(%ebp),%eax
  movzbl 0x12(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x73>
-+jne    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x6e>
-+mov    0x8(%ebp),%edx
++je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x77>
  mov    0xc(%ebp),%eax
  mov    0xe(%eax),%eax
-+add    $0x100,%eax
-+shl    $0x3,%eax
-+add    $0x7,%eax
-+add    %eax,%edx
-+mov    0x8(%ebp),%ecx
-+mov    0xc(%ebp),%eax
-+mov    0xe(%eax),%eax
-+add    $0x100,%eax
-+shl    $0x3,%eax
-+add    $0x7,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,(%edx)
-+jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd0>
  mov    0x8(%ebp),%edx
--lea    0x100(%eax),%ecx
--mov    0xb(%edx,%ecx,8),%edx
--lea    0x1(%edx),%ecx
-+mov    0xc(%ebp),%eax
-+mov    0xe(%eax),%eax
-+add    $0x100,%eax
-+shl    $0x3,%eax
-+add    $0xb,%eax
-+add    %eax,%edx
-+mov    0x8(%ebp),%ecx
-+mov    0xc(%ebp),%eax
-+mov    0xe(%eax),%eax
-+add    $0x100,%eax
-+shl    $0x3,%eax
-+add    $0xb,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,(%edx)
-+mov    0xc(%ebp),%eax
-+mov    0x13(%eax),%eax
-+mov    %eax,-0xc(%ebp)
+ lea    0x100(%eax),%ecx
+ mov    0xb(%edx,%ecx,8),%edx
+ lea    0x1(%edx),%ecx
  mov    0x8(%ebp),%edx
--add    $0x100,%eax
--mov    %ecx,0xb(%edx,%eax,8)
--mov    0xc(%ebp),%eax
--lea    0x13(%eax),%ecx
--mov    0x8(%ebp),%edx
--lea    -0x10(%ebp),%eax
-+lea    -0x14(%ebp),%eax
-+lea    -0xc(%ebp),%ecx
+ add    $0x100,%eax
+ mov    %ecx,0xb(%edx,%eax,8)
+ mov    0xc(%ebp),%eax
+ lea    0x13(%eax),%ecx
+ mov    0x8(%ebp),%edx
+ lea    -0x10(%ebp),%eax
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3setIjSt4lessIjESaIjEE6insertERKj>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9b>
--mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    0x8(%ebp),%edx
--lea    0x100(%eax),%ecx
--mov    0x7(%edx,%ecx,8),%edx
--lea    0x1(%edx),%ecx
--mov    0x8(%ebp),%edx
--add    $0x100,%eax
--mov    %ecx,0x7(%edx,%eax,8)
++jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xa2>
+ mov    0xc(%ebp),%eax
+ mov    0xe(%eax),%eax
+ mov    0x8(%ebp),%edx
+ lea    0x100(%eax),%ecx
+ mov    0x7(%edx,%ecx,8),%edx
+ lea    0x1(%edx),%ecx
+ mov    0x8(%ebp),%edx
+ add    $0x100,%eax
+ mov    %ecx,0x7(%edx,%eax,8)
 -jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9b>
-+jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd0>
++jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xa2>
  nop
 -jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9b>
-+jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd0>
++jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xa2>
 +nop
-+jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd0>
++jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xa2>
  nop
  leave
  ret
@@ -143,38 +106,31 @@ _ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Stati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1787 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1768 行）：
 
 ```cpp
 void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS* pkt)
 {
-    struct __attribute__((packed)) Wire
-    {
-        char m_hdr[0xe];
-        int m_f0e;
-        char m_f12;
-        unsigned int m_f13;
-    };
     if (pkt == 0)
     {
         return;
     }
-    if (((Wire*)pkt)->m_f0e <= 0)
+    if (pkt->m_layer <= 0)
     {
         return;
     }
-    if (0x64 < ((Wire*)pkt)->m_f0e)
+    if (0x64 < pkt->m_layer)
     {
         return;
     }
-    if (((Wire*)pkt)->m_f12 == 0)
+    if (pkt->m_enterFlag != 0)
     {
-        *(int*)((char*)this + (((Wire*)pkt)->m_f0e + 0x100) * 8 + 7) += 1;
+        ++m_tower[pkt->m_layer].m_enter;
+        m_serverList.insert(*(unsigned int*)((char*)pkt + 0x13));
     }
     else
     {
-        *(int*)((char*)this + (((Wire*)pkt)->m_f0e + 0x100) * 8 + 0xb) += 1;
-        m_serverList.insert(((Wire*)pkt)->m_f13);
+        ++m_tower[pkt->m_layer].m_success;
     }
 }
 ```

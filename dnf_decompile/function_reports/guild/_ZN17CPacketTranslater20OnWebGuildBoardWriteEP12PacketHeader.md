@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80875e2` | `0x233` | `0x807d444` | `0x230` |
+| guild | DIFF | `0x80875e2` | `0x233` | `0x807d4ac` | `0x230` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,13 +29,13 @@
 -mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+mov    0xa(%eax),%eax
++mov    0xc(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
 +mov    0x8(%ebp),%eax
-+mov    0xe(%eax),%eax
++mov    0x10(%eax),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    0x8(%ebp),%eax
-+mov    0x12(%eax),%eax
++mov    0x14(%eax),%eax
 +mov    %eax,-0x14(%ebp)
  movl   $0x1dbe,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -274,16 +274,16 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6109 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5369 行）：
 
 ```cpp
 void CPacketTranslater::OnWebGuildBoardWrite(PacketHeader* pkt)
 {
     try
     {
-        unsigned int guildKey = ((PTL_WebGuildBoardPkt*)pkt)->m_guildKey;
-        unsigned int charNo = ((PTL_WebGuildBoardPkt*)pkt)->m_charNo;
-        unsigned int no = ((PTL_WebGuildBoardPkt*)pkt)->m_no;
+        unsigned int guildKey = ((Packet_DB_Load_Request_Web_Guild_Board_Write*)pkt)->m_guildKey;
+        unsigned int charNo = ((Packet_DB_Load_Request_Web_Guild_Board_Write*)pkt)->m_charNo;
+        unsigned int no = ((Packet_DB_Load_Request_Web_Guild_Board_Write*)pkt)->m_no;
         {
             DNF_LOG_SCOPE_LINE(0x1dbe,"./log/GuildBoard",
                 "CPacketTranslater::OnWebGuildBoardWrite Receive Data: GuildKey : %u, CharacID : %u, NO : %u",

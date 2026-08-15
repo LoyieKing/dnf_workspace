@@ -1,3 +1,0 @@
-source_excerpt	result	date
-i * 7 + (4 + j) -> i * 7 + j + 4（求值顺序对齐 ORIG Ghidra i*7+j+4）	DIFF(0x9bd->0x9b1, 差1字节, 寄存器分配尾音)	2026-08-14
-register t0-t5 保留（去掉后栈帧 0x13c->0x14c 更差）	DIFF(回退)	2026-08-14

@@ -1,5 +1,0 @@
-4.1.2-52 整TU编译	DIFF(更差)	2026-08-12
-int ret=0 → int ret(未初始化,循环内首句赋值)	NEAR(改善: 移除函数首多出store, 34→17行)	2026-08-13
-mysql_num_fields 存储形态: 强转(int)/(unsigned int)/仅rows强转	DIFF(同, 仍3指令value-preserve形态)	2026-08-13
-编译器A/B 447/444/445	DIFF(同17行)	2026-08-13
-c5 4.1.2 整TU	DIFF(更差265行, 循环形态全不同)	2026-08-13

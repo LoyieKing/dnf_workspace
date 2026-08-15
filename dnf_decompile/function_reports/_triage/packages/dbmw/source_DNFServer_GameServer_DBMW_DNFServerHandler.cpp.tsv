@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-dbmw	_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader	DIFF	16	N			N	Y	source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp	3	CONST_OR_OFFSET	immediate/field/stack offset present

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809167a` | `0x106` | `0x805715a` | `0x104` |
+| guild | DIFF | `0x809167a` | `0x106` | `0x80570bc` | `0x104` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,8 +17,7 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x24,%esp
-+sub    $0x44,%esp
+ sub    $0x24,%esp
  movl   $0x4,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -61,8 +60,7 @@
  lea    (%ecx,%eax,1),%eax
  add    $0xd0,%eax
  mov    0xd(%eax),%eax
--lea    -0x10(%ebp),%edx
-+lea    -0x2c(%ebp),%edx
+ lea    -0x10(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -78,7 +76,7 @@
 -mov    -0x10(%ebp),%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%ebx
-+mov    -0x2c(%ebp),%ecx
++mov    -0x10(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
@@ -102,8 +100,7 @@
  call   <T> <_ZNSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE5clearEv>
  mov    0x8(%ebp),%eax
  movb   $0x0,0x4db0(%eax)
--add    $0x24,%esp
-+add    $0x44,%esp
+ add    $0x24,%esp
  pop    %ebx
  pop    %ebp
  ret
@@ -153,7 +150,7 @@ LAB_080916bb:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1964 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1948 行）：
 
 ```cpp
 void CGuild::UpdateChangableInfoProcess()

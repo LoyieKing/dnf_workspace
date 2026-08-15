@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080360` | `0x4d3` | `0x807670a` | `0x49e` |
+| guild | DIFF | `0x8080360` | `0x4d3` | `0x807666c` | `0x49e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -649,7 +649,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnPacketSecedePowerEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4264 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3535 行）：
 
 ```cpp
 void CPacketTranslater::OnPacketSecedePower(PacketHeader* pkt)
@@ -663,7 +663,7 @@ void CPacketTranslater::OnPacketSecedePower(PacketHeader* pkt)
     }
     Packet_Answer_Secede_Power reply;
     reply.m_a = 0;
-    unsigned int charNo = ((PTL_SecedePowerPkt*)pkt)->m_charNo;
+    unsigned int charNo = ((Packet_Request_Secede_Power*)pkt)->m_charNo;
     reply.m_12 = charNo;
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo)) == 0)
@@ -672,7 +672,7 @@ void CPacketTranslater::OnPacketSecedePower(PacketHeader* pkt)
         return;
     }
     reply.m_e = user->GetIdByChannel();
-    unsigned int guildKey = ((PTL_SecedePowerPkt*)pkt)->m_guildKey;
+    unsigned int guildKey = ((Packet_Request_Secede_Power*)pkt)->m_guildKey;
     CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
     if (guildKey == 0 || guild == 0)
     {

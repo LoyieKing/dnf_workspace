@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x8093f28` | `0x53` |
+| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x809400a` | `0x53` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -35,10 +35,10 @@
 -mov    %eax,%edx
 +mov    %eax,-0x4(%ebp)
 +cmpl   $0x2a30,-0x4(%ebp)
-+jle    <T> <_ZN10CIPCounter11setLoadTermEh+0x31>
++jbe    <T> <_ZN10CIPCounter11setLoadTermEh+0x31>
 +movl   $0x2a30,-0x4(%ebp)
-+mov    -0x4(%ebp),%edx
  mov    0x8(%ebp),%eax
++mov    -0x4(%ebp),%edx
  mov    %edx,0xc(%eax)
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
@@ -86,7 +86,7 @@ void __thiscall CIPCounter::_ZN10CIPCounter11setLoadTermEh(CIPCounter *this,ucha
 ```cpp
 void CIPCounter::setLoadTerm(unsigned char term)
 {
-    int v = (int)(unsigned char)term * 0x3c;
+    unsigned int v = (unsigned int)(unsigned char)term * 0x3c;
     if (v > 0x2a30)
     {
         v = 0x2a30;

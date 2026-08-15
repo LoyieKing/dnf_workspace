@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808bc48` | `0x3b0` | `0x80772ee` | `0x39d` |
+| monitor | DIFF | `0x808bc48` | `0x3b0` | `0x807740a` | `0x39a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,275 +1,269 @@
+@@ -1,275 +1,268 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -95,7 +95,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x282>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x27f>
 +lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -139,7 +139,7 @@
 -mov    -0x2c(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x1a8>
++je     <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x1a5>
 +mov    -0x28(%ebp),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
@@ -151,7 +151,7 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x3a8>
-+je     <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x394>
++je     <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x391>
 +lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN25Packet_Set_CleanPad_PointC1Ev>
@@ -170,8 +170,7 @@
 -lea    -0x5c(%ebp),%eax
 -mov    %edx,0x8(%esp)
 +mov    %ax,-0x4a(%ebp)
-+lea    -0x58(%ebp),%eax
-+movw   $0x10,0x2(%eax)
++movw   $0x10,-0x56(%ebp)
 +lea    -0x58(%ebp),%eax
 +movl   $0x10,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -180,7 +179,7 @@
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x3a8>
 -lea    -0x3d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x395>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x392>
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -202,7 +201,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x23d>
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x227>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x224>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -248,23 +247,23 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x221>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x21e>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x246>
++jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x243>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x246>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x243>
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x25b>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x258>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x246>
++jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x243>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
@@ -275,7 +274,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x282>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x27f>
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -287,7 +286,7 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x33e>
-+jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x328>
++jne    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x325>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -323,7 +322,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x337>
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x321>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x31e>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -335,7 +334,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x3a8>
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x395>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x392>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break",(%esp)
@@ -353,7 +352,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x3a3>
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x38d>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x38a>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -365,7 +364,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -add    $0x6c,%esp
-+jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x395>
++jmp    <T> <_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader+0x392>
 +nop
 +add    $0x5c,%esp
  pop    %ebx
@@ -450,7 +449,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4081 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4103 行）：
 
 ```cpp
 void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
@@ -463,8 +462,8 @@ void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
         }
         int charNo = 0;
         CUser* user =
-            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
-                ((RA_UINT<10>*)pkt)->v);
+            (&m_pclApp->m_userManager)->FindUser(
+                ((Packet_Request_Set_CleanPad_Point*)pkt)->m_dbid);
         if (user == 0)
         {
             charNo = -1;
@@ -475,14 +474,14 @@ void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
         }
         if (charNo != 0)
         {
-            CUser* target = ((CUserManager*)((char*)m_pclApp + 0x10))
+            CUser* target = (&m_pclApp->m_userManager)
                                 ->FindUser_CharNo((unsigned int)charNo);
             if (target != 0)
             {
                 Packet_Set_CleanPad_Point reply;
                 reply.m_idByChannel = target->GetIdByChannel();
-                reply.m_point = ((RA_U16<14>*)pkt)->v;
-                ((RA_U16<2>*)&reply)->v = 0x10;
+                reply.m_point = ((Packet_Request_Set_CleanPad_Point*)pkt)->m_point;
+                reply.packetSize = 0x10;
                 target->SendToGameserver((char*)&reply, 0x10);
             }
             return;

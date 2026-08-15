@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808dd98` | `0x227` | `0x8079402` | `0x266` |
+| monitor | DIFF | `0x808dd98` | `0x227` | `0x80794f4` | `0x266` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,55 +23,61 @@
 +sub    $0x60,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  movzwl 0x12(%eax),%eax
 -movzwl %ax,%edi
--mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%ebx
 +movzwl %ax,%eax
 +mov    %eax,-0x1c(%ebp)
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
+-mov    0xe(%eax),%esi
 +mov    0xe(%eax),%eax
 +mov    %eax,-0x18(%ebp)
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
+-mov    0xa(%eax),%ebx
 +mov    0xa(%eax),%eax
 +mov    %eax,-0x14(%ebp)
  movl   $0x1a5a,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x48(%ebp),%eax
 +lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %edi,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x14(%esp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"OnRegisterEventItem:idx = %u , cnt = %u, errortype = %d",0x8(%esp)
-+movl   $"./log/OnTimeEvent",0x4(%esp)
+ movl   $"OnRegisterEventItem:idx = %u , cnt = %u, errortype = %d",0x8(%esp)
+ movl   $"./log/OnTimeEvent",0x4(%esp)
+-lea    -0x48(%ebp),%eax
 +lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+movzwl 0x12(%eax),%eax
-+test   %ax,%ax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    -0x20(%ebp),%eax
+ movzwl 0x12(%eax),%eax
+ test   %ax,%ax
+-je     <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xae>
+-movl   $0x1a60,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +jne    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x136>
-+mov    0x8(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    0xa(%eax),%eax
 +test   %eax,%eax
 +je     <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x9c>
-+mov    0x8(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    0xe(%eax),%eax
 +test   %eax,%eax
 +jne    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xec>
 +movl   $0x1a66,0x8(%esp)
 +movl   $"OnRegisterEventItem",0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"db error not item",0x8(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x14(%esp)
 +mov    -0x18(%ebp),%eax
@@ -79,10 +85,11 @@
 +mov    -0x14(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"wrong item data",0x8(%esp)
-+movl   $"./log/OnTimeEvent",0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ movl   $"./log/OnTimeEvent",0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x21f>
 +jmp    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x25f>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +test   %eax,%eax
@@ -90,10 +97,19 @@
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    0x320(%eax),%eax
 +mov    %eax,-0x10(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    0xe(%eax),%edx
-+mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
+ mov    -0x20(%ebp),%eax
+ mov    0xa(%eax),%eax
+-test   %eax,%eax
+-je     <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xc2>
+-mov    -0x20(%ebp),%eax
+-mov    0xe(%eax),%eax
+-test   %eax,%eax
+-jne    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xfd>
+-movl   $0x1a66,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
@@ -105,13 +121,10 @@
 +jmp    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x25f>
 +movl   $0x1a60,0x8(%esp)
 +movl   $"OnRegisterEventItem",0x4(%esp)
- lea    -0x48(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"OnRegisterEventItem:idx = %u , cnt = %u, errortype = %d",0x8(%esp)
+-movl   $"wrong item data",0x8(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x14(%esp)
 +mov    -0x18(%ebp),%eax
@@ -120,42 +133,10 @@
 +mov    %eax,0xc(%esp)
 +movl   $"db error not item",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
- lea    -0x48(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x20(%ebp),%eax
--movzwl 0x12(%eax),%eax
--test   %ax,%ax
--je     <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xae>
--movl   $0x1a60,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"db error not item",0x8(%esp)
--movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x21f>
--mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
--test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xc2>
--mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%eax
--test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0xfd>
--movl   $0x1a66,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"wrong item data",0x8(%esp)
--movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader+0x21f>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -test   %eax,%eax
@@ -299,22 +280,22 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4655 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4672 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterEventItem(PacketHeader* pkt)
 {
     try
     {
-        PacketHeader* rpkt = pkt;
-        unsigned int errortype = (unsigned int)((RA_U16<18>*)pkt)->v;
-        unsigned int cnt = ((RA_UINT<14>*)pkt)->v;
-        unsigned int idx = ((RA_UINT<10>*)pkt)->v;
+        Packet_Register_Event_Item* rpkt = (Packet_Register_Event_Item*)pkt;
+        unsigned int errortype = (unsigned int)(unsigned short)rpkt->m_errortype;
+        unsigned int cnt = rpkt->m_cnt;
+        unsigned int idx = rpkt->m_idx;
         DNF_LOG_SCOPE_LINE(0x1a5a,"./log/OnTimeEvent", "OnRegisterEventItem:idx = %u , cnt = %u, errortype = %d",
             idx, cnt, errortype);
-        if (((RA_S16<18>*)pkt)->v == 0)
+        if (rpkt->m_errortype == 0)
         {
-            if (((RA_INT<10>*)pkt)->v == 0 || ((RA_INT<14>*)pkt)->v == 0)
+            if ((int)rpkt->m_idx == 0 || (int)rpkt->m_cnt == 0)
             {
                 CMyFileLog log2("OnRegisterEventItem", 0x1a66);
                 log2("./log/OnTimeEvent", "wrong item data", idx, cnt, errortype);
@@ -322,8 +303,7 @@ void CPacketTranslater::OnRegisterEventItem(PacketHeader* pkt)
             else if (m_pclApp != 0)
             {
                 COnTimeEventManager* mgr = m_pclApp->m_onTimeEventMgr;
-                mgr->SetEventItem(((RA_UINT<10>*)pkt)->v,
-                                  ((RA_UINT<14>*)pkt)->v);
+                mgr->SetEventItem(rpkt->m_idx, rpkt->m_cnt);
                 mgr->StartEvent();
             }
         }

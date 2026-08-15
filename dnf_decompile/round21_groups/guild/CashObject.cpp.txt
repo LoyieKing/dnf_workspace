@@ -1,1 +1,0 @@
-DIFF   _ZN11CCashObject13IsLifeTimeOutEv

@@ -1,4 +1,0 @@
-原始形态 m_table[id+4] (c6/c6444r)	DIFF(ORIG movzwl→edx;mov this→eax;add $4 vs OURS movzwl→eax;lea 4(eax)→edx;then this)	2026-08-12
-unsigned short id 局部变量	DIFF(更差: 多出 -0x1a 栈槽与 cmpw 重载)	2026-08-12
-m_table[4 + id] 交换加法顺序	DIFF(同 lea/add 形态)	2026-08-12
-工具链 A/B: c5r52(4.1.2-52)+c5root 头链	DIFF(仍 lea 形态; 4.1.2 无法消除)	2026-08-12

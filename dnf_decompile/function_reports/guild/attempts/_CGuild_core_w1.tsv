@@ -1,6 +1,0 @@
-status	name	size_orig	size_new	detail
-DIFF	_ZN6CGuild27DismissGuildMemberAndNoticeEi	0x143	0x13d	split ||, cache it->second, swap expDel.m16=group/m_group=DBID
-DIFF	_ZN6CGuild18DBSaveGuildMembersEhP14CServerHandlerh	0xdb	0xd5	split ||, cache user, fix it->first->m_guildKey
-DIFF	_ZN6CGuild25NotifyAllTodayGuildMemberEv	0x132	0x124	named fields instead of layout cast, hoist user
-DIFF	_ZN6CGuild26NotifyAllAchieveAttendanceEjj	0xcc	0xbb	reorder packet fields, hoist user
-DIFF	_ZN6CGuild22NotifyTodayGuildMemberEP5CUser	0xbb	0xb0	register allocation edx-vs-eax (compiler 4.4.7-23 vs ORIG 4.4.7-1)

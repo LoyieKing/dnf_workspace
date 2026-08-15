@@ -1,2 +1,0 @@
-_ZN14CCubeStatistic16addStatisticDataEP21Packet_Cube_Statistic
-_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler

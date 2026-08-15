@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f108` | `0x38c` | `0x80754e2` | `0x380` |
+| guild | DIFF | `0x807f108` | `0x38c` | `0x807543a` | `0x380` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -399,7 +399,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3982 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3250 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildCreate(PacketHeader* pkt)
@@ -411,7 +411,7 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x10d8, "./log/GuildModify", "CPacketTranslater::OnRequestGuildCreate : 0 == m_pclApp");
         return;
     }
-    unsigned int charNo = ((PTL_RequestGuildCreatePkt*)pkt)->m_charNo;
+    unsigned int charNo = ((Packet_Request_Guild_Create*)pkt)->m_charNo;
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo)) == 0)
     {
@@ -443,8 +443,8 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* pkt)
     dbPkt.m_level = user->GetLevel();
     dbPkt.m_sex = user->GetSex();
     memcpy(dbPkt.m_ssn, user->GetSsn(), 2);
-    memcpy(dbPkt.m_guildName, ((PTL_RequestGuildCreatePkt*)pkt)->m_guildName, 0x16);
-    memcpy(dbPkt.m_extra, ((PTL_RequestGuildCreatePkt*)pkt)->m_extra, 0xc);
+    memcpy(dbPkt.m_guildName, ((Packet_Request_Guild_Create*)pkt)->m_guildName, 0x16);
+    memcpy(dbPkt.m_extra, ((Packet_Request_Guild_Create*)pkt)->m_extra, 0xc);
     m_pclApp->Get_ServerHandler()->GetDBServer()->SendToServer((char*)&dbPkt, 0x5c);
     }
     catch (CDNFException& e)

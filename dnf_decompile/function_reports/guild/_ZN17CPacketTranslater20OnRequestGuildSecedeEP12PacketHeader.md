@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807a25a` | `0x62d` | `0x8070782` | `0x5f6` |
+| guild | DIFF | `0x807a25a` | `0x62d` | `0x80706be` | `0x5f6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -730,7 +730,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2834 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2115 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
@@ -739,8 +739,8 @@ void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp");
     Packet_Guild_Reply_Guild_Secede resp;
-    unsigned int guildKey = ((PTL_RequestGuildSecedePkt*)pkt)->m_guildKey;
-    unsigned int requesterCharNo = ((PTL_RequestGuildSecedePkt*)pkt)->m_requesterCharNo;
+    unsigned int guildKey = ((Packet_Guild_Request_Guild_Secede*)pkt)->m_guildKey;
+    unsigned int requesterCharNo = ((Packet_Guild_Request_Guild_Secede*)pkt)->m_requesterCharNo;
     if (guildKey == 0)
     {
         throw CDNFException("CPacketTranslater::OnCallGuildInvite : packet->m_uGuildKey == 0");
@@ -770,11 +770,11 @@ void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
         Packet_DB_Request_Guild_Secede dbPkt;
         dbPkt.m_guildKey = guildKey;
         dbPkt.m_charNo = requesterCharNo;
-        size_t nameLen = ((PTL_RequestGuildSecedePkt*)pkt)->m_nameLen;
+        size_t nameLen = ((Packet_Guild_Request_Guild_Secede*)pkt)->m_nameLen;
         dbPkt.m_nameLen = nameLen;
-        memcpy(dbPkt.m_name, ((PTL_RequestGuildSecedePkt*)pkt)->m_name, nameLen);
+        memcpy(dbPkt.m_name, ((Packet_Guild_Request_Guild_Secede*)pkt)->m_name, nameLen);
         (void)guild->GetMasterId();
-        if (((PTL_RequestGuildSecedePkt*)pkt)->m_nameLen == 0)
+        if (((Packet_Guild_Request_Guild_Secede*)pkt)->m_nameLen == 0)
         {
             dbPkt.m_flag = 1;
             const char* name = requester->GetCharName();

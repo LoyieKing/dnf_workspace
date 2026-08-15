@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051228` | `0x489` | `0x80991d4` | `0x48f` |
+| guild | DIFF | `0x8051228` | `0x489` | `0x8099216` | `0x48e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -79,7 +79,7 @@
  mov    $0x1,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -nop
-+jmp    <T> <_ZN5CPeer7parsingEi+0x485>
++jmp    <T> <_ZN5CPeer7parsingEi+0x484>
  mov    0x8(%ebp),%eax
  mov    0x1820(%eax),%eax
  test   %eax,%eax
@@ -141,7 +141,7 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x485>
++jmp    <T> <_ZN5CPeer7parsingEi+0x484>
 +mov    -0x28(%ebp),%eax
  cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
@@ -302,7 +302,7 @@
 -mov    -0x24(%ebp),%eax
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +cmpl   $0x0,-0x28(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x480>
++jle    <T> <_ZN5CPeer7parsingEi+0x47f>
 +mov    -0x28(%ebp),%eax
  cmp    $0x1800,%eax
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
@@ -352,7 +352,7 @@
  mov    $0x0,%ebx
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x485>
++jmp    <T> <_ZN5CPeer7parsingEi+0x484>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -361,7 +361,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN5CPeer7parsingEi+0x485>
++jmp    <T> <_ZN5CPeer7parsingEi+0x484>
 +mov    -0x28(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x181c(%eax),%eax
@@ -375,9 +375,9 @@
 +mov    -0x28(%ebp),%edx
 +mov    %edx,0x1820(%eax)
 +mov    0x8(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+add    $0x1c,%edx
-+lea    (%eax,%edx,1),%edx
++lea    0x1c(%eax),%edx
++mov    -0x28(%ebp),%eax
++add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x181c(%eax)
  mov    $0x1,%ebx
@@ -525,7 +525,7 @@ bool CPeer::parsing(int len)
         m_buf += len;
         DNF_LOG_SCOPE_LINE(0xbb, "./log/TcpRecv",
             "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
-            m_buf, (char*)this + 0x1c, m_remainLen, len);
+            m_buf, m_data, m_remainLen, len);
         return 1;
     }
     do
@@ -538,8 +538,8 @@ bool CPeer::parsing(int len)
         {
             DNF_LOG_SCOPE_LINE(0xd0, "./log/TcpRecv",
                 "Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",
-                len, packetSize, m_buf, (char*)this + 0x1c, m_alreadyRead);
-            m_buf = (char*)this + 0x1c;
+                len, packetSize, m_buf, m_data, m_alreadyRead);
+            m_buf = m_data;
             m_remainLen = 0;
             return 0;
         }
@@ -556,7 +556,7 @@ bool CPeer::parsing(int len)
             buf = new CTcpRecvBuffer;
         }
         memcpy(buf, m_buf, packetSize);
-        ((PacketHeader*)buf)->reversed2 = getHandle();
+        ((PacketHeader*)buf)->m_connNo = getHandle();
         {
             CGuard<CMutex> guard(*(CMutex**)&m_qLock);
             ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
@@ -567,7 +567,7 @@ bool CPeer::parsing(int len)
         m_remainLen = 0;
         if (parsinglength == 0)
         {
-            m_buf = (char*)this + 0x1c;
+            m_buf = m_data;
             break;
         }
     } while (parsinglength > 9);
@@ -596,9 +596,9 @@ bool CPeer::parsing(int len)
             }
             return 0;
         }
-        memmove((char*)this + 0x1c, m_buf, parsinglength);
+        memmove(m_data, m_buf, parsinglength);
         m_remainLen = parsinglength;
-        m_buf = (char*)this + 0x1c + parsinglength;
+        m_buf = m_data + parsinglength;
     }
     return 1;
 }

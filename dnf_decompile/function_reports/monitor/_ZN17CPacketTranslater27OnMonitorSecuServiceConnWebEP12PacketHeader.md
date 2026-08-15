@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e8ce` | `0x3bd` | `0x8079f58` | `0x3b0` |
+| monitor | DIFF | `0x808e8ce` | `0x3bd` | `0x807a054` | `0x3ac` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0xef>
--lea    -0x45(%ebp),%eax
-+lea    -0x41(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x45(%ebp),%eax
-+lea    -0x41(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb : 0 == m_pclApp",0x4(%esp)
--lea    -0x4c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x4c(%ebp),%esi
-+lea    -0x48(%ebp),%esi
+ lea    -0x4c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -55,8 +51,7 @@
  mov    %esi,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
--lea    -0x4c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x8f>
@@ -68,8 +63,7 @@
  mov    %esi,%ecx
  mov    %ebx,%eax
  jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0xb4>
--lea    -0x4c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0xcc>
@@ -82,20 +76,14 @@
  mov    %edx,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
--lea    -0x45(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%ecx
--mov    %ebx,%eax
+ lea    -0x45(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x2a5>
--lea    -0x45(%ebp),%eax
-+lea    -0x41(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x295>
-+lea    -0x41(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x291>
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -103,10 +91,12 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -movl   $0x0,-0x2c(%ebp)
-+movl   $0x0,-0x28(%ebp)
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
++mov    %eax,-0x2c(%ebp)
++movl   $0x0,-0x28(%ebp)
++mov    -0x2c(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
@@ -118,9 +108,9 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x135>
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x123>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x129>
 +movl   $0xffffffff,-0x28(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x131>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x137>
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -138,7 +128,7 @@
 -mov    -0x2c(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x1bb>
++je     <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x1b7>
 +mov    -0x28(%ebp),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
@@ -150,52 +140,41 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3b5>
-+je     <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a7>
-+lea    -0x5d(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a3>
++lea    -0x61(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN30Packet_SecuService_Connect_WebC1Ev>
  movl   $0x15,0x8(%esp)
 -mov    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x61(%ebp),%eax
 +mov    0x8(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x5d(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x61(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
-+lea    -0x5d(%ebp),%ebx
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x57(%ebp)
--movzwl -0x5f(%ebp),%eax
-+mov    %eax,0xa(%ebx)
-+lea    -0x5d(%ebp),%eax
-+movzwl 0x2(%eax),%eax
+ mov    %eax,-0x57(%ebp)
+ movzwl -0x5f(%ebp),%eax
  movzwl %ax,%edx
--lea    -0x61(%ebp),%eax
-+lea    -0x5d(%ebp),%eax
+ lea    -0x61(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3b5>
--lea    -0x3d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a8>
-+lea    -0x39(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a4>
+ lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x3d(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x3d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x44(%ebp),%esi
-+lea    -0x40(%ebp),%esi
+ lea    -0x44(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -204,7 +183,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x24a>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x23a>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x236>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -215,9 +194,9 @@
  mov    %esi,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x244>
 -mov    %eax,%ecx
 -mov    %edx,%eax
@@ -227,9 +206,18 @@
 -mov    %esi,%ecx
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x269>
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x230>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x255>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x255>
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x27e>
 -mov    %eax,%ecx
 -mov    %edx,%eax
@@ -246,39 +234,23 @@
 -mov    %esi,%ecx
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x2a5>
--lea    -0x3d(%ebp),%eax
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x234>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x26a>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x259>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x259>
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x26e>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x259>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x255>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x39(%ebp),%eax
++lea    -0x3d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x295>
-+lea    -0x39(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x291>
+ lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -289,7 +261,7 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x34b>
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x33b>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x337>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -313,19 +285,17 @@
  mov    %eax,%ebx
  movl   $0x1c4f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x344>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x334>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x330>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -337,25 +307,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3b5>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a8>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a4>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x1c55,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3b0>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a0>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x39c>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -366,7 +334,7 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a8>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader+0x3a4>
 +nop
  add    $0x6c,%esp
  pop    %ebx
@@ -450,7 +418,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4839 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4856 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
@@ -461,10 +429,10 @@ void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
         {
             throw CDNFException("CPacketTranslater::OnMonitorSecuServiceConnWeb : 0 == m_pclApp");
         }
+        Packet_SecuService_Connect_Web* in = (Packet_SecuService_Connect_Web*)pkt;
         int charNo = 0;
         CUser* user =
-            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
-                ((RA_UINT<10>*)pkt)->v);
+            (&m_pclApp->m_userManager)->FindUser(in->m_idByChannel);
         if (user == 0)
         {
             charNo = -1;
@@ -475,15 +443,14 @@ void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
         }
         if (charNo != 0)
         {
-            CUser* target = ((CUserManager*)((char*)m_pclApp + 0x10))
+            CUser* target = (&m_pclApp->m_userManager)
                                 ->FindUser_CharNo((unsigned int)charNo);
             if (target != 0)
             {
                 Packet_SecuService_Connect_Web reply;
                 memcpy(&reply, pkt, 0x15);
-                ((RA_UINT<10>*)&reply)->v = target->GetIdByChannel();
-                target->SendToGameserver((char*)&reply,
-                                         ((RA_U16<2>*)&reply)->v);
+                reply.m_idByChannel = target->GetIdByChannel();
+                target->SendToGameserver((char*)&reply, reply.packetSize);
             }
             return;
         }

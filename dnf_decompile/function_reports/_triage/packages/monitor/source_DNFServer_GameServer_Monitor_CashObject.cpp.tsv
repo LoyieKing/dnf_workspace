@@ -1,2 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN11CCashObject15GetBuddysObjectEPP6CBuddy	NEAR	22	Y			N	Y	source/DNFServer/GameServer/Monitor/CashObject.cpp	8	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail

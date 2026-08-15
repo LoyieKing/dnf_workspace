@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088c44` | `0x38f` | `0x8074332` | `0x3a9` |
+| monitor | DIFF | `0x8088c44` | `0x38f` | `0x80743e8` | `0x3a9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -473,7 +473,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3301 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3318 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
@@ -487,7 +487,7 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
         else
         {
             CServerHandler* handler = m_pclApp->Get_ServerHandler();
-            if (handler->GetTcpDBServer()->GetSock() == ((RA_INT<6>*)pkt)->v)
+            if (handler->GetTcpDBServer()->GetSock() == (int)pkt->m_connNo)
             {
                 handler = m_pclApp->Get_ServerHandler();
                 handler->GetTcpDBServer()->Connected();
@@ -495,7 +495,7 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
             else
             {
                 handler = m_pclApp->Get_ServerHandler();
-                if (handler->GetTcpManagerServer()->GetSock() == ((RA_INT<6>*)pkt)->v)
+                if (handler->GetTcpManagerServer()->GetSock() == (int)pkt->m_connNo)
                 {
                     unsigned char group = m_pclApp->Get_ServerGroup();
                     handler = m_pclApp->Get_ServerHandler();
@@ -503,7 +503,7 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
                 }
                 else
                 {
-                    unsigned int sock = ((RA_UINT<6>*)pkt)->v;
+                    unsigned int sock = pkt->m_connNo;
                     handler = m_pclApp->Get_ServerHandler();
                     CTcpGameServer* tcp = handler->CreateTcpGameServer(sock);
                     if (tcp != 0)

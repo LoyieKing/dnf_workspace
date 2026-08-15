@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8083184` | `0x32a` | `0x8079362` | `0x2fe` |
+| guild | DIFF | `0x8083184` | `0x32a` | `0x80792ce` | `0x2fe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -411,7 +411,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4991 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4261 行）：
 
 ```cpp
 void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
@@ -426,17 +426,17 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
         }
         else
         {
-            unsigned int guildKey = ((PTL_GuildAgitPkt*)pb)->m_guildKey;
+            unsigned int guildKey = ((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_guildKey;
             CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
             if (guildKey == 0 || guild == 0)
             {
                 DNF_LOG_SCOPE_LINE(6000, "./log/GuildAgit", "CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild");
             }
-            else if (guild->IsGuildMaster(((PTL_GuildAgitPkt*)pb)->m_charNo) == 1)
+            else if (guild->IsGuildMaster(((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_charNo) == 1)
             {
                 if (guild->IsExistGuildAgit() == 1)
                 {
-                    if (guild->GetGuildFund() < ((PTL_GuildAgitPkt*)pb)->m_fund)
+                    if (guild->GetGuildFund() < ((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_fund)
                     {
                         DNF_LOG_SCOPE_LINE(0x1783,"./log/GuildAgit",
                             "CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",
@@ -445,9 +445,9 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
                     else
                     {
                         guild->UpgradeGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
-                                                ((PTL_GuildAgitPkt*)pb)->m_charNo,
-                                                ((PTL_GuildAgitPkt*)pb)->m_field12,
-                                                ((PTL_GuildAgitPkt*)pb)->m_fund);
+                                                ((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_charNo,
+                                                ((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_field12,
+                                                ((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_fund);
                     }
                 }
                 else
@@ -461,7 +461,7 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
             {
                 DNF_LOG_SCOPE_LINE(0x1776,"./log/GuildAgit",
                     "CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",
-                    ((PTL_GuildAgitPkt*)pb)->m_charNo, guildKey);
+                    ((Packet_Guild_Upgrade_Guild_Agit*)pb)->m_charNo, guildKey);
             }
         }
     }

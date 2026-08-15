@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808109c` | `0x25a` | `0x8077410` | `0x247` |
+| guild | DIFF | `0x808109c` | `0x25a` | `0x8077372` | `0x247` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -284,12 +284,12 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4441 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3712 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
 {
-    PTL_InnerPacketPkt* pb = (PTL_InnerPacketPkt*)pkt;
+    Packet_InnerPakcet_Login* pb = (Packet_InnerPakcet_Login*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1455, "./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
@@ -297,13 +297,13 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
     }
     try
     {
-        if (m_pclApp->Get_ServerHandler()->GetTcpDBServer()->GetSock() == pb->m_group)
+        if (m_pclApp->Get_ServerHandler()->GetTcpDBServer()->GetSock() == pb->m_connNo)
         {
             m_pclApp->Get_ServerHandler()->GetTcpDBServer()->Connected();
         }
         else
         {
-            CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->CreateTcpGameServer(pb->m_group);
+            CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->CreateTcpGameServer(pb->m_connNo);
             if (tgs != 0)
             {
                 char* buf = tgs->makePacketHeader(8000, 0xc);

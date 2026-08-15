@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x805185e` | `0x21b` | `0x809bc28` | `0x21b` |
+| monitor | NEAR | `0x805185e` | `0x21b` | `0x809bc94` | `0x21b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -238,7 +238,7 @@ int CPeer::send_packet(char* buf, int len)
     {
         DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
             (char)buf[1], m_sendRemain, len);
-        m_sendPtr = (char*)this + 0x183c;
+        m_sendPtr = m_sendBuf;
         m_sendRemain = 0;
         return -1;
     }
@@ -249,7 +249,7 @@ int CPeer::send_packet(char* buf, int len)
             DNF_LOG_SCOPE_LINE(0x13b,"./log/TcpErr",
                 "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
                 (char)buf[1], m_sendRemain, len);
-            m_sendPtr = (char*)this + 0x183c;
+            m_sendPtr = m_sendBuf;
             m_sendRemain = 0;
             return -1;
         }

@@ -1,3 +1,0 @@
-DIFF   _ZN12CApplication15TranslateSignalEv
-DIFF   _ZN12CApplication4LoadEiPPc
-DIFF   _ZN12CApplication7ProcessEv

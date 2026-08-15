@@ -1,8 +1,0 @@
-service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
-monitor	_ZN13CTcpNetSystem10SendPacketEv	DIFF	192	N			N	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN13CTcpNetSystem14OpenTcpServiceERiPKct	DIFF	70	N			N	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN13CTcpNetSystem19CleanTcpSendPacketQEv	DIFF	65	N			Y	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv	DIFF	14	N			N	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN13CTcpNetSystem4InitEt	DIFF	12	N			N	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	CODEGEN_TAIL	very small structural diff
-monitor	_ZN13CTcpNetSystemD1Ev	NEAR	40	Y			N	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN13CTcpNetSystemD2Ev	NEAR	40	Y			N	Y	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail

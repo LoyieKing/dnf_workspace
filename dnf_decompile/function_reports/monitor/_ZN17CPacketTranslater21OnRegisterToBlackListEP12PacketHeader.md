@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8085694` | `0x46a` | `0x807102c` | `0x4a6` |
+| monitor | DIFF | `0x8085694` | `0x46a` | `0x8071112` | `0x47f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,302 +1,310 @@
+@@ -1,302 +1,307 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -28,55 +28,57 @@
  movl   $0xc41,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRegisterToBlackList : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/BlackList",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
 -lea    -0xa9(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +add    $0x10,%eax
-+mov    %eax,-0x20(%ebp)
++mov    %eax,-0x24(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    0xa0(%eax),%eax
++mov    %eax,-0x20(%ebp)
++mov    0x8(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
-+lea    -0x78(%ebp),%eax
++lea    -0xb1(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_DBMW_Register_To_BlackListC1Ev>
 -lea    -0x75(%ebp),%eax
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Register_To_BlackList_RESULTC1Ev>
 -mov    -0x14(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    0xa(%eax),%eax
 -mov    %eax,-0x9f(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x6e(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %eax,-0xa7(%ebp)
++mov    -0x1c(%ebp),%eax
  add    $0xe,%eax
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0xa9(%ebp),%eax
-+lea    -0x78(%ebp),%eax
++lea    -0xb1(%ebp),%eax
  add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -mov    -0x14(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x10,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
 +mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
  mov    %eax,-0x18(%ebp)
@@ -84,23 +86,23 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x101>
-+jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x103>
++jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x10f>
  movl   $0xc50,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRegisterToBlackList : 0 == pclUser",0x8(%esp)
  movl   $"./log/BlackList",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
 -mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
++mov    -0x1c(%ebp),%eax
  lea    0xe(%eax),%ebx
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -113,22 +115,22 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x182>
 -movb   $0x3,-0x45(%ebp)
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x193>
-+movb   $0x3,-0x79(%ebp)
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x190>
++movb   $0x3,-0x4d(%ebp)
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x6b(%ebp)
 -movl   $0xffffffff,-0x49(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x9f(%ebp)
-+movl   $0xffffffff,-0x7d(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %eax,-0x73(%ebp)
++movl   $0xffffffff,-0x51(%ebp)
++mov    -0x1c(%ebp),%eax
  add    $0xe,%eax
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x75(%ebp),%eax
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
  add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -141,28 +143,27 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
-+lea    -0xa9(%ebp),%eax
-+movzwl 0x2(%eax),%eax
++movzwl -0x7b(%ebp),%eax
 +movzwl %ax,%edx
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x6b(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x9f(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %eax,-0x73(%ebp)
++mov    -0x1c(%ebp),%eax
  add    $0xe,%eax
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x75(%ebp),%eax
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
  add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -186,19 +187,19 @@
 -lea    -0x2d(%ebp),%eax
 +setbe  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x397>
-+lea    -0x31(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x379>
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x14(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  lea    0xe(%eax),%edx
 -lea    -0x2d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -206,9 +207,9 @@
 -lea    -0x34(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager17FindUser_CharNameESs>
 -mov    %eax,-0x1c(%ebp)
@@ -216,45 +217,45 @@
 -setne  %bl
 -lea    -0x34(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x26d>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x256>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x24d>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x255>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x23e>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x235>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x38a>
 -lea    -0x2d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x3c6>
-+lea    -0x31(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x39f>
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
 -je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x368>
 -mov    -0x1c(%ebp),%eax
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x380>
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x35f>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x49(%ebp)
-+mov    %eax,-0x7d(%ebp)
++mov    %eax,-0x51(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication13GetGMAccountsEv>
@@ -262,7 +263,7 @@
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2e8>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2b4>
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2ab>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
@@ -282,24 +283,23 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2b4>
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2ab>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2b9>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2b0>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2ec>
-+movb   $0x5,-0x79(%ebp)
-+lea    -0xa9(%ebp),%eax
-+movzwl 0x2(%eax),%eax
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2da>
++movb   $0x5,-0x4d(%ebp)
++movzwl -0x7b(%ebp),%eax
 +movzwl %ax,%edx
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
++mov    -0x1c(%ebp),%eax
 +lea    0xe(%eax),%ebx
  mov    -0x14(%ebp),%eax
 -lea    0xe(%eax),%ebx
@@ -324,40 +324,24 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
+-mov    -0x1c(%ebp),%eax
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x348>
-+movb   $0x2,-0x79(%ebp)
-+lea    -0xa9(%ebp),%eax
-+movzwl 0x2(%eax),%eax
++je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x32d>
++movb   $0x2,-0x4d(%ebp)
++movzwl -0x7b(%ebp),%eax
 +movzwl %ax,%edx
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
 +mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,-0x4c(%ebp)
-+movb   $0x1,-0x79(%ebp)
-+lea    -0xa9(%ebp),%eax
-+movzwl 0x2(%eax),%eax
-+movzwl %ax,%edx
-+lea    -0xa9(%ebp),%eax
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser16SendToGameserverEPci>
-+lea    -0x78(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x7d(%ebp)
 -movb   $0x1,-0x45(%ebp)
 -movzwl -0x73(%ebp),%eax
@@ -372,24 +356,36 @@
 -mov    0xa0(%eax),%eax
 -lea    -0xa9(%ebp),%edx
 -mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
-+movb   $0x4,-0x79(%ebp)
-+lea    -0xa9(%ebp),%eax
-+movzwl 0x2(%eax),%eax
++mov    %eax,-0x85(%ebp)
++movb   $0x1,-0x4d(%ebp)
++movzwl -0x7b(%ebp),%eax
 +movzwl %ax,%edx
-+lea    -0xa9(%ebp),%eax
++lea    -0x7d(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
++lea    -0xb1(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+-jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
++movb   $0x4,-0x4d(%ebp)
++movzwl -0x7b(%ebp),%eax
++movzwl %ax,%edx
++lea    -0x7d(%ebp),%eax
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser16SendToGameserverEPci>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x406>
-+jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x442>
++jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x41b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -404,18 +400,18 @@
  movl   $0xc8c,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnRegisterToBlackList Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x3ff>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x43b>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x414>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -425,23 +421,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x460>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x49c>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x475>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xc91,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRegisterToBlackList Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x45b>
-+jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x497>
++jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x470>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -576,7 +572,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2279 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2288 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
@@ -590,32 +586,33 @@ void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
     }
     else
     {
-        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CUserManager* userMgr = &m_pclApp->m_userManager;
         CServerHandler* handler = m_pclApp->m_serverHandler2;
+        Packet_Register_To_BlackList* req = (Packet_Register_To_BlackList*)pkt;
         Packet_DBMW_Register_To_BlackList dbPkt;
         Packet_Register_To_BlackList_RESULT result;
-        dbPkt.m_charNo = ((RA_UINT<10>*)pkt)->v;
-        memcpy(dbPkt.m_name, (char*)pkt + 0xe, 0x1d);
-        CUser* user = userMgr->FindUser(((RA_UINT<10>*)pkt)->v);
+        dbPkt.m_charNo = req->m_dbid;
+        memcpy(dbPkt.m_name, req->m_name, 0x1d);
+        CUser* user = userMgr->FindUser(req->m_dbid);
         if (user == 0)
         {
             DNF_LOG_SCOPE_LINE(0xc50, "./log/BlackList", "CPacketTranslater::OnRegisterToBlackList : 0 == pclUser");
         }
-        else if (strcmp(user->GetCharName(), (char*)pkt + 0xe) == 0)
+        else if (strcmp(user->GetCharName(), req->m_name) == 0)
         {
             result.m_result = 3;
             result.m_idByChannel = user->GetIdByChannel();
             result.m_charNo = 0xffffffff;
-            memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
-            user->SendToGameserver((char*)&result, ((RA_U16<2>*)&result)->v);
+            memcpy(result.m_name, req->m_name, 0x1d);
+            user->SendToGameserver((char*)&result, result.packetSize);
         }
         else
         {
             result.m_idByChannel = user->GetIdByChannel();
-            memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
+            memcpy(result.m_name, req->m_name, 0x1d);
             if (user->GetBlackListSize() < 10)
             {
-                CUser* target = userMgr->FindUser_CharName((char*)pkt + 0xe);
+                CUser* target = userMgr->FindUser_CharName(req->m_name);
                 if (target != 0)
                 {
                     result.m_charNo = target->GetUniqCharNo();
@@ -624,28 +621,28 @@ void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
                     {
                         result.m_result = 5;
                         user->SendToGameserver((char*)&result,
-                                               ((RA_U16<2>*)&result)->v);
+                                               result.packetSize);
                         return;
                     }
                     if (user->RegisterToBlackList(target->GetUniqCharNo(),
-                                                  (char*)pkt + 0xe) != 1)
+                                                  req->m_name) != 1)
                     {
                         result.m_result = 2;
                         user->SendToGameserver((char*)&result,
-                                               ((RA_U16<2>*)&result)->v);
+                                               result.packetSize);
                         return;
                     }
                     dbPkt.m_charNo2 = target->GetUniqCharNo();
                     result.m_result = 1;
                     user->SendToGameserver((char*)&result,
-                                           ((RA_U16<2>*)&result)->v);
+                                           result.packetSize);
                 }
                 handler->SendToDB(&dbPkt);
             }
             else
             {
                 result.m_result = 4;
-                user->SendToGameserver((char*)&result, ((RA_U16<2>*)&result)->v);
+                user->SendToGameserver((char*)&result, result.packetSize);
             }
         }
     }

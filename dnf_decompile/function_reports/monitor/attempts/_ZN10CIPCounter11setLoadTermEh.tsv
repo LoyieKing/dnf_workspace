@@ -1,7 +1,0 @@
-int v = ...; if(v>0x2a30)v=0x2a30; m_term=v;	DIFF(栈槽v -0x4, frame 0x14; ORIG 寄存器常驻)	2026-08-12
-m_term=calc; if(m_term>0x2a30)m_term=0x2a30;	DIFF(内存clamp分支store; ORIG 寄存器cmp+单store)	2026-08-12
-register int v=calc; if(v>0x2a30)v=0x2a30; m_term=v;	DIFF(钉ebx+push/pop; ORIG 用eax流转)	2026-08-12
-int t=calc; m_term=(t>0x2a30)?0x2a30:t;	DIFF(cmovle; ORIG 分支)	2026-08-12
-A/B: c5-55/c5r52-52/c6444r/c6446r/c6 均无法复现 ORIG 寄存器常驻形态	DIFF	2026-08-12
-2026-08-14T17:43:46Z	scratch iteration; source shape/local ordering/type adjustment; see diff
-unsigned int v local; 仍栈槽/寄存器尾音	DIFF	2026-08-15

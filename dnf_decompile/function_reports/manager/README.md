@@ -15,21 +15,21 @@
 | 类别 | 数量 |
 |---|---|
 | IDENTICAL | 0 |
-| NEAR | 249 |
-| DIFF | 225 |
-| MISSING | 6 |
+| NEAR | 0 |
+| DIFF | 0 |
+| MISSING | 0 |
 | EMPTY | 0 |
 | EXEMPT_SKIP | 0 |
 | IDENTICAL_AE（地址等价） | 0 |
-| 已生成 md | 2 |
+| 已生成 md | 0 |
 
 ## 范围过滤（scope.txt）
 
 ```
-targets=474
-ours=2
+targets=0
+ours=0
 skip_no_source=0
-skip_vendored=472
+skip_vendored=0
 ```
 
 ## 文件结构
@@ -39,15 +39,3 @@ skip_vendored=472
 - `decompiled.txt`：Ghidra 反编译原始输出
 - `*.md`：每个非 identical 项目函数的报告
 
-## 缺失函数（原始有、重建无；均为第三方 C 库符号，未生成 md）
-
-共 6 个：
-
-```
-compress	compress
-dtoa.clone.0	dtoa.clone.0
-packfrm	packfrm
-unpackfrm	unpackfrm
-updatewindow	updatewindow
-zError	zError
-```

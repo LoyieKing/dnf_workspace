@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ca7c` | `0x264` | `0x8078370` | `0x261` |
+| monitor | DIFF | `0x808ca7c` | `0x264` | `0x8078464` | `0x261` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -231,7 +231,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnWebRequestARSInfoEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4321 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4341 行）：
 
 ```cpp
 void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
@@ -243,12 +243,12 @@ void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnWebRequestARSInfo : 0 == m_pclApp");
     }
-    PacketHeader* p = pkt;
+    Packet_Web_Request_ARS_Info* p = (Packet_Web_Request_ARS_Info*)pkt;
     CServerHandler* handler = m_pclApp->m_serverHandler2;
     if (handler != 0)
     {
         DNF_LOG_SCOPE_LINE(0x181d, "./log/Secu", "[ARS_INFO] Web -> Monitor -> DBMW");
-        handler->SendDBMWRequestARSInfo(((RA_U8<10>*)p)->v);
+        handler->SendDBMWRequestARSInfo(p->m_flag);
     }
 
 

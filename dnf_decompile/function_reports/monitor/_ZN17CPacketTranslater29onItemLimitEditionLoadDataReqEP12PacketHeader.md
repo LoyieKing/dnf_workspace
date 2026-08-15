@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808a79e` | `0x3ad` | `0x8075ea2` | `0x3b5` |
+| monitor | DIFF | `0x808a79e` | `0x3ad` | `0x8075f6c` | `0x3b5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,34 +24,23 @@
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  movzbl 0xa(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x35>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--movzbl %al,%edx
--mov    -0x20(%ebp),%eax
--mov    %edx,0xb(%eax)
--jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x99>
--mov    -0x20(%ebp),%eax
--mov    0xb(%eax),%ebx
 +jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x8b>
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +mov    0xb(%eax),%eax
 +mov    %eax,-0x24(%ebp)
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication15Get_ServerGroupEv>
- movzbl %al,%eax
--cmp    %eax,%ebx
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication15Get_ServerGroupEv>
++movzbl %al,%eax
 +cmp    -0x24(%ebp),%eax
- setne  %al
- test   %al,%al
--je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x99>
++setne  %al
++test   %al,%al
 +je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0xa1>
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +mov    0xb(%eax),%eax
 +mov    %eax,-0x20(%ebp)
 +movl   $0x146d,0x8(%esp)
@@ -59,7 +48,33 @@
 +lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"(Ignore another server msg: %d)",0x8(%esp)
++movl   $"./log/ItemLimitEdition",0x4(%esp)
++lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x3aa>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication15Get_ServerGroupEv>
+ movzbl %al,%edx
+-mov    -0x20(%ebp),%eax
++mov    -0x28(%ebp),%eax
+ mov    %edx,0xb(%eax)
+-jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x99>
+-mov    -0x20(%ebp),%eax
+-mov    0xb(%eax),%ebx
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication15Get_ServerGroupEv>
+-movzbl %al,%eax
+-cmp    %eax,%ebx
+-setne  %al
+-test   %al,%al
+-je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x99>
+-mov    -0x20(%ebp),%eax
 -mov    0xb(%eax),%ebx
 -movl   $0x146d,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -67,23 +82,12 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
- movl   $"(Ignore another server msg: %d)",0x8(%esp)
- movl   $"./log/ItemLimitEdition",0x4(%esp)
+-movl   $"(Ignore another server msg: %d)",0x8(%esp)
+-movl   $"./log/ItemLimitEdition",0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x3a2>
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader+0x3aa>
-+mov    0x8(%ebp),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_ServerGroupEv>
-+movzbl %al,%eax
-+mov    %eax,0xb(%ebx)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0xa0(%eax),%eax
  mov    0x8(%ebp),%edx
@@ -91,109 +95,109 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x6f(%eax),%eax
  mov    %eax,-0xa8(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x6b(%eax),%eax
  mov    %eax,-0xa4(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x67(%eax),%eax
  mov    %eax,-0xa0(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x63(%eax),%eax
  mov    %eax,-0x9c(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x5f(%eax),%eax
  mov    %eax,-0x98(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x5b(%eax),%eax
  mov    %eax,-0x94(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x57(%eax),%eax
  mov    %eax,-0x90(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x53(%eax),%eax
  mov    %eax,-0x8c(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x4f(%eax),%eax
  mov    %eax,-0x88(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x4b(%eax),%eax
  mov    %eax,-0x84(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x47(%eax),%eax
  mov    %eax,-0x80(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x43(%eax),%eax
  mov    %eax,-0x7c(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x3f(%eax),%eax
  mov    %eax,-0x78(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x3b(%eax),%eax
  mov    %eax,-0x74(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x37(%eax),%eax
  mov    %eax,-0x70(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x33(%eax),%eax
  mov    %eax,-0x6c(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x2f(%eax),%eax
  mov    %eax,-0x68(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x2b(%eax),%eax
  mov    %eax,-0x64(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x27(%eax),%eax
  mov    %eax,-0x60(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x23(%eax),%eax
  mov    %eax,-0x5c(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x1f(%eax),%eax
  mov    %eax,-0x58(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x1b(%eax),%eax
  mov    %eax,-0x54(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x17(%eax),%eax
  mov    %eax,-0x50(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0x13(%eax),%eax
  mov    %eax,-0x4c(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xf(%eax),%edi
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xb(%eax),%esi
 -mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
  movzbl 0xa(%eax),%eax
  movzbl %al,%ebx
  movl   $0x1474,0x8(%esp)
@@ -438,47 +442,48 @@ void CPacketTranslater::_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3766 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3785 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt)
 {
     try
     {
-        PacketHeader* rpkt = pkt;
-        if (((RA_S8<10>*)pkt)->v == 0)
+        Packet_Item_Limit_Edition_Load_Data_Req* req =
+            (Packet_Item_Limit_Edition_Load_Data_Req*)pkt;
+        if (req->m_fullLoad == 0)
         {
-            unsigned int grp = ((RA_UINT<11>*)pkt)->v;
+            unsigned int grp = req->m_serverType;
             if (grp != ((unsigned int)m_pclApp->Get_ServerGroup() & 0xff))
             {
-                unsigned int g = ((RA_UINT<11>*)pkt)->v;
+                unsigned int g = req->m_serverType;
                 DNF_LOG_SCOPE_LINE(0x146d, "./log/ItemLimitEdition", "(Ignore another server msg: %d)", g);
                 return;
             }
         }
         else
         {
-            ((RA_UINT<11>*)pkt)->v =
+            req->m_serverType =
                 (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
         }
         (m_pclApp->m_serverHandler2)->SendToDB(pkt);
         DNF_LOG_SCOPE_LINE(0x1474,"./log/ItemLimitEdition",
             "(FullLoad: %d, ServerType:%d, LoadTargetNum: %d, IPGNO: "
             "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",
-            (unsigned int)(unsigned char)((RA_S8<10>*)pkt)->v,
-            ((RA_UINT<11>*)pkt)->v, ((RA_UINT<15>*)pkt)->v,
-            ((RA_UINT<19>*)pkt)->v, ((RA_UINT<23>*)pkt)->v,
-            ((RA_UINT<27>*)pkt)->v, ((RA_UINT<31>*)pkt)->v,
-            ((RA_UINT<35>*)pkt)->v, ((RA_UINT<39>*)pkt)->v,
-            ((RA_UINT<43>*)pkt)->v, ((RA_UINT<47>*)pkt)->v,
-            ((RA_UINT<51>*)pkt)->v, ((RA_UINT<55>*)pkt)->v,
-            ((RA_UINT<59>*)pkt)->v, ((RA_UINT<63>*)pkt)->v,
-            ((RA_UINT<67>*)pkt)->v, ((RA_UINT<71>*)pkt)->v,
-            ((RA_UINT<75>*)pkt)->v, ((RA_UINT<79>*)pkt)->v,
-            ((RA_UINT<83>*)pkt)->v, ((RA_UINT<87>*)pkt)->v,
-            ((RA_UINT<91>*)pkt)->v, ((RA_UINT<95>*)pkt)->v,
-            ((RA_UINT<99>*)pkt)->v, ((RA_UINT<103>*)pkt)->v,
-            ((RA_UINT<107>*)pkt)->v, ((RA_UINT<111>*)pkt)->v);
+            (unsigned int)(unsigned char)req->m_fullLoad,
+            req->m_serverType, req->m_loadTargetNum,
+            req->m_ipgNo[0], req->m_ipgNo[1],
+            req->m_ipgNo[2], req->m_ipgNo[3],
+            req->m_ipgNo[4], req->m_ipgNo[5],
+            req->m_ipgNo[6], req->m_ipgNo[7],
+            req->m_ipgNo[8], req->m_ipgNo[9],
+            req->m_ipgNo[10], req->m_ipgNo[11],
+            req->m_ipgNo[12], req->m_ipgNo[13],
+            req->m_ipgNo[14], req->m_ipgNo[15],
+            req->m_ipgNo[16], req->m_ipgNo[17],
+            req->m_ipgNo[18], req->m_ipgNo[19],
+            req->m_ipgNo[20], req->m_ipgNo[21],
+            req->m_ipgNo[22], req->m_ipgNo[23]);
     }
     catch (CDNFException& e)
     {

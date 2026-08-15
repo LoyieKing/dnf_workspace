@@ -1,3 +1,0 @@
-DIFF  _ZN8WongWork11CGMAccounts12AppendGM_SysEjc
-DIFF  _ZN8WongWork11CGMAccounts4isGMEj
-DIFF  _ZNK8WongWork11CGMAccounts9getGMInfoEj

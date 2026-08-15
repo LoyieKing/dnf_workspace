@@ -1,2 +1,0 @@
-m_recvBuf = m_data183c + ret / + m_remainSendLen（替代 (char*)this + 0x183c + x，消 lea/add 关联差异）	NEAR(消2处lea形态)	2026-08-12
-log 块内 log() 调用后加 char pad[16]（帧 0x20->0x30，落在 log 下方 -0x1c..-0x10 区）	IDENTICAL_AE	2026-08-12

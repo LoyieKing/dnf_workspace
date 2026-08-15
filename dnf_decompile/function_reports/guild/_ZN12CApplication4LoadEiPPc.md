@@ -476,10 +476,11 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- lea    -0x63(%ebp),%eax
+-lea    -0x63(%ebp),%eax
++lea    -0x62(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_DB_Query_On_Guild_BootingC1Ev>
-+lea    -0x63(%ebp),%ebx
++lea    -0x62(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
@@ -487,7 +488,8 @@
 +mov    %al,0xa(%ebx)
  mov    0x8(%ebp),%eax
  mov    0x68(%eax),%eax
- lea    -0x63(%ebp),%edx
+-lea    -0x63(%ebp),%edx
++lea    -0x62(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>

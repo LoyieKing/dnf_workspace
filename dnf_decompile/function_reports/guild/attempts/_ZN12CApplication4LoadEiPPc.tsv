@@ -1,4 +1,0 @@
-原始 (Get_FrameCountValue 返回 unsigned int)	DIFF(调用点无 movzwl)	2026-08-12
-Get_FrameCountValue 改 unsigned short	NEAR(调用点 movzwl 对齐，剩 2 处形态)	2026-08-12
-((unsigned char*)&pkt)[0xa] 字节写	DIFF(更差: 多 lea 0xa)	2026-08-12
-pkt 加 m_group 成员	DIFF(栈帧 0x7c→0x8c)	2026-08-12

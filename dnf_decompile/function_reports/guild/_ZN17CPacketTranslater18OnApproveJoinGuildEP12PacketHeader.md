@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088ae6` | `0x272` | `0x807e8ee` | `0x265` |
+| guild | DIFF | `0x8088ae6` | `0x272` | `0x807e978` | `0x265` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -323,7 +323,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6436 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5695 行）：
 
 ```cpp
 void CPacketTranslater::OnApproveJoinGuild(PacketHeader* pkt)
@@ -335,17 +335,17 @@ void CPacketTranslater::OnApproveJoinGuild(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x1fa0, "./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp");
             return;
         }
-        unsigned int guildKey = ((PTL_ApproveJoinGuildPkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_Approve_Join_Guild*)pkt)->m_guildKey;
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) != 0)
         {
-            unsigned int charNo = ((PTL_ApproveJoinGuildPkt*)pkt)->m_charNo;
+            unsigned int charNo = ((Packet_Approve_Join_Guild*)pkt)->m_charNo;
             if (guild->IsGuildMaster(charNo) == 1 || guild->IsSubGuildMaster(charNo) == 1)
             {
                 Packet_DB_Request_Approve_Join_Guild dbPkt;
                 dbPkt.m_guildKey = guildKey;
                 dbPkt.m_charNo = charNo;
-                dbPkt.m_no = ((PTL_ApproveJoinGuildPkt*)pkt)->m_no;
+                dbPkt.m_no = ((Packet_Approve_Join_Guild*)pkt)->m_no;
                 dbPkt.m_group = m_pclApp->Get_ServerGroup();
                 m_pclApp->m_serverHandler->SendToDB(&dbPkt);
             }

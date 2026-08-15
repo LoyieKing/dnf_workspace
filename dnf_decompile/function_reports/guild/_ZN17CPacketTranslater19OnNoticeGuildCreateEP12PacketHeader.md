@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073574` | `0x3d4` | `0x8069b88` | `0x3d9` |
+| guild | DIFF | `0x8073574` | `0x3d4` | `0x8069ab0` | `0x3f5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,282 +1,281 @@
+@@ -1,282 +1,292 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -120,7 +120,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2c0>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2dc>
 +lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -237,7 +237,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2c0>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x2dc>
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -260,7 +260,7 @@
 -je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cc>
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ce>
++je     <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ea>
 +mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -301,16 +301,33 @@
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_Monitor_Notice_Guild_Create_ToUserC1Ev>
 -mov    -0x24(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
- add    $0xa,%eax
- movl   $0x1f,0x8(%esp)
- mov    %eax,0x4(%esp)
+-add    $0xa,%eax
+-movl   $0x1f,0x8(%esp)
+-mov    %eax,0x4(%esp)
 -lea    -0x75(%ebp),%eax
-+lea    -0x79(%ebp),%eax
- add    $0xa,%eax
- mov    %eax,(%esp)
- call   <T> <memcpy>
+-add    $0xa,%eax
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
 -mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
++mov    0xa(%eax),%edx
++mov    %edx,-0x6f(%ebp)
++mov    0xe(%eax),%edx
++mov    %edx,-0x6b(%ebp)
++mov    0x12(%eax),%edx
++mov    %edx,-0x67(%ebp)
++mov    0x16(%eax),%edx
++mov    %edx,-0x63(%ebp)
++mov    0x1a(%eax),%edx
++mov    %edx,-0x5f(%ebp)
++mov    0x1e(%eax),%edx
++mov    %edx,-0x5b(%ebp)
++mov    0x22(%eax),%edx
++mov    %edx,-0x57(%ebp)
++movzwl 0x26(%eax),%edx
++mov    %dx,-0x53(%ebp)
++movzbl 0x28(%eax),%eax
++mov    %al,-0x51(%ebp)
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -325,12 +342,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cc>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ce>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ea>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x362>
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x364>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x380>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -371,7 +388,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x35b>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x35d>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x379>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -383,7 +400,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3cc>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ce>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3ea>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildCreate() Exception Break",(%esp)
@@ -401,7 +418,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3c7>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3c9>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader+0x3e5>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -492,7 +509,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1426 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 712 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildCreate(PacketHeader* pkt)
@@ -500,21 +517,21 @@ void CPacketTranslater::OnNoticeGuildCreate(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildCreate : 0 == m_pclApp");
-    PTL_NoticeGuildCreatePkt* pb = (PTL_NoticeGuildCreatePkt*)pkt;
+    Packet_Monitor_Notice_Guild_Create* pb = (Packet_Monitor_Notice_Guild_Create*)pkt;
     CServerHandler* handler;
     if ((handler = m_pclApp->Get_ServerHandler()) == 0)
     {
         throw CDNFException("CGuildManager::GuildMemLogin() pclServerHandler == NULL\n");
     }
-    CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(pb->m_charNo);
+    CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(pb->m_info.m_charNo);
     if (user != 0)
     {
         unsigned int uniqCharNo = user->GetUniqCharNo();
-        (&m_pclApp->m_guildManager)->CreateGuild(pb->m_guildKey, handler,
+        (&m_pclApp->m_guildManager)->CreateGuild(pb->m_info.m_guildKey, handler,
                                                   uniqCharNo);
         user->QueryGuildMember(handler);
         Packet_Monitor_Notice_Guild_Create_ToUser notice;
-        memcpy(&notice.m_info, (char*)pb + 0xa, 0x1f);
+        notice.m_info = pb->m_info;
         notice.m_member = user->GetIdByChannel();
         user->SendToGameserver((char*)&notice, 0x2d);
     }

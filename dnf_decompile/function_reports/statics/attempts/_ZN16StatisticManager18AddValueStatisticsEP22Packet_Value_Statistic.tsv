@@ -1,6 +1,0 @@
-source_excerpt	result	date
-移除 `register Wire* w`，改为内联 `((Wire*)pkt)->m_data[i]`	DIFF->NEAR(改善)	2026-08-12
-编译器 A/B：c5/c6444r/c6446r/c6 均 NEAR（两处循环 pkt/i 装载顺序差）	NEAR(同)	2026-08-12
-类型化直访实验（迷你TU）：((Wire*)pkt)->m_data[i] 强转=base-first(pkt先)；真实类带字段 pkt->m_data[i]=index-first 且寻址 0xe(%ecx,%ebx,4) 与 ORIG 全同——根因=强转迫使 base-first，修复需共享 packet 头加真实成员（跨服务，待主 agent 决策）	NEAR(同)	2026-08-12
-引用/const指针本地 WireF& w=*(WireF*)pkt：index-first 但基址改从栈槽 -0x10(%ebp) 装载，与 ORIG 0xc(%ebp) 不符	NEAR(更差)	2026-08-12
-static_cast 引用、指针算术索引前置(i*4+((char*)pkt+0xe))：寻址变 shl/add/lea，非 ORIG 折叠 0xe(...,4) 形态	DIFF(更差)	2026-08-12

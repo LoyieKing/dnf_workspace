@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076014` | `0x23c` | `0x806c540` | `0x260` |
+| guild | DIFF | `0x8076014` | `0x23c` | `0x806c480` | `0x260` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -257,7 +257,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2005 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1292 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
@@ -271,7 +271,7 @@ void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
     CGuildWar* war = (&m_pclApp->m_guildManager)->GetGuildWar();
     if (war->IsGuildWarEventOn() == 1)
     {
-        PTL_GuildWarPointChangePkt* pb = (PTL_GuildWarPointChangePkt*)pkt;
+        Packet_Notice_Guild_War_Point_Change* pb = (Packet_Notice_Guild_War_Point_Change*)pkt;
         if (war->IsGuildWarEnterableGuild(pb->m_guildKey) == 1)
         {
             war->AddGuildWarPoint(pb->m_guildKey, (int)(char)pb->m_point);

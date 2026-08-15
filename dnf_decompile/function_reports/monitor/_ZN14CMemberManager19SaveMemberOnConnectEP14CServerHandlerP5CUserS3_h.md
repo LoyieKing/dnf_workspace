@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a078` | `0xd0` | `0x80627b2` | `0xc7` |
+| monitor | DIFF | `0x809a078` | `0xd0` | `0x80627ee` | `0xc7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,12 +41,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser8GetLevelEv>
  mov    %ax,-0xa(%ebp)
--movzwl -0xc(%ebp),%eax
--cmp    -0xa(%ebp),%ax
--jle    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0x86>
-+movzwl -0xa(%ebp),%eax
-+cmp    -0xc(%ebp),%ax
-+jge    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0x86>
+ movzwl -0xc(%ebp),%eax
+ cmp    -0xa(%ebp),%ax
+ jle    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0x86>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -57,12 +54,10 @@
  mov    %eax,-0x11(%ebp)
  movb   $0x1,-0xd(%ebp)
  jmp    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0xb0>
--movzwl -0xc(%ebp),%eax
--cmp    -0xa(%ebp),%ax
+ movzwl -0xc(%ebp),%eax
+ cmp    -0xa(%ebp),%ax
 -jge    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0xcd>
-+movzwl -0xa(%ebp),%eax
-+cmp    -0xc(%ebp),%ax
-+jle    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0xc4>
++jge    <T> <_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h+0xc4>
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -135,4 +130,4 @@ CMemberManager::_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUse
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 286 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 290 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8072c3c` | `0x2e2` | `0x8069262` | `0x2d9` |
+| guild | DIFF | `0x8072c3c` | `0x2e2` | `0x806918a` | `0x2d9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -329,7 +329,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1301 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 588 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildEnter(PacketHeader* pkt)
@@ -337,18 +337,18 @@ void CPacketTranslater::OnNoticeGuildEnter(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildEnter : 0 == m_pclApp")
-    PTL_NoticeGuildEnterPkt* pb = (PTL_NoticeGuildEnterPkt*)pkt;
-    char* mid = NumberToString(pb->m_dbid, 0);
+    Packet_Monitor_Notice_Guild_Enter* pb = (Packet_Monitor_Notice_Guild_Enter*)pkt;
+    char* mid = NumberToString(pb->m_info.m_dbid, 0);
     DNF_LOG_SCOPE_LINE(0x283,"./log/Web",
         "Packet_Monitor_Notice_Guild_Enter: guildkey : %d, m_id : %s , charid : %d, guildname : %s, charname : %s\n",
-        pb->m_guildKey, mid, pb->m_charNo, pb->m_guildName, pb->m_charName);
+        pb->m_info.m_guildKey, mid, pb->m_info.m_charNo, pb->m_info.m_guildName, pb->m_info.m_charName);
     CGuild* guild = (&m_pclApp->m_guildManager)->GuildEnter(
-        pb->m_guildKey, *(ST_Notice_Guild_Enter*)((char*)pb + 10));
+        pb->m_info.m_guildKey, pb->m_info);
     if (guild != 0)
     {
-        pb->m_field_4f = 1;
-        pb->m_field_4b = pb->m_charNo;
-        guild->NoticeEnterToGuildMember((char*)pb + 10);
+        pb->m_info.m_field_4f = 1;
+        pb->m_info.m_field_4b = pb->m_info.m_charNo;
+        guild->NoticeEnterToGuildMember((char*)&pb->m_info);
     }
     }
     catch (CDNFException& e)

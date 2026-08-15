@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088d58` | `0x2d2` | `0x807eb54` | `0x2b4` |
+| guild | DIFF | `0x8088d58` | `0x2d2` | `0x807ebde` | `0x2b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -40,7 +40,7 @@
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2ad>
 +mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,-0x24(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
@@ -67,7 +67,7 @@
 -jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2cb>
 +jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2ad>
 +mov    0x8(%ebp),%eax
-+mov    0x12(%eax),%eax
++mov    0x16(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x10(%eax),%edx
@@ -101,12 +101,11 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2cb>
 -mov    -0x1c(%ebp),%eax
--mov    0x12(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x10,%edx
 +jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2ad>
 +mov    0x8(%ebp),%eax
-+mov    0xe(%eax),%eax
+ mov    0x12(%eax),%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+-add    $0x10,%edx
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x10(%eax),%edx
@@ -156,23 +155,19 @@
 -mov    %eax,-0x4c(%ebp)
 +mov    %eax,-0x54(%ebp)
 +mov    0x8(%ebp),%eax
-+mov    0x12(%eax),%eax
++mov    0x16(%eax),%eax
 +mov    %eax,-0x50(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
 +jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1b8>
 +cmpl   $0x0,-0x10(%ebp)
 +jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x19f>
 +mov    0x8(%ebp),%eax
-+add    $0x16,%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj>
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1b8>
++lea    0x1a(%eax),%edx
  mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
++mov    %eax,0x8(%esp)
++mov    %edx,0x4(%esp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x50(%ebp)
 -mov    -0x1c(%ebp),%eax
@@ -189,6 +184,9 @@
 -je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1b7>
 -mov    -0x1c(%ebp),%eax
 -mov    0x12(%eax),%eax
++call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1b8>
++mov    -0x14(%ebp),%eax
  mov    %eax,0x8(%esp)
 -mov    -0x18(%ebp),%eax
 +mov    -0x10(%ebp),%eax
@@ -358,7 +356,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6472 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5731 行）：
 
 ```cpp
 void CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader* pkt)
@@ -370,32 +368,32 @@ void CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x1fd1, "./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp");
             return;
         }
-        unsigned int guildKey = ((PTL_DBResponseApproveJoinGuildPkt*)pkt)->m_guildKey;
+        unsigned int guildKey = ((Packet_DB_Response_Approve_Join_Guild*)pkt)->m_guildId;
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1fd7, "./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == pGuild");
             return;
         }
-        unsigned int requesterNo = ((PTL_DBResponseApproveJoinGuildPkt*)pkt)->m_requesterNo;
+        unsigned int requesterNo = ((Packet_DB_Response_Approve_Join_Guild*)pkt)->m_characNo;
         CUser* requester = (&m_pclApp->m_userManager)->FindUser_CharNo(requesterNo);
         if (requester == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1fdd, "./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == pUser");
             return;
         }
-        unsigned int joinerNo = ((PTL_DBResponseApproveJoinGuildPkt*)pkt)->m_joinerNo;
+        unsigned int joinerNo = ((Packet_DB_Response_Approve_Join_Guild*)pkt)->m_id;
         CUser* joiner = (&m_pclApp->m_userManager)->FindUser_CharNo(joinerNo);
         Packet_Approve_Join_Guild_Result reply;
         reply.ma = guildKey;
         reply.me = requester->GetUniqCharNo();
         reply.m12 = requester->GetIdByChannel();
-        reply.m16 = ((PTL_DBResponseApproveJoinGuildPkt*)pkt)->m_requesterNo;
+        reply.m16 = ((Packet_DB_Response_Approve_Join_Guild*)pkt)->m_characNo;
         if (guildKey == 0)
         {
             if (joiner == 0)
             {
-                GuildJoin(guild, (STGuildJoinInfo*)&((PTL_DBResponseApproveJoinGuildPkt*)pkt)->m_joinInfo,
+                GuildJoin(guild, (STGuildJoinInfo*)&((Packet_DB_Response_Approve_Join_Guild*)pkt)->m_joinInfo,
                           joinerNo);
             }
             else

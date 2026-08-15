@@ -1,5 +1,0 @@
-原始 p->cargo (c6)	DIFF(db 槽 -0x10 vs ORIG -0x14 + lea 0x12 vs mov+add)	2026-08-12
-(char*)p+0x12	DIFF(lea 仍存在)	2026-08-12
-char* hdr 临时变量 + p 转换	DIFF(栈槽对齐 -0x14/-0x10/-0xc，但 memcpy 仍 lea 0x12(eax),edx vs ORIG mov+add)	2026-08-12
-&p->cargo[0]	DIFF(lea 仍)	2026-08-12
-c6444r/c6446r 同 lea; c5(4.1.2-55) 头链不兼容 gnu++0x	DIFF	2026-08-12

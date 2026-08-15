@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807d5ac` | `0x11d` | `0x8068ad0` | `0x114` |
+| monitor | DIFF | `0x807d5ac` | `0x11d` | `0x8068b82` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,30 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,79 @@
+@@ -1,83 +1,80 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
  sub    $0x10,%esp
  cmpl   $0x27ff,0xc(%ebp)
 -jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
-+jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x10b>
++jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x10e>
  cmpl   $0x3e7,0xc(%ebp)
 -jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x113>
-+jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x10e>
++jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x111>
  mov    0x8(%ebp),%eax
  movzbl 0x1d640(%eax),%eax
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x4b>
-+jne    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x47>
++je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x4a>
  mov    0xc(%ebp),%eax
  lea    -0x3e8(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x8(%eax,%edx,4),%eax
  cmp    $0xa,%eax
 -ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x116>
-+ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x111>
++ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x114>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
 -mov    %eax,-0xc(%ebp)
@@ -48,14 +48,14 @@
 -je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x6a>
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
-+je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x66>
++je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x69>
 +movl   $0x0,-0x8(%ebp)
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x112>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
  mov    0x8(%ebp),%eax
  movzbl 0x1d640(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x8f>
-+je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x8b>
++je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x8e>
  mov    0x8(%ebp),%eax
  mov    0x9068(%eax),%eax
 -mov    -0xc(%ebp),%edx
@@ -66,7 +66,7 @@
 -mov    %eax,-0x8(%ebp)
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0xde>
 +mov    %eax,-0x4(%ebp)
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0xda>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0xdd>
  mov    0xc(%ebp),%eax
  lea    -0x3e8(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -109,13 +109,13 @@
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
 +add    $0x5138,%ecx
 +mov    %edx,(%eax,%ecx,4)
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x112>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
  nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x112>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
  nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x112>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
  nop
 -add    $0x10,%esp
 -pop    %ebx
@@ -165,7 +165,7 @@ void CPacketCounter<A, B>::AfterProcess(int id)
 {
     if (id > 0x27ff) return;
     if (id < 0x3e8) return;
-    if (m_flagInit == 0 && m_packetCount[id - 0x3e8] > 10) return;
+    if (!m_flagInit && m_packetCount[id - 0x3e8] > 10) return;
     int v;
     if ((v = m_totalCount) == -1)
     {

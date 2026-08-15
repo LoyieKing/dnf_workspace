@@ -1,3 +1,0 @@
-source_excerpt	result	date
-char again + while (again != 0)（显式 !=0）：4.4.7 对 while 条件仍做 setne/test 布尔物化（与 if 条件不同，if 是直接 cmpb/je）	DIFF(同)	2026-08-12
-bool again = true + while (again)：4.4.7 对 bool while 条件不物化，直接 cmpb $0; jne，与 ORIG 完全一致	IDENTICAL(FIXED)	2026-08-12

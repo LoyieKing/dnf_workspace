@@ -1,3 +1,0 @@
-DIFF   _ZN10CAppConfig11Parse_TableEPci
-DIFF   _ZN10CAppConfigC1Ev
-DIFF   _ZN10CAppConfigC2Ev

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8078908` | `0x71d` | `0x806edf8` | `0x794` |
+| guild | DIFF | `0x8078908` | `0x71d` | `0x806ed34` | `0x794` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -936,7 +936,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2436 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1717 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
@@ -944,7 +944,7 @@ void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnReplyGuildInvite : 0 == m_pclApp");
-    unsigned int charNo = ((PTL_ReplyGuildInvitePkt*)pkt)->m_charNo;
+    unsigned int charNo = ((Packet_Guild_Reply_Guild_Invite_From_Invited*)pkt)->m_charNo;
     CUser* invited;
     if ((invited = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo)) == 0)
     {
@@ -985,7 +985,7 @@ void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
     }
     if ((guild->GetTotalCnt_Of_GuildDBInfo() & 0xffff) + 1 < 0x12d)
     {
-        if (((PTL_ReplyGuildInvitePkt*)pkt)->m_accept == 1)
+        if (((Packet_Guild_Reply_Guild_Invite_From_Invited*)pkt)->m_accept == 1)
         {
             Packet_DBMW_Save_Guild_Join joinPkt;
             unsigned int dbid = invited->GetDBID();
@@ -1019,7 +1019,7 @@ void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
                 Packet_Guild_Reply_Guild_Invite_To_Caller callerPkt;
                 callerPkt.m_a = callerId;
                 callerPkt.m_e = caller->GetIdByChannel();
-                callerPkt.m_12 = (unsigned int)((PTL_ReplyGuildInvitePkt*)pkt)->m_accept;
+                callerPkt.m_12 = (unsigned int)((Packet_Guild_Reply_Guild_Invite_From_Invited*)pkt)->m_accept;
                 memcpy(callerPkt.m_rest, invited->GetCharName(), 0x1d);
                 caller->SendToGameserver((char*)&callerPkt, 0x34);
             }

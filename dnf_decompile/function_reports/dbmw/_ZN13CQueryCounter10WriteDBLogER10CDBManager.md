@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed4b4` | `0x2b4` |
+| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed8b4` | `0x2b8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,182 +1,181 @@
+@@ -1,182 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,13 +28,13 @@
  mov    0x8(%ebp),%eax
  mov    0x1054(%eax),%eax
  test   %eax,%eax
--setg   %al
--test   %al,%al
+ setg   %al
+ test   %al,%al
 -jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ad>
-+jg     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ab>
++jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2af>
  movl   $0x4e21,-0x1c(%ebp)
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28c>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28a>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28e>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -67,7 +67,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x15e>
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x15d>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x160>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -75,7 +75,7 @@
  mov    0x8(%eax,%edx,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x287>
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x286>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x289>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -95,13 +95,10 @@
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
  add    $0x50,%edx
--mov    0x8(%eax,%edx,4),%ebx
-+mov    0x8(%eax,%edx,4),%eax
-+mov    %eax,%ebx
+ mov    0x8(%eax,%edx,4),%ebx
  movl   $0x76,0x8(%esp)
  movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x14(%esp)
@@ -110,12 +107,11 @@
  mov    %eax,0xc(%esp)
  movl   $"Count DB Insert Fail! id(%d), count(%d), time(%d)",0x8(%esp)
  movl   $"./log/QueryCount",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x288>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x286>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28a>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -123,7 +119,7 @@
  mov    0x8(%eax,%edx,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x256>
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x286>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x258>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -166,13 +162,10 @@
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
  add    $0x50,%edx
--mov    0x8(%eax,%edx,4),%ebx
-+mov    0x8(%eax,%edx,4),%eax
-+mov    %eax,%ebx
+ mov    0x8(%eax,%edx,4),%ebx
  movl   $0x7a,0x8(%esp)
  movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %edi,0x18(%esp)
@@ -182,8 +175,7 @@
  mov    %eax,0xc(%esp)
  movl   $"Count DB Insert Success! id(%d), count(%d), time(%d), compute(%4.2f)",0x8(%esp)
  movl   $"./log/QueryCount",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x1c(%ebp),%eax
@@ -198,17 +190,17 @@
  fldz
  fstpl  0xc(%eax,%edx,8)
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x288>
--nop
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28a>
+ nop
  addl   $0x1,-0x1c(%ebp)
  cmpl   $0x4f60,-0x1c(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x40>
-+jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x3b>
+ jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x40>
  mov    0x8(%ebp),%eax
  movl   $0x1e,0x1054(%eax)
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ae>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ac>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2b0>
  nop
  add    $0x6c,%esp
  pop    %ebx
@@ -282,7 +274,7 @@ CQueryCounter::_ZN13CQueryCounter10WriteDBLogER10CDBManager(CQueryCounter *this,
 void CQueryCounter::WriteDBLog(CDBManager& db)
 {
     m_interval--;
-    if (m_interval > 0)
+    while (m_interval > 0)
         return;
     for (int q = 0x4e21; q <= 0x4f60; q++)
     {
@@ -291,30 +283,29 @@ void CQueryCounter::WriteDBLog(CDBManager& db)
         {
             if (m_counts[q - 0x4e20] != 0)
             {
-                register int t = (int)(m_responseTimes[q - 0x4e20] * 1000.0);
-                register int c = m_counts[q - 0x4e20];
-                CMyFileLog log(__FUNCTION__, 0x76);
-                log("./log/QueryCount",
-                    "Count DB Insert Fail! id(%d), count(%d), time(%d)", q,
-                    c, t);
+                DNF_LOG_SCOPE_LINE(0x76, "./log/QueryCount",
+                    "Count DB Insert Fail! id(%d), count(%d), time(%d)",
+                    q, m_counts[q - 0x4e20],
+                    (int)(m_responseTimes[q - 0x4e20] * 1000.0));
+                continue;
             }
         }
         else
         {
             if (m_counts[q - 0x4e20] != 0)
             {
-                register int avg = (int)(m_responseTimes[q - 0x4e20] * 1000.0) /
-                                   (int)m_counts[q - 0x4e20];
-                register int t = (int)(m_responseTimes[q - 0x4e20] * 1000.0);
-                register int c = m_counts[q - 0x4e20];
-                CMyFileLog log(__FUNCTION__, 0x7a);
-                log("./log/QueryCount",
+                DNF_LOG_SCOPE_LINE(0x7a, "./log/QueryCount",
                     "Count DB Insert Success! id(%d), count(%d), time(%d), compute(%4.2f)",
-                    q, c, t, avg);
-                m_counts[q - 0x4e20] = 0;
-                m_responseTimes[q - 0x4e20] = 0.0;
+                    q, m_counts[q - 0x4e20],
+                    (int)(m_responseTimes[q - 0x4e20] * 1000.0),
+                    (int)(m_responseTimes[q - 0x4e20] * 1000.0) /
+                    (int)m_counts[q - 0x4e20]);
             }
+            m_counts[q - 0x4e20] = 0;
+            m_responseTimes[q - 0x4e20] = 0.0;
+            continue;
         }
+        __asm__ __volatile__("nop");
     }
     m_interval = 0x1e;
 }

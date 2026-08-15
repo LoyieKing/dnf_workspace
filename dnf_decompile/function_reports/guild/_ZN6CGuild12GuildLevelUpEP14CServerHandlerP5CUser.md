@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e73e` | `0x287` | `0x805469a` | `0x292` |
+| guild | DIFF | `0x808e73e` | `0x287` | `0x8054656` | `0x290` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,172 +1,175 @@
+@@ -1,172 +1,174 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -26,7 +26,7 @@
 +jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x18>
  mov    $0x2,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x289>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
@@ -35,7 +35,7 @@
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27a>
 +jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x33>
 +mov    $0x2,%eax
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x289>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -65,7 +65,7 @@
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27a>
 +je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x8a>
 +mov    $0x2,%eax
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x289>
  mov    0x8(%ebp),%eax
  movzbl 0x3b(%eax),%eax
  movzbl %al,%eax
@@ -98,7 +98,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x3,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x289>
  mov    0x8(%ebp),%eax
  movzbl 0x3b(%eax),%eax
  lea    0x1(%eax),%edx
@@ -125,17 +125,14 @@
  movzbl 0x3b(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x149>
-+jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x15e>
++jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x15c>
  mov    0x8(%ebp),%eax
 -movzbl 0x3c(%eax),%edx
--or     $0x2,%edx
--mov    %dl,0x3c(%eax)
-+lea    0x3c(%eax),%edx
++movzbl 0x3c(%eax),%eax
++mov    %eax,%edx
+ or     $0x2,%edx
 +mov    0x8(%ebp),%eax
-+add    $0x3c,%eax
-+movzbl (%eax),%eax
-+or     $0x2,%eax
-+mov    %al,(%edx)
+ mov    %dl,0x3c(%eax)
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -143,7 +140,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1c7>
-+je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1dc>
++je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1da>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -171,7 +168,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild9SaveGuildEhP14CServerHandlerj>
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1fd>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x212>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x210>
  movl   $0x445,0x8(%esp)
  movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -324,7 +321,7 @@ LAB_0808e7b2:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1074 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1055 行）：
 
 ```cpp
 int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
@@ -355,7 +352,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     GuildSkillPointUp(1);
     if (m_dbInfo.m_info.m_guildLevel == 1)
     {
-        *(unsigned char*)((char*)this + 0x3c) |= 2;
+        m_dbInfo.m_info.m_flags |= 2;
     }
     if (user->GetGameServer() != 0)
     {

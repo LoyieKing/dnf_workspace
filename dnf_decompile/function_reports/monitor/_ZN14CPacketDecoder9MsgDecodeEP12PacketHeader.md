@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807cab0` | `0x1f8` | `0x8068694` | `0x1d0` |
+| monitor | DIFF | `0x807cab0` | `0x1f8` | `0x8068744` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -92,14 +92,11 @@
  mov    0xc(%eax,%edx,4),%eax
 -test   %eax,%eax
 -jne    <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader+0x147>
--mov    0xc(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%ebx
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
 +jne    <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader+0x13f>
 +movzwl -0x1e(%ebp),%ebx
- movl   $0x1db,0x8(%esp)
++movl   $0x1db,0x8(%esp)
 +movl   $&_ZZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
@@ -114,10 +111,13 @@
 +jmp    <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader+0x1c8>
 +movl   $&_ZZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE14packet_counter,(%esp)
 +call   <T> <_ZN14CPacketCounterILi1000ELi10240EE13BeforeProcessEv>
-+mov    -0x1c(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x1c(%ebp),%edx
+ mov    0xc(%ebp),%eax
+-movzwl (%eax),%eax
+-movzwl %ax,%ebx
+-movl   $0x1db,0x8(%esp)
++mov    %eax,(%esp)
++call   *%edx
 +movzwl -0x1e(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +movl   $&_ZZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE14packet_counter,(%esp)

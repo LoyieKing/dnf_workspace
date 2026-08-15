@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8071348` | `0x2aa` | `0x80712cc` | `0x298` |
+| statics | DIFF | `0x8071348` | `0x2aa` | `0x807149c` | `0x2a4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,183 +1,174 @@
+@@ -1,183 +1,180 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x2a5>
-+je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x293>
++je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x29f>
  mov    0x8(%ebp),%eax
  lea    0x128(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -39,13 +39,14 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x20f>
 -mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x1fd>
++jmp    <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x209>
 +lea    -0x17d2(%ebp),%ecx
 +mov    -0xc(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x3,%eax
 +add    %edx,%eax
 +shl    $0x2,%eax
++add    $0xe,%eax
 +lea    (%ecx,%eax,1),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -53,7 +54,7 @@
 -movzbl (%eax),%edx
 -mov    %ebx,%eax
 +movzbl (%eax),%eax
-+mov    %al,0xe(%ebx)
++mov    %al,(%ebx)
 +lea    -0x17d2(%ebp),%ecx
 +mov    -0xc(%ebp),%edx
 +mov    %edx,%eax
@@ -66,6 +67,7 @@
 -sub    $0x17ca,%eax
 -mov    %dl,0xe(%eax)
 -mov    -0xc(%ebp),%ebx
++add    $0xf,%eax
 +lea    (%ecx,%eax,1),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -73,7 +75,7 @@
 -mov    0x4(%eax),%edx
 -mov    %ebx,%eax
 +mov    0x4(%eax),%eax
-+mov    %eax,0xf(%ebx)
++mov    %eax,(%ebx)
 +lea    -0x17d2(%ebp),%ecx
 +mov    -0xc(%ebp),%edx
 +mov    %edx,%eax
@@ -86,6 +88,7 @@
 -sub    $0x17ca,%eax
 -mov    %edx,0xf(%eax)
 -mov    -0xc(%ebp),%ebx
++add    $0x13,%eax
 +lea    (%ecx,%eax,1),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -93,7 +96,7 @@
 -movzbl 0x8(%eax),%edx
 -mov    %ebx,%eax
 +movzbl 0x8(%eax),%eax
-+mov    %al,0x13(%ebx)
++mov    %al,(%ebx)
 +lea    -0x17d2(%ebp),%ecx
 +mov    -0xc(%ebp),%edx
 +mov    %edx,%eax
@@ -106,6 +109,7 @@
 -sub    $0x17ca,%eax
 -mov    %dl,0x13(%eax)
 -mov    -0xc(%ebp),%ebx
++add    $0x14,%eax
 +lea    (%ecx,%eax,1),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -113,7 +117,7 @@
 -movzbl 0x9(%eax),%edx
 -mov    %ebx,%eax
 +movzbl 0x9(%eax),%eax
-+mov    %al,0x14(%ebx)
++mov    %al,(%ebx)
 +lea    -0x17d2(%ebp),%ecx
 +mov    -0xc(%ebp),%edx
 +mov    %edx,%eax
@@ -126,6 +130,7 @@
 -sub    $0x17ca,%eax
 -mov    %dl,0x14(%eax)
 -mov    -0xc(%ebp),%ebx
++add    $0x15,%eax
 +lea    (%ecx,%eax,1),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -140,7 +145,7 @@
 -sub    $0x17ca,%eax
 -mov    %dl,0x15(%eax)
 +movzbl 0xa(%eax),%eax
-+mov    %al,0x15(%ebx)
++mov    %al,(%ebx)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK27STHellPartyStatisticItemKey18HellPartyItenmDataEEptEv>
@@ -152,8 +157,9 @@
  shl    $0x3,%eax
  add    %edx,%eax
  shl    $0x2,%eax
++add    $0x1a,%eax
  lea    (%ebx,%eax,1),%eax
- add    $0x1a,%eax
+-add    $0x1a,%eax
  movl   $0x18,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -165,6 +171,7 @@
 +shl    $0x3,%eax
 +add    %edx,%eax
 +shl    $0x2,%eax
++add    $0x16,%eax
 +lea    (%ecx,%eax,1),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -179,7 +186,7 @@
 -sub    $0x17ca,%eax
 -mov    %edx,0x16(%eax)
 +mov    0xc(%eax),%eax
-+mov    %eax,0x16(%ebx)
++mov    %eax,(%ebx)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0xa7,%eax
@@ -187,7 +194,7 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x204>
 +cmpl   $0xa7,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x1f2>
++jbe    <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x1fe>
  movl   $0xa8,-0x17c8(%ebp)
  lea    -0x17d2(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -226,7 +233,7 @@
  jne    <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x5a>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x2a5>
-+je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x293>
++je     <T> <_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler+0x29f>
  mov    -0xc(%ebp),%eax
  mov    %eax,-0x17c8(%ebp)
  movl   $0x39a,0x8(%esp)
@@ -367,34 +374,32 @@ StatisticManager::_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 865 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 870 行）：
 
 ```cpp
 void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
 {
     Packet_DBMW_HellParty_Statistic_Item pkt;
-    int idx = 0;
+    unsigned int idx = 0;
     if (!m_hellParty.empty())
     {
         for (std::map<STHellPartyStatisticItemKey, HellPartyItenmData>::iterator it =
                  m_hellParty.begin(); it != m_hellParty.end(); ++it)
         {
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_hellpartyType =
+            *(unsigned char*)((char*)&pkt + idx * 0x24 + 0xe) =
                 it->first.m_hellpartyType;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_dungeonIndex =
+            *(unsigned int*)((char*)&pkt + idx * 0x24 + 0xf) =
                 it->first.m_dungeonIndex;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_dungeonDiff =
+            *(char*)((char*)&pkt + idx * 0x24 + 0x13) =
                 it->first.m_dungeonDiff;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_partyCount =
+            *(char*)((char*)&pkt + idx * 0x24 + 0x14) =
                 it->first.m_partyCount;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_hellpartyDiff =
+            *(char*)((char*)&pkt + idx * 0x24 + 0x15) =
                 it->first.m_hellpartyDiff;
-            memcpy(((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_data,
-                   it->second.m_data, 0x18);
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_count =
-                it->second.m_count;
+            memcpy((char*)&pkt + idx * 0x24 + 0x1a, it->second.m_data, 0x18);
+            *(int*)((char*)&pkt + idx * 0x24 + 0x16) = it->second.m_count;
             idx++;
-            if (0xa7 < idx)
+            if (idx > 0xa7)
             {
                 pkt.m_count = 0xa8;
                 handler->SendToDB((PacketHeader*)&pkt);

@@ -1,6 +1,0 @@
-_ZN25stDisjointAvatarInfoTotal5clearEv.md
-_ZN25stDisjointAvatarInfoTotal8incCountEiiii.md
-_ZNK16STPartyCharacKeyltERKS_.md
-_ZNK19STPartyStatisticKeyltERKS_.md
-_ZNK22STPartyJobStatisticKeyltERKS_.md
-_ZNK27STHellPartyStatisticItemKeyltERKS_.md

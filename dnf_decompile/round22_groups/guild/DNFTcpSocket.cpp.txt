@@ -1,3 +1,0 @@
-DIFF  _ZN9TCPSocket6acceptERS_
-DIFF  _ZN9TCPSocket8shutdownEi
-DIFF  _ZNK9TCPSocket21pollReadWriteErrEventEv

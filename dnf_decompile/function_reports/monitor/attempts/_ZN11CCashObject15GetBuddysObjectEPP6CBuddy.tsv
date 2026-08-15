@@ -1,9 +1,0 @@
-for(;;){buddies[i]=m_buddys[i];if(buddies[i]!=0){i++;if(i<=0x1f)continue;i=0x20;}break;}	DIFF(jmp+nop prologue, je exit, frame 0x28)	2026-08-13
-if((buddies[i]=m_buddys[i])!=0) 赋值进条件	DIFF(setne命中但布局仍为 je+jmp+nop, frame 0x28)	2026-08-13
-while((buddies[i]=m_buddys[i])!=0){i++;if(i<=0x1f)continue;i=0x20;break;}	DIFF(布局A/B双块未出现, entry jmp body, frame 0x28)	2026-08-13
-buddies[i]=m_buddys[i]前置 + while(buddies[i]!=0){i++;if(i>0x1f){i=0x20;break;}buddies[i]=m_buddys[i];}	NEAR(布局/setne/寻址全中, 仅剩 sub 0x28 vs 0x14 与 -0xc vs -0x4 帧槽伪影)	2026-08-13
-goto 结构直译(A→jmp CHECK; CONT: i++;jle B;i=0x20;jmp out; B: assign; CHECK: if(buddies[i]!=0) goto loop)	DIFF(布局全中但无 setne 物化, 直接 test;jne)	2026-08-13
-compiler A/B: c6444r 4.4.4-13 / c6-g++-446r / c6-g++-447r	ALL: 布局+setne+寻址全对, 帧恒 0x28(-0xc); 4.1.2-52(c5r52)/4.1.2-55(c5root): 帧 0x14(-0x4) 对但 ecx 寻址+无 setne	2026-08-13
-flags on 4.4: -mpreferred-stack-boundary=2 / -std=gnu++98 / -fno-exceptions / -fno-threadsafe-statics	ALL: 帧不变(0x28)或 boundary=2 变 0x8(仍差); boundary=2 整 TU 回归 ClearBuddys/DeleteBuddys/SetBuddysObject 3 个已 identical 函数	2026-08-13
-flags on 4.1.2: -fno-peephole2/-fno-if-conversion/-fno-if-conversion2/-fno-tree-copyrename + 指针算术*(buddies+i)变体V1/V2/V3	ALL: ecx 寻址固定不变	2026-08-13
-2026-08-14T17:43:46Z	scratch iteration; source shape/local ordering/type adjustment; see diff

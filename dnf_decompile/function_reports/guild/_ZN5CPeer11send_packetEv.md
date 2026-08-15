@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80518ce` | `0x24d` | `0x8099880` | `0x24c` |
+| guild | DIFF | `0x80518ce` | `0x24d` | `0x80998c0` | `0x251` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,149 +1,149 @@
+@@ -1,149 +1,151 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,7 +27,7 @@
  jne    <T> <_ZN5CPeer11send_packetEv+0x26>
  mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x24a>
  mov    0x8(%ebp),%eax
 -mov    0x1834(%eax),%ebx
 +mov    0x1834(%eax),%eax
@@ -46,30 +46,32 @@
 -setle  %al
 -test   %al,%al
 -je     <T> <_ZN5CPeer11send_packetEv+0xdf>
-+jg     <T> <_ZN5CPeer11send_packetEv+0xdc>
++setle  %bl
++test   %bl,%bl
++je     <T> <_ZN5CPeer11send_packetEv+0xe1>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0xb,%eax
 -je     <T> <_ZN5CPeer11send_packetEv+0x90>
-+je     <T> <_ZN5CPeer11send_packetEv+0x8d>
++je     <T> <_ZN5CPeer11send_packetEv+0x92>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0x4,%eax
 -je     <T> <_ZN5CPeer11send_packetEv+0x90>
-+je     <T> <_ZN5CPeer11send_packetEv+0x8d>
++je     <T> <_ZN5CPeer11send_packetEv+0x92>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0xb,%eax
 -je     <T> <_ZN5CPeer11send_packetEv+0x90>
-+je     <T> <_ZN5CPeer11send_packetEv+0x8d>
++je     <T> <_ZN5CPeer11send_packetEv+0x92>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN5CPeer11send_packetEv+0x9a>
-+jne    <T> <_ZN5CPeer11send_packetEv+0x97>
++jne    <T> <_ZN5CPeer11send_packetEv+0x9c>
  mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x24a>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -87,22 +89,19 @@
  call   <T> <printf>
  mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x24a>
  cmpl   $0x0,-0xc(%ebp)
 -jle    <T> <_ZN5CPeer11send_packetEv+0x243>
-+jle    <T> <_ZN5CPeer11send_packetEv+0x242>
++jle    <T> <_ZN5CPeer11send_packetEv+0x247>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
  cmp    -0xc(%ebp),%eax
 -jle    <T> <_ZN5CPeer11send_packetEv+0x1ef>
-+jle    <T> <_ZN5CPeer11send_packetEv+0x1ee>
++jle    <T> <_ZN5CPeer11send_packetEv+0x1f3>
  mov    0x8(%ebp),%eax
--lea    0x183c(%eax),%edx
--mov    -0xc(%ebp),%eax
--add    %eax,%edx
-+mov    -0xc(%ebp),%edx
-+add    $0x183c,%edx
-+lea    (%eax,%edx,1),%edx
+ lea    0x183c(%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1838(%eax)
  mov    0x8(%ebp),%eax
@@ -118,7 +117,7 @@
  mov    0x1834(%eax),%eax
  cmp    $0x96000,%eax
 -jbe    <T> <_ZN5CPeer11send_packetEv+0x1a5>
-+ja     <T> <_ZN5CPeer11send_packetEv+0x185>
++ja     <T> <_ZN5CPeer11send_packetEv+0x18a>
 +mov    0x8(%ebp),%eax
 +mov    0x1834(%eax),%eax
 +mov    %eax,%edx
@@ -130,14 +129,14 @@
 +mov    %eax,0x4(%esp)
 +mov    %ecx,(%esp)
 +call   <T> <memmove>
-+mov    0x8(%ebp),%edx
++mov    0x8(%ebp),%eax
++lea    0x183c(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x1834(%eax),%eax
-+add    $0x183c,%eax
 +add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x1838(%eax)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x242>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x247>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%ebx
  movl   $0x17e,0x8(%esp)
@@ -177,12 +176,12 @@
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x1838(%eax)
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x243>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x24a>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
  cmp    -0xc(%ebp),%eax
 -jge    <T> <_ZN5CPeer11send_packetEv+0x224>
-+jge    <T> <_ZN5CPeer11send_packetEv+0x223>
++jge    <T> <_ZN5CPeer11send_packetEv+0x228>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
  mov    -0xc(%ebp),%edx
@@ -192,7 +191,7 @@
  call   <T> <printf>
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x24a>
  mov    0x8(%ebp),%eax
  lea    0x183c(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -305,7 +304,7 @@ int CPeer::send_packet(char* buf, int len)
         DNF_LOG_SCOPE_LINE(0x133, "./log/TcpErr",
             "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
             (int)buf[1], m_sendRemain, len);
-        m_sendPtr = (char*)this + 0x183c;
+        m_sendPtr = m_sendBuf;
         m_sendRemain = 0;
         return -1;
     }
@@ -314,7 +313,7 @@ int CPeer::send_packet(char* buf, int len)
         DNF_LOG_SCOPE_LINE(0x13b, "./log/TcpErr",
             "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
             (int)buf[1], m_sendRemain, len);
-        m_sendPtr = (char*)this + 0x183c;
+        m_sendPtr = m_sendBuf;
         m_sendRemain = 0;
         return -1;
     }

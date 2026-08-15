@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807c8a8` | `0x4b0` | `0x8072ce2` | `0x498` |
+| guild | DIFF | `0x807c8a8` | `0x4b0` | `0x8072c1e` | `0x498` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -109,8 +109,7 @@
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%eax
-+mov    0xe(%eax),%eax
+ mov    0x12(%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x1df>
 -lea    -0x61(%ebp),%eax
@@ -199,9 +198,8 @@
 -add    $0x10,%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
+ mov    0xe(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -217,10 +215,9 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x24d>
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%ebx
 +je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x23f>
 +mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%ebx
+ mov    0xe(%eax),%ebx
  movl   $0xd90,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
@@ -234,12 +231,11 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%eax
 +lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    0x8(%ebp),%eax
-+mov    0xe(%eax),%eax
+ mov    0x12(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x290,%edx
  mov    %eax,0x4(%esp)
@@ -251,12 +247,11 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x2be>
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%ebx
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
 +jne    <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x2ab>
 +mov    0x8(%ebp),%eax
-+mov    0xe(%eax),%ebx
+ mov    0x12(%eax),%ebx
  movl   $0xd94,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
@@ -271,14 +266,13 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x4a5>
 -mov    -0x28(%ebp),%eax
--mov    0x17(%eax),%ebx
--mov    -0x2c(%ebp),%eax
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x490>
 +mov    0x8(%ebp),%eax
-+mov    0x12(%eax),%ebx
+ mov    0x17(%eax),%ebx
+-mov    -0x2c(%ebp),%eax
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetGuildFundEv>
@@ -287,13 +281,14 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x327>
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x314>
-+mov    0x8(%ebp),%eax
- mov    0xe(%eax),%esi
+-mov    0xe(%eax),%esi
 -mov    -0x28(%ebp),%eax
 -mov    0x12(%eax),%ebx
++je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x314>
 +mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%ebx
++mov    0x12(%eax),%esi
++mov    0x8(%ebp),%eax
++mov    0xe(%eax),%ebx
  movl   $0xd9a,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
@@ -309,13 +304,12 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x4a5>
 -mov    -0x28(%ebp),%eax
--mov    0x17(%eax),%eax
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x490>
 +mov    0x8(%ebp),%eax
-+mov    0x12(%eax),%eax
+ mov    0x17(%eax),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
 +mov    -0x24(%ebp),%eax
@@ -338,13 +332,11 @@
 +je     <T> <_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader+0x490>
  movzbl -0x1d(%ebp),%edi
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%esi
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%esi
 -mov    -0x28(%ebp),%eax
--mov    0x12(%eax),%ebx
 +mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%esi
-+mov    0x8(%ebp),%eax
-+mov    0xe(%eax),%ebx
+ mov    0x12(%eax),%ebx
  movl   $0xda3,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
@@ -559,7 +551,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3352 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2633 行）：
 
 ```cpp
 void CPacketTranslater::OnCallGuildLevelUp(PacketHeader* pkt)
@@ -567,43 +559,43 @@ void CPacketTranslater::OnCallGuildLevelUp(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnCallGuildLevelUp : 0 == m_pclApp")
-    if (((PTL_CallGuildLevelUpPkt*)pkt)->m_guildKey == 0)
+    if (((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_guildKey == 0)
     {
         throw CDNFException("CPacketTranslater::OnCallGuildLevelUp : packet->m_uGuildKey == 0");
     }
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(
-             ((PTL_CallGuildLevelUpPkt*)pkt)->m_charNo)) == 0)
+             ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_charNo)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0xd90, "./log/Except",
             "CPacketTranslater::OnCallGuildLevelUp : 0 == pclUser, Char Key = %d",
-            ((PTL_CallGuildLevelUpPkt*)pkt)->m_charNo);
+            ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_charNo);
     }
     CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(
-        ((PTL_CallGuildLevelUpPkt*)pkt)->m_guildKey);
+        ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_guildKey);
     if (guild == 0)
     {
         DNF_LOG_SCOPE_LINE(0xd94, "./log/Except",
             "CPacketTranslater::OnCallGuildLevelUp : 0 == pclGuild, Guild Key = %d",
-            ((PTL_CallGuildLevelUpPkt*)pkt)->m_guildKey);
+            ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_guildKey);
         return;
     }
-    if (((PTL_CallGuildLevelUpPkt*)pkt)->m_fund > guild->GetGuildFund())
+    if (((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_fund > guild->GetGuildFund())
     {
         DNF_LOG_SCOPE_LINE(0xd9a, "./log/GuildModify",
             "CPacketTranslater::OnCallGuildLevelUp(%d : %d) Guild Fund Shortage",
-            ((PTL_CallGuildLevelUpPkt*)pkt)->m_charNo,
-            ((PTL_CallGuildLevelUpPkt*)pkt)->m_guildKey);
+            ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_charNo,
+            ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_guildKey);
         return;
     }
-    guild->SubGuildFund(((PTL_CallGuildLevelUpPkt*)pkt)->m_fund);
+    guild->SubGuildFund(((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_fund);
     unsigned char ret = (unsigned char)guild->GuildLevelUp(m_pclApp->Get_ServerHandler(), user);
     if (ret != 0)
     {
         DNF_LOG_SCOPE_LINE(0xda3, "./log/GuildModify",
             "CPacketTranslater::OnCallGuildLevelUp(%d : %d) ERR(%d)",
-            ((PTL_CallGuildLevelUpPkt*)pkt)->m_guildKey,
-            ((PTL_CallGuildLevelUpPkt*)pkt)->m_charNo, (int)ret);
+            ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_guildKey,
+            ((Packet_Monitor_Call_Guild_Level_Up*)pkt)->m_charNo, (int)ret);
     }
     }
     catch (CDNFException& e)

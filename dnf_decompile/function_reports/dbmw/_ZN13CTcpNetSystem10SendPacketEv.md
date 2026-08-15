@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f5762` | `0x2e5` |
+| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f5b6c` | `0x2e5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -436,7 +436,7 @@ LAB_0805c201:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 165 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 166 行）：
 
 ```cpp
 int CTcpNetSystem::SendPacket()
@@ -466,7 +466,7 @@ int CTcpNetSystem::SendPacket()
             CMyFileLog log(__FUNCTION__, 0xba);
             log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
                 buf->m_header.packetId, buf->m_header.packetSize,
-                buf->m_header.reversed2);
+                buf->m_header.m_connNo);
             PopDeleteTcpSendPacketQ(buf);
             result = 0;
         }
@@ -475,7 +475,7 @@ int CTcpNetSystem::SendPacket()
             CPeer* peer = it->second;
             bool bad = true;
             if (peer != NULL &&
-                buf->m_header.reversed2 ==
+                buf->m_header.m_connNo ==
                     peer->GetTcpSocket()->getHandle())
                 bad = false;
             if (bad)
@@ -484,7 +484,7 @@ int CTcpNetSystem::SendPacket()
                 log("./log/TcpSend",
                     "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
                     buf->m_header.packetId, buf->m_header.packetSize,
-                    buf->m_header.reversed2);
+                    buf->m_header.m_connNo);
                 PopDeleteTcpSendPacketQ(buf);
                 result = 0;
             }
@@ -497,7 +497,7 @@ int CTcpNetSystem::SendPacket()
                     CMyFileLog log(__FUNCTION__, 0xd5);
                     log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
                         buf->m_header.packetId, buf->m_header.packetSize,
-                        buf->m_header.reversed2,
+                        buf->m_header.m_connNo,
                         m_sendQueue.size());
                 }
                 else

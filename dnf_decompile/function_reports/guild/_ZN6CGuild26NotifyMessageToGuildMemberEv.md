@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80913a4` | `0x158` | `0x8056e80` | `0x155` |
+| guild | DIFF | `0x80913a4` | `0x158` | `0x8056de2` | `0x155` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -183,7 +183,7 @@ void __thiscall CGuild::_ZN6CGuild26NotifyMessageToGuildMemberEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1883 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1867 行）：
 
 ```cpp
 void CGuild::NotifyMessageToGuildMember()
@@ -196,7 +196,7 @@ void CGuild::NotifyMessageToGuildMember()
         else
         {
             Packet_Guild_Notify_Message_To_Guild_Mem pkt;
-            int len = strlen((char*)this + 0x4d0a);
+            int len = strlen(m_guildMessage);
             if (len <= 100)
             {
                 memcpy(pkt.m_msg, m_guildMessage, len);

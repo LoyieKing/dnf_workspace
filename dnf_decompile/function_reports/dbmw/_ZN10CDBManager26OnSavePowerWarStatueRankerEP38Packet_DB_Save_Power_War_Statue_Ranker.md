@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f8b6` | `0x201` | `0x804eff4` | `0x1fa` |
+| dbmw | DIFF | `0x807f8b6` | `0x201` | `0x804f04c` | `0x1fa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,147 +1,146 @@
+@@ -1,147 +1,145 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,12 +27,14 @@
  mov    %eax,-0x10(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
- mov    %al,-0x9(%ebp)
+-mov    %al,-0x9(%ebp)
++mov    %al,-0xa(%ebp)
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
- movzbl -0x9(%ebp),%eax
+-movzbl -0x9(%ebp),%eax
++movzbl -0xa(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"deLete from event_server_message where server_info = %d and message_index in (1, 2, 3)",0x8(%esp)
  movl   $0x4ecc,0x4(%esp)
@@ -49,10 +51,11 @@
  call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
++mov    %al,-0x9(%ebp)
++movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0xac>
-+je     <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0xa5>
+ je     <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0xac>
  movl   $0x1943,0x8(%esp)
  movl   $&_ZZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_RankerE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -69,7 +72,8 @@
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%esi
- movzbl -0x9(%ebp),%ebx
+-movzbl -0x9(%ebp),%ebx
++movzbl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    0x13(%eax),%ecx
  mov    0xc(%ebp),%eax
@@ -95,10 +99,11 @@
  call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
++mov    %al,-0x9(%ebp)
++movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x134>
-+jne    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x126>
+ jne    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x134>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -108,11 +113,9 @@
  call   *%edx
  or     %edx,%eax
  test   %eax,%eax
--jne    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x13b>
-+jne    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x12d>
+ jne    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x13b>
  mov    $0x1,%eax
--jmp    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x140>
-+jmp    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x132>
+ jmp    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x140>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x1f5>
@@ -121,7 +124,8 @@
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%esi
- movzbl -0x9(%ebp),%ebx
+-movzbl -0x9(%ebp),%ebx
++movzbl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    0x13(%eax),%ecx
  mov    0xc(%ebp),%eax
@@ -137,11 +141,6 @@
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   *%esi
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x190>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker+0x1f3>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -243,4 +242,4 @@ CDBManager::_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*

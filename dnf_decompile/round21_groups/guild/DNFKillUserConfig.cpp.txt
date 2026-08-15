@@ -1,2 +1,0 @@
-DIFF   _ZN14CKillUSRConfig11Clear_TableEv
-DIFF   _ZN14CKillUSRConfig11Parse_TableEPci

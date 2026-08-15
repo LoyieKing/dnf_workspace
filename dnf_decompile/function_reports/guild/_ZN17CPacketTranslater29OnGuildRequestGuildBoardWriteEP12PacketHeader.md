@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8086af6` | `0x2b7` | `0x807c970` | `0x2c2` |
+| guild | DIFF | `0x8086af6` | `0x2b7` | `0x807c9b8` | `0x2c2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,10 +43,9 @@
 -add    $0x10,%eax
 -mov    %eax,-0x10(%ebp)
 -mov    -0x14(%ebp),%eax
--mov    0x12(%eax),%eax
 +jmp    <T> <_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader+0x2b8>
 +mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
+ mov    0x12(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -325,7 +324,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5938 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5191 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
@@ -339,7 +338,7 @@ void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
             return;
         }
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(
-            ((PTL_GuildBoardWritePkt*)pkt)->m_fieldA);
+            ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_charNo);
         if (user == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1cdd,"./log/GuildBoard",
@@ -348,19 +347,19 @@ void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
         }
         CGuild* guild;
         if ((guild = (&m_pclApp->m_guildManager)->FindGuild(
-                 ((PTL_GuildBoardWritePkt*)pkt)->m_guildKey)) == 0)
+                 ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_guildKey)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1ce4,"./log/GuildBoard",
                 "CPacketTranslater::OnGuildRequestGuildBoardWrite : 0 == pclGuild");
             return;
         }
         Packet_DB_Load_Request_Guild_Board_Write dbPkt;
-        dbPkt.m_b = ((PTL_GuildBoardWritePkt*)pkt)->m_fieldA;
-        dbPkt.m_c = ((PTL_GuildBoardWritePkt*)pkt)->m_guildKey;
-        dbPkt.m_d = ((PTL_GuildBoardWritePkt*)pkt)->m_charNo;
-        memcpy(&dbPkt.m_info, ((PTL_GuildBoardWritePkt*)pkt)->m_info, 0x78);
-        *(unsigned char*)((char*)&dbPkt + 0x9b) = ((PTL_GuildBoardWritePkt*)pkt)->m_field16;
-        *(unsigned char*)((char*)&dbPkt + 0x9c) = ((PTL_GuildBoardWritePkt*)pkt)->m_field17;
+        dbPkt.m_b = ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_boardNo;
+        dbPkt.m_c = ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_guildKey;
+        dbPkt.m_d = ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_charNo;
+        memcpy(&dbPkt.m_info, ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_info, 0x78);
+        *(unsigned char*)((char*)&dbPkt + 0x9b) = ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_field16;
+        *(unsigned char*)((char*)&dbPkt + 0x9c) = ((Packet_Guild_Request_Guild_Board_Write*)pkt)->m_field17;
         memcpy((char*)&dbPkt + 0x9e, user->GetCharName(), 0x1e);
         m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
     }

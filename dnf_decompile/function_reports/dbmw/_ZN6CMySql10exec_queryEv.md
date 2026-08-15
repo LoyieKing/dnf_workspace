@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d49e` | `0x271` | `0x80c8734` | `0x271` |
+| dbmw | DIFF | `0x808d49e` | `0x271` | `0x80c8b90` | `0x271` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,10 +22,14 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0x70,%eax
- mov    (%eax),%edx
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    0x8(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    0x8(%ebp),%eax
  mov    0x42084(%eax),%eax
  mov    %eax,%edx
@@ -264,7 +268,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql10exec_queryEv(CMySql *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 121 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 118 行）：
 
 ```cpp
 int CMySql::exec_query()

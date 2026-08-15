@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090cd6` | `0x151` | `0x80567c0` | `0x143` |
+| guild | DIFF | `0x8090cd6` | `0x151` | `0x8056720` | `0x146` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,39 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,103 @@
+@@ -1,110 +1,102 @@
  push   %ebp
  mov    %esp,%ebp
- push   %esi
+-push   %esi
  push   %ebx
- sub    $0x20,%esp
+-sub    $0x20,%esp
++sub    $0x24,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x43>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x42>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x10,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x43>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x42>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x146>
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x43>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x42>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x48>
++jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x47>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x13c>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x140>
  mov    0x8(%ebp),%eax
 -add    $0x1e,%eax
 -mov    %eax,-0x10(%ebp)
@@ -55,22 +56,18 @@
 +movzwl 0x1e(%eax),%eax
 +mov    %ax,-0xe(%ebp)
 +cmpw   $0x12c,-0xe(%ebp)
-+ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x13c>
++ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x140>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12d>
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12a>
-+mov    0x8(%ebp),%ecx
++jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12e>
  mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%ecx
+ mov    0x8(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
-+add    $0xdd,%eax
  lea    (%ecx,%eax,1),%eax
--add    $0xd0,%eax
--mov    0xd(%eax),%edx
-+mov    (%eax),%eax
-+mov    %eax,%edx
+ add    $0xd0,%eax
+ mov    0xd(%eax),%edx
  mov    0xc(%ebp),%eax
  mov    0x8(%eax),%eax
  cmp    %eax,%edx
@@ -79,7 +76,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%eax
 -sub    -0xc(%ebp),%eax
-+jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x126>
++jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12a>
 +movzwl -0xe(%ebp),%edx
 +mov    -0xc(%ebp),%eax
 +mov    %edx,%ecx
@@ -92,16 +89,21 @@
 -movzwl %ax,%eax
 -sub    -0xc(%ebp),%eax
 -lea    -0x1(%eax),%edx
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0xfb>
-+movzwl -0xe(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+sub    %eax,%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%eax
 -lea    0xdd(%eax),%ebx
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0xff>
++movzwl -0xe(%ebp),%edx
++mov    -0xc(%ebp),%eax
++mov    %edx,%ecx
++sub    %eax,%ecx
++mov    %ecx,%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++lea    (%edx,%eax,1),%eax
 +lea    -0x41(%eax),%ebx
  mov    -0xc(%ebp),%eax
  lea    0x1(%eax),%edx
@@ -111,18 +113,19 @@
 -add    %eax,%ebx
 -mov    0x8(%ebp),%eax
 -lea    0xdd(%eax),%esi
-+add    $0xdd,%eax
-+mov    %eax,%ecx
-+add    0x8(%ebp),%ecx
-+mov    0x8(%ebp),%esi
++add    $0xd0,%eax
++add    0x8(%ebp),%eax
++lea    0xd(%eax),%ecx
  mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
-+add    $0xdd,%eax
- lea    (%esi,%eax,1),%eax
+-lea    (%esi,%eax,1),%eax
 -mov    %ecx,0x8(%esp)
 -mov    %ebx,0x4(%esp)
++add    $0xd0,%eax
++add    0x8(%ebp),%eax
++add    $0xd,%eax
 +mov    %ebx,0x8(%esp)
 +mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -142,7 +145,7 @@
 -movzwl (%eax),%edx
 +subw   $0x1,-0xe(%ebp)
 +cmpw   $0x12c,-0xe(%ebp)
-+jbe    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x10e>
++jbe    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x112>
 +movw   $0x0,-0xe(%ebp)
  mov    0x8(%ebp),%eax
 +movzwl -0xe(%ebp),%edx
@@ -151,7 +154,7 @@
 +movzwl -0xe(%ebp),%edx
  mov    %dx,0x42(%eax)
 -jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x13c>
++jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x140>
  addl   $0x1,-0xc(%ebp)
 -mov    -0x10(%ebp),%eax
 -movzwl (%eax),%eax
@@ -165,10 +168,11 @@
 -nop
 -jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
 -nop
-+jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x73>
- add    $0x20,%esp
+-add    $0x20,%esp
++jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x72>
++add    $0x24,%esp
  pop    %ebx
- pop    %esi
+-pop    %esi
  pop    %ebp
  ret
 ```
@@ -214,7 +218,7 @@ CGuild::_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1710 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1694 行）：
 
 ```cpp
 void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
@@ -226,12 +230,12 @@ void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
         {
             for (int i = 0; i < (int)cnt; i++)
             {
-                if (*(int*)((char*)this + i * 0x41 + 0xdd) == info.m_charNo)
+                if (m_dbInfo.m_members[i].m_no == (int)info.m_charNo)
                 {
                     if ((unsigned int)cnt - (unsigned int)i != 1)
                     {
-                        memmove((char*)this + i * 0x41 + 0xdd,
-                                (char*)this + (i + 1) * 0x41 + 0xdd,
+                        memmove(&m_dbInfo.m_members[i],
+                                &m_dbInfo.m_members[i + 1],
                                 ((unsigned int)cnt - (unsigned int)i - 1) * 0x41);
                     }
                     cnt--;

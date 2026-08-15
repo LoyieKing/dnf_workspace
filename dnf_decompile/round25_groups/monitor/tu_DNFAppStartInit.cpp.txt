@@ -1,2 +1,0 @@
-_ZN13CAppStartInit11Init_DaemonEiPPc
-_ZN13CAppStartInit4InitEP12CApplicationiPPc

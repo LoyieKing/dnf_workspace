@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099f66` | `0x112` | `0x806291c` | `0x118` |
+| monitor | DIFF | `0x8099f66` | `0x112` | `0x8062958` | `0x116` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,7 +30,7 @@
  jne    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x2c>
  mov    $0x0,%eax
 -jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10a>
-+jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x110>
++jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10e>
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser8GetLevelEv>
@@ -38,7 +38,7 @@
  setg   %al
  test   %al,%al
 -je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x95>
-+je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x98>
++je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x97>
  movzbl -0x20(%ebp),%edi
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -59,25 +59,22 @@
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember17InsertUpperMemberEjhPKcb>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
++test   %eax,%eax
++sete   %al
  test   %al,%al
 -je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x105>
-+je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10b>
++je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x109>
  mov    $0x0,%eax
 -jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10a>
-+jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x110>
++jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10e>
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser8GetLevelEv>
  cmp    -0x1c(%ebp),%ax
--setl   %al
-+setge  %al
+ setl   %al
  test   %al,%al
 -je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0xfe>
-+je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0xb5>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x110>
++je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x102>
  movzbl -0x20(%ebp),%edi
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -98,16 +95,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember17InsertLowerMemberEjhPKcb>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
++test   %eax,%eax
++sete   %al
  test   %al,%al
 -je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x105>
-+je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10b>
++je     <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x109>
  mov    $0x0,%eax
 -jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10a>
--mov    $0x0,%eax
++jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10e>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10a>
-+jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x110>
++jmp    <T> <_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb+0x10e>
  mov    $0x1,%eax
  add    $0x3c,%esp
  pop    %ebx
@@ -165,7 +163,7 @@ CMemberManager::_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 422 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 421 行）：
 
 ```cpp
 int CMemberManager::RegisterMember(CMember* member, short level, CUser* user, bool flag)
@@ -176,25 +174,25 @@ int CMemberManager::RegisterMember(CMember* member, short level, CUser* user, bo
     }
     if (level < user->GetLevel())
     {
-        if (member->InsertUpperMember(user->GetUniqCharNo(),
-                                      (unsigned char)user->GetLevel(), user->GetCharName(),
-                                      flag) != 1)
+        if (!member->InsertUpperMember(user->GetUniqCharNo(),
+                                       (unsigned char)user->GetLevel(), user->GetCharName(),
+                                       flag))
         {
             return 0;
         }
     }
-    else if (level <= user->GetLevel())
+    else if (user->GetLevel() < level)
     {
-        return 0;
+        if (!member->InsertLowerMember(user->GetUniqCharNo(),
+                                       (unsigned char)user->GetLevel(), user->GetCharName(),
+                                       flag))
+        {
+            return 0;
+        }
     }
     else
     {
-        if (member->InsertLowerMember(user->GetUniqCharNo(),
-                                      (unsigned char)user->GetLevel(), user->GetCharName(),
-                                      flag) != 1)
-        {
-            return 0;
-        }
+        return 0;
     }
     return 1;
 }

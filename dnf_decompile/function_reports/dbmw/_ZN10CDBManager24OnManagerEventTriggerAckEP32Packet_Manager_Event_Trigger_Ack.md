@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x80841d0` | `0x143` | `0x805263e` | `0x143` |
+| dbmw | NEAR | `0x80841d0` | `0x143` | `0x80526ec` | `0x143` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,70 +17,51 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
-+mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,-0x18(%ebp)
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
--mov    %eax,-0x18(%ebp)
-+mov    %eax,-0x14(%ebp)
+ mov    %eax,-0x18(%ebp)
  mov    0xc(%ebp),%eax
  mov    0xe(%eax),%eax
--mov    %eax,-0x14(%ebp)
-+mov    %eax,-0x10(%ebp)
+ mov    %eax,-0x14(%ebp)
  mov    0xc(%ebp),%eax
  mov    0x12(%eax),%eax
--mov    %eax,-0x10(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
--cmpl   $0x2,-0x14(%ebp)
-+cmpl   $0x2,-0x10(%ebp)
+ cmpl   $0x2,-0x14(%ebp)
  jne    <T> <_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack+0x69>
--mov    -0xc(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
  mov    -0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    -0x14(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    -0x18(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"upDate dnf_event_log set event_flag=%d where event_type=%d and server_id=%d and ( end_time > unix_timestamp(now()) or end_time=0)",0x8(%esp)
  movl   $0x4eff,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  jmp    <T> <_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack+0xe5>
--cmpl   $0x4,-0x14(%ebp)
-+cmpl   $0x4,-0x10(%ebp)
+ cmpl   $0x4,-0x14(%ebp)
  jne    <T> <_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack+0xa8>
--mov    -0xc(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
  mov    -0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    -0x14(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    -0x18(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"upDate dnf_event_log set event_flag=%d where event_type=%d and server_id=%d and end_time <>0",0x8(%esp)
  movl   $0x4eff,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  jmp    <T> <_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack+0xe5>
@@ -90,8 +71,7 @@
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"CDBManager::OnManagerEventTriggerAck() Unvalid Kind(%d)",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
@@ -99,14 +79,12 @@
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0xc(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4eff,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  xor    $0x1,%eax
@@ -185,4 +163,4 @@ CDBManager::_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Tr
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*

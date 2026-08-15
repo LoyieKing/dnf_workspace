@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e18c` | `0x2d9` |
+| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e1c0` | `0x2fd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,197 @@
+@@ -1,207 +1,208 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,51 +22,43 @@
  sub    $0x1cc,%esp
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    0xc(%ebp),%eax
  mov    %eax,-0x1c(%ebp)
--lea    -0x127(%ebp),%edx
--mov    $0xff,%ebx
-+lea    -0x128(%ebp),%ebx
+ lea    -0x127(%ebp),%edx
+ mov    $0xff,%ebx
  mov    $0x0,%eax
-+mov    $0x40,%edx
-+mov    %ebx,%edi
  mov    %edx,%ecx
--and    $0x1,%ecx
--test   %ecx,%ecx
--je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x36>
--mov    %al,(%edx)
--add    $0x1,%edx
--sub    $0x1,%ebx
--mov    %edx,%ecx
--and    $0x2,%ecx
--test   %ecx,%ecx
--je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x48>
--mov    %ax,(%edx)
--add    $0x2,%edx
--sub    $0x2,%ebx
--mov    %ebx,%ecx
--shr    $0x2,%ecx
--mov    %edx,%edi
+ and    $0x1,%ecx
+ test   %ecx,%ecx
+ je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x36>
+ mov    %al,(%edx)
+ add    $0x1,%edx
+ sub    $0x1,%ebx
+ mov    %edx,%ecx
+ and    $0x2,%ecx
+ test   %ecx,%ecx
+ je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x48>
+ mov    %ax,(%edx)
+ add    $0x2,%edx
+ sub    $0x2,%ebx
+ mov    %ebx,%ecx
+ shr    $0x2,%ecx
+ mov    %edx,%edi
  rep stos %eax,%es:(%edi)
--mov    %edi,%edx
--mov    %ebx,%ecx
--and    $0x2,%ecx
--test   %ecx,%ecx
--je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x62>
--mov    %ax,(%edx)
--add    $0x2,%edx
--mov    %ebx,%ecx
--and    $0x1,%ecx
--test   %ecx,%ecx
--je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x70>
--mov    %al,(%edx)
--add    $0x1,%edx
--mov    0xc(%ebp),%eax
--mov    0xb(%eax),%ecx
-+mov    -0x1c(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%ecx
+ mov    %edi,%edx
+ mov    %ebx,%ecx
+ and    $0x2,%ecx
+ test   %ecx,%ecx
+ je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x62>
+ mov    %ax,(%edx)
+ add    $0x2,%edx
+ mov    %ebx,%ecx
+ and    $0x1,%ecx
+ test   %ecx,%ecx
+ je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x70>
+ mov    %al,(%edx)
+ add    $0x1,%edx
+ mov    0xc(%ebp),%eax
+ mov    0xb(%eax),%ecx
  mov    $0xcccccccd,%edx
  mov    %ecx,%eax
  mul    %edx
@@ -79,143 +71,89 @@
  sub    %eax,%edx
  mov    %edx,0x8(%esp)
  movl   $"guild_cargo_history_%d",0x4(%esp)
--lea    -0x127(%ebp),%eax
-+lea    -0x128(%ebp),%eax
+ lea    -0x127(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
  mov    %eax,-0x15c(%ebp)
--mov    0xc(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    0xc(%ebp),%eax
  add    $0x5c,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK19UpgradeSeparateInfo18GetUpgradeSeparateEv>
  movzbl %al,%eax
  mov    %eax,-0x158(%ebp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x28,%eax
  mov    (%eax),%edx
--mov    0xc(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    0xc(%ebp),%eax
  add    $0x4e,%eax
  movl   $0xe,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,-0x154(%ebp)
--mov    0xc(%ebp),%eax
--movzwl 0x42(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x42,%eax
-+movzwl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzwl 0x42(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x150(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x41(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x41,%eax
-+movzbl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzbl 0x41(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x14c(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x36(%eax),%eax
--shr    $0x5,%al
-+mov    -0x1c(%ebp),%eax
-+add    $0x36,%eax
-+movzbl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzbl 0x36(%eax),%eax
+ shr    $0x5,%al
  movzbl %al,%eax
--mov    %eax,-0x148(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x36(%eax),%eax
+ mov    %eax,-0x148(%ebp)
+ mov    0xc(%ebp),%eax
+ movzbl 0x36(%eax),%eax
 -and    $0x1f,%eax
-+mov    %eax,%edx
-+shr    $0x5,%edx
-+mov    %edx,-0x148(%ebp)
-+mov    -0x1c(%ebp),%eax
-+add    $0x36,%eax
-+movzbl (%eax),%eax
- movzbl %al,%eax
+-movzbl %al,%eax
 -mov    %eax,-0x144(%ebp)
--mov    0xc(%ebp),%eax
--mov    0x3d(%eax),%eax
-+mov    %eax,%ecx
-+and    $0x1f,%ecx
-+mov    %ecx,-0x144(%ebp)
-+mov    -0x1c(%ebp),%eax
-+add    $0x3d,%eax
-+mov    (%eax),%eax
++movzbl %al,%eax
++mov    %eax,%edx
++and    $0x1f,%edx
++mov    %edx,-0x144(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    0x3d(%eax),%eax
  mov    %eax,-0x140(%ebp)
--mov    0xc(%ebp),%eax
--movzwl 0x3b(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x3b,%eax
-+movzwl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzwl 0x3b(%eax),%eax
  movzwl %ax,%eax
  mov    %eax,-0x13c(%ebp)
--mov    0xc(%ebp),%eax
--mov    0x37(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x37,%eax
-+mov    (%eax),%eax
+ mov    0xc(%ebp),%eax
+ mov    0x37(%eax),%eax
  mov    %eax,-0x138(%ebp)
--mov    0xc(%ebp),%eax
--mov    0x32(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x32,%eax
-+mov    (%eax),%eax
+ mov    0xc(%ebp),%eax
+ mov    0x32(%eax),%eax
  mov    %eax,-0x134(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x31(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x31,%eax
-+movzbl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzbl 0x31(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x130(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x28(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x28,%eax
-+movzbl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ movzbl 0x28(%eax),%eax
  movsbl %al,%eax
  mov    %eax,-0x12c(%ebp)
--mov    0xc(%ebp),%eax
--mov    0x2d(%eax),%edi
--mov    0xc(%ebp),%eax
--mov    0x29(%eax),%ebx
--mov    0xc(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x2d,%eax
-+mov    (%eax),%edi
-+mov    -0x1c(%ebp),%eax
-+add    $0x29,%eax
-+mov    (%eax),%ebx
-+mov    -0x1c(%ebp),%eax
+ mov    0xc(%ebp),%eax
+ mov    0x2d(%eax),%edi
+ mov    0xc(%ebp),%eax
+ mov    0x29(%eax),%ebx
+ mov    0xc(%ebp),%eax
  lea    0x13(%eax),%esi
--mov    0xc(%ebp),%eax
--mov    0xf(%eax),%ecx
--mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%ecx
-+mov    -0x1c(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ mov    0xc(%ebp),%eax
+ mov    0xf(%eax),%ecx
+ mov    0xc(%ebp),%eax
+ movzbl 0xa(%eax),%eax
  movzbl %al,%edx
--mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
+ mov    0xc(%ebp),%eax
+ mov    0xb(%eax),%eax
  mov    %eax,-0x16c(%ebp)
  mov    -0x158(%ebp),%eax
  mov    %eax,0x54(%esp)
@@ -248,33 +186,29 @@
  mov    %edx,0x14(%esp)
 -mov    -0x16c(%ebp),%edi
 -mov    %edi,0x10(%esp)
--lea    -0x127(%ebp),%eax
 +mov    -0x16c(%ebp),%edx
 +mov    %edx,0x10(%esp)
-+lea    -0x128(%ebp),%eax
+ lea    -0x127(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into %s(occ_time,guild_id,server_id,charac_no,charac_name,slot_no,moveto_slot_no,behavior,seal_flag,item_id,add_info,endurance,extend_info,upgrade,seal_cnt,amplify_option,amplify_value,random_option,separate) values(unix_timestamp(now()),%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,'%s',%d)",0x8(%esp)
  movl   $0x4ed9,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *-0x15c(%ebp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4ed9,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0x1d(%ebp)
--movzbl -0x1d(%ebp),%eax
+ mov    %al,-0x1d(%ebp)
+ movzbl -0x1d(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2eb>
-+je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2c9>
++je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2ed>
  movl   $0x1bd3,0x8(%esp)
  movl   $&_ZZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_HistoryE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -287,7 +221,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2f0>
-+jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2ce>
++jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2f2>
  mov    $0x1,%eax
  add    $0x1cc,%esp
  pop    %ebx
@@ -374,4 +308,4 @@ CDBManager::_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*
