@@ -414,7 +414,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,%ebx
-+mov    -0x2c(%ebp),%eax
++mov    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  mov    %eax,(%esp)
@@ -1241,7 +1241,7 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt)
                     if (other != 0)
                     {
                         other->SendNoticeBuddyInOut(
-                            ((CServerInterface*)other->GetGameServer())->GetChannelNo(),
+                            ((CServerInterface*)user->GetGameServer())->GetChannelNo(),
                             user->GetUniqCharNo(), user->GetCharName(),
                             (unsigned char)(user->IsBlackUser(*it) != 0), 0, 0);
                     }
