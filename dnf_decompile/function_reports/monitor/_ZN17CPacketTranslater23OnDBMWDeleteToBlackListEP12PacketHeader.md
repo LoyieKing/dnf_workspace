@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8086350` | `0x269` | `0x8071d7e` | `0x262` |
+| monitor | DIFF | `0x8086350` | `0x269` | `0x8071d7a` | `0x262` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -148,14 +148,10 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0xd8d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f5b6c` | `0x2e5` |
+| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f5c56` | `0x2ed` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,202 @@
+@@ -1,207 +1,205 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -72,9 +72,12 @@
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2d9>
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e1>
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2d9>
++jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x9b>
++mov    $0x0,%ebx
++mov    %ebx,%eax
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e3>
 +mov    -0x14(%ebp),%eax
  lea    0x6(%eax),%ecx
  mov    0x8(%ebp),%eax
@@ -112,7 +115,7 @@
 -mov    -0x28(%ebp),%eax
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x160>
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x168>
  movl   $0xba,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
@@ -148,7 +151,7 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
 -lea    -0x4c(%ebp),%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2d9>
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e1>
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEptEv>
@@ -160,7 +163,7 @@
 +mov    %eax,-0x10(%ebp)
 +movb   $0x1,-0x9(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x19f>
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a7>
 +mov    -0x14(%ebp),%eax
  mov    0x6(%eax),%ebx
 -mov    -0x24(%ebp),%eax
@@ -171,10 +174,10 @@
  call   <T> <_ZNK9TCPSocket9getHandleEv>
  cmp    %eax,%ebx
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a8>
-+jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x19f>
++jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a7>
  mov    $0x1,%eax
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1ad>
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a4>
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1ac>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x22f>
@@ -186,10 +189,10 @@
 -mov    -0x28(%ebp),%eax
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1ac>
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b4>
 +movb   $0x0,-0x9(%ebp)
 +cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x230>
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x238>
  movl   $0xc3,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -228,7 +231,7 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
 -mov    -0x28(%ebp),%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2d9>
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e1>
 +mov    -0x14(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -264,7 +267,7 @@
 -movzwl %ax,%ebx
 +mov    %eax,%ebx
 +test   %ebx,%ebx
-+jg     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2c7>
++jg     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2cf>
  movl   $0xd5,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -298,7 +301,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%ebx
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2d9>
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e1>
 +mov    -0x14(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    0x8(%ebp),%eax
@@ -457,8 +460,13 @@ int CTcpNetSystem::SendPacket()
             flag = 1;
         }
     }
-    if (flag && buf != NULL)
+    if (flag)
     {
+        if (!buf)
+        {
+            result = 0;
+            return result;
+        }
         std::map<unsigned int, CPeer*>::iterator it =
             m_peerMap.find(*(unsigned int*)((char*)buf + 6));
         if (it == m_peerMap.end())

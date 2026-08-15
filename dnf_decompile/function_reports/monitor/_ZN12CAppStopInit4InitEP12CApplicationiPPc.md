@@ -261,7 +261,7 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
     {
         std::allocator<char> alloc;
         std::string pidFile(argv[1], alloc);
-        fail = !(bool)app->Send_Term_Signal(pidFile);
+        fail = !app->Send_Term_Signal(pidFile);
     }
     if (fail)
     {

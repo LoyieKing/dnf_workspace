@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807a74a` | `0x200` | `0x805139a` | `0x1df` |
+| dbmw | DIFF | `0x807a74a` | `0x200` | `0x80513c0` | `0x1e6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,155 +1,145 @@
+@@ -1,155 +1,146 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,17 +27,18 @@
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
++movl   $0x0,-0x28(%ebp)
 +mov    0xc(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
  mov    %eax,-0x24(%ebp)
 -movl   $0x0,-0x20(%ebp)
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x20(%ebp)
 -lea    -0x82c(%ebp),%ebx
++mov    -0x24(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
++mov    %eax,-0x28(%ebp)
 +lea    -0x834(%ebp),%ebx
  mov    $0x0,%eax
  mov    $0x200,%edx
@@ -52,13 +53,13 @@
 -jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x15c>
 -lea    -0x2c(%ebp),%eax
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x12d>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x134>
 +mov    -0x20(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x2,%eax
 +add    %edx,%eax
 +add    %eax,%eax
-+add    -0x28(%ebp),%eax
++add    -0x24(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -88,7 +89,7 @@
 -add    %edx,%eax
 -add    %eax,%eax
 -movzwl 0x12(%eax,%esi,1),%eax
-+je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0xcf>
++je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0xd6>
 +mov    -0x1c(%ebp),%eax
 +add    $0x14,%eax
 +mov    (%eax),%ecx
@@ -134,7 +135,7 @@
 -add    %edx,%eax
 -add    %eax,%eax
 -movzwl 0x12(%eax,%esi,1),%eax
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x114>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x11b>
 +mov    -0x1c(%ebp),%eax
 +add    $0x14,%eax
 +mov    (%eax),%ecx
@@ -170,12 +171,12 @@
 -cmp    -0x20(%ebp),%eax
 +addl   $0x1,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
-+cmp    -0x24(%ebp),%eax
++cmp    -0x28(%ebp),%eax
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x61>
 -mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x62>
++jne    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x69>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -194,9 +195,9 @@
 -mov    -0x24(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x17d>
++je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x184>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c7>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ce>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -209,13 +210,13 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c6>
-+je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1a5>
++je     <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ac>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1e8>
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c7>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ce>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1e8>
-+jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1c7>
++jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x1ce>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax

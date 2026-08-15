@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b754` | `0x4f4` | `0x8076f3c` | `0x4ce` |
+| monitor | DIFF | `0x808b754` | `0x4f4` | `0x8076ec0` | `0x4ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -620,7 +620,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4036 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4031 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)

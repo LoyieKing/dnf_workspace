@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8059e70` | `0x405` | `0x8084600` | `0x41c` |
+| monitor | DIFF | `0x8059e70` | `0x405` | `0x80845ca` | `0x410` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,13 +28,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2f>
--movl   $"Tcp Accept Socket Open Err",(%esp)
--call   <T> <printf>
++test   %al,%al
++sete   %al
++test   %al,%al
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x31>
+ movl   $"Tcp Accept Socket Open Err",(%esp)
+ call   <T> <printf>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
-+test   %al,%al
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d7>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x408>
  mov    0x8(%ebp),%eax
  movzwl 0x34(%eax),%eax
  movzwl %ax,%eax
@@ -47,13 +48,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x6b>
--movl   $"Tcp Accept Socket Bind Err",(%esp)
--call   <T> <printf>
++test   %al,%al
++sete   %al
++test   %al,%al
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x6f>
+ movl   $"Tcp Accept Socket Bind Err",(%esp)
+ call   <T> <printf>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
-+test   %al,%al
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1c6>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x408>
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  movl   $0x5,0x4(%esp)
@@ -62,20 +64,21 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x99>
--movl   $"Tcp Accept Socket Listen Err",(%esp)
--call   <T> <printf>
++test   %al,%al
++sete   %al
++test   %al,%al
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x9f>
+ movl   $"Tcp Accept Socket Listen Err",(%esp)
+ call   <T> <printf>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
-+test   %al,%al
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1b5>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x408>
  mov    0x8(%ebp),%eax
  movb   $0x1,0x8(%eax)
  movl   $0x0,0x4(%esp)
  movl   $0x5,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1bd>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1a1>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1c8>
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
@@ -86,7 +89,7 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1a1>
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1c8>
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,(%esp)
@@ -105,7 +108,7 @@
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x10b>
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x132>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK9TCPSocket9getHandleEv>
@@ -208,22 +211,13 @@
  test   %al,%al
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0xb9>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x98>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x414>
-+movl   $"Tcp Accept Socket Listen Err",(%esp)
-+call   <T> <printf>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x414>
-+movl   $"Tcp Accept Socket Bind Err",(%esp)
-+call   <T> <printf>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x414>
-+movl   $"Tcp Accept Socket Open Err",(%esp)
-+call   <T> <printf>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x414>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0xbf>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x408>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2fa>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x311>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x305>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -262,7 +256,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x28a>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a1>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x295>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -278,28 +272,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x284>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x29b>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x28f>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a9>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c0>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2b4>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a9>
 -lea    -0x30(%ebp),%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c0>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2b4>
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2be>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2d5>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c9>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a9>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c0>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2b4>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -313,7 +307,7 @@
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2e5>
 -lea    -0x29(%ebp),%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2fc>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2f0>
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -358,7 +352,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x38d>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3a4>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x398>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -374,28 +368,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x387>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x39e>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x392>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ac>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c3>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3b7>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ac>
 -lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c3>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3b7>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c1>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3d8>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3cc>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ac>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c3>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3b7>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -409,7 +403,7 @@
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3e8>
 -lea    -0x21(%ebp),%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ff>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3f3>
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -516,48 +510,42 @@ void CTcpAcceptThread::dispatch(void* param)
 {
     try
     {
-        if (m_sock.open())
+        if (!m_sock.open())
         {
-            if (m_sock.bind(m_port, true))
-            {
-                if (m_sock.listen(5))
-                {
-                    m_running = true;
-                    DNFFLib::Sleep_Ext(5, 0);
-                    while (m_running)
-                    {
-                        if (m_sock.pollReadEvent())
-                        {
-                            CPeer* peer = m_net->CreatePeer();
-                            TCPSocket* sock = peer->GetTcpSocket();
-                            if (m_sock.accept(*sock) != 1)
-                            {
-                                printf("Accept GameServer Fail(Port : %d)\n", sock->getHandle());
-                            }
-                            printf("Accept GameServer(Port : %d)\n", sock->getHandle());
-                            CMutex* recvB = m_net->Get_TcpRecvBLock();
-                            CMutex* recvQ = m_net->Get_TcpRecvQLock();
-                            void* q = m_net->Get_TcpSwapQPacket()->GetRecvQ();
-                            peer->InitPeer(
-                                (std::queue<CTcpRecvBuffer*>*)q, recvQ, recvB);
-                            peer->ConnSig();
-                            m_net->InsertAcceptedPeer(peer);
-                        }
-                    }
-                }
-                else
-                {
-                    printf("Tcp Accept Socket Listen Err");
-                }
-            }
-            else
-            {
-                printf("Tcp Accept Socket Bind Err");
-            }
+            printf("Tcp Accept Socket Open Err");
+        }
+        else if (!m_sock.bind(m_port, true))
+        {
+            printf("Tcp Accept Socket Bind Err");
+        }
+        else if (!m_sock.listen(5))
+        {
+            printf("Tcp Accept Socket Listen Err");
         }
         else
         {
-            printf("Tcp Accept Socket Open Err");
+            m_running = true;
+            DNFFLib::Sleep_Ext(5, 0);
+            while (m_running)
+            {
+                if (m_sock.pollReadEvent())
+                {
+                    CPeer* peer = m_net->CreatePeer();
+                    TCPSocket* sock = peer->GetTcpSocket();
+                    if (m_sock.accept(*sock) != 1)
+                    {
+                        printf("Accept GameServer Fail(Port : %d)\n", sock->getHandle());
+                    }
+                    printf("Accept GameServer(Port : %d)\n", sock->getHandle());
+                    CMutex* recvB = m_net->Get_TcpRecvBLock();
+                    CMutex* recvQ = m_net->Get_TcpRecvQLock();
+                    void* q = m_net->Get_TcpSwapQPacket()->GetRecvQ();
+                    peer->InitPeer(
+                        (std::queue<CTcpRecvBuffer*>*)q, recvQ, recvB);
+                    peer->ConnSig();
+                    m_net->InsertAcceptedPeer(peer);
+                }
+            }
         }
     }
     catch (CDNFException& e)

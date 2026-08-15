@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80a0acc` | `0xc4` | `0x8099f04` | `0xc4` |
+| monitor | NEAR | `0x80a0acc` | `0xc4` | `0x8099f20` | `0xc4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,8 +19,7 @@
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x5c,%esp
-+sub    $0x4c,%esp
+ sub    $0x5c,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x34(%eax),%eax
  lea    -0x1(%eax),%edx
@@ -29,68 +28,49 @@
  mov    0x8(%ebp),%eax
  movzbl 0x34(%eax),%eax
  test   %al,%al
- setle  %al
- test   %al,%al
+-setle  %al
+-test   %al,%al
++setle  %bl
++test   %bl,%bl
  je     <T> <_ZN18CMemoryCashManager20ProcessCashDataPrintEv+0xbc>
  mov    0x8(%ebp),%eax
--mov    0x40(%eax),%eax
--mov    %eax,-0x34(%ebp)
-+mov    0x40(%eax),%ebx
+ mov    0x40(%eax),%eax
+ mov    %eax,-0x34(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x4c(%eax),%eax
--mov    %eax,-0x30(%ebp)
-+mov    0x4c(%eax),%esi
+ mov    0x4c(%eax),%eax
+ mov    %eax,-0x30(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x3c(%eax),%eax
--mov    %eax,-0x2c(%ebp)
-+mov    0x3c(%eax),%edi
+ mov    0x3c(%eax),%eax
+ mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x48(%eax),%edi
-+mov    0x48(%eax),%eax
-+mov    %eax,-0x28(%ebp)
+ mov    0x48(%eax),%edi
  mov    0x8(%ebp),%eax
--mov    0x38(%eax),%esi
-+mov    0x38(%eax),%eax
-+mov    %eax,-0x24(%ebp)
+ mov    0x38(%eax),%esi
  mov    0x8(%ebp),%eax
--mov    0x44(%eax),%ebx
-+mov    0x44(%eax),%eax
-+mov    %eax,-0x20(%ebp)
+ mov    0x44(%eax),%ebx
  movl   $0x4e,0x8(%esp)
  movl   $&_ZZN18CMemoryCashManager20ProcessCashDataPrintEvE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x34(%ebp),%eax
--mov    %eax,0x20(%esp)
--mov    -0x30(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x20(%esp)
-+mov    %esi,0x1c(%esp)
-+mov    %edi,0x18(%esp)
-+mov    -0x28(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    -0x34(%ebp),%eax
+ mov    %eax,0x20(%esp)
+ mov    -0x30(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"buddy(%d/%d)  member(%d/%d)  black(%d/%d)",0x8(%esp)
  movl   $"./log/cashmem",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager12resetCashCntEv>
--add    $0x5c,%esp
-+add    $0x4c,%esp
+ add    $0x5c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

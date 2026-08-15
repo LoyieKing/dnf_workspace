@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8094e96` | `0x286` | `0x80d264a` | `0x288` |
+| dbmw | DIFF | `0x8094e96` | `0x286` | `0x80d26de` | `0x288` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -255,7 +255,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 725 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 731 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* header)

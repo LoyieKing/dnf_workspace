@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80797d2` | `0x99f` | `0x805a6a2` | `0x9b5` |
+| dbmw | DIFF | `0x80797d2` | `0x99f` | `0x805a6de` | `0x9be` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,709 +1,709 @@
+@@ -1,709 +1,712 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,16 +24,16 @@
  movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
--mov    %eax,-0x24(%ebp)
-+mov    %eax,-0x20(%ebp)
+ mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
- mov    0x8(%eax),%eax
--mov    %eax,-0x20(%ebp)
--mov    0x8(%ebp),%eax
+-mov    0x8(%eax),%eax
++mov    0x14(%eax),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    0x8(%ebp),%eax
 -mov    0x14(%eax),%eax
++mov    0x8(%eax),%eax
  mov    %eax,-0x1c(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%ecx
@@ -46,23 +46,21 @@
  mov    %eax,0xc(%esp)
  movl   $"seLect member_flag, unix_timestamp(secede_time) from guild_member where charac_no = %d and server_id = %d",0x8(%esp)
  movl   $0x4e6b,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ecx
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0xd2>
+ je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0xd2>
 -mov    0xc(%ebp),%eax
 -mov    0xf(%eax),%esi
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0xc9>
  movl   $0x110a,0x8(%esp)
  movl   $&_ZZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_E12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
@@ -77,23 +75,22 @@
  movl   $"seLect member_flag from guild_member where server_id = %d and charac_no = %d",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x14(%ebp),%eax
  movl   $0x2,(%eax)
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
--mov    -0x24(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e6b,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
@@ -103,68 +100,58 @@
 -movl   $0x2,(%eax)
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0xfd>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x106>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
  mov    (%eax),%edx
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  test   %eax,%eax
  setne  %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x231>
--mov    -0x24(%ebp),%eax
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x213>
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x21c>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
  mov    (%eax),%edx
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x15f>
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x148>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x151>
  mov    0x14(%ebp),%eax
  movl   $0x22,(%eax)
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
 -movl   $0x0,-0x54(%ebp)
--mov    -0x24(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+movl   $0x0,-0x3c(%ebp)
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
++movl   $0x0,-0x40(%ebp)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
  mov    (%eax),%edx
 -lea    -0x54(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
@@ -175,43 +162,39 @@
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
 -mov    -0x54(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x18a>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x193>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x3c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
++mov    -0x40(%ebp),%eax
  cmp    $0x1,%eax
 -jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x1c3>
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x1a5>
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x1ae>
  mov    0x14(%ebp),%eax
  movl   $0x20,(%eax)
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
 -mov    -0x54(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x3c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
++mov    -0x40(%ebp),%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x231>
--mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x213>
-+movl   $0x0,-0x40(%ebp)
-+mov    -0x20(%ebp),%eax
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x21c>
++movl   $0x0,-0x44(%ebp)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
  mov    (%eax),%edx
 -lea    -0x58(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
@@ -220,22 +203,19 @@
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
 -mov    -0x58(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x1e6>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x1ef>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x40(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
++mov    -0x44(%ebp),%eax
  movl   $0x3,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z13isDayTimeOverjj>
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x231>
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x213>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x21c>
  mov    0x14(%ebp),%eax
  movl   $0x68,(%eax)
  mov    $0x0,%ebx
@@ -262,25 +242,25 @@
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
 +mov    0xc(%ebp),%eax
 +movzbl 0x13(%eax),%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x22d>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x236>
 +mov    0xc(%ebp),%eax
 +movzbl 0x38(%eax),%eax
 +test   %al,%al
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x2e7>
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x2f0>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    0xc(%ebp),%eax
 +movzbl 0x13(%eax),%eax
 +test   %al,%al
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x299>
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x2a2>
  movl   $0x114f,0x8(%esp)
  movl   $&_ZZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_E12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
@@ -295,7 +275,7 @@
  movl   $"CDBManager::QueryGuildCreate server_group(%d), charac_no(%d) CharacName NULL\n",0x8(%esp)
  movl   $"./log/TraceGuildErr",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x303>
@@ -305,11 +285,11 @@
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
  movl   $0x1151,0x8(%esp)
  movl   $&_ZZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_E12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
@@ -324,13 +304,12 @@
  movl   $"CDBManager::QueryGuildCreate server_group(%d), charac_no(%d) GuildName NULL\n",0x8(%esp)
  movl   $"./log/TraceGuildErr",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%esi
@@ -363,26 +342,24 @@
  mov    %ecx,0xc(%esp)
  movl   $"inSert into guild_info set server_id=%d,guild_name='%s',master_id=%s,master_no=%d,master_name='%s',guild_url='%s',create_time=now(),member_count=1",0x8(%esp)
  movl   $0x4e6c,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%esi
--mov    -0x24(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x38d>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x396>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e6c,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
@@ -392,18 +369,14 @@
 -movl   $0x2,(%eax)
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x3c1>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x3ca>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a8>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9b1>
+ mov    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -411,29 +384,27 @@
  mov    0x10(%ebp),%edx
  mov    %eax,(%edx)
 -lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  mov    0x10(%ebp),%eax
  mov    (%eax),%edx
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %edx,0xc(%esp)
  movl   $"url",0x8(%esp)
  movl   $"%s%d",0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z7sformatPKcz>
  sub    $0x4,%esp
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16StackBuffer_charcvPcEv>
 -lea    -0x31(%ebp),%edx
-+lea    -0x21(%ebp),%edx
++lea    -0x25(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x455>
@@ -469,71 +440,60 @@
 -lea    -0x31(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%esi
  mov    0x10(%ebp),%eax
  mov    (%eax),%ebx
 -lea    -0x50(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %ebx,0x10(%esp)
  mov    %eax,0xc(%esp)
  movl   $"upDate guild_info set guild_url='%s' where guild_id=%d",0x8(%esp)
  movl   $0x4f5f,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%esi
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4f5f,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x517>
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x49e>
-+mov    -0x20(%ebp),%eax
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4a7>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
  mov    (%eax),%edx
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x51e>
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4a5>
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4ae>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x523>
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4aa>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4b3>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x530>
--mov    0x14(%ebp),%eax
--movl   $0x2,(%eax)
--mov    -0x24(%ebp),%eax
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4b7>
-+mov    0x14(%ebp),%eax
-+movl   $0x2,(%eax)
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x4c0>
+ mov    0x14(%ebp),%eax
+ movl   $0x2,(%eax)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
@@ -589,51 +549,43 @@
  mov    %eax,0xc(%esp)
  movl   $"upDate guild_member set guild_id=%d,m_id=%s,charac_name='%s',grade=1,job=%d,grow_type=%d,lev=%d,born_year='%s',sex=%d,apply_time=now(),member_time=now(),member_flag=1 where charac_no=%d and server_id=%d",0x8(%esp)
  movl   $0x4e6d,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *-0x84(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e6d,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x643>
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x5c7>
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x5d0>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
  mov    (%eax),%edx
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x64a>
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x5c7>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x5d0>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x64f>
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x5cc>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x5d5>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x74f>
--mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x6c5>
-+mov    -0x20(%ebp),%eax
++jne    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x6ce>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%eax
@@ -687,36 +639,28 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_member set guild_id=%d,charac_no=%d,m_id=%s,server_id=%d,charac_name='%s',grade=1,job=%d,grow_type=%d,lev=%d,born_year='%s',sex=%d,apply_time=now(),member_time=now(),member_flag=1",0x8(%esp)
  movl   $0x4e6e,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *-0x6c(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e6e,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x74f>
--mov    0x14(%ebp),%eax
--movl   $0x2,(%eax)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x6c5>
-+mov    0x14(%ebp),%eax
-+movl   $0x2,(%eax)
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x6ce>
+ mov    0x14(%ebp),%eax
+ movl   $0x2,(%eax)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%ecx
@@ -729,43 +673,35 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_introduce set guild_id=%d,server_id=%d",0x8(%esp)
  movl   $0x4e6f,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ecx
--mov    -0x24(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x718>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x721>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x953>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x95c>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e6f,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x7b9>
--mov    0x14(%ebp),%eax
--movl   $0x2,(%eax)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x742>
-+mov    0x14(%ebp),%eax
-+movl   $0x2,(%eax)
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x74b>
+ mov    0x14(%ebp),%eax
+ movl   $0x2,(%eax)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%ecx
@@ -777,43 +713,35 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_member_introduce set guild_id=%d,charac_no=%d",0x8(%esp)
  movl   $0x4e70,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ecx
--mov    -0x24(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x791>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x79a>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x953>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x95c>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e70,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x81f>
--mov    0x14(%ebp),%eax
--movl   $0x2,(%eax)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x7bb>
-+mov    0x14(%ebp),%eax
-+movl   $0x2,(%eax)
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x7c4>
+ mov    0x14(%ebp),%eax
+ movl   $0x2,(%eax)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%ecx
@@ -826,43 +754,35 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_visit set guild_id=%d,server_id=%d, total_visit=0, today_visit=0",0x8(%esp)
  movl   $0x4e71,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ecx
--mov    -0x24(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x80e>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x817>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x953>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x95c>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e71,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x889>
--mov    0x14(%ebp),%eax
--movl   $0x2,(%eax)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x838>
-+mov    0x14(%ebp),%eax
-+movl   $0x2,(%eax)
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x841>
+ mov    0x14(%ebp),%eax
+ movl   $0x2,(%eax)
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
@@ -871,28 +791,24 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_skill set guild_id=%d",0x8(%esp)
  movl   $0x4e72,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x87d>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x886>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x953>
-+mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x95c>
+ mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4e72,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
 -xor    $0x1,%eax
@@ -901,12 +817,9 @@
 -mov    0x14(%ebp),%eax
 -movl   $0x2,(%eax)
 -mov    -0x20(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x8a7>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x8b0>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    -0x1c(%ebp),%eax
@@ -934,11 +847,11 @@
 -mov    -0x20(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x90d>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x916>
 +mov    0x14(%ebp),%eax
 +movl   $0x2,(%eax)
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x953>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x95c>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -957,7 +870,7 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x937>
++je     <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x940>
  mov    0x14(%ebp),%eax
  movl   $0x2,(%eax)
  mov    $0x1,%ebx
@@ -965,42 +878,42 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x992>
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x953>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x95c>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x50(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x960>
-+lea    -0x30(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x969>
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x975>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x97e>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN16StackBuffer_charD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x982>
-+lea    -0x2c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x98b>
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN16StackBuffer_charD1Ev>
-+jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x99d>
++jmp    <T> <_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_+0x9a6>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x21(%ebp),%eax
++lea    -0x25(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
-+lea    -0x21(%ebp),%eax
++lea    -0x25(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
  mov    %ebx,%eax

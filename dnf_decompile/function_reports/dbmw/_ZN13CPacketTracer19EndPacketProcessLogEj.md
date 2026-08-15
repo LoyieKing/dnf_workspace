@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x80928f2` | `0xa6` | `0x80cedb4` | `0xa6` |
+| dbmw | NEAR | `0x80928f2` | `0xa6` | `0x80cee20` | `0xa6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -117,7 +117,7 @@ void CPacketTracer::_ZN13CPacketTracer19EndPacketProcessLogEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 76 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 75 行）：
 
 ```cpp
 void CPacketTracer::EndPacketProcessLog(unsigned int id)

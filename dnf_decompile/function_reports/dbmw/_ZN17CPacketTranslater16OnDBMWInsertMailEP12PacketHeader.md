@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ca50` | `0x28f` | `0x80d3c5a` | `0x28b` |
+| dbmw | DIFF | `0x809ca50` | `0x28f` | `0x80d3cee` | `0x28b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -268,7 +268,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1028 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1034 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)

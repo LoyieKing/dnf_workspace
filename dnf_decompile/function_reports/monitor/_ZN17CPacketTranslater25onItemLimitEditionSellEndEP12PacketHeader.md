@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b0b2` | `0x3e7` | `0x807686a` | `0x40a` |
+| monitor | DIFF | `0x808b0b2` | `0x3e7` | `0x80767f0` | `0x40a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -524,7 +524,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3917 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3912 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt)

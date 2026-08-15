@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807dff2` | `0x36c` | `0x806148c` | `0x34b` |
+| dbmw | DIFF | `0x807dff2` | `0x36c` | `0x80614e6` | `0x352` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,240 +1,231 @@
+@@ -1,240 +1,232 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -30,8 +30,8 @@
  jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x34>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x361>
--movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x340>
++jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x347>
+ movl   $0x0,-0x20(%ebp)
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
@@ -51,7 +51,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x34b>
-+jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x32a>
++jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x331>
  lea    -0x64(%ebp),%ebx
  mov    $0x0,%eax
  mov    $0xb,%edx
@@ -190,7 +190,7 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x347>
-+je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x326>
++je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x32d>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -276,7 +276,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x347>
-+je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x326>
++je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x32d>
  movl   $0x178c,0x8(%esp)
  movl   $&_ZZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_ValueE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -291,14 +291,13 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x361>
-+jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x340>
++jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x347>
  addl   $0x1,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  cmp    -0x20(%ebp),%eax
  setl   %al
  test   %al,%al
--jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x8d>
-+jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x86>
+ jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x8d>
  mov    $0x1,%eax
  add    $0xdc,%esp
  pop    %ebx

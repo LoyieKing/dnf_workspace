@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d0cee` | `0x31e` |
+| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d0d5a` | `0x31b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,214 +1,215 @@
+@@ -1,214 +1,214 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,7 +23,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x316>
-+je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x310>
++je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x30d>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
@@ -33,7 +33,7 @@
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x313>
++je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x310>
 +mov    -0x20(%ebp),%eax
  mov    0xf(%eax),%eax
  test   %eax,%eax
@@ -62,7 +62,7 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x311>
 +mov    -0x20(%ebp),%eax
 +mov    0xf(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
@@ -70,14 +70,11 @@
 -mov    0xf(%eax),%edx
 -mov    %edx,%eax
  sar    $0x1f,%eax
--not    %eax
+ not    %eax
 -and    %edx,%eax
--mov    %eax,-0x18(%ebp)
++and    -0x1c(%ebp),%eax
+ mov    %eax,-0x18(%ebp)
 -lea    -0x48(%ebp),%eax
-+mov    %eax,%edx
-+xor    -0x1c(%ebp),%edx
-+mov    %edx,-0x18(%ebp)
-+sub    %eax,-0x18(%ebp)
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEEC1Ev>
@@ -113,7 +110,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x14b>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x153>
++je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x150>
 +mov    -0x20(%ebp),%eax
  mov    0xb(%eax),%ebx
  movl   $0x3f5,0x8(%esp)
@@ -137,7 +134,7 @@
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x225>
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt6vectorIiSaIiEE5emptyEv>
@@ -145,7 +142,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x22e>
 -lea    -0x506(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x228>
++je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x225>
 +lea    -0x50a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Notify_New_Group_MailC1Ev>
@@ -156,18 +153,17 @@
  cmp    $0x12b,%eax
 -jg     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x190>
 -lea    -0x48(%ebp),%eax
-+ja     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x196>
++ja     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x193>
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIiSaIiEE4sizeEv>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x195>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x19b>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x198>
  mov    $0x12c,%eax
 -mov    %eax,-0x4fc(%ebp)
 +mov    %eax,-0x14(%ebp)
  movl   $0x0,-0x10(%ebp)
--jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x1c6>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x1c9>
+ jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x1c6>
  mov    -0x10(%ebp),%ebx
  mov    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -186,8 +182,7 @@
 +cmp    -0x14(%ebp),%eax
 +setl   %al
  test   %al,%al
--jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x1a4>
-+jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x1a7>
+ jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x1a4>
 +movzwl -0x508(%ebp),%eax
 +movzwl %ax,%esi
 +lea    -0x50a(%ebp),%ebx
@@ -211,7 +206,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEE5clearEv>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x22e>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x225>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x48(%ebp),%eax
@@ -222,15 +217,15 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x23e>
 -lea    -0x48(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x238>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x235>
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEED1Ev>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x311>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2ba>
-+jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2b4>
++jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2b1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -258,7 +253,7 @@
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2ad>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2aa>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -268,7 +263,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x311>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x44e,0x8(%esp)
@@ -286,7 +281,7 @@
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x309>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x306>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -296,10 +291,10 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x311>
  nop
 -add    $0x520,%esp
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x311>
 +nop
 +add    $0x530,%esp
  pop    %ebx
@@ -414,7 +409,7 @@ void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
             return;
         }
         int count = pkt->m_count;
-        int absCount = count < 0 ? -count : count;
+        int absCount = count & ~(count >> 31);
         std::vector<int> characNos;
         characNos.clear();
         if (!m_pclApp->m_dbManager.AwardGuildCoinByMail(

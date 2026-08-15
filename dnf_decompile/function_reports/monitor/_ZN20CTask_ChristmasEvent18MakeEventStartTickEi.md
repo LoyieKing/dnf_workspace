@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c0b6` | `0x287` | `0x80a06b6` | `0x293` |
+| monitor | DIFF | `0x809c0b6` | `0x287` | `0x80a072c` | `0x299` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,117 +21,88 @@
 +sub    $0xc4,%esp
  call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
 -mov    %eax,-0x14(%ebp)
-+mov    %eax,-0x48(%ebp)
++mov    %eax,-0x18(%ebp)
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x20(%ebp)
 -lea    -0x20(%ebp),%eax
-+mov    %eax,-0x54(%ebp)
-+lea    -0x54(%ebp),%eax
++mov    %eax,-0x24(%ebp)
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
--mov    (%eax),%edx
--mov    %edx,-0x50(%ebp)
+ mov    (%eax),%edx
++mov    %edx,-0x54(%ebp)
++mov    0x4(%eax),%edx
+ mov    %edx,-0x50(%ebp)
 -mov    0x4(%eax),%edx
--mov    %edx,-0x4c(%ebp)
++mov    0x8(%eax),%edx
+ mov    %edx,-0x4c(%ebp)
 -mov    0x8(%eax),%edx
--mov    %edx,-0x48(%ebp)
++mov    0xc(%eax),%edx
+ mov    %edx,-0x48(%ebp)
 -mov    0xc(%eax),%edx
--mov    %edx,-0x44(%ebp)
++mov    0x10(%eax),%edx
+ mov    %edx,-0x44(%ebp)
 -mov    0x10(%eax),%edx
--mov    %edx,-0x40(%ebp)
++mov    0x14(%eax),%edx
+ mov    %edx,-0x40(%ebp)
 -mov    0x14(%eax),%edx
--mov    %edx,-0x3c(%ebp)
++mov    0x18(%eax),%edx
+ mov    %edx,-0x3c(%ebp)
 -mov    0x18(%eax),%edx
--mov    %edx,-0x38(%ebp)
++mov    0x1c(%eax),%edx
+ mov    %edx,-0x38(%ebp)
 -mov    0x1c(%eax),%edx
--mov    %edx,-0x34(%ebp)
++mov    0x20(%eax),%edx
+ mov    %edx,-0x34(%ebp)
 -mov    0x20(%eax),%edx
--mov    %edx,-0x30(%ebp)
++mov    0x24(%eax),%edx
+ mov    %edx,-0x30(%ebp)
 -mov    0x24(%eax),%edx
 -mov    %edx,-0x2c(%ebp)
-+mov    %eax,-0x44(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x40(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,-0x3c(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x8(%eax),%eax
-+mov    %eax,-0x38(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %eax,-0x34(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x10(%eax),%eax
-+mov    %eax,-0x30(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x14(%eax),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x18(%eax),%eax
-+mov    %eax,-0x28(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x1c(%eax),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x20(%eax),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    -0x44(%ebp),%eax
-+mov    0x24(%eax),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x44(%ebp),%eax
  mov    0x28(%eax),%eax
 -mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x18(%ebp)
++mov    %eax,-0x2c(%ebp)
  call   <T> <_ZN20CTask_ChristmasEvent17getEventStartTimeEv>
 -mov    -0x20(%ebp),%edx
 -cmp    %edx,%eax
 +mov    %eax,%edx
-+mov    -0x54(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +cmp    %eax,%edx
  setg   %al
  test   %al,%al
 -je     <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x110>
--mov    -0x50(%ebp),%eax
--mov    %eax,-0x7c(%ebp)
--mov    -0x4c(%ebp),%eax
-+je     <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x12a>
-+mov    -0x34(%ebp),%eax
++je     <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x112>
++mov    -0x54(%ebp),%eax
++mov    %eax,-0x80(%ebp)
+ mov    -0x50(%ebp),%eax
+ mov    %eax,-0x7c(%ebp)
+ mov    -0x4c(%ebp),%eax
  mov    %eax,-0x78(%ebp)
--mov    -0x48(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x48(%ebp),%eax
  mov    %eax,-0x74(%ebp)
--mov    -0x44(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x44(%ebp),%eax
  mov    %eax,-0x70(%ebp)
--mov    -0x40(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    %eax,-0x6c(%ebp)
--mov    -0x3c(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x3c(%ebp),%eax
  mov    %eax,-0x68(%ebp)
--mov    -0x38(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x38(%ebp),%eax
  mov    %eax,-0x64(%ebp)
--mov    -0x34(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x34(%ebp),%eax
  mov    %eax,-0x60(%ebp)
--mov    -0x30(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,-0x5c(%ebp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,-0x58(%ebp)
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,-0x58(%ebp)
 -mov    -0x28(%ebp),%eax
 -mov    %eax,-0x54(%ebp)
 -movl   $0x0,-0x74(%ebp)
--movl   $0x0,-0x78(%ebp)
+ movl   $0x0,-0x78(%ebp)
  movl   $0x0,-0x7c(%ebp)
 -lea    -0x7c(%ebp),%eax
 +movl   $0x0,-0x80(%ebp)
-+movl   $0x0,-0x84(%ebp)
-+lea    -0x84(%ebp),%eax
++lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <mktime>
  mov    %eax,-0x10(%ebp)
@@ -153,13 +124,13 @@
  cmpl   $0x0,0x8(%ebp)
 -jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x194>
 -mov    -0x48(%ebp),%eax
-+jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x1bd>
-+mov    -0x38(%ebp),%eax
++jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x1a2>
++mov    -0x4c(%ebp),%eax
  add    $0x1,%eax
 -cmp    -0x14(%ebp),%eax
 -jle    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x194>
-+cmp    -0x48(%ebp),%eax
-+jle    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x1bd>
++cmp    -0x18(%ebp),%eax
++jle    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x1a2>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x141>
 -call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
@@ -168,32 +139,32 @@
 -add    $0x1,%eax
 -cmp    -0x14(%ebp),%eax
 -jle    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x14e>
-+jmp    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x14c>
++jmp    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x134>
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x2,-0xc(%ebp)
 -setle  %al
-+jg     <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x16c>
++jg     <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x154>
 +call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
-+mov    %eax,-0x48(%ebp)
-+mov    -0x38(%ebp),%eax
++mov    %eax,-0x18(%ebp)
++mov    -0x4c(%ebp),%eax
 +add    $0x1,%eax
-+cmp    -0x48(%ebp),%eax
-+jle    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x16c>
++cmp    -0x18(%ebp),%eax
++jle    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x154>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x171>
++jmp    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x159>
 +mov    $0x0,%eax
  test   %al,%al
 -jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x12a>
 -jmp    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x14f>
 -nop
-+jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x148>
++jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x130>
  cmpl   $0x3,-0xc(%ebp)
 -jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x194>
-+jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x1bd>
- mov    -0x48(%ebp),%eax
+-mov    -0x48(%ebp),%eax
 -add    -0x14(%ebp),%eax
-+mov    -0x38(%ebp),%edx
-+lea    (%edx,%eax,1),%eax
++jne    <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi+0x1a2>
++mov    -0x4c(%ebp),%eax
++add    -0x18(%ebp),%eax
  lea    0x1(%eax),%ecx
  mov    $0x51eb851f,%edx
  mov    %ecx,%eax
@@ -206,8 +177,8 @@
  mov    %ebx,%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%edx
-+mov    %eax,-0x48(%ebp)
-+mov    -0x48(%ebp),%edx
++mov    %eax,-0x18(%ebp)
++mov    -0x18(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -217,65 +188,52 @@
  sub    %eax,%edx
  mov    %edx,%eax
 -mov    %eax,-0x14(%ebp)
--mov    -0x50(%ebp),%eax
--mov    %eax,-0xa8(%ebp)
--mov    -0x4c(%ebp),%eax
-+mov    %eax,-0x48(%ebp)
-+mov    -0x30(%ebp),%eax
-+mov    %eax,-0xa0(%ebp)
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,-0x9c(%ebp)
-+mov    -0x28(%ebp),%eax
-+mov    %eax,-0x98(%ebp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,-0x94(%ebp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,-0x90(%ebp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,-0x8c(%ebp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,-0x88(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    -0x34(%ebp),%edx
-+lea    (%edx,%eax,1),%eax
++mov    %eax,-0x18(%ebp)
++mov    -0x54(%ebp),%eax
++mov    %eax,-0xac(%ebp)
+ mov    -0x50(%ebp),%eax
+ mov    %eax,-0xa8(%ebp)
+ mov    -0x4c(%ebp),%eax
  mov    %eax,-0xa4(%ebp)
  mov    -0x48(%ebp),%eax
--mov    %eax,-0xa0(%ebp)
--mov    -0x44(%ebp),%eax
--mov    %eax,-0x9c(%ebp)
--mov    -0x40(%ebp),%eax
--mov    %eax,-0x98(%ebp)
--mov    -0x3c(%ebp),%eax
--mov    %eax,-0x94(%ebp)
--mov    -0x38(%ebp),%eax
--mov    %eax,-0x90(%ebp)
--mov    -0x34(%ebp),%eax
--mov    %eax,-0x8c(%ebp)
--mov    -0x30(%ebp),%eax
--mov    %eax,-0x88(%ebp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,-0x84(%ebp)
+ mov    %eax,-0xa0(%ebp)
+ mov    -0x44(%ebp),%eax
+ mov    %eax,-0x9c(%ebp)
+ mov    -0x40(%ebp),%eax
+ mov    %eax,-0x98(%ebp)
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,-0x94(%ebp)
+ mov    -0x38(%ebp),%eax
+ mov    %eax,-0x90(%ebp)
+ mov    -0x34(%ebp),%eax
+ mov    %eax,-0x8c(%ebp)
+ mov    -0x30(%ebp),%eax
+ mov    %eax,-0x88(%ebp)
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,-0x84(%ebp)
 -mov    -0x28(%ebp),%eax
 -mov    %eax,-0x80(%ebp)
 -mov    -0x9c(%ebp),%eax
--add    0x8(%ebp),%eax
++mov    -0x48(%ebp),%eax
+ add    0x8(%ebp),%eax
 -mov    %eax,-0x9c(%ebp)
 -mov    -0x14(%ebp),%eax
++mov    %eax,-0xa0(%ebp)
++mov    -0x18(%ebp),%eax
  sub    $0x1,%eax
 -mov    %eax,-0xa0(%ebp)
 -movl   $0x0,-0xa4(%ebp)
--movl   $0x0,-0xa8(%ebp)
++mov    %eax,-0xa4(%ebp)
+ movl   $0x0,-0xa8(%ebp)
 -lea    -0xa8(%ebp),%eax
-+mov    %eax,-0xa8(%ebp)
 +movl   $0x0,-0xac(%ebp)
-+movl   $0x0,-0xb0(%ebp)
-+lea    -0xb0(%ebp),%eax
++lea    -0xac(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <mktime>
 -mov    %eax,-0x24(%ebp)
 -lea    -0x24(%ebp),%eax
-+mov    %eax,-0x58(%ebp)
-+lea    -0x58(%ebp),%eax
++mov    %eax,-0x28(%ebp)
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <ctime>
 -mov    %eax,%ebx
@@ -283,7 +241,7 @@
  movl   $0x96,0x8(%esp)
  movl   $&_ZZN20CTask_ChristmasEvent18MakeEventStartTickEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -292,12 +250,12 @@
  movl   $"Next X_Mas Event Time! (%s)",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x24(%ebp),%eax
 -add    $0xb4,%esp
-+mov    -0x58(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +add    $0xc4,%esp
  pop    %ebx
  pop    %ebp
@@ -405,57 +363,31 @@ unsigned int CTask_ChristmasEvent::MakeEventStartTick(int param_1)
 {
     int eventHour = DecideEventTime();
     time_t now = time(0);
-    tm* pt = localtime(&now);
-    int sec = pt->tm_sec;
-    int min = pt->tm_min;
-    int hour = pt->tm_hour;
-    int mday = pt->tm_mday;
-    int mon = pt->tm_mon;
-    int year = pt->tm_year;
-    int wday = pt->tm_wday;
-    int yday = pt->tm_yday;
-    int isdst = pt->tm_isdst;
-    long gmtoff = pt->tm_gmtoff;
-    char* zone = (char*)pt->tm_zone;
+    tm nowTm = *localtime(&now);
 
     if (now < (time_t)getEventStartTime())
     {
-        tm t;
-        t.tm_mday = mday;
-        t.tm_mon = mon;
-        t.tm_year = year;
-        t.tm_wday = wday;
-        t.tm_yday = yday;
-        t.tm_isdst = isdst;
-        t.tm_gmtoff = gmtoff;
-        t.tm_zone = zone;
+        tm t = nowTm;
         t.tm_hour = 0;
         t.tm_min = 0;
         t.tm_sec = 0;
         time_t midnight = mktime(&t);
         param_1 = (int)(((time_t)getEventStartTime() - midnight) / 86400);
     }
-    if (param_1 == 0 && eventHour < hour + 1)
+    if (param_1 == 0 && eventHour < nowTm.tm_hour + 1)
     {
         int n = 0;
-        while (n < 3 && (eventHour = DecideEventTime(), eventHour < hour + 1))
+        while (n < 3 && (eventHour = DecideEventTime(), eventHour < nowTm.tm_hour + 1))
         {
             n++;
         }
         if (n == 3)
         {
-            eventHour = (hour + eventHour + 1) % 25;
+            eventHour = (nowTm.tm_hour + eventHour + 1) % 25;
         }
     }
-    tm t2;
-    t2.tm_mon = mon;
-    t2.tm_year = year;
-    t2.tm_wday = wday;
-    t2.tm_yday = yday;
-    t2.tm_isdst = isdst;
-    t2.tm_gmtoff = gmtoff;
-    t2.tm_zone = zone;
-    t2.tm_mday = mday + param_1;
+    tm t2 = nowTm;
+    t2.tm_mday = nowTm.tm_mday + param_1;
     t2.tm_hour = eventHour - 1;
     t2.tm_min = 0;
     t2.tm_sec = 0;

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807efb2` | `0x5ef` | `0x806a5d8` | `0x5e9` |
+| monitor | DIFF | `0x807efb2` | `0x5ef` | `0x806a57c` | `0x5e9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -405,8 +405,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj>
 -mov    -0x20(%ebp),%eax
+-mov    0x32(%eax),%eax
 +mov    -0x34(%ebp),%eax
- mov    0x32(%eax),%eax
++mov    0xc(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x399>
 +je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x40c>
@@ -427,9 +428,10 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x399>
 -mov    -0x20(%ebp),%eax
+-mov    0x32(%eax),%eax
 +je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x40c>
 +mov    -0x34(%ebp),%eax
- mov    0x32(%eax),%eax
++mov    0xc(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x2d0(%edx),%ecx
 -mov    -0x28(%ebp),%edx

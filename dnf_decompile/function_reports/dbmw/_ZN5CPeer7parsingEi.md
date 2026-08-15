@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ecb74` | `0x484` |
+| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ecc30` | `0x484` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -513,6 +513,7 @@ bool CPeer::parsing(int len)
     PacketHeader hdr(0, 0);
     int parsinglength = m_recvLen + len;
     int headerSize = 10;
+    (void)headerSize;
     if (parsinglength <= 9)
     {
         m_recvLen += len;
@@ -554,7 +555,6 @@ bool CPeer::parsing(int len)
         {
             CGuard<CMutex> guard(m_sendQLock);
             m_recvQ->push(buf);
-            int qsize = m_recvQ->size();
         }
         parsinglength -= size;
         m_sendBuf += size;

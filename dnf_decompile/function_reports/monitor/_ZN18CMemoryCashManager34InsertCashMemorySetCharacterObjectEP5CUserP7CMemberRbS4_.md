@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0cbc` | `0x1bc` | `0x80985ae` | `0x1a8` |
+| monitor | DIFF | `0x80a0cbc` | `0x1bc` | `0x80985a8` | `0x1bd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,137 +1,132 @@
+@@ -1,137 +1,138 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0xdc,%esp
+ sub    $0xdc,%esp
 -movb   $0x0,-0x39(%ebp)
 -lea    -0x39(%ebp),%eax
-+sub    $0xcc,%esp
-+movb   $0x0,-0x29(%ebp)
-+lea    -0x29(%ebp),%eax
++movb   $0x0,-0x31(%ebp)
++lea    -0x31(%ebp),%eax
  mov    %eax,0x14(%esp)
  mov    0x18(%ebp),%eax
  mov    %eax,0x10(%esp)
@@ -43,7 +42,7 @@
 +test   %al,%al
 +je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x51>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x19d>
++jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x1b2>
  movl   $0xa8,(%esp)
  call   <T> <_ZN11CCashObjectnwEj>
  mov    %eax,%ebx
@@ -62,7 +61,7 @@
  call   <T> <_Unwind_Resume>
  mov    %ebx,%eax
 -mov    %eax,-0x40(%ebp)
-+mov    %eax,-0x30(%ebp)
++mov    %eax,-0x38(%ebp)
  mov    0x14(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
@@ -77,7 +76,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    -0x40(%ebp),%edx
-+mov    -0x30(%ebp),%edx
++mov    -0x38(%ebp),%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN11CCashObject11SetCharacNoEj>
@@ -90,7 +89,7 @@
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0xd8>
 -mov    -0x40(%ebp),%eax
 +je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0xe3>
-+mov    -0x30(%ebp),%eax
++mov    -0x38(%ebp),%eax
  mov    0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -102,20 +101,18 @@
  movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x121>
--lea    -0xc0(%ebp),%eax
 +je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x12c>
-+lea    -0xb8(%ebp),%eax
+ lea    -0xc0(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser9GetBuddysEPP6CBuddy>
  mov    %eax,-0x1c(%ebp)
 -mov    -0x40(%ebp),%eax
-+mov    -0x30(%ebp),%eax
++mov    -0x38(%ebp),%eax
  mov    -0x1c(%ebp),%edx
  mov    %edx,0x8(%esp)
--lea    -0xc0(%ebp),%edx
-+lea    -0xb8(%ebp),%edx
+ lea    -0xc0(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject15SetBuddysObjectEPP6CBuddyi>
@@ -126,46 +123,43 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
  mov    %eax,-0x20(%ebp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,0x4(%esp)
  lea    -0x28(%ebp),%eax
 -lea    -0x40(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    -0x20(%ebp),%edx
--mov    %edx,0x4(%esp)
++lea    -0x38(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    -0x20(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIjRP11CCashObjectESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
--sub    $0x4,%esp
--lea    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKjP11CCashObjectEC1IjS2_EEOS_IT_T0_E>
-+call   <T> <_ZNSt4pairIKjP11CCashObjectEC1IjRS2_EEOT_OT0_>
+ call   <T> <_ZSt9make_pairIjRP11CCashObjectESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
+ sub    $0x4,%esp
+ lea    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKjP11CCashObjectEC1IjS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x18(%eax),%ecx
- lea    -0x38(%ebp),%eax
--lea    -0x30(%ebp),%edx
-+lea    -0x28(%ebp),%edx
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
+ lea    -0x30(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
- movzbl -0x34(%ebp),%eax
+-movzbl -0x34(%ebp),%eax
 -xor    $0x1,%eax
++movzbl -0x3c(%ebp),%eax
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x1a5>
 -mov    -0x40(%ebp),%ebx
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x181>
++je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x196>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x19d>
-+mov    -0x30(%ebp),%ebx
++jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x1b2>
++mov    -0x38(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x19e>
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x198>
++je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x1ad>
  mov    %ebx,(%esp)
  call   <T> <_ZN11CCashObjectD1Ev>
  mov    %ebx,(%esp)

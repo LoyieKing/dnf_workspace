@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x807140a` | `0xdf` | `0x808c378` | `0xdf` |
+| monitor | NEAR | `0x807140a` | `0xdf` | `0x808c336` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -134,7 +134,7 @@ CUserManager::_ZN12CUserManager19InsertUser_CharNameEPcP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 461 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 448 行）：
 
 ```cpp
 bool CUserManager::InsertUser_CharName(char* name, CUser* user)

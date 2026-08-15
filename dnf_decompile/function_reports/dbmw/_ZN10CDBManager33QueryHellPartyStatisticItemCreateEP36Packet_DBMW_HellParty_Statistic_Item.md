@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807edc2` | `0x279` | `0x8050f6e` | `0x1f8` |
+| dbmw | DIFF | `0x807edc2` | `0x279` | `0x8050f8c` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,190 +1,146 @@
+@@ -1,190 +1,147 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,22 +35,23 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x26e>
 -movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1ed>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1f4>
++movl   $0x0,-0x28(%ebp)
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x20(%ebp)
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
++mov    %eax,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x24(%ebp)
++mov    %eax,-0x28(%ebp)
  movl   $0x1848,0x8(%esp)
  movl   $&_ZZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_ItemE12__FUNCTION__,0x4(%esp)
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x20(%ebp),%eax
-+mov    -0x24(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Packet_DBMW_HellParty_Statistic_Item : (%d) 개 패킷 수신\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
@@ -67,7 +68,7 @@
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1d7>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1de>
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
@@ -76,7 +77,7 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x1a(%eax),%eax
-+add    -0x28(%ebp),%eax
++add    -0x24(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +mov    -0x2c(%ebp),%eax
 +mov    (%eax),%eax
@@ -234,7 +235,7 @@
 +call   *-0x5c(%ebp)
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1ab>
++je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1b2>
 +movl   $0x185c,0x8(%esp)
 +movl   $&_ZZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_ItemE12__FUNCTION__,0x4(%esp)
 +lea    -0x40(%ebp),%eax
@@ -246,7 +247,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1ed>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1f4>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -269,20 +270,20 @@
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1d3>
++je     <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1da>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x26e>
 -addl   $0x1,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -cmp    -0x20(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1ed>
++jmp    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x1f4>
 +addl   $0x1,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
-+cmp    -0x24(%ebp),%eax
++cmp    -0x28(%ebp),%eax
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x8d>
-+jne    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x8e>
++jne    <T> <_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item+0x95>
  mov    $0x1,%eax
 -add    $0x8c,%esp
 +add    $0x9c,%esp

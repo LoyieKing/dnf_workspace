@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a034e` | `0x1e4` | `0x80d7158` | `0x1ee` |
+| dbmw | DIFF | `0x80a034e` | `0x1e4` | `0x80d71ec` | `0x1ee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -211,7 +211,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1796 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1802 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)

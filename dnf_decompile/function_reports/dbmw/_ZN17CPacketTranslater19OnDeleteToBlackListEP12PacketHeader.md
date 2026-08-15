@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809511c` | `0x298` | `0x80d23b0` | `0x29a` |
+| dbmw | DIFF | `0x809511c` | `0x298` | `0x80d2444` | `0x29a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -258,7 +258,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 679 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 685 行）：
 
 ```cpp
 void CPacketTranslater::OnDeleteToBlackList(PacketHeader* header)

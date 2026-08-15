@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80ced52` | `0xc0` |
+| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80ced4e` | `0xd1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,10 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,61 +1,60 @@
+@@ -1,61 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0x58,%esp
+-sub    $0x58,%esp
++sub    $0x68,%esp
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    (%eax),%eax
@@ -32,8 +33,7 @@
 +call   *%eax
  mov    0x8(%ebp),%eax
  lea    0xc(%eax),%ecx
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
@@ -42,56 +42,48 @@
  sub    $0x4,%esp
  mov    0x8(%ebp),%eax
  lea    0xc(%eax),%edx
--lea    -0x34(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIj15stPacketProcessSt4lessIjESaISt4pairIKjS0_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x34(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEeqERKS4_>
  test   %al,%al
 -je     <T> <_ZN13CPacketTracer21StartPacketProcessLogEj+0xc1>
--movl   $0x0,-0x40(%ebp)
-+je     <T> <_ZN13CPacketTracer21StartPacketProcessLogEj+0xbe>
-+movl   $0x0,-0x30(%ebp)
++je     <T> <_ZN13CPacketTracer21StartPacketProcessLogEj+0xcf>
+ movl   $0x0,-0x40(%ebp)
  fldz
--fstpl  -0x48(%ebp)
-+fstpl  -0x38(%ebp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIj15stPacketProcessEC1ERKjRKS0_>
-+lea    -0x48(%ebp),%eax
-+mov    %eax,0x4(%esp)
+ fstpl  -0x48(%ebp)
++mov    0xc(%ebp),%edx
  lea    -0x18(%ebp),%eax
 -lea    -0x48(%ebp),%edx
 -mov    %edx,0x8(%esp)
 -lea    0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
++mov    -0x48(%ebp),%ecx
++mov    %ecx,0x8(%esp)
++mov    -0x44(%ebp),%ecx
++mov    %ecx,0xc(%esp)
++mov    -0x40(%ebp),%ecx
++mov    %ecx,0x10(%esp)
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
 -call   <T> <_ZSt9make_pairIRjR15stPacketProcessESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
--sub    $0x4,%esp
--lea    -0x18(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
++call   <T> <_ZSt9make_pairIj15stPacketProcessESt4pairIT_T0_ES2_S3_>
+ sub    $0x4,%esp
+ lea    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairIKj15stPacketProcessEC1IjS1_EEOS_IT_T0_E>
 +call   <T> <_ZNSt4pairIKj15stPacketProcessEC1IjS1_EERKS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0xc(%eax),%ecx
--lea    -0x30(%ebp),%eax
--lea    -0x28(%ebp),%edx
-+lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%edx
+ lea    -0x30(%ebp),%eax
+ lea    -0x28(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -140,7 +132,7 @@ void CPacketTracer::_ZN13CPacketTracer21StartPacketProcessLogEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 63 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 62 行）：
 
 ```cpp
 void CPacketTracer::StartPacketProcessLog(unsigned int id)
@@ -153,8 +145,7 @@ void CPacketTracer::StartPacketProcessLog(unsigned int id)
         stPacketProcess p;
         p.m_count = 0;
         p.m_accTime = 0.0;
-        std::pair<unsigned int, stPacketProcess> pr(id, p);
-        m_processMap.insert(pr);
+        m_processMap.insert(std::make_pair(id, p));
     }
 }
 ```

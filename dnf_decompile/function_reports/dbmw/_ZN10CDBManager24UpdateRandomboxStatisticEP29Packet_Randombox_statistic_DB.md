@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8083460` | `0x176` | `0x8051ed6` | `0x173` |
+| dbmw | DIFF | `0x8083460` | `0x176` | `0x8051f02` | `0x175` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,99 +1,96 @@
+@@ -1,99 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -31,28 +31,23 @@
  jne    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x3c>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x170>
-+jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x16d>
++jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x16f>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x15c>
--mov    -0xc(%ebp),%eax
--test   %eax,%eax
--je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x56>
--cmp    $0x2,%eax
--je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x73>
--jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x8e>
-+jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x159>
-+cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x6b>
++jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x15b>
+ mov    -0xc(%ebp),%eax
+ test   %eax,%eax
+ je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x56>
+ cmp    $0x2,%eax
+ je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x73>
+ jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x8e>
  movl   $0xa,0x8(%esp)
  movl   $"randombox",0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x8e>
-+jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x8c>
-+cmpl   $0x2,-0xc(%ebp)
-+jne    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x8c>
+ jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x8e>
  movl   $0xb,0x8(%esp)
  movl   $"emeraldbox",0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -64,16 +59,14 @@
 -mov    0xc(%ebp),%eax
  mov    0xa(%eax,%edx,4),%eax
  test   %eax,%eax
--jne    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0xb1>
-+jne    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0xaf>
+ jne    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0xb1>
 +mov    0xc(%ebp),%eax
  mov    -0xc(%ebp),%edx
 -mov    0xc(%ebp),%eax
  add    $0x4,%edx
  mov    0xe(%eax,%edx,4),%eax
  test   %eax,%eax
--je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x157>
-+je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x155>
+ je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x157>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -108,7 +101,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x158>
-+je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x155>
++je     <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x157>
  movl   $0x207b,0x8(%esp)
  movl   $&_ZZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DBE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -124,7 +117,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x170>
 -nop
-+jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x16d>
++jmp    <T> <_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB+0x16f>
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x4,-0xc(%ebp)
  setle  %al

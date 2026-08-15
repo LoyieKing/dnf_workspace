@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a094a` | `0x142` |
+| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a09c6` | `0x146` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,70 +1,81 @@
+@@ -1,70 +1,83 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -49,12 +49,13 @@
 +mov    %eax,-0x20(%ebp)
  call   <T> <_ZN20CTask_ChristmasEvent15getEventEndTimeEv>
 -cmp    -0xc(%ebp),%eax
--setl   %al
-+cmp    -0x20(%ebp),%eax
-+setb   %al
++mov    %eax,%edx
++mov    -0x20(%ebp),%eax
++cmp    %eax,%edx
+ setl   %al
  test   %al,%al
 -je     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xa5>
-+je     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xa4>
++je     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xa8>
  movl   $0xc3,0x8(%esp)
  movl   $&_ZZN20CTask_ChristmasEvent10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -68,7 +69,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x11f>
-+jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x13a>
++jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x13e>
  movl   $0x10,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -81,7 +82,7 @@
  call   <T> <_ZN20CTask_ChristmasEventC1Ejj>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xe5>
++jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xe9>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -168,7 +169,7 @@ void CTask_ChristmasEvent::_ZN20CTask_ChristmasEvent10_DoExecuteEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 127 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 101 行）：
 
 ```cpp
 void CTask_ChristmasEvent::_DoExecute()
@@ -180,7 +181,7 @@ void CTask_ChristmasEvent::_DoExecute()
     ((CApplication*)CApplicationInstance())->Get_ServerHandler()->SendAllToGameServer(
         (char*)&pkt, 0x12);
     unsigned int t = MakeEventStartTick(1);
-    if (getEventEndTime() < (long long)t)
+    if ((int)getEventEndTime() < (int)t)
     {
         DNF_LOG_SCOPE_LINE(0xc3, "./log/GameServer", "End X_Mas Event!");
     }

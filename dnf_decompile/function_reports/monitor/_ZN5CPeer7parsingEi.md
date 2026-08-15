@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80513d4` | `0x489` | `0x809c1aa` | `0x482` |
+| monitor | DIFF | `0x80513d4` | `0x489` | `0x809c222` | `0x480` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,289 +1,288 @@
+@@ -1,289 +1,286 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -41,9 +41,8 @@
 +add    0xc(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
 +movl   $0xa,-0x24(%ebp)
-+mov    -0x28(%ebp),%eax
-+cmp    $0x9,%eax
-+jg     <T> <_ZN5CPeer7parsingEi+0xda>
++cmpl   $0x9,-0x28(%ebp)
++jg     <T> <_ZN5CPeer7parsingEi+0xd8>
 +mov    0x8(%ebp),%eax
 +mov    0x1820(%eax),%eax
 +mov    %eax,%edx
@@ -80,12 +79,12 @@
 -mov    $0x1,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -nop
-+jmp    <T> <_ZN5CPeer7parsingEi+0x473>
++jmp    <T> <_ZN5CPeer7parsingEi+0x471>
  mov    0x8(%ebp),%eax
  mov    0x1820(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN5CPeer7parsingEi+0x10d>
-+je     <T> <_ZN5CPeer7parsingEi+0x106>
++je     <T> <_ZN5CPeer7parsingEi+0x104>
  mov    0x8(%ebp),%eax
  mov    0x181c(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -106,10 +105,10 @@
  mov    %eax,-0x20(%ebp)
  cmpl   $0x9,-0x20(%ebp)
 -jbe    <T> <_ZN5CPeer7parsingEi+0x14a>
-+jbe    <T> <_ZN5CPeer7parsingEi+0x143>
++jbe    <T> <_ZN5CPeer7parsingEi+0x141>
  cmpl   $0x1800,-0x20(%ebp)
 -jbe    <T> <_ZN5CPeer7parsingEi+0x1d8>
-+jbe    <T> <_ZN5CPeer7parsingEi+0x1d1>
++jbe    <T> <_ZN5CPeer7parsingEi+0x1cf>
  mov    0x8(%ebp),%eax
  mov    0x1824(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -142,11 +141,11 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x478>
++jmp    <T> <_ZN5CPeer7parsingEi+0x476>
 +mov    -0x28(%ebp),%eax
  cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
-+jae    <T> <_ZN5CPeer7parsingEi+0x21b>
++jae    <T> <_ZN5CPeer7parsingEi+0x219>
 +movl   $0x100,0x8(%esp)
 +movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 +lea    -0x40(%ebp),%eax
@@ -159,7 +158,7 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x397>
++jmp    <T> <_ZN5CPeer7parsingEi+0x396>
  mov    0x8(%ebp),%eax
  mov    0x182c(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -199,7 +198,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x295>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x2cc>
++jmp    <T> <_ZN5CPeer7parsingEi+0x2ca>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x64(%ebp),%eax
@@ -213,16 +212,19 @@
  mov    0x1828(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
--mov    %eax,-0x28(%ebp)
 +mov    %eax,-0x1c(%ebp)
- lea    -0x68(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
++lea    -0x68(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    -0x28(%ebp),%eax
++sub    -0x20(%ebp),%eax
+ mov    %eax,-0x28(%ebp)
+-lea    -0x68(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -mov    -0x24(%ebp),%eax
 -sub    -0x20(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
-+mov    -0x20(%ebp),%eax
-+sub    %eax,-0x28(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x181c(%eax),%eax
  mov    %eax,%edx
@@ -235,8 +237,8 @@
 -je     <T> <_ZN5CPeer7parsingEi+0x304>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x318>
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN5CPeer7parsingEi+0x338>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x349>
++je     <T> <_ZN5CPeer7parsingEi+0x339>
++jmp    <T> <_ZN5CPeer7parsingEi+0x34a>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x68(%ebp),%eax
@@ -253,12 +255,11 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
 -cmpl   $0x9,-0x24(%ebp)
 -jg     <T> <_ZN5CPeer7parsingEi+0xe0>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x397>
-+mov    -0x28(%ebp),%eax
-+cmp    $0x9,%eax
++jmp    <T> <_ZN5CPeer7parsingEi+0x396>
++cmpl   $0x9,-0x28(%ebp)
 +setg   %al
 +test   %al,%al
-+jne    <T> <_ZN5CPeer7parsingEi+0xda>
++jne    <T> <_ZN5CPeer7parsingEi+0xd8>
  movl   $0xf8,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
@@ -295,11 +296,10 @@
 -cmp    $0x1800,%eax
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x28(%ebp),%eax
-+test   %eax,%eax
-+jle    <T> <_ZN5CPeer7parsingEi+0x473>
++cmpl   $0x0,-0x28(%ebp)
++jle    <T> <_ZN5CPeer7parsingEi+0x471>
 +cmpl   $0x1800,-0x28(%ebp)
-+jbe    <T> <_ZN5CPeer7parsingEi+0x431>
++jle    <T> <_ZN5CPeer7parsingEi+0x42f>
  movl   $0x10e,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -334,7 +334,7 @@
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x181c(%eax)
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47a>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x42a>
++jmp    <T> <_ZN5CPeer7parsingEi+0x428>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 -mov    -0x24(%ebp),%eax
@@ -345,7 +345,7 @@
  mov    $0x0,%ebx
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x478>
++jmp    <T> <_ZN5CPeer7parsingEi+0x476>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -354,23 +354,23 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN5CPeer7parsingEi+0x478>
++jmp    <T> <_ZN5CPeer7parsingEi+0x476>
++mov    -0x28(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x181c(%eax),%eax
-+mov    0x8(%ebp),%edx
-+lea    0x1c(%edx),%ecx
-+mov    -0x28(%ebp),%edx
++mov    0x8(%ebp),%ecx
++add    $0x1c,%ecx
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    %ecx,(%esp)
 +call   <T> <memmove>
-+mov    -0x28(%ebp),%edx
 +mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%edx
 +mov    %edx,0x1820(%eax)
 +mov    0x8(%ebp),%eax
-+add    $0x1c,%eax
-+mov    %eax,%edx
-+add    -0x28(%ebp),%edx
++lea    0x1c(%eax),%edx
++mov    -0x28(%ebp),%eax
++add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x181c(%eax)
  mov    $0x1,%ebx
@@ -510,9 +510,9 @@ LAB_08051773:
 bool CPeer::parsing(int recvLen)
 {
     PacketHeader header(0, 0);
-    unsigned int totalLen = (unsigned int)(m_remainLen + recvLen);
+    int totalLen = m_remainLen + recvLen;
     int headerSize = 10;
-    if ((int)totalLen < 10)
+    if (totalLen < 10)
     {
         m_remainLen = m_remainLen + recvLen;
         m_buf = m_buf + recvLen;
@@ -538,7 +538,7 @@ bool CPeer::parsing(int recvLen)
                 m_remainLen = 0;
                 return 0;
             }
-            if (totalLen < pktSize)
+            if ((unsigned int)totalLen < pktSize)
             {
                 DNF_LOG_SCOPE_LINE(0x100,"./log/TcpRecv",
                     "need more data (packetsize > (unsigned int)parsinglength): body=%d !!",

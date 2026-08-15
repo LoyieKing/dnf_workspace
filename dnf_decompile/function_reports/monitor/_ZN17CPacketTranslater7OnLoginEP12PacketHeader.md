@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x806958a` | `0x644` |
+| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x8069586` | `0x644` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -596,14 +596,11 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x1ff,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater7OnLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)

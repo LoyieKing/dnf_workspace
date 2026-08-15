@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a1034` | `0x245` | `0x80980b4` | `0x207` |
+| monitor | DIFF | `0x80a1034` | `0x245` | `0x80980ae` | `0x207` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -350,7 +350,7 @@ char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
                     if (QueryUpdatedCharacName(key, name))
                     {
                         char buf[30];
-                        memset(buf, 0, 30);
+                        __builtin_memset(buf, 0, 0x1e);
                         strncpy(buf, name.c_str(), 0x1d);
                         bu->ChangeCharName(buf);
                     }

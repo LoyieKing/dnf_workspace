@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e364` | `0x3bf` | `0x8079afe` | `0x3ab` |
+| monitor | DIFF | `0x808e364` | `0x3bf` | `0x8079a8a` | `0x3ab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -425,7 +425,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4777 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4767 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
