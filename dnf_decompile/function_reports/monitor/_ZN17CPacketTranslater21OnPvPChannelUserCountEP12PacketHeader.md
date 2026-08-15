@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x80755a8` | `0x175` |
+| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x80755a8` | `0x181` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,100 @@
+@@ -1,100 +1,101 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -36,7 +36,7 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x173>
-+je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16b>
++je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x177>
  mov    -0x10(%ebp),%eax
 -mov    0x26(%eax),%eax
 -mov    %eax,%ebx
@@ -66,52 +66,53 @@
 -lea    -0x1810(%ebp),%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16b>
-+lea    -0x1815(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x177>
++lea    -0x1814(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_PvPChannelInfoC1Ev>
  mov    -0x10(%ebp),%eax
  mov    0xa(%eax),%eax
--mov    %eax,-0x1806(%ebp)
-+mov    %eax,-0x180b(%ebp)
++mov    %eax,-0x180a(%ebp)
++mov    -0x10(%ebp),%eax
++mov    0xe(%eax),%eax
+ mov    %eax,-0x1806(%ebp)
  mov    -0x10(%ebp),%eax
- mov    0xe(%eax),%eax
--mov    %eax,-0x1802(%ebp)
-+mov    %eax,-0x1807(%ebp)
- mov    -0x10(%ebp),%eax
- mov    0x12(%eax),%eax
+-mov    0xe(%eax),%eax
++mov    0x12(%eax),%eax
+ mov    %eax,-0x1802(%ebp)
+-mov    -0x10(%ebp),%eax
+-mov    0x12(%eax),%eax
 -mov    %eax,-0x17fe(%ebp)
 -movb   $0xff,-0x17f9(%ebp)
 -lea    -0x1810(%ebp),%eax
 -add    $0x17,%eax
-+mov    %eax,-0x1803(%ebp)
-+movb   $0xff,-0x1d(%ebp)
-+lea    -0x1815(%ebp),%eax
-+lea    0x18(%eax),%edx
-+lea    -0x1d(%ebp),%eax
- mov    %eax,0x8(%esp)
+-mov    %eax,0x8(%esp)
 -lea    -0x1810(%ebp),%eax
--add    $0x18,%eax
--mov    %eax,0x4(%esp)
-+mov    %edx,0x4(%esp)
++movb   $0xff,-0x17fd(%ebp)
++lea    -0x1814(%ebp),%eax
+ add    $0x18,%eax
++lea    -0x1814(%ebp),%edx
++add    $0x17,%edx
++mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser19GetChannelUserCountEP16STPvPChannelInfoRh>
 -movzbl -0x17f9(%ebp),%eax
-+movzbl -0x1d(%ebp),%eax
++movzbl -0x17fd(%ebp),%eax
  movzbl %al,%eax
  shl    $0x4,%eax
  add    $0x18,%eax
 -mov    %ax,-0x180e(%ebp)
 -lea    -0x1810(%ebp),%eax
-+mov    %ax,-0x1813(%ebp)
-+lea    -0x1815(%ebp),%eax
++mov    %ax,-0x1812(%ebp)
++lea    -0x1814(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x173>
-+jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16b>
++jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x177>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x13d3,0x8(%esp)
@@ -128,7 +129,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x16e>
-+jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x166>
++jmp    <T> <_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader+0x172>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -209,10 +210,10 @@ void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt)
                 reply.m_charNo = cnt->m_charNo;
                 reply.m_fieldE = cnt->m_fieldE;
                 reply.m_field12 = cnt->m_field12;
-                unsigned char count = 0xff;
-                user->GetChannelUserCount((STPvPChannelInfo*)reply.m_channels, count);
+                reply.m_count = 0xff;
+                user->GetChannelUserCount((STPvPChannelInfo*)reply.m_channels, reply.m_count);
                 reply.packetSize =
-                    (unsigned short)((unsigned int)count * 0x10 + 0x18);
+                    (unsigned short)((unsigned int)reply.m_count * 0x10 + 0x18);
                 user->SendTcpGameserver(&reply);
             }
         }

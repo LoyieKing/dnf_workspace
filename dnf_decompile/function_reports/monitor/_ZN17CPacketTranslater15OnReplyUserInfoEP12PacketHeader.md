@@ -405,9 +405,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj>
 -mov    -0x20(%ebp),%eax
--mov    0x32(%eax),%eax
 +mov    -0x34(%ebp),%eax
-+mov    0xc(%eax),%eax
+ mov    0x32(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x399>
 +je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x40c>
@@ -428,10 +427,9 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x399>
 -mov    -0x20(%ebp),%eax
--mov    0x32(%eax),%eax
 +je     <T> <_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader+0x40c>
 +mov    -0x34(%ebp),%eax
-+mov    0xc(%eax),%eax
+ mov    0x32(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x2d0(%edx),%ecx
 -mov    -0x28(%ebp),%edx
