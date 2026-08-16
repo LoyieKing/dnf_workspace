@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809e5e0` | `0x1fe` | `0x805793e` | `0x20f` |
+| monitor | DIFF | `0x809e5e0` | `0x1fe` | `0x805793e` | `0x221` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,150 +1,155 @@
+@@ -1,150 +1,161 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x60,%esp
-+sub    $0x70,%esp
+ sub    $0x60,%esp
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  test   %eax,%eax
@@ -38,23 +37,25 @@
  movl   $0x5a,0x8(%esp)
  movl   $&_ZZN12CBuddyHandle5addDBEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Buddy::addDB m_prUser is NULL",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1f4>
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x205>
++mov    $0x1,%ebx
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x215>
  cmpl   $0x0,0x10(%ebp)
  jne    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x84>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1f4>
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x205>
++mov    $0x1,%ebx
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x215>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4sizeEv>
@@ -62,13 +63,11 @@
  seta   %al
  test   %al,%al
  je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0xa3>
- mov    $0x4,%eax
+-mov    $0x4,%eax
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1f4>
 -lea    -0xd(%ebp),%eax
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x205>
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEC1Ev>
++mov    $0x4,%ebx
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x215>
 +lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -84,7 +83,13 @@
  mov    0x8(%ebp),%edx
 -lea    -0x20(%ebp),%eax
 -lea    -0x14(%ebp),%ecx
-+lea    -0x5c(%ebp),%eax
++lea    -0x10(%ebp),%eax
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
++sub    $0x4,%esp
++mov    0x8(%ebp),%edx
++lea    -0xc(%ebp),%eax
 +lea    -0x20(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -92,13 +97,20 @@
  call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4findERS5_>
  sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
-+mov    -0x5c(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+lea    -0x20(%ebp),%eax
++lea    -0x10(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0xc(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
+-call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x120>
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x131>
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEneERKS5_>
++test   %al,%al
++je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x11a>
++mov    $0x12,%ebx
++mov    $0x0,%esi
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x136>
++mov    $0x1,%esi
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x136>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x14(%ebp),%eax
@@ -108,7 +120,16 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x105>
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x116>
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x153>
++lea    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++test   %esi,%esi
++jne    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x14c>
++mov    $0x0,%esi
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x16e>
++mov    $0x1,%esi
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x16e>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xd(%ebp),%eax
@@ -123,24 +144,23 @@
 +lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- mov    0x8(%ebp),%edx
- lea    -0xc(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
- sub    $0x4,%esp
- lea    -0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    0x8(%ebp),%edx
+-lea    -0xc(%ebp),%eax
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
+-sub    $0x4,%esp
+-lea    -0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEneERKS5_>
- test   %al,%al
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEneERKS5_>
+-test   %al,%al
 -je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x160>
-+je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x171>
- mov    $0x12,%eax
+-mov    $0x12,%eax
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1f4>
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x205>
++test   %esi,%esi
++je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x215>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -153,10 +173,11 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x18d>
-+je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x19e>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1f4>
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x205>
++je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1ae>
++mov    $0x1,%ebx
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x215>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strlen>
@@ -164,7 +185,7 @@
 -jbe    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1a4>
 -mov    $0xffffffff,%eax
 -jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x1f4>
-+ja     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x200>
++ja     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x210>
  lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_DBMW_Add_BuddyC1Ev>
@@ -185,9 +206,11 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
- mov    $0x0,%eax
-+jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x205>
-+mov    $0xffffffff,%eax
+-mov    $0x0,%eax
++mov    $0x0,%ebx
++jmp    <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x215>
++mov    $0xffffffff,%ebx
++mov    %ebx,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -314,15 +337,13 @@ int CBuddyHandle::addDB(CServerHandler* handler, char* name)
     {
         return 4;
     }
-    std::map<std::string, CBuddy*>::iterator it;
     {
         std::allocator<char> alloc;
         std::string key(name, alloc);
-        it = m_buddies.find(key);
-    }
-    if (it != m_buddies.end())
-    {
-        return 0x12;
+        if (m_buddies.find(key) != m_buddies.end())
+        {
+            return 0x12;
+        }
     }
     if (strcmp(name, m_prUser->GetCharName()) == 0)
     {
