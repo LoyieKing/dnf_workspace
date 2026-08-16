@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a915e` | `0x2a` |
+| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a905e` | `0x2d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,27 +17,24 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
-+push   %ebx
-+sub    $0x4,%esp
++sub    $0x14,%esp
  mov    0xc(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
--mov    0x8(%ebp),%eax
++mov    %eax,-0x4(%ebp)
+ mov    0x8(%ebp),%eax
 -mov    0x30(%eax),%edx
 -mov    -0xc(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x30(%edx),%edx
++mov    0x30(%eax),%eax
++mov    %eax,%edx
++mov    -0x4(%ebp),%eax
  mov    %edx,0xa(%eax)
-+mov    0xc(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager20GetDungeonRemainTimeEv>
 -mov    -0xc(%ebp),%edx
--mov    %eax,0xe(%edx)
--leave
-+mov    %eax,0xe(%ebx)
-+add    $0x4,%esp
-+pop    %ebx
-+pop    %ebp
++mov    -0x4(%ebp),%edx
+ mov    %eax,0xe(%edx)
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -63,12 +60,13 @@ _ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 701 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 700 行）：
 
 ```cpp
 void CVillageAttackedManager::SendRequestRevengeDungeon(char* pkt)
 {
-    ((Packet_Request_Revenge_Dungeon*)pkt)->m_rewardType = m_rewardType;
-    ((Packet_Request_Revenge_Dungeon*)pkt)->m_remainTime = GetDungeonRemainTime();
+    Packet_Request_Revenge_Dungeon* p = (Packet_Request_Revenge_Dungeon*)pkt;
+    p->m_rewardType = m_rewardType;
+    p->m_remainTime = GetDungeonRemainTime();
 }
 ```
