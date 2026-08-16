@@ -1,10 +1,9 @@
-status	name	orig_addr	orig_size	new_addr	new_size
+status	name	orig_addr	orig_size	new_addr	new_size	md_file
 NEAR	_ZL16allocStackBufferjPPhPi	0x818c4c0	0x272	0x80f1809	0x272
 DIFF	_ZL19freeAllStackBuffersv	0x818c81d	0x106	0x80f1b66	0x104
 DIFF	_ZN10CAppConfig11Parse_TableEPci	0x806860c	0x142a	0x806a780	0x1424
 NEAR	_ZN10CDBManager10InsertMailEjPcS0_jjii	0x80826ae	0x192	0x804f370	0x192
 NEAR	_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild	0x807128a	0x537	0x805ba20	0x537
-DIFF	_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_	0x80787b0	0xdbb	0x80597da	0xdbd
 DIFF	_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member	0x8073048	0xb7a	0x8053882	0xb8a
 DIFF	_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly	0x807221e	0x172	0x805772a	0x16e
 DIFF	_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh	0x8076c82	0x2c1	0x8063206	0x274
@@ -132,3 +131,4 @@ DIFF	_ZN6CMySql4execEj	0x808d744	0x177	0x80c8d02	0x179
 DIFF	_ZN6CMySql4openEPKcS1_S1_S1_	0x808d152	0x168	0x80c94d0	0x166
 DIFF	_ZN6CMySql4openEPKcjS1_S1_S1_	0x808d2ba	0x166	0x80c9636	0x164
 NEAR	_ZN6CMySql7get_intEiRj	0x808e078	0x28	0x80c896c	0x28
+DIFF	_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_	0x80787b0	0xdbb	0x80597da	0xdbd	_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_.md
