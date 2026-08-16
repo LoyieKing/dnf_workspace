@@ -50,7 +50,8 @@ public class ghidra_packet_xrefs extends GhidraScript {
                     continue;
                 }
                 boolean isCall = r.getReferenceType().isCall();
-                w.println(cls + "\t" + Long.toHexString(addr) + "\t" + from
+                Address entry = f == null ? from : f.getEntryPoint();
+                w.println(cls + "\t" + Long.toHexString(addr) + "\t" + entry
                         + "\t" + fname + "\t" + (isCall ? "CALL" : "REF"));
                 totalRefs++;
             }
