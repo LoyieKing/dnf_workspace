@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809e0d8` | `0x5c7` | `0x80d7c0c` | `0x4d3` |
+| dbmw | DIFF | `0x809e0d8` | `0x5c7` | `0x80d7a9c` | `0x4c5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,372 +1,317 @@
+@@ -1,372 +1,314 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
 -sub    $0x2db0,%esp
-+sub    $0x2730,%esp
++sub    $0x2dc0,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5b9>
-+je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c8>
++je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4ba>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 +mov    %eax,-0x38(%ebp)
@@ -36,7 +36,7 @@
 -lea    -0x2d92(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
 +movl   $0x0,-0x54(%ebp)
-+lea    -0x2716(%ebp),%eax
++lea    -0x2d9e(%ebp),%eax
  mov    %eax,%ebx
  mov    $0x31,%esi
  jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x58>
@@ -49,12 +49,18 @@
  test   %al,%al
  jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x47>
 -mov    -0x2c(%ebp),%eax
++lea    -0x6dc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN37Packet_DB_Load_Reply_Guild_Board_OpenC1Ev>
++lea    -0xd64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN37Packet_DB_Load_Reply_Guild_Board_OpenC1Ev>
 +mov    -0x38(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x50(%edx),%ecx
 -lea    -0x2d92(%ebp),%edx
-+lea    -0x2716(%ebp),%edx
++lea    -0x2d9e(%ebp),%edx
  mov    %edx,0xc(%esp)
 -lea    -0x48(%ebp),%edx
 +lea    -0x54(%ebp),%edx
@@ -68,7 +74,7 @@
 -mov    -0x48(%ebp),%ecx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x140>
++je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x14e>
 +mov    -0x38(%ebp),%eax
 +mov    0xa(%eax),%ebx
 +movl   $0xf8a,0x8(%esp)
@@ -83,9 +89,6 @@
 +lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+lea    -0x6dc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN37Packet_DB_Load_Reply_Guild_Board_OpenC1Ev>
 +movw   $0x1,-0x6d2(%ebp)
 +movb   $0x1,-0x6d0(%ebp)
 +mov    -0x38(%ebp),%eax
@@ -101,7 +104,7 @@
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CGuildServer12SendToServerEPci>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c9>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4bb>
 +mov    -0x54(%ebp),%ecx
  mov    $0x66666667,%edx
  mov    %ecx,%eax
@@ -120,9 +123,6 @@
 +mov    %eax,-0x2c(%ebp)
 +movl   $0x0,-0x28(%ebp)
 +jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x2b0>
-+lea    -0x6dc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN37Packet_DB_Load_Reply_Guild_Board_OpenC1Ev>
 +movb   $0x0,-0x6d0(%ebp)
 +mov    -0x38(%ebp),%eax
 +mov    0xa(%eax),%eax
@@ -151,7 +151,7 @@
 -mov    %ebx,%eax
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%edx
-+lea    -0x2716(%ebp),%ecx
++lea    -0x2d9e(%ebp),%ecx
 +mov    -0x28(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
@@ -306,30 +306,27 @@
 +cmp    -0x30(%ebp),%eax
 +setl   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x178>
++jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x186>
 +cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c9>
-+lea    -0x6dc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN37Packet_DB_Load_Reply_Guild_Board_OpenC1Ev>
-+movb   $0x1,-0x6d0(%ebp)
++je     <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4bb>
++movb   $0x1,-0xd58(%ebp)
 +mov    -0x38(%ebp),%eax
 +mov    0xa(%eax),%eax
-+mov    %eax,-0x6cf(%ebp)
++mov    %eax,-0xd57(%ebp)
 +mov    -0x38(%ebp),%eax
 +mov    0xe(%eax),%eax
-+mov    %eax,-0x6cb(%ebp)
++mov    %eax,-0xd53(%ebp)
 +mov    -0x2c(%ebp),%eax
-+mov    %al,-0x6c7(%ebp)
++mov    %al,-0xd4f(%ebp)
 +movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x3bd>
-+lea    -0x6dc(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x3af>
++lea    -0xd64(%ebp),%eax
 +mov    -0x18(%ebp),%edx
 +imul   $0xa5,%edx,%edx
 +add    $0x16,%edx
 +add    %edx,%eax
 +mov    %eax,-0x14(%ebp)
-+lea    -0x2716(%ebp),%ecx
++lea    -0x2d9e(%ebp),%ecx
 +mov    -0x30(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x2,%eax
@@ -468,8 +465,8 @@
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x2f2>
 -lea    -0xd58(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x30d>
-+lea    -0x6dc(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x2ff>
++lea    -0xd64(%ebp),%eax
  movl   $0x688,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x28(%ebp),%eax
@@ -510,10 +507,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5bd>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c9>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4bb>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x55d>
-+jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x46c>
++jne    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x45e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -539,7 +536,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x556>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x465>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x457>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -549,7 +546,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5bd>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c9>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4bb>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xf9d,0x8(%esp)
@@ -565,7 +562,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5b2>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c1>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4b3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -575,12 +572,12 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5bd>
-+jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4c9>
++jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x4bb>
  nop
 -jmp    <T> <_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader+0x5bd>
 -nop
 -add    $0x2db0,%esp
-+add    $0x2730,%esp
++add    $0x2dc0,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
@@ -727,6 +724,8 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         int count = 0;
         STGuildBoardDBInfo boards[0x32];
+        Packet_DB_Load_Reply_Guild_Board_Open reply;
+        Packet_DB_Load_Reply_Guild_Board_Open replyR;
         if (!m_pclApp->m_dbManager.OnLoadGuildBoard(
                 ((FieldViewP<0xa,int>*)pkt)->v, count, boards))
         {
@@ -736,7 +735,6 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
                 0
             );
 
-            Packet_DB_Load_Reply_Guild_Board_Open reply;
             reply.m_result = 1;
             reply.m_count = 1;
             reply.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
@@ -749,7 +747,6 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
         int rem = count - pageCount * 10;
         for (int page = 0; page < pageCount; page++)
         {
-            Packet_DB_Load_Reply_Guild_Board_Open reply;
             reply.m_count = 0;
             reply.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
             reply.m_charNo = ((FieldViewP<0xe,int>*)pkt)->v;
@@ -770,14 +767,13 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
         }
         if (rem != 0)
         {
-            Packet_DB_Load_Reply_Guild_Board_Open reply;
-            reply.m_count = 1;
-            reply.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
-            reply.m_charNo = ((FieldViewP<0xe,int>*)pkt)->v;
-            reply.m_boardCount = (char)rem;
+            replyR.m_count = 1;
+            replyR.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
+            replyR.m_charNo = ((FieldViewP<0xe,int>*)pkt)->v;
+            replyR.m_boardCount = (char)rem;
             for (int i = 0; i < rem; i++)
             {
-                char* dst = (char*)&reply + 0x16 + i * 0xa5;
+                char* dst = (char*)&replyR + 0x16 + i * 0xa5;
                 char* src = (char*)boards + (pageCount * 10 + i) * 0xa5;
                 memcpy(dst, src, 0x78);
                 *(int*)(dst + 0x78) = *(int*)(src + 0x78);
@@ -785,7 +781,7 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
                 *(int*)(dst + 0x88) = *(int*)(src + 0x88);
                 memcpy(dst + 0x84, src + 0x84, 0x21);
             }
-            gs->SendToServer((char*)&reply, 0x688);
+            gs->SendToServer((char*)&replyR, 0x688);
         }
     }
     DNF_CATCH_LOG("./log/Except",
