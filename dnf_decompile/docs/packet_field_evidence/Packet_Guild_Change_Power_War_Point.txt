@@ -1,0 +1,45 @@
+# Packet_Guild_Change_Power_War_Point
+
+== _SendPowerWarPointToGuildServer @ 82eceb2 (pkt=local_6d) ==
+  +0xa [1B byte] local_63
+      local_63 = CUser::getPowerSide(param_1);
+      local_63 = 2;
+      local_63 = 1;
+      local_2c = _VictoryBonus(this,param_1,local_63);
+      uVar5 = (uint)local_63;
+      uVar5 = (uint)local_63;
+  +0x2b [1B byte] local_42
+      local_42 = (char)*(undefined4 *)(iVar2 + 0xa67c) * (char)param_5;
+      local_42 = -1;
+      local_42 = local_42 + (char)local_2c;
+      uVar6 = (uint)local_42;
+  +0x2c [1B byte] local_41
+      local_41 = (char)*(undefined4 *)(iVar2 + 0xa67c) * ((char)param_4 - (char)param_6);
+      local_41 = 0xff;
+      uVar7 = (uint)local_41;
+  strings:
+    Assault.cpp
+    void pvp_assault::CAssaultPlace::_SendPowerWarPointToGuildServer(CUser*, ENUM_POWER_WAR_WINNER_OR_LOSER, int, int, int)
+    Invalid User pointer income (%d, %d, %d, %d)
+    Assault.cpp
+    void pvp_assault::CAssaultPlace::_SendPowerWarPointToGuildServer(CUser*, ENUM_POWER_WAR_WINNER_OR_LOSER, int, int, int)
+    Power War Point Computer Error( winCnt : %d, winAliveCnt : %d )
+    Assault.cpp
+    void pvp_assault::CAssaultPlace::_SendPowerWarPointToGuildServer(CUser*, ENUM_POWER_WAR_WINNER_OR_LOSER, int, int, int)
+    Power War Point Computer Error( winCnt : %d, winAliveCnt : %d , multiple n : %d)
+    Assault.cpp
+    void pvp_assault::CAssaultPlace::_SendPowerWarPointToGuildServer(CUser*, ENUM_POWER_WAR_WINNER_OR_LOSER, int, int, int)
+    Power War Point Computer Error( winCnt : %d, winAliveCnt : %d , multiple n : %d )
+    Assault.cpp
+    void pvp_assault::CAssaultPlace::_SendPowerWarPointToGuildServer(CUser*, ENUM_POWER_WAR_WINNER_OR_LOSER, int, int, int)
+    Power War Point Computer Error( winner index : %d, loser index : %d )
+
+== _debugCommandPowerwarPointUp @ 858fe62 (pkt=local_39) ==
+  +0xa [1B undefined1] local_2f
+      local_2f = CUser::getPowerSide(param_1);
+  +0xb [4B undefined4] local_2e
+      local_2e = CUser::get_charac_no(param_1,-1);
+  +0x2b [1B undefined1] local_e
+      local_e = (undefined1)*(undefined4 *)(param_2 + 0xe);
+  +0x2c [1B undefined1] local_d
+      local_d = 0;

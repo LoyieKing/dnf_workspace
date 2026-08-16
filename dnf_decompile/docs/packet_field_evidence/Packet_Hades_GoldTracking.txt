@@ -1,0 +1,12 @@
+# Packet_Hades_GoldTracking
+
+== GoldTracking @ 84b949a (pkt=local_35) ==
+  +0xa [4B undefined4] local_2b
+      local_2b = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  +0xe [4B uint] local_27
+      local_27 = param_2;
+  +0x22 [4B uint] local_13
+      local_13 = param_4;
+  +0x26 [2B undefined2] local_f
+      local_f = (undefined2)param_5;
+  local_hints: local_2b=m_accId

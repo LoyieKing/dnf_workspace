@@ -1,0 +1,11 @@
+# Packet_DoubleCheck_UDP_Logout
+
+== SendLogout @ 846d47c (pkt=local_1c) ==
+  +0x6 [4B uint] local_16
+      local_16 = param_1;
+  +0xa [4B uint] local_12
+      local_12 = param_1;
+  +0xe [1B undefined1] local_e
+      local_e = (undefined1)param_2;
+  +0xf [1B undefined1] local_d
+      local_d = (undefined1)param_3;

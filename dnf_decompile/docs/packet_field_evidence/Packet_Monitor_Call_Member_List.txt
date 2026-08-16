@@ -1,0 +1,10 @@
+# Packet_Monitor_Call_Member_List
+
+== process @ 81cbda2 (pkt=local_22) ==
+  +0xa [4B undefined4] local_18
+      local_18 = CUser::GetUID(param_1);
+  +0xe [4B undefined4] local_14
+      local_14 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  local_hints: local_14=m_characNo; local_18=m_uid
+  strings:
+    virtual int Dispatcher_CallMemberList::process(CUser*, MSG_BASE&, ParamBase&)

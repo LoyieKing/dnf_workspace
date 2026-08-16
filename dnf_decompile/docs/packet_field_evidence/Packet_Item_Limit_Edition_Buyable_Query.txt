@@ -1,0 +1,33 @@
+# Packet_Item_Limit_Edition_Buyable_Query
+
+== dispatch_sig @ 821f9ba (pkt=local_23c) ==
+  +0x2 [2B ushort] local_23a
+  +0xa [4B undefined4] local_232
+      cVar2 = PacketBuf::get_short(param_2,(ushort *)(&local_232 + (local_40 + 0x18) * 2));
+      local_232 = CUser::GetUID(param_1);
+  +0xe [4B uint] local_22e
+      cVar2 = PacketBuf::get_int(param_2,&local_22e);
+      uVar11 = local_22e;
+  +0x13 [1B byte] local_229
+      cVar2 = PacketBuf::get_byte(param_2,&local_229);
+      if ((cVar2 == '\x01') && (local_229 < 0x24)) {
+      for (local_44 = 0; local_44 < (int)(uint)local_229; local_44 = local_44 + 1) {
+  +0xc3 [1B byte] local_179
+      cVar2 = PacketBuf::get_byte(param_2,&local_179);
+      if ((cVar2 == '\x01') && (local_179 < 0x24)) {
+      for (local_40 = 0; local_40 < (int)(uint)local_179; local_40 = local_40 + 1) {
+      for (local_3c = 0; local_3c < (int)(uint)local_179; local_3c = local_3c + 1) {
+      for (local_38 = local_3c + 1; local_38 < (int)(uint)local_179; local_38 = local_38 + 1) {
+  local_hints: local_232=m_uid
+  strings:
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_BuyCeraShopLimitItem::dispatch_sig(CUser*, PacketBuf&)

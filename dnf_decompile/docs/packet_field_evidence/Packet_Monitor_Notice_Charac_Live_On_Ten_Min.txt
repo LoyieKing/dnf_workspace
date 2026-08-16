@@ -1,0 +1,6 @@
+# Packet_Monitor_Notice_Charac_Live_On_Ten_Min
+
+== SendNoticeCharLive @ 8471170 (pkt=local_1a) ==
+  +0x2 [2B ushort] local_18
+  +0xa [4B uint] local_10
+      local_10 = param_1;

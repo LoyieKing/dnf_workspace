@@ -1,0 +1,6 @@
+# Packet_Guild_Power_War_Process_Info
+
+== SendPowerWarProcessInfo @ 846df1c (pkt=local_1a) ==
+  +0x2 [2B ushort] local_18
+  +0xa [4B uint] local_10
+      local_10 = param_1;

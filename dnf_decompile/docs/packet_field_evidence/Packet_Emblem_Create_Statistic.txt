@@ -1,0 +1,7 @@
+# Packet_Emblem_Create_Statistic
+
+== StatisticsEmblemCreate @ 81931dc (pkt=local_5e) ==
+
+== SendCreateEmblemInfo @ 8218a36 (pkt=local_5e) ==
+
+== SendCreateEmblemStatistic @ 810f742 (pkt=local_52) ==

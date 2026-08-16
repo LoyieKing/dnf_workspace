@@ -1,0 +1,8 @@
+# Packet_No_Cache
+
+== dispatch_sig @ 84e2f1e (pkt=local_40) ==
+  +0x2 [2B ushort] local_3e
+  +0xa [4B undefined4] local_36
+      local_36 = *(undefined4 *)(local_14 + 0x12);
+  +0xe [4B undefined4] local_32
+      local_32 = *(undefined4 *)(local_14 + 0x16);

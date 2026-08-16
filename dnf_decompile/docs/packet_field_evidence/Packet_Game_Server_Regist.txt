@@ -1,0 +1,9 @@
+# Packet_Game_Server_Regist
+
+== SendGameServerInfo @ 846f0f2 (pkt=local_2b) ==
+  +0x2 [2B ushort] local_29
+  +0xa [1B undefined1] local_21
+      local_21 = 1;
+  +0xd [16B char] local_1e
+  +0x1d [2B ushort] local_e
+      local_e = param_2;

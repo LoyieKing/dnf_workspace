@@ -1,0 +1,7 @@
+# Packet_Party_Ping_Statistic
+
+== partyPingStat @ 821b098 (pkt=local_1a) ==
+  +0xa [2B ushort] local_10
+      local_10 = *param_2;
+  +0xc [2B short] local_e
+      local_e = *param_2 + *param_3;

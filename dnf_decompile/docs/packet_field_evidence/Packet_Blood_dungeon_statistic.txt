@@ -1,0 +1,9 @@
+# Packet_Blood_dungeon_statistic
+
+== OnDungeonClear @ 85b5518 (pkt=local_28) ==
+  +0xe [4B undefined4] local_1a
+      local_1a = CUserCharacInfo::get_charac_level((CUserCharacInfo *)param_1);
+  +0x12 [1B undefined1] local_16
+      local_16 = 1;
+  +0x13 [1B undefined1] local_15
+      local_15 = param_2;

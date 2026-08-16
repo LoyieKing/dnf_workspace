@@ -1,0 +1,10 @@
+# Packet_Guild_Increase_Decrease_Power_War_Point
+
+== SendIncreaseDecreasePowerWarPoint @ 846ed36 (pkt=local_22) ==
+  +0x2 [2B ushort] local_20
+  +0xa [4B uint] local_18
+      local_18 = param_1;
+  +0xe [4B uint] local_14
+      local_14 = param_2;
+  +0x12 [4B int] local_10
+      local_10 = param_3;

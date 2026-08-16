@@ -1,0 +1,10 @@
+# Packet_PvPResult
+
+== OnReward @ 855eb22 (pkt=local_dc) ==
+  +0xe [1B undefined1] local_ce
+      local_ce = (char)local_3c;
+  +0xf [1B byte] local_cd
+      local_cd = nPlayerCountPerOneTeam_;
+  strings:
+    school_green_badge_msg
+    MatchingSystem.cpp

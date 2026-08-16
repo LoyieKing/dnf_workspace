@@ -1,0 +1,28 @@
+# Packet_CollectItemsGm
+
+== oldGmRoutine @ 820bf2c (pkt=local_3bf) ==
+  +0xa [1B undefined1] local_3b5
+      local_3b5 = 1;
+  +0xb [4B int] local_3b4
+      local_3b4 = atoi(pcVar6);
+  +0xf [4B int] local_3b0
+      local_3b0 = atoi(pcVar6);
+  +0x13 [4B int] local_3ac
+      local_3ac = atoi(pcVar6);
+  local_hints: local_34c=m_characNo; local_390=m_accId; local_394=m_uid
+  strings:
+    lawless
+    bal
+    questclear2
+    q
+    on
+    off
+    guild
+    exp
+    troublemaker
+    on
+    off
+    fatigue
+    set
+    show
+    lp

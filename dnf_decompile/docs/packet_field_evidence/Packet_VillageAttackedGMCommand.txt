@@ -1,0 +1,21 @@
+# Packet_VillageAttackedGMCommand
+
+== SendVillageAttackedGMCommand @ 820bb68 (pkt=local_26) ==
+  +0xa [4B undefined4] local_1c
+      local_1c = CUser::GetUID(param_1);
+  +0xe [4B undefined4] local_18
+      local_18 = CUser::get_charac_no(param_1,-1);
+  +0x16 [4B int] local_10
+      local_10 = param_2;
+  local_hints: local_1c=m_uid
+
+== execute @ 84aa144 (pkt=local_26) ==
+  +0xa [4B undefined4] local_1c
+      local_1c = CUser::GetUID(pCVar1);
+  +0xe [4B undefined4] local_18
+      local_18 = CUser::get_charac_no(pCVar1,-1);
+  +0x12 [4B undefined4] local_14
+      local_14 = *(undefined4 *)(this + 8);
+  +0x16 [4B undefined4] local_10
+      local_10 = 0;
+  local_hints: local_1c=m_uid

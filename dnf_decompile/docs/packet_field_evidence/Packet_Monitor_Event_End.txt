@@ -1,0 +1,16 @@
+# Packet_Monitor_Event_End
+
+== StartEvent @ 82679fa (pkt=local_5e) ==
+  +0xa [4B undefined4] local_54
+      local_54 = 0x1e;
+  strings:
+    virtual void CPowerWarEvent::StartEvent()
+    ULTIMATE_LOG : ALLEADY ULTIMATE DUNGEON CLOSE!!
+    virtual void CPowerWarEvent::StartEvent()
+    ULTIMATE_LOG : POWER WAR START!! ULTIMATE DUNGEON CLOSE!!
+    virtual void CPowerWarEvent::StartEvent()
+    Power War Event Start! server(%d)
+
+== execute @ 84ab94c (pkt=local_1e) ==
+  +0xa [4B undefined4] local_14
+      local_14 = *(undefined4 *)(this + 8);

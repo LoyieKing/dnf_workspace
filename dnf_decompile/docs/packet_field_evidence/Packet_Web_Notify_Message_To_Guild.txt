@@ -1,0 +1,8 @@
+# Packet_Web_Notify_Message_To_Guild
+
+== SendMessageToGuild @ 846e1f4 (pkt=local_80) ==
+  +0x2 [2B ushort] local_7e
+  +0xa [4B uint] local_76
+      local_76 = param_1;
+  +0xe [1B undefined1] local_72
+      local_72 = 2;

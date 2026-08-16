@@ -1,0 +1,9 @@
+# Packet_Guild_Attendance_Info
+
+== process @ 81d5492 (pkt=local_23) ==
+  +0x2 [2B ushort] local_21
+  +0xa [4B undefined4] local_19
+      local_19 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_2);
+  +0xe [4B undefined4] local_15
+      local_15 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_2);
+  local_hints: local_15=m_characNo

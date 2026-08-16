@@ -1,0 +1,7 @@
+# Packet_Disable_User_OneToOneChat_Police
+
+== dispatch_sig @ 82272ce (pkt=local_3c) ==
+  +0xa [4B undefined4] local_32
+      local_32 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0xe [4B uint] local_2e
+  local_hints: local_32=m_characNo

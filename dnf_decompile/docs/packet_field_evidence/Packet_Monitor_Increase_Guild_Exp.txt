@@ -1,0 +1,28 @@
+# Packet_Monitor_Increase_Guild_Exp
+
+== WorkPerFiveMin @ 8652f0c (pkt=local_64) ==
+  +0xa [4B undefined4] local_5a
+      local_5a = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)this);
+  +0xe [4B undefined4] local_56
+      local_56 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)this);
+  +0x12 [4B undefined4] local_52
+      local_52 = CUserCharacInfo::get_guild_today_exp((CUserCharacInfo *)this);
+  +0x17 [1B undefined1] local_4d
+      local_4d = 2;
+  local_hints: local_3e=m_characNo; local_5a=m_characNo
+  strings:
+    void CUser::WorkPerFiveMin()
+    CUser::WorkPerFiveMin() m_id(%s) character - m_selected is null
+
+== SendIncreaseGuildExp @ 846ece2 (pkt=local_28) ==
+  +0x2 [2B ushort] local_26
+  +0xa [4B uint] local_1e
+      local_1e = param_2;
+  +0xe [4B uint] local_1a
+      local_1a = param_1;
+  +0x12 [4B uint] local_16
+      local_16 = param_3;
+  +0x16 [1B char] local_12
+      local_12 = param_4;
+  +0x17 [1B undefined1] local_11
+      local_11 = 1;

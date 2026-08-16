@@ -1,0 +1,10 @@
+# Packet_Monitor_Call_Guild_Info
+
+== SendCallGuildInfo @ 846ddd2 (pkt=local_19f) ==
+  +0x2 [8B undefined1] local_19d
+      *(uint *)(local_19d + (local_10 + 4) * 4 + 1) = param_4[local_10];
+      local_19d._0_2_ = (ushort)param_3 * 4 + 0x13;
+  +0xa [4B uint] local_195
+      local_195 = param_2;
+  +0xe [4B uint] local_191
+      local_191 = param_1;

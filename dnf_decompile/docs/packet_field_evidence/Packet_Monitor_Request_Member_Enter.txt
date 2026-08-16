@@ -1,0 +1,10 @@
+# Packet_Monitor_Request_Member_Enter
+
+== process @ 81cb874 (pkt=local_44) ==
+  +0xa [4B undefined4] local_3a
+      local_3a = CUser::GetUID(param_1);
+  +0xe [4B undefined4] local_36
+      local_36 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  local_hints: local_36=m_characNo; local_3a=m_uid
+  strings:
+    virtual int Dispatcher_RequestMemberEnter::process(CUser*, MSG_BASE&, ParamBase&)

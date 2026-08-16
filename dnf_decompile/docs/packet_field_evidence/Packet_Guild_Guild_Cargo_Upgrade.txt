@@ -1,0 +1,30 @@
+# Packet_Guild_Guild_Cargo_Upgrade
+
+== dispatch_sig @ 8222958 (pkt=local_4e) ==
+  +0x2 [2B ushort] local_4c
+  +0xa [4B undefined4] local_44
+      local_44 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_2);
+  +0xe [4B undefined4] local_40
+      local_40 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_2);
+  +0x12 [4B undefined4] local_3c
+      local_3c = CUser::GetGuildCargoCapacity((CUser *)param_2);
+  +0x16 [4B int] local_38
+      local_38 = CUser::GetGuildCargoCapacity((CUser *)param_2);
+      local_38 = local_38 + *(int *)(local_30 + 0x10);
+  +0x1a [4B uint] local_34
+      local_34 = local_24;
+  local_hints: local_40=m_characNo
+  strings:
+    virtual int Dispatcher_UpgradeGuildCargo::dispatch_sig(CUser*, PacketBuf&)
+
+== _debugCommandCargoCapacity @ 858fdc8 (pkt=local_2a) ==
+  +0x2 [2B ushort] local_28
+  +0xa [4B undefined4] local_20
+      local_20 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_1);
+  +0xe [4B undefined4] local_1c
+      local_1c = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x12 [4B undefined4] local_18
+      local_18 = CUser::GetGuildCargoCapacity(param_1);
+  +0x16 [4B undefined4] local_14
+      local_14 = *(undefined4 *)(param_2 + 0xe);
+  local_hints: local_1c=m_characNo

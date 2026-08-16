@@ -1,0 +1,4 @@
+# Packet_Request_Guild_Create
+
+== SendGuildCreate @ 846e304 (pkt=local_3e) ==
+  +0x2 [2B ushort] local_3c

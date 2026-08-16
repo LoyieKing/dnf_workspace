@@ -1,0 +1,21 @@
+# Packet_Dungeon_Statistic_Party_Job
+
+== SendDungeonStatisticPartyJob @ 85b52a6 (pkt=local_2b) ==
+  +0xa [2B undefined2] local_21
+      local_21 = CEnvironment::get_channel_no(this_00);
+  +0xc [4B undefined4] local_1f
+      local_1f = CBattle_Field::get_dungeon_index((CBattle_Field *)(this + 0xb24));
+  +0x10 [1B undefined1] local_1b
+      local_1b = CBattle_Field::get_dungeon_diff((CBattle_Field *)(this + 0xb24));
+  +0x14 [1B undefined1] local_17
+      local_17 = param_1;
+  +0x15 [1B undefined1] local_16
+      local_16 = (undefined1)*(undefined4 *)(param_2 + 0x8e054);
+  +0x16 [4B undefined4] local_15
+      local_15 = CUserCharacInfo::get_charac_job((CUserCharacInfo *)param_2);
+  +0x1a [1B undefined1] local_11
+      local_11 = CUserCharacInfo::getCurCharacGrowType((CUserCharacInfo *)param_2);
+  +0x1b [4B uint] local_10
+      local_10 = (uint)*(ushort *)(this + 0x183c);
+      local_10 = 0;
+  local_hints: local_1b=m_dungeon; local_1f=m_dungeon; local_21=m_channel

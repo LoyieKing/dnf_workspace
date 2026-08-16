@@ -1,0 +1,11 @@
+# Packet_GameServer2Statisctics2DBServer
+
+== dispatch_sig @ 8161952 (pkt=local_4d) ==
+  +0xa [2B undefined2] local_43
+      local_43 = CEnvironment::get_server_group(this);
+  +0xc [1B undefined1] local_41
+      local_41 = *(undefined1 *)(local_10 + 0xd);
+  +0xd [4B undefined4] local_40
+      local_40 = *(undefined4 *)(local_10 + 0xe);
+  +0x11 [4B undefined4] local_3c
+      local_3c = *(undefined4 *)(local_10 + 0x12);

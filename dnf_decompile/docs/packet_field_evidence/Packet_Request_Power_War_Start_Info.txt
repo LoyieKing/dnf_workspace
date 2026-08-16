@@ -1,0 +1,7 @@
+# Packet_Request_Power_War_Start_Info
+
+== SendReqestPowerWarStartInfo @ 846e420 (pkt=local_1a) ==
+  +0x2 [2B ushort] local_18
+  +0xa [4B undefined4] local_10
+      local_10 = CEnvironment::get_channel_no(this_00);
+  local_hints: local_10=m_channel

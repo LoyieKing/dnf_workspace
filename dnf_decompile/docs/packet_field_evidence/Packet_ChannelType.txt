@@ -1,0 +1,12 @@
+# Packet_ChannelType
+
+== Send_userinfos_to_upper_server @ 82961be (pkt=local_1736) ==
+  +0x2 [2B short] local_1734
+      local_1734 = 0x16e6;
+      local_1734 = (short)local_1c * 0x4e + 0xc;
+  +0xa [1B undefined1] local_172c
+      local_172c = (undefined1)local_1c;
+      local_172c = (undefined1)local_1c;
+  +0xb [1B undefined1] local_172b
+      local_172b = CEnvironment::get_channel_no(pCVar6);
+  local_hints: local_172b=m_channel; local_30=m_channel

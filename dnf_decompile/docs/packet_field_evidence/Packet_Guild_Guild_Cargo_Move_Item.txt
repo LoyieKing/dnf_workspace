@@ -1,0 +1,21 @@
+# Packet_Guild_Guild_Cargo_Move_Item
+
+== process @ 81d1954 (pkt=local_36) ==
+  +0x2 [2B ushort] local_34
+  +0xa [4B undefined4] local_2c
+      local_2c = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_1);
+  +0xe [4B undefined4] local_28
+      local_28 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x12 [4B uint] local_24
+      local_24 = (uint)*(ushort *)(local_10 + 0xd);
+      ((cUserHistoryLog *)(param_1 + 0x79700),0xd,local_24,local_20);
+  +0x16 [4B uint] local_20
+      local_20 = (uint)*(ushort *)(local_10 + 0xf);
+      ((cUserHistoryLog *)(param_1 + 0x79700),0xd,local_24,local_20);
+  +0x1a [4B undefined4] local_1c
+      local_1c = *(undefined4 *)(local_10 + 0x11);
+  +0x1e [4B undefined4] local_18
+      local_18 = *(undefined4 *)(local_10 + 0x15);
+  local_hints: local_28=m_characNo
+  strings:
+    virtual int Dispatcher_GuildCargoMoveItem::process(CUser*, MSG_BASE&, ParamBase&)

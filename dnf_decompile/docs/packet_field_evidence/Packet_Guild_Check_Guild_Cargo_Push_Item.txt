@@ -1,0 +1,28 @@
+# Packet_Guild_Check_Guild_Cargo_Push_Item
+
+== process @ 81d10d4 (pkt=local_56) ==
+  +0x2 [2B ushort] local_54
+  +0xa [4B undefined4] local_4c
+      local_4c = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_1);
+  +0xe [4B undefined4] local_48
+      local_48 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x12 [4B uint] local_44
+      local_44 = (uint)*(ushort *)(local_2c + 0x18);
+      ((cUserHistoryLog *)(param_1 + 0x79700),5,local_44,local_40,local_3c,local_33,
+  +0x16 [4B undefined4] local_40
+      local_40 = *(undefined4 *)(local_2c + 0x10);
+      ((cUserHistoryLog *)(param_1 + 0x79700),5,local_44,local_40,local_3c,local_33,
+  +0x1a [4B undefined4] local_3c
+      local_3c = *(undefined4 *)(local_2c + 0x14);
+      ((cUserHistoryLog *)(param_1 + 0x79700),5,local_44,local_40,local_3c,local_33,
+  +0x1e [4B undefined4] local_38
+      local_38 = 1;
+      local_38 = CStackableItem::getStackableLimit((CStackableItem *)local_20);
+  +0x22 [1B undefined1] local_34
+      local_34 = cVar1 != '\0';
+  +0x24 [2B undefined2] local_32
+      local_32 = *(undefined2 *)(local_2c + 0xe);
+      local_32,local_34);
+  local_hints: local_48=m_characNo
+  strings:
+    virtual int Dispatcher_GuildCargoPushItem::process(CUser*, MSG_BASE&, ParamBase&)

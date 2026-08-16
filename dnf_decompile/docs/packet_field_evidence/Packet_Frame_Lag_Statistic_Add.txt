@@ -1,0 +1,19 @@
+# Packet_Frame_Lag_Statistic_Add
+
+== dispatch_sig @ 8217046 (pkt=local_19f) ==
+  strings:
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_FrameLagStatistics::dispatch_sig(CUser*, PacketBuf&)

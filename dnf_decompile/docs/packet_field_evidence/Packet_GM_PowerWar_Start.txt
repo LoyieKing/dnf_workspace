@@ -1,0 +1,4 @@
+# Packet_GM_PowerWar_Start
+
+== SendPowerWarStart @ 846de80 (pkt=local_16) ==
+  +0x2 [2B ushort] local_14

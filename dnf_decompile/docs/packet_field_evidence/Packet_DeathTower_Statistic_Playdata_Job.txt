@@ -1,0 +1,13 @@
+# Packet_DeathTower_Statistic_Playdata_Job
+
+== SendDeathTowerPlayInfo @ 860f45c (pkt=local_32) ==
+  +0xa [1B char] local_28
+      local_28 = param_2;
+  +0xb [1B undefined1] local_27
+      local_27 = (undefined1)param_5;
+  +0xc [4B uint] local_26
+      local_26 = param_4;
+  strings:
+    Statistics.cpp
+    bool CDeathTowerPlayDataStatistic::SendDeathTowerPlayInfo(int, char, const stDeathTowerRecordMemberInfo_t*, unsigned int, unsigned int)
+    CDeathTowerPlayDataStatistic ERROR!! deathTower_type (%d) level (%d) job_ (%d) grow_type_ (%d) clearStage (%d)

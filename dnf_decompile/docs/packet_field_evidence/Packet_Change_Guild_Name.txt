@@ -1,0 +1,8 @@
+# Packet_Change_Guild_Name
+
+== SendGuildNameChange @ 846e376 (pkt=local_35) ==
+  +0x2 [2B ushort] local_33
+  +0xa [4B uint] local_2b
+      local_2b = param_2;
+  +0xe [4B uint] local_27
+      local_27 = param_1;

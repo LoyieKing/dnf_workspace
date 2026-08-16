@@ -1,0 +1,14 @@
+# Packet_PvPChannelInfo
+
+== dispatch_sig @ 82178c0 (pkt=local_1810) ==
+  +0x2 [2B undefined2] local_180e
+      local_180e = 0x18;
+  +0xa [4B undefined4] local_1806
+      local_1806 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_2);
+  +0xe [4B undefined4] local_1802
+      local_1802 = CUser::GetUID((CUser *)param_2);
+  +0x12 [4B undefined4] local_17fe
+      local_17fe = CUser::GetSchoolNo((CUser *)param_2);
+  +0x16 [1B undefined1] local_17fa
+      local_17fa = 9;
+  local_hints: local_1802=m_uid; local_1806=m_characNo

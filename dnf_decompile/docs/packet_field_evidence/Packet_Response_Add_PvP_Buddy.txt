@@ -1,0 +1,10 @@
+# Packet_Response_Add_PvP_Buddy
+
+== SendResAddPvPBuddy @ 846cc22 (pkt=local_3d) ==
+  +0x2 [2B ushort] local_3b
+  +0xa [4B uint] local_33
+      local_33 = param_1;
+  +0xe [4B uint] local_2f
+      local_2f = param_2;
+  +0x12 [1B char] local_2b
+      local_2b = param_3;

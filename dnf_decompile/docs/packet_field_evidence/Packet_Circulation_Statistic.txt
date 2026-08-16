@@ -1,0 +1,8 @@
+# Packet_Circulation_Statistic
+
+== InsertCirculationStatistic @ 860dccc (pkt=local_f8) ==
+  +0xa [4B int] local_ee
+      local_ee = local_18;
+  +0xce [2B undefined2] local_2a
+      local_2a = CEnvironment::get_channel_no(this);
+  local_hints: local_2a=m_channel

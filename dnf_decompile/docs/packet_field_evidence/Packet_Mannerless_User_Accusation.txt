@@ -1,0 +1,30 @@
+# Packet_Mannerless_User_Accusation
+
+== dispatch_sig @ 8206124 (pkt=local_1c3) ==
+  +0xa [4B undefined4] local_1b9
+      local_1b9 = CUser::GetUID(param_1);
+  +0xe [4B undefined4] local_1b5
+      local_1b5 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x12 [4B int] local_1b1
+      local_1b1 = local_54[0];
+      cVar2 = Packet_Mannerless_User_Accusation::isNeedTypeForChattingMsg(local_1b1);
+  +0x16 [4B uint] local_1ad
+      local_1ad = CEnvironment::get_server_group(this_00);
+      local_1a9 = local_1ad;
+      local_1ad = CUser::GetServerGroup(param_1);
+      if (((local_1ad == local_1a9) && (local_60 == local_58)) &&
+  +0x1a [4B uint] local_1a9
+      local_1a9 = (uint)local_59;
+      if (local_1a9 < 0x65) {
+      if (local_1a9 == 0) {
+      local_1a9 = local_1ad;
+      if (((local_1ad == local_1a9) && (local_60 == local_58)) &&
+  +0x1e [4B undefined4] local_1a5
+      local_1a5 = CUser::get_acc_id(param_1);
+  +0x15e [1B undefined1] local_65
+      local_65 = 0x70;
+  local_hints: local_1a5=m_accId; local_1ad=m_serverGroup; local_1b5=m_characNo; local_1b9=m_uid
+  strings:
+    virtual int Dispatcher_ReportMannerlessUser::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_ReportMannerlessUser::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_ReportMannerlessUser::dispatch_sig(CUser*, PacketBuf&)

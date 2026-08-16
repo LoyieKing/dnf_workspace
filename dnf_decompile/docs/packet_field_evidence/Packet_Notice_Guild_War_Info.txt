@@ -1,0 +1,8 @@
+# Packet_Notice_Guild_War_Info
+
+== dispatch_sig @ 820439a (pkt=local_168) ==
+  +0xa [4B undefined4] local_15e
+      local_15e = CUser::GetUID((CUser *)param_2);
+  +0xe [4B undefined4] local_15a
+      local_15a = CUser::get_charac_no((CUser *)param_2,-1);
+  local_hints: local_15e=m_uid

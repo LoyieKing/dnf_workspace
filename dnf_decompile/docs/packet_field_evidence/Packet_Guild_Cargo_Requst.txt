@@ -1,0 +1,11 @@
+# Packet_Guild_Cargo_Requst
+
+== process @ 81d0ae2 (pkt=local_22) ==
+  +0x2 [2B ushort] local_20
+  +0xa [4B undefined4] local_18
+      local_18 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_1);
+  +0xe [4B undefined4] local_14
+      local_14 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  local_hints: local_14=m_characNo
+  strings:
+    virtual int Dispatcher_GuildCargo::process(CUser*, MSG_BASE&, ParamBase&)

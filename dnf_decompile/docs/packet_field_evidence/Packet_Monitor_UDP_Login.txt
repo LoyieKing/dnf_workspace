@@ -1,0 +1,45 @@
+# Packet_Monitor_UDP_Login
+
+== dispatch_sig @ 84c5294 (pkt=local_20f) ==
+  +0xa [4B undefined4] local_205
+      local_205 = CUser::GetUID((CUser *)param_2);
+  +0xe [4B undefined4] local_201
+      local_201 = CUser::get_acc_id((CUser *)param_2);
+  +0x12 [1B undefined1] local_1fd
+      local_1fd = CEnvironment::get_channel_no(pCVar28);
+  +0x23 [1B undefined1] local_1ec
+      local_1ec = 1;
+  +0x24 [4B undefined4] local_1eb
+      local_1eb = 0;
+  +0x28 [4B undefined4] local_1e7
+      local_1e7 = 0;
+  local_hints: local_1fd=m_channel; local_201=m_accId; local_205=m_uid
+  strings:
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    pInfo->err_code == SIG_LOGIN_DATA::E_CANTFIND
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    pInfo->err_code == SIG_LOGIN_DATA::PUNISH_REASON
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    pInfo->err_code == SIG_LOGIN_DATA::E_AUTH
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    pInfo->err_code == SIG_LOGIN_DATA::E_AUTH_MOUSE
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    pInfo->err_code == SIG_LOGIN_DATA::E_AUTH_MOUSE_DENY
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    pInfo->err_code == SIG_LOGIN_DATA::E_PASSPAD_WRONG_VERSION
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+    [Inter_LoginInfo::dispatch_sig] Abnormal LoginError: SIG_LOGIN_DATA::ERROR_OK(%d)
+    virtual int Inter_LoginInfo::dispatch_sig(CUser*, char*, int)
+
+== SendLogin @ 846db2a (pkt=local_3f) ==
+  +0x2 [2B ushort] local_3d
+  +0xa [4B int] local_35
+      local_35 = param_1;
+  +0xe [4B uint] local_31
+      local_31 = param_2;
+  +0x12 [1B undefined1] local_2d
+      local_2d = (undefined1)param_3;
+  strings:
+    DF_GuildServerProxy.cpp
+    void CGuildServerProxy::SendLogin(int, memberIdentificationNumber_t, int, char*, unsigned char, char*)
+    CGuildServerProxy::SendLogin! DB ID(%s)

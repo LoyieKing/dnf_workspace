@@ -1,0 +1,7 @@
+# Packet_Event_UpgradeJar_Output_Statistic_GTS
+
+== SendEventJarOutputItemStatistics @ 868a782 (pkt=local_20) ==
+  +0xa [4B undefined4] local_16
+      local_16 = *(undefined4 *)(iVar1 + 2);
+  +0xe [4B undefined4] local_12
+      local_12 = *(undefined4 *)(iVar1 + 7);

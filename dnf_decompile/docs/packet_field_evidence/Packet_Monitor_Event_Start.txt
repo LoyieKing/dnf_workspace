@@ -1,0 +1,9 @@
+# Packet_Monitor_Event_Start
+
+== execute @ 84ab886 (pkt=local_22) ==
+  +0xa [4B undefined4] local_18
+      local_18 = *(undefined4 *)(this + 0xc);
+  +0xe [2B undefined2] local_14
+      local_14 = *(undefined2 *)(this + 0x10);
+  +0x10 [2B undefined2] local_12
+      local_12 = *(undefined2 *)(this + 0x12);

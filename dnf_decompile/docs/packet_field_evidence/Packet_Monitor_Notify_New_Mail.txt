@@ -1,0 +1,6 @@
+# Packet_Monitor_Notify_New_Mail
+
+== SendNotifyNewMail @ 8471072 (pkt=local_1e) ==
+  +0x2 [2B ushort] local_1c
+  +0xa [4B uint] local_14
+      local_14 = param_1;

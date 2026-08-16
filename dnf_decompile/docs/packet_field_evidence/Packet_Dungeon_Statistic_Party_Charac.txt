@@ -1,0 +1,43 @@
+# Packet_Dungeon_Statistic_Party_Charac
+
+== SendDungeonStatisticPartyCharac @ 85b53aa (pkt=local_53) ==
+  +0xa [2B undefined2] local_49
+      local_49 = CEnvironment::get_channel_no(this_00);
+  +0xc [4B undefined4] local_47
+      local_47 = CBattle_Field::get_dungeon_index((CBattle_Field *)(this + 0xb24));
+  +0x10 [1B undefined1] local_43
+      local_43 = CBattle_Field::get_dungeon_diff((CBattle_Field *)(this + 0xb24));
+  +0x12 [1B undefined1] local_41
+      local_41 = param_1;
+  +0x13 [4B undefined4] local_40
+      local_40 = CUserCharacInfo::get_charac_job((CUserCharacInfo *)param_2);
+  +0x17 [1B undefined1] local_3c
+      local_3c = CUserCharacInfo::getCurCharacGrowType((CUserCharacInfo *)param_2);
+  +0x18 [1B undefined1] local_3b
+      local_3b = (undefined1)*(undefined4 *)(param_2 + 0x8e054);
+  +0x19 [4B undefined4] local_3a
+      local_3a = *(undefined4 *)(param_2 + 0x8e034);
+  +0x1d [4B undefined4] local_36
+      local_36 = *(undefined4 *)(param_2 + 0x8e038);
+  +0x21 [4B undefined4] local_32
+      local_32 = *(undefined4 *)(param_2 + 0x8e03c);
+  +0x25 [4B undefined4] local_2e
+      local_2e = *(undefined4 *)(param_2 + 0x8e040);
+  +0x29 [4B undefined4] local_2a
+      local_2a = *(undefined4 *)(param_2 + 0x8e044);
+  +0x2d [4B undefined4] local_26
+      local_26 = *(undefined4 *)(param_2 + 0x8e048);
+  +0x31 [4B undefined4] local_22
+      local_22 = *(undefined4 *)(param_2 + 0x8e04c);
+  +0x35 [4B undefined4] local_1e
+      local_1e = *(undefined4 *)(param_2 + 0x8e050);
+  +0x39 [4B undefined4] local_1a
+      local_1a = *(undefined4 *)(param_2 + 0x8e068);
+  +0x3d [4B undefined4] local_16
+      local_16 = *(undefined4 *)(param_2 + 0x8e064);
+  +0x41 [2B undefined2] local_12
+      local_12 = (undefined2)*(undefined4 *)(param_2 + 0x8e058);
+  +0x43 [4B uint] local_10
+      local_10 = (uint)*(ushort *)(this + 0x183c);
+      local_10 = 0;
+  local_hints: local_43=m_dungeon; local_47=m_dungeon; local_49=m_channel

@@ -1,0 +1,16 @@
+# Packet_Monitor_Buy_Guild_Skill
+
+== SendBuyGuildSkill @ 846e026 (pkt=local_2c) ==
+  +0x2 [2B ushort] local_2a
+  +0xa [4B uint] local_22
+      local_22 = param_1;
+  +0xe [4B uint] local_1e
+      local_1e = param_2;
+  +0x12 [4B int] local_1a
+      local_1a = param_3;
+  +0x16 [4B int] local_16
+      local_16 = param_4;
+  +0x1a [2B short] local_12
+      local_12 = param_5;
+  +0x1c [4B uint] local_10
+      local_10 = param_6;

@@ -1,0 +1,5 @@
+# Packet_VillageMonsterFightResult
+
+== SendVillageMonsterFightResult @ 86b330a (pkt=local_4f) ==
+  +0x2a [1B undefined1] local_25
+      local_25 = param_2;

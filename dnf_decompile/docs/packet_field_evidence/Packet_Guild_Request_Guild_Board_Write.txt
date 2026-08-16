@@ -1,0 +1,14 @@
+# Packet_Guild_Request_Guild_Board_Write
+
+== SendGuildBoardWrite @ 846f01a (pkt=local_9c) ==
+  +0x2 [2B ushort] local_9a
+  +0xa [4B uint] local_92
+      local_92 = param_6;
+  +0xe [4B uint] local_8e
+      local_8e = param_2;
+  +0x12 [4B uint] local_8a
+      local_8a = param_3;
+  +0x16 [1B undefined1] local_86
+      local_86 = (undefined1)param_4;
+  +0x17 [1B char] local_85
+      local_85 = param_5;

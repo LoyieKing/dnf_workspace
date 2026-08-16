@@ -1,0 +1,10 @@
+# Packet_Monitor_Member_Secede
+
+== process @ 81cbc2e (pkt=local_45) ==
+  +0xa [4B undefined4] local_3b
+      local_3b = CUser::GetUID(param_1);
+  +0xe [4B undefined4] local_37
+      local_37 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  local_hints: local_37=m_characNo; local_3b=m_uid
+  strings:
+    virtual int Dispatcher_MemberSecede::process(CUser*, MSG_BASE&, ParamBase&)

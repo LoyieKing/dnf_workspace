@@ -1,0 +1,23 @@
+# Packet_Server_Match_data
+
+== pvp_reward @ 85da882 (pkt=local_a1) ==
+  +0xa [1B undefined1] local_97
+      local_97 = CUser::GetServerGroup(local_58);
+  +0xb [1B undefined1] local_96
+      local_96 = 1;
+  +0xc [1B undefined1] local_95
+      local_95 = 1;
+  local_hints: local_97=m_serverGroup
+  strings:
+    PvPExp,%d,%d,%d
+    void PvP_Room::pvp_reward()
+    <PVP_REWARD> Room(%d), iRank(%d), iRankMember(%d), Player(%s), mode(%d), KillCnt(%d), DeathCnt(%d)
+
+== GiveOuterPenalty @ 85dcaf2 (pkt=local_2d) ==
+  +0xa [1B undefined1] local_23
+      local_23 = CUser::GetServerGroup(param_1);
+  +0xc [1B undefined1] local_21
+      local_21 = 1;
+  local_hints: local_23=m_serverGroup
+  strings:
+    void PvP_Room::GiveOuterPenalty(CUser*)

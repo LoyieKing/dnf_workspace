@@ -1,0 +1,28 @@
+# Packet_Monitor_Member_Chat_Hyper_Link
+
+== send_chat_msg_hyper_link @ 86cfa10 (pkt=local_a1f) ==
+  +0x2 [2B ushort] local_a1d
+      local_a1d = (short)*(undefined4 *)(param_2 + 0x14) + 0x174;
+      local_4c = (uint)local_a1d;
+  +0xa [4B uint] local_a15
+      local_a15 = (uint)*(byte *)(param_2 + 0xd);
+  +0x13 [4B undefined4] local_a0c
+      local_a0c = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x17 [4B undefined4] local_a08
+      local_a08 = *(undefined4 *)(param_2 + 0x10);
+  +0x1b [1B undefined1] local_a04
+      local_a04 = (undefined1)*(undefined4 *)(param_2 + 0x118);
+  +0x3a [1B undefined1] local_9e5
+      local_9e5 = *(undefined1 *)(param_2 + 0x13b);
+  +0x173 [1B undefined1] local_8ac
+      local_8ac = (undefined1)*(undefined4 *)(param_2 + 0x14);
+  local_hints: local_536=m_characNo; local_a0c=m_characNo
+  strings:
+    void GameWorld::send_chat_msg_hyper_link(CUser*, MSG_ITEM_HYPER_LINK_MESSAGE&, ENUM_NOTIPACKET)
+    getUserVillage() call failed
+    world.cpp
+    void GameWorld::send_chat_msg_hyper_link(CUser*, MSG_ITEM_HYPER_LINK_MESSAGE&, ENUM_NOTIPACKET)
+    GUILD_CHAT_HYPER_LINK_ERROR : charac no == %d || guild key == %d 
+    world.cpp
+    void GameWorld::send_chat_msg_hyper_link(CUser*, MSG_ITEM_HYPER_LINK_MESSAGE&, ENUM_NOTIPACKET)
+    MEMBER_CHAT_HYPER_LINK_ERROR : member key == %d 

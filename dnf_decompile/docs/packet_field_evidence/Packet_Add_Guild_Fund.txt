@@ -1,0 +1,12 @@
+# Packet_Add_Guild_Fund
+
+== SendAddGuildFund @ 846f1a8 (pkt=local_23) ==
+  +0x2 [2B ushort] local_21
+  +0xa [1B undefined1] local_19
+      local_19 = param_5;
+  +0xb [4B undefined4] local_18
+      local_18 = param_3;
+  +0xf [4B undefined4] local_14
+      local_14 = param_1;
+  +0x13 [4B undefined4] local_10
+      local_10 = param_2;

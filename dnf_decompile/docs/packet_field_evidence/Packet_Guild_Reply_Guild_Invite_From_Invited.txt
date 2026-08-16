@@ -1,0 +1,6 @@
+# Packet_Guild_Reply_Guild_Invite_From_Invited
+
+== SendReplyGuildInvite @ 846e14c (pkt=local_1b) ==
+  +0x2 [2B ushort] local_19
+  +0xa [4B uint] local_11
+      local_11 = param_1;

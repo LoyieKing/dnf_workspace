@@ -1,0 +1,8 @@
+# Packet_Monitor_Notice_Guild_Dismiss
+
+== execute @ 84ab29c (pkt=local_36) ==
+  +0x2 [2B ushort] local_34
+  +0xa [4B undefined4] local_2c
+      local_2c = local_10;
+  strings:
+    GameMaster.cpp

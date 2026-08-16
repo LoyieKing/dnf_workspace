@@ -1,0 +1,21 @@
+# Packet_Monitor_Server_Message_Info
+
+== dispatch_sig @ 84da3e6 (pkt=local_ab) ==
+  +0xa [1B undefined1] local_a1
+      local_a1 = CEnvironment::get_channel_no(this_00);
+  +0xb [1B undefined1] local_a0
+      local_a0 = *(undefined1 *)(local_20 + 8);
+  +0xc [1B undefined1] local_9f
+      local_9f = *(undefined1 *)(local_20 + 9);
+  +0xd [4B undefined4] local_9e
+      local_9e = *(undefined4 *)(local_20 + 0xc);
+  +0x43 [4B undefined4] local_68
+      local_68 = *(undefined4 *)(local_20 + 0x44);
+  +0x5b [4B undefined4] local_50
+      local_50 = *(undefined4 *)(local_20 + 0x5c);
+  local_hints: local_a1=m_channel
+  strings:
+    virtual int Inter_UpdateServerMessage::dispatch_sig(CUser*, char*, int)
+    SERVER_MESSAGE : Send ServerMessage to monitor server(source_channel:%d, kind:%d, index:%d, msg_len:%d, msg:%s, name_len:%d, name:%s, time:%d
+    virtual int Inter_UpdateServerMessage::dispatch_sig(CUser*, char*, int)
+    SERVER_MESSAGE : NOT EXIST SHARE TYPE

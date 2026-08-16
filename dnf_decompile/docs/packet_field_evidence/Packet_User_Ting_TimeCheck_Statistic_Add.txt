@@ -1,0 +1,32 @@
+# Packet_User_Ting_TimeCheck_Statistic_Add
+
+== DisConnSig @ 86489f4 (pkt=local_cc2) ==
+  +0x2 [2B ushort] local_cc0
+      local_cc0 = (ushort)local_cb7 * 0xc + 0x12;
+      uVar13 = (uint)local_cc0;
+  +0xa [1B undefined1] local_cb8
+      local_cb8 = 1;
+  +0xb [1B byte] local_cb7
+      local_cb7 = *(byte *)(local_24 + 1);
+      memcpy(auStack_cb0,(void *)(local_24 + 4),(uint)local_cb7 * 0xc);
+      local_cc0 = (ushort)local_cb7 * 0xc + 0x12;
+  +0xc [4B undefined4] local_cb6
+      local_cb6 = param_4;
+  +0x10 [2B undefined2] local_cb2
+      local_cb2 = GetLastLoginChannelNo(this);
+  strings:
+    Arad_EventPeriodDataManager
+    void CUser::DisConnSig(DISCONN_SIG, bool, int)
+    this %x,incre_id= %d, idx= %d, m_socket<0,m_ChState==NONE , DisConnSig %s, From %d
+    void CUser::DisConnSig(DISCONN_SIG, bool, int)
+    from (%d) m_id[%s] uid[%d], send(%d:%d), recv(%d), ip(GetPeerIP:NONE), dungeon(%d)
+    void CUser::DisConnSig(DISCONN_SIG, bool, int)
+    from (%d) m_id[%s] uid[%d], send(%d:%d), recv(%d), ip(%s), dungeon(%d)
+    user.cpp
+    void CUser::DisConnSig(DISCONN_SIG, bool, int)
+    [CUser::DisConnSig] Already Disconnected! Socket(-1) ACCID[%s]
+    user.cpp
+    void CUser::DisConnSig(DISCONN_SIG, bool, int)
+    [CUser::DisConnSig] Fail to disconnect reason send: reason[%d]
+    user.cpp
+    void CUser::DisConnSig(DISCONN_SIG, bool, int)

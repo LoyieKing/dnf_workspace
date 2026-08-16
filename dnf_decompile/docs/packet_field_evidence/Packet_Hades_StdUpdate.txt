@@ -1,0 +1,10 @@
+# Packet_Hades_StdUpdate
+
+== StdCateUpdate @ 84b938c (pkt=local_1e) ==
+  +0xa [4B undefined4] local_14
+      local_14 = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  +0xe [2B ushort] local_10
+      local_10 = param_1;
+  +0x10 [2B ushort] local_e
+      local_e = param_2;
+  local_hints: local_14=m_accId

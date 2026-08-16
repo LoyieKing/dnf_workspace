@@ -1,0 +1,6 @@
+# Packet_TOD_DoRandomSelect
+
+== dispatch_sig @ 84e4d90 (pkt=local_2a) ==
+  strings:
+    virtual int Inter_TOD_ReturnToMonitor_APCSettingComplete::dispatch_sig(CUser*, char*, int)
+    TOD Random Select Complete. send->monitor group(%d)

@@ -1,0 +1,10 @@
+# Packet_Hades_Gold_Minus
+
+== GoldMinus @ 84b944a (pkt=local_20) ==
+  +0xa [4B undefined4] local_16
+      local_16 = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  +0xe [4B undefined4] local_12
+      local_12 = param_1;
+  +0x12 [2B undefined2] local_e
+      local_e = param_3;
+  local_hints: local_16=m_accId

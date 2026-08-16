@@ -1,0 +1,6 @@
+# Packet_Register_GM_MID
+
+== SetGameMasterMode @ 86796dc (pkt=local_1a) ==
+  +0xa [4B undefined4] local_10
+      local_10 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)this);
+  local_hints: local_10=m_characNo

@@ -1,0 +1,27 @@
+# Packet_TowerOfDespair_Statistic_GTS
+
+== _do_after_dungeon_start @ 834d8ec (pkt=local_43) ==
+  +0xe [4B uint] local_35
+      local_35 = TOD_Layer::GetLayer(local_1a);
+      local_35 = local_35 & 0xffff;
+  +0x12 [1B undefined1] local_31
+      local_31 = 1;
+  +0x13 [4B undefined4] local_30
+      local_30 = CUser::get_acc_id(param_1);
+  local_hints: local_30=m_accId
+  strings:
+    virtual bool CDungeon_TowerOfDespair::_do_after_dungeon_start(CUser*) const
+    CDungeon_TowerOfDespair::_do_after_dungeon_start, delete_item failed , User ch =%d , %d %d
+
+== ClearDungeon @ 85a9330 (pkt=local_cb) ==
+  +0xe [4B uint] local_bd
+      local_bd = TOD_Layer::GetLayer(local_4e);
+      local_bd = local_bd & 0xffff;
+  +0x12 [1B undefined1] local_b9
+      local_b9 = 0;
+  strings:
+    Neople
+    game_server_msg_191
+    game_server_msg_192
+    void CParty::ClearDungeon()
+    void CParty::ClearDungeon()

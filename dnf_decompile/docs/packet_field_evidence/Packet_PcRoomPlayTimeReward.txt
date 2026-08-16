@@ -1,0 +1,14 @@
+# Packet_PcRoomPlayTimeReward
+
+== processEventPcRoomPlayTime @ 811089c (pkt=local_3f) ==
+  +0xa [1B undefined1] local_35
+      local_35 = (undefined1)*(undefined4 *)(iVar9 + 0x378);
+      local_35 = CUser::GetServerGroup(param_1);
+  +0xb [4B undefined4] local_34
+      local_34 = CUser::get_acc_id(param_1);
+  +0xf [4B undefined4] local_30
+      local_30 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  local_hints: local_30=m_characNo; local_34=m_accId; local_35=m_serverGroup
+  strings:
+    int EventClassify::CPcRoomPlayTime::processEventPcRoomPlayTime(CUser*)
+    <PCROOM_PLAY_TIME_EVENT> send_reward m_id(%d), charac_no(%d), total_time(%d), reward_cnt(%d)

@@ -1,0 +1,20 @@
+# Packet_Assert_Manager_Info
+
+== dispatch_sig @ 821e1f4 (pkt=local_220) ==
+  +0xa [4B int] local_216
+      cVar1 = PacketBuf::get_int(param_2,&local_216);
+      if (local_216 < 0x100) {
+      cVar1 = PacketBuf::get_binary(param_2,acStack_212,local_216);
+  +0x110 [4B int] local_110
+      cVar1 = PacketBuf::get_int(param_2,&local_110);
+      if ((local_110 < 0x100) && (-1 < local_110)) {
+      if (local_110 < 1) {
+      cVar1 = PacketBuf::get_binary(param_2,acStack_10c,local_110);
+  strings:
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_AssertManager::dispatch_sig(CUser*, PacketBuf&)

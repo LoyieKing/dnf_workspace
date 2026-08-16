@@ -1,0 +1,15 @@
+# Packet_Monitor_Max_Level_BroadCast
+
+== _check_level_up @ 8662aea (pkt=local_9c) ==
+  strings:
+    bool CUser::_check_level_up(int, int&, int&, eExpAddReason, int)
+    CUser::_check_level_up m_selected is NULL
+    bool CUser::_check_level_up(int, int&, int&, eExpAddReason, int)
+    CUser::_check_level_up m_selected->m_level is 0
+    bool CUser::_check_level_up(int, int&, int&, eExpAddReason, int)
+    %s is Level(%d) and Exp(%d) Inconsistency(bottom(%d), top(%d))
+    bool CUser::_check_level_up(int, int&, int&, eExpAddReason, int)
+    CUser::_check_level_up, LEVEL:%d TOP:%d BOTTOM:%d
+
+== SetCharacLevel @ 867a95c (pkt=local_88) ==
+  local_hints: local_2c=m_exp

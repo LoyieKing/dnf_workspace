@@ -1,0 +1,12 @@
+# Packet_Monitor_Call_Guild_Level_Up
+
+== SendGuildLevelup @ 846dd8a (pkt=local_27) ==
+  +0x2 [2B ushort] local_25
+  +0xa [4B int] local_1d
+      local_1d = param_1;
+  +0xe [4B uint] local_19
+      local_19 = param_2;
+  +0x12 [4B uint] local_15
+      local_15 = param_3;
+  +0x17 [4B uint] local_10
+      local_10 = param_4;

@@ -1,0 +1,15 @@
+# Packet_CollectItems
+
+== process @ 81e343c (pkt=local_4d) ==
+  +0xe [4B undefined4] local_3f
+      local_3f = CUser::get_acc_id(param_1);
+  +0x12 [4B uint] local_3b
+      local_3b = (uint)*(ushort *)(local_14 + 0x10);
+  +0x16 [4B undefined4] local_37
+      local_37 = CUser::get_charac_no(param_1,-1);
+  +0x1a [1B undefined1] local_33
+      local_33 = (undefined1)sVar7;
+  local_hints: local_3f=m_accId
+  strings:
+    virtual int Dispatcher_CollectItems::process(CUser*, MSG_BASE&, ParamBase&)
+    virtual int Dispatcher_CollectItems::process(CUser*, MSG_BASE&, ParamBase&)

@@ -1,0 +1,14 @@
+# Packet_Monitor_Find_Factory_Hub_User
+
+== dispatch_sig @ 84dc97a (pkt=local_47) ==
+  +0x2 [2B undefined2] local_45
+      local_45 = 0x33;
+  +0xa [4B undefined4] local_3d
+      local_3d = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_2);
+  +0xe [1B undefined1] local_39
+      local_39 = (undefined1)sVar3;
+  +0x2d [2B undefined2] local_1a
+      local_1a = 0x2c1;
+  +0x2f [4B undefined4] local_18
+      local_18 = CUser::get_acc_id((CUser *)param_2);
+  local_hints: local_18=m_accId; local_3d=m_characNo

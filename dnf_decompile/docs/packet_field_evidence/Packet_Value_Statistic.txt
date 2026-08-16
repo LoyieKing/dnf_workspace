@@ -1,0 +1,5 @@
+# Packet_Value_Statistic
+
+== InsertValueStatistic @ 860d8a4 (pkt=local_ae) ==
+  +0xa [4B int] local_a4
+      local_a4 = local_18;

@@ -1,0 +1,14 @@
+# Packet_Guild_Debug
+
+== execute @ 84ac76c (pkt=local_2e) ==
+  +0x2 [2B ushort] local_2c
+  +0xa [4B undefined4] local_24
+      local_24 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)local_10);
+  +0xe [4B undefined4] local_20
+      local_20 = CUser::get_charac_no(local_10,-1);
+  +0x12 [4B undefined4] local_1c
+      local_1c = *(undefined4 *)(this + 8);
+  +0x16 [4B undefined4] local_18
+      local_18 = *(undefined4 *)(this + 0xc);
+  +0x1a [4B undefined4] local_14
+      local_14 = *(undefined4 *)(this + 0x10);

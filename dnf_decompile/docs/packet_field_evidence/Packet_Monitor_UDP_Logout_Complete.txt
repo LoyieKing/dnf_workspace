@@ -1,0 +1,8 @@
+# Packet_Monitor_UDP_Logout_Complete
+
+== dispatch_sig @ 84ce548 (pkt=local_1f) ==
+  +0xa [4B undefined4] local_15
+      local_15 = *local_10;
+  +0xe [1B undefined1] local_11
+      local_11 = CEnvironment::get_channel_no(this);
+  local_hints: local_11=m_channel

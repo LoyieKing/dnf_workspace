@@ -1,0 +1,11 @@
+# Packet_Hades_UserStatus
+
+== Send_UserStatus @ 84b97fe (pkt=local_1e) ==
+  +0xa [4B undefined4] local_14
+      local_14 = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  +0xe [4B uint] local_10
+      local_10 = 0;
+      local_10 = local_10 | 1;
+      local_10 = local_10 | 2;
+      local_10 = local_10 | 4;
+  local_hints: local_14=m_accId

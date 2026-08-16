@@ -1,0 +1,11 @@
+# Packet_Broadcast_Msg
+
+== _BroadcastRunaway @ 82eab7a (pkt=local_12e) ==
+  +0x2 [2B ushort] local_12c
+      local_12c = local_120 + 0xf;
+      local_20 = (uint)local_12c;
+  +0xa [4B undefined4] local_124
+      local_124 = 0;
+  +0xe [1B byte] local_120
+      local_120 = (byte)sVar5;
+      local_12c = local_120 + 0xf;

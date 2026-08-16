@@ -1,0 +1,8 @@
+# Packet_Request_Secede_Power
+
+== SendSecedePower @ 846e500 (pkt=local_1f) ==
+  +0x2 [2B ushort] local_1d
+  +0xa [4B uint] local_15
+      local_15 = param_1;
+  +0xe [4B uint] local_11
+      local_11 = param_2;

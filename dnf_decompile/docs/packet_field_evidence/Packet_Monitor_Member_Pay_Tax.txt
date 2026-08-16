@@ -1,0 +1,10 @@
+# Packet_Monitor_Member_Pay_Tax
+
+== SendMemberPayTax @ 8470fb4 (pkt=local_22) ==
+  +0x2 [2B ushort] local_20
+  +0xa [4B uint] local_18
+      local_18 = param_2;
+  +0xe [4B int] local_14
+      local_14 = param_3;
+  +0x12 [4B int] local_10
+      local_10 = param_4;

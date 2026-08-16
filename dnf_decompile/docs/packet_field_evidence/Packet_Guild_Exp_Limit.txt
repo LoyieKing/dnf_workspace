@@ -1,0 +1,4 @@
+# Packet_Guild_Exp_Limit
+
+== SendGuildExpLimit @ 846ee44 (pkt=local_6a) ==
+  +0x2 [2B ushort] local_68

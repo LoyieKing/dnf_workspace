@@ -1,0 +1,8 @@
+# Packet_Monitor_Call_Guild_All_Members
+
+== SendPacketCallGuildAllMembers @ 846dd4e (pkt=local_1e) ==
+  +0x2 [2B ushort] local_1c
+  +0xa [4B uint] local_14
+      local_14 = param_1;
+  +0xe [4B uint] local_10
+      local_10 = param_2;

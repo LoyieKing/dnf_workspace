@@ -1,0 +1,8 @@
+# Packet_Register_To_BlackList
+
+== process @ 81cdc9a (pkt=local_40) ==
+  +0xa [4B undefined4] local_36
+      local_36 = CUser::get_acc_id(param_1);
+  local_hints: local_36=m_accId
+  strings:
+    virtual int Dispatcher_RegisterToBlackList::process(CUser*, MSG_BASE&, ParamBase&)

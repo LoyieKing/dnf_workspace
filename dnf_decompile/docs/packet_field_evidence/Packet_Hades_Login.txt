@@ -1,0 +1,10 @@
+# Packet_Hades_Login
+
+== Send_Login @ 84b9200 (pkt=local_80) ==
+  +0xa [4B undefined4] local_76
+      local_76 = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  +0x5f [1B undefined1] local_21
+      local_21 = CEnvironment::get_channel_no(this_00);
+  +0x60 [4B undefined4] local_20
+      local_20 = CUser::GetUID(*(CUser **)(this + 0x20));
+  local_hints: local_20=m_uid; local_21=m_channel; local_76=m_accId

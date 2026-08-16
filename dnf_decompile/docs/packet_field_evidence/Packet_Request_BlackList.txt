@@ -1,0 +1,10 @@
+# Packet_Request_BlackList
+
+== process @ 81ce070 (pkt=local_22) ==
+  +0xa [4B undefined4] local_18
+      local_18 = CUser::get_acc_id(param_1);
+  +0xe [4B undefined4] local_14
+      local_14 = CUser::GetUID(param_1);
+  local_hints: local_14=m_uid; local_18=m_accId
+  strings:
+    virtual int Dispatcher_RequestBlackList::process(CUser*, MSG_BASE&, ParamBase&)

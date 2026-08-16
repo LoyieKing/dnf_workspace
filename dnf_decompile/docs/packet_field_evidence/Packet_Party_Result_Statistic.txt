@@ -1,0 +1,24 @@
+# Packet_Party_Result_Statistic
+
+== dispatch_sig @ 821abe0 (pkt=local_30) ==
+  +0xa [2B ushort] local_26
+      cVar1 = PacketBuf::get_short(param_2,&local_26);
+      local_24[0] = local_24[0] + local_26;
+  +0xc [6B ushort] local_24
+      local_24[2] = 0;
+      local_24[1] = 0;
+      cVar1 = PacketBuf::get_short(param_2,local_24 + 2);
+      cVar1 = PacketBuf::get_short(param_2,local_24 + 1);
+      partyPingStat(this,param_1,local_24 + 2,local_24 + 1);
+      pvpPingStat(this,param_1,local_24 + 2,local_24 + 1);
+  strings:
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)
+    virtual int DisPatcher_UdpCharacteristic::dispatch_sig(CUser*, PacketBuf&)

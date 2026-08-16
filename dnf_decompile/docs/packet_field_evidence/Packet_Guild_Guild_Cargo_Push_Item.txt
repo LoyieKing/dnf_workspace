@@ -1,0 +1,43 @@
+# Packet_Guild_Guild_Cargo_Push_Item
+
+== dispatch_sig @ 84dd856 (pkt=local_c8) ==
+  +0x2 [2B ushort] local_c6
+  +0xa [4B undefined4] local_be
+      local_be = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_2);
+  +0xe [4B undefined4] local_ba
+      local_ba = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_2);
+  +0x12 [4B undefined4] local_b6
+      local_b6 = *(undefined4 *)(local_38 + 0x13);
+      ((cUserHistoryLog *)(param_2 + 0x79700),7,local_b6,local_ac,local_a7,
+  +0x16 [4B undefined4] local_b2
+      local_b2 = *(undefined4 *)(local_38 + 0x1f);
+  +0x1a [1B undefined1] local_ae
+      local_ae = *(undefined1 *)(local_38 + 0x23);
+  +0x1c [4B int] local_ac
+      local_ac = local_73;
+      ((cUserHistoryLog *)(param_2 + 0x79700),7,local_b6,local_ac,local_a7,
+  +0x20 [1B undefined1] local_a8
+      local_a8 = Inven_Item::GetItemAttr(local_75);
+  +0x21 [4B int] local_a7
+      local_a7 = local_6e;
+      local_a7 = local_6e;
+      local_a7 = *(int *)(local_38 + 0x1b);
+      ((cUserHistoryLog *)(param_2 + 0x79700),7,local_b6,local_ac,local_a7,
+  +0x25 [2B ushort] local_a3
+      local_a3 = local_6a;
+      local_a3,local_a1,local_a8,uVar5);
+  +0x27 [4B undefined4] local_a1
+      local_a1 = local_68;
+  +0x38 [4B undefined4] local_90
+      local_90 = local_50;
+  +0x3c [4B undefined4] local_8c
+      local_8c = local_4c;
+  +0x40 [4B undefined4] local_88
+      local_88 = local_48;
+  +0x44 [2B undefined2] local_84
+      local_84 = local_44;
+  +0x50 [1B undefined1] local_78
+      local_78 = *(undefined1 *)(local_38 + 0x24);
+  +0x51 [2B undefined2] local_77
+      local_77 = *(undefined2 *)(local_38 + 0x25);
+  local_hints: local_ba=m_characNo

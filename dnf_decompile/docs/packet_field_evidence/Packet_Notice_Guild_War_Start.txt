@@ -1,0 +1,4 @@
+# Packet_Notice_Guild_War_Start
+
+== SendGuildWarStart @ 846df90 (pkt=local_17) ==
+  +0x2 [2B ushort] local_15

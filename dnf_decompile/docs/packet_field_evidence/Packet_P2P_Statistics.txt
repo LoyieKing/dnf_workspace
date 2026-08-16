@@ -1,0 +1,63 @@
+# Packet_P2P_Statistics
+
+== process @ 81e2bde (pkt=local_9f) ==
+  +0xa [4B int] local_95
+      local_95 = (int)(char)local_20[0xd] - (int)(char)local_20[0xe];
+      iVar1 = local_95;
+  +0xe [4B int] local_91
+      local_91 = (int)(char)local_20[0xe];
+      iVar1 = local_91;
+  +0x12 [1B undefined1] local_8d
+      local_8d = CUser::GetServerGroup((CUser *)param_2);
+  +0x13 [2B short] local_8c
+      local_8c = *(short *)(local_20 + 0x10);
+      iVar8 = (int)local_8c;
+  +0x15 [2B short] local_8a
+      local_8a = *(short *)(local_20 + 0x12);
+      iVar7 = (int)local_8a;
+  +0x17 [2B short] local_88
+      local_88 = *(short *)(local_20 + 0x14);
+      iVar6 = (int)local_88;
+  +0x19 [4B undefined4] local_86
+      local_86 = *(undefined4 *)(local_20 + 0x18);
+      uVar2 = local_86;
+  +0x1d [4B undefined4] local_82
+      local_82 = *(undefined4 *)(local_20 + 0x1c);
+      uVar3 = local_82;
+  +0x21 [4B undefined4] local_7e
+      local_7e = *(undefined4 *)(local_20 + 0x20);
+      uVar4 = local_7e;
+  +0x25 [4B undefined4] local_7a
+      local_7a = *(undefined4 *)(local_20 + 0x24);
+      uVar5 = local_7a;
+  +0x29 [2B short] local_76
+      local_76 = *(short *)(local_20 + 0x28);
+      iVar8 = (int)local_76;
+  +0x2b [2B short] local_74
+      local_74 = *(short *)(local_20 + 0x2a);
+      iVar7 = (int)local_74;
+  +0x2d [2B short] local_72
+      local_72 = *(short *)(local_20 + 0x2c);
+      iVar6 = (int)local_72;
+  +0x2f [4B undefined4] local_70
+      local_70 = *(undefined4 *)(local_20 + 0x30);
+      uVar2 = local_70;
+  +0x33 [4B undefined4] local_6c
+      local_6c = *(undefined4 *)(local_20 + 0x34);
+      uVar3 = local_6c;
+  +0x37 [4B undefined4] local_68
+      local_68 = *(undefined4 *)(local_20 + 0x38);
+      uVar4 = local_68;
+  +0x3b [4B undefined4] local_64
+      local_64 = *(undefined4 *)(local_20 + 0x3c);
+      uVar5 = local_64;
+  local_hints: local_8d=m_serverGroup
+  strings:
+    virtual int Dispatcher_P2P_Statistics::process(CUser*, MSG_BASE&, ParamBase&)
+    p2p statistics
+    virtual int Dispatcher_P2P_Statistics::process(CUser*, MSG_BASE&, ParamBase&)
+    num(%d) min(%d) max(%d), avg(%d), 100(%u), 200(%u), 300(%u), 400(%u)
+    virtual int Dispatcher_P2P_Statistics::process(CUser*, MSG_BASE&, ParamBase&)
+    relay statistics
+    virtual int Dispatcher_P2P_Statistics::process(CUser*, MSG_BASE&, ParamBase&)
+    num(%d) min(%d) max(%d), avg(%d), 100(%u), 200(%u), 300(%u), 400(%u)

@@ -1,0 +1,10 @@
+# Packet_Reason_Crash_Down_Info
+
+== CarryClientCrashDown @ 860d072 (pkt=local_32) ==
+  +0xe [4B undefined4] local_24
+      local_24 = CEnvironment::get_channel_no(this_00);
+  +0x12 [4B undefined4] local_20
+      local_20 = *puVar2;
+  +0x16 [4B undefined4] local_1c
+      local_1c = *(undefined4 *)(iVar3 + 4);
+  local_hints: local_24=m_channel

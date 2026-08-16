@@ -1,0 +1,3 @@
+# Packet_MiniCraneSeed
+
+== UpdateMiniCraneSeed @ 86d1480 (pkt=local_1e) ==

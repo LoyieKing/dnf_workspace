@@ -1,0 +1,8 @@
+# Packet_Monitor_Send_Guild_Mail
+
+== SendGuildMail @ 846e084 (pkt=local_11e) ==
+  +0x2 [2B ushort] local_11c
+  +0xa [4B uint] local_114
+      local_114 = param_1;
+  +0xe [4B uint] local_110
+      local_110 = param_2;

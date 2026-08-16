@@ -1,0 +1,14 @@
+# Packet_CutOff_UDP_Reply_UserInfo
+
+== send_userinfos_to_cutoff_server @ 8295e84 (pkt=local_b22) ==
+  +0x2 [2B ushort] local_b20
+      local_b20 = *(short *)(local_690c + local_10 * 0x964) * 4 + 0xe;
+  +0x6 [4B undefined4] local_b1c
+      local_b1c = auStack_6908[local_10 * 0x259];
+  +0xa [2B undefined2] local_b18
+      local_b18 = *(undefined2 *)(local_690c + local_10 * 0x964);
+  +0xc [1B undefined1] local_b16
+      local_b16 = CEnvironment::get_channel_no(this_00);
+  +0xd [1B undefined1] local_b15
+      local_b15 = (undefined1)*(undefined4 *)(iVar5 + 0x378);
+  local_hints: local_b16=m_channel

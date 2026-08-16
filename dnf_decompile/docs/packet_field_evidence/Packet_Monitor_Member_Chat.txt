@@ -1,0 +1,36 @@
+# Packet_Monitor_Member_Chat
+
+== send_chat_msg @ 86c975e (pkt=local_1e7) ==
+  +0x2 [2B ushort] local_1e5
+      local_1e5 = sVar5 + 0x3b;
+      local_3c = (uint)local_1e5;
+      local_1e5 = sVar5 + 0x13;
+      local_28 = (uint)local_1e5;
+      local_1e5 = sVar5 + 0xf;
+      local_24 = (uint)local_1e5;
+  +0xa [4B int] local_1dd
+      local_1dd = (int)(char)param_2;
+      local_1dd = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_1);
+      local_1dd = CUserCharacInfo::get_charac_memberkey((CUserCharacInfo *)param_1);
+  +0xe [4B undefined4] local_1d9
+      local_1d9 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+      local_1d9 = CONCAT31(local_1d9._1_3_,uVar3);
+      memcpy((void *)((int)&local_1d9 + 1),param_5,param_6);
+  +0x13 [4B undefined4] local_1d4
+      local_1d4 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x17 [4B undefined4] local_1d0
+      local_1d0 = param_4;
+  +0x1b [1B undefined1] local_1cc
+      local_1cc = (undefined1)param_8;
+  local_hints: local_1d4=m_characNo; local_1d9=m_characNo
+  strings:
+    void GameWorld::send_chat_msg(CUser*, char, short unsigned int, unsigned int, char*, int, char*, int, ENUM_NOTIPACKET)
+    %s is forbidden to chat for %d msec.\n
+    void GameWorld::send_chat_msg(CUser*, char, short unsigned int, unsigned int, char*, int, char*, int, ENUM_NOTIPACKET)
+    getUserVillage() call failed
+    world.cpp
+    void GameWorld::send_chat_msg(CUser*, char, short unsigned int, unsigned int, char*, int, char*, int, ENUM_NOTIPACKET)
+    GUILD_CHAT_ERROR : charac no == %d || guild key == %d 
+    world.cpp
+    void GameWorld::send_chat_msg(CUser*, char, short unsigned int, unsigned int, char*, int, char*, int, ENUM_NOTIPACKET)
+    MEMBER_CHAT_ERROR : member key == %d 

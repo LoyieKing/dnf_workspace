@@ -1,0 +1,6 @@
+# Packet_Hades_Logout
+
+== Send_Logout @ 84b92ea (pkt=local_1a) ==
+  +0xa [4B undefined4] local_10
+      local_10 = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  local_hints: local_10=m_accId

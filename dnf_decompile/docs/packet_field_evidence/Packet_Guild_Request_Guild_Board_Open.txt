@@ -1,0 +1,10 @@
+# Packet_Guild_Request_Guild_Board_Open
+
+== SendGuildBoardOpen @ 846efce (pkt=local_1f) ==
+  +0x2 [2B ushort] local_1d
+  +0xa [1B undefined1] local_15
+      local_15 = param_3 != '\0';
+  +0xb [4B uint] local_14
+      local_14 = param_2;
+  +0xf [4B uint] local_10
+      local_10 = param_1;

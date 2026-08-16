@@ -1,0 +1,9 @@
+# Packet_Goldcard_Event_Statistic_GTS
+
+== sendPremiumGoldCardStatistic @ 85aca0a (pkt=local_1f) ==
+  +0xa [1B undefined1] local_15
+      local_15 = (undefined1)param_1;
+  +0xb [4B int] local_14
+      local_14 = param_2;
+  +0xf [4B int] local_10
+      local_10 = param_3;

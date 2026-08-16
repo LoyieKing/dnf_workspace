@@ -1,0 +1,7 @@
+# Packet_Notice_Guild_War_Point_Change
+
+== add_guild_pvp_result @ 865c936 (pkt=local_23) ==
+  +0xa [4B undefined4] local_19
+      local_19 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)this);
+  +0xe [1B undefined1] local_15
+      local_15 = (undefined1)param_1;

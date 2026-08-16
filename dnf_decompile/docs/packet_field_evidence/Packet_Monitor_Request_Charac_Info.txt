@@ -1,0 +1,6 @@
+# Packet_Monitor_Request_Charac_Info
+
+== process @ 81e19ca (pkt=local_3b) ==
+  +0x1f [4B undefined4] local_1c
+      local_1c = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  local_hints: local_1c=m_characNo

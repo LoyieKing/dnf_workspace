@@ -1,0 +1,8 @@
+# Packet_Sync_GM_List
+
+== SendGMList_To_UpperServer @ 8299d54 (pkt=local_90) ==
+  +0xa [1B char] local_86
+      local_86 = local_86 + '\x01';
+  +0xb [1B undefined1] local_85
+      local_85 = 0x14;
+      local_85 = (undefined1)local_10;

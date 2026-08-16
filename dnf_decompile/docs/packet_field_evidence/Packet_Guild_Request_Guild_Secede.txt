@@ -1,0 +1,10 @@
+# Packet_Guild_Request_Guild_Secede
+
+== SendRequestGuildSecede @ 846e190 (pkt=local_40) ==
+  +0x2 [2B ushort] local_3e
+  +0xa [4B uint] local_36
+      local_36 = param_1;
+  +0xe [4B uint] local_32
+      local_32 = param_2;
+  +0x12 [4B int] local_2e
+      local_2e = param_3;

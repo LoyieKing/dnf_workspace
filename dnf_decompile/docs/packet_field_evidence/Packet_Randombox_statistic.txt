@@ -1,0 +1,7 @@
+# Packet_Randombox_statistic
+
+== SendRandomBoxStatistic @ 8676826 (pkt=local_18) ==
+  +0xa [1B undefined1] local_e
+      local_e = param_1;
+  +0xb [1B undefined1] local_d
+      local_d = param_2;

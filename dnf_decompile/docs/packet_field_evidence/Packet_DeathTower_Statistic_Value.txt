@@ -1,0 +1,18 @@
+# Packet_DeathTower_Statistic_Value
+
+== SendDeathTowerValueStatistic @ 860f342 (pkt=local_21) ==
+  +0xa [1B undefined1] local_17
+      local_17 = param_3;
+  +0xb [2B short] local_16
+      local_16 = (short)param_4;
+  +0xd [4B int] local_14
+      local_14 = 4;
+      local_14 = 3;
+      local_14 = 5;
+      local_14 = 6;
+      local_14 = param_2;
+  +0x11 [4B int] local_10
+      local_10 = param_5;
+  strings:
+    Statistics.cpp
+    bool CDeathTowerValueStatistic::SendDeathTowerValueStatistic(DEATHTOWER_VALUE_STATISTIC_FIELD, char, char, unsigned int)

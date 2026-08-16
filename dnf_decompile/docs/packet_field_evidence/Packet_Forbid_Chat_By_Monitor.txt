@@ -1,0 +1,23 @@
+# Packet_Forbid_Chat_By_Monitor
+
+== dispatch_sig @ 81fa19e (pkt=local_3db) ==
+  +0xa [4B undefined4] local_3d1
+      local_3d1 = CONCAT31(local_3d1._1_3_,(char)local_4df);
+      strncpy((char *)((int)&local_3d1 + 1),(char *)&local_4db,local_4df);
+      local_3d1 = local_7c;
+  strings:
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    GM Command : %s
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    GMC %s \n
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    GMZ %s \n
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    GMS %s \n
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    GM(%s) expel %s \n
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)
+    Insert timer queue @ forbidchat: %s %d\n
+    virtual int Dispatcher_GM_Command::dispatch_sig(CUser*, PacketBuf&)

@@ -1,0 +1,11 @@
+# Packet_Approve_Join_Guild
+
+== process @ 81d50b4 (pkt=local_26) ==
+  +0x2 [2B ushort] local_24
+  +0xa [4B undefined4] local_1c
+      local_1c = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_2);
+  +0xe [4B undefined4] local_18
+      local_18 = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_2);
+  +0x12 [4B undefined4] local_14
+      local_14 = *(undefined4 *)(local_10 + 0xd);
+  local_hints: local_18=m_characNo

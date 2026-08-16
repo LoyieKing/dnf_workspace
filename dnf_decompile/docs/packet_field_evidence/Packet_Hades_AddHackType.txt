@@ -1,0 +1,10 @@
+# Packet_Hades_AddHackType
+
+== AddHackTypeCnt @ 84b9328 (pkt=local_26) ==
+  +0xa [4B undefined4] local_1c
+      local_1c = CUser::get_acc_id(*(CUser **)(this + 0x20));
+  +0xe [2B undefined2] local_18
+      local_18 = (undefined2)param_1;
+  +0x10 [2B undefined2] local_16
+      local_16 = (undefined2)param_2;
+  local_hints: local_1c=m_accId

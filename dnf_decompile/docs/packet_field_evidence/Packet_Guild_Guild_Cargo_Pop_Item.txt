@@ -1,0 +1,26 @@
+# Packet_Guild_Guild_Cargo_Pop_Item
+
+== process @ 81d15b2 (pkt=local_4b) ==
+  +0x2 [2B ushort] local_49
+  +0xa [4B undefined4] local_41
+      local_41 = CUserCharacInfo::get_charac_guildkey((CUserCharacInfo *)param_1);
+  +0xe [4B undefined4] local_3d
+      local_3d = CUserCharacInfo::getCurCharacNo((CUserCharacInfo *)param_1);
+  +0x12 [4B uint] local_39
+      local_39 = (uint)*(ushort *)(local_24 + 0xd);
+      ((cUserHistoryLog *)(param_1 + 0x79700),10,local_39,local_35,local_31,local_2d,
+  +0x16 [4B undefined4] local_35
+      local_35 = *(undefined4 *)(local_24 + 0xf);
+      ((cUserHistoryLog *)(param_1 + 0x79700),10,local_39,local_35,local_31,local_2d,
+  +0x1a [4B undefined4] local_31
+      local_31 = *(undefined4 *)(local_24 + 0x13);
+      ((cUserHistoryLog *)(param_1 + 0x79700),10,local_39,local_35,local_31,local_2d,
+  +0x1e [1B undefined1] local_2d
+      local_2d = cVar2 != '\0';
+      ((cUserHistoryLog *)(param_1 + 0x79700),10,local_39,local_35,local_31,local_2d,
+  +0x1f [4B uint] local_2c
+      local_2c = (uint)(byte)local_24[0x17];
+      local_2c);
+  local_hints: local_3d=m_characNo
+  strings:
+    virtual int Dispatcher_GuildCargoPopItem::process(CUser*, MSG_BASE&, ParamBase&)

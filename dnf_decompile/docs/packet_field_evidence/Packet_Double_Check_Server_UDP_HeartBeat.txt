@@ -1,0 +1,9 @@
+# Packet_Double_Check_Server_UDP_HeartBeat
+
+== SendHeartBeat @ 846d3ae (pkt=local_18) ==
+  +0x6 [4B undefined4] local_12
+      local_12 = 1000;
+  +0xa [1B undefined1] local_e
+      local_e = (undefined1)param_1;
+  +0xb [1B undefined1] local_d
+      local_d = (undefined1)param_2;
