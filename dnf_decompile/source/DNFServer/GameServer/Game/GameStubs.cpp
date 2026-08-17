@@ -755,7 +755,7 @@ public:
 };
 void CCharacterView::enableSaveCharacView() {}  // TODO(G1)
 bool CCharacterView::isSaveCharacView() { return false; }  // TODO(G2)
-bool CheckEquipable(const Inven_Item& a, const Inven_Item& b) { return false; }
+
 int IsEquipable(CUser* user, const CItem* item, int slot) { return 0; }
 
 
@@ -765,8 +765,8 @@ int GetInvenSlot(Inven_Item* item, CInventory* inven, int slot, int type)
     return 0;  // TODO(G1)
 }
 
-bool checkStackableLimit(unsigned long itemIdx, int count) { return false; }
-int my_compare_unsigned_short(const void* a, const void* b) { return 0; }
+
+
 int getItemChecksum(int slot, int itemIdx, int a, int b, int c) { return 0; }
 void finishItemChecksum(int* sum, int money, int coin, int a, int b) {}
 void write_log_gain_money(int reason, int amount, unsigned int user) {}
