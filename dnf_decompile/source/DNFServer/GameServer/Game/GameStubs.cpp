@@ -1474,21 +1474,7 @@ public:
 };
 void CommonTime::SetCreateTime(long) {}  // TODO(G1)
 CommonTime::operator long() const { return 0; }  // TODO(G1)
-class CReliablePerson
-{
-public:
-    unsigned int GetTradeGoldDaily() const;
-    unsigned int GetTradeGoldTotal() const;
-    unsigned int GetTradeGoldTotalBillion() const;
-    void SetTradeGoldDaily(unsigned int gold);
-    void IncrementTradeGold(unsigned int gold);
-    char m_pad[0xc];
-};
-unsigned int CReliablePerson::GetTradeGoldDaily() const { return 0; }
-unsigned int CReliablePerson::GetTradeGoldTotal() const { return 0; }
-unsigned int CReliablePerson::GetTradeGoldTotalBillion() const { return 0; }
-void CReliablePerson::SetTradeGoldDaily(unsigned int) {}
-void CReliablePerson::IncrementTradeGold(unsigned int) {}
+// CReliablePerson → Game/CReliablePerson.cpp（第一阶段正式实现）
 class seriaRoom_AniDeco
 {
 public:
