@@ -1465,15 +1465,7 @@ public:
 CDungeonClear::CDungeonClear() {}  // TODO(G1)
 CDungeonClear::~CDungeonClear() {}  // TODO(G1)
 }
-class CommonTime
-{
-public:
-    void SetCreateTime(long t);
-    operator long() const;
-    char m_pad[0x14];
-};
-void CommonTime::SetCreateTime(long) {}  // TODO(G1)
-CommonTime::operator long() const { return 0; }  // TODO(G1)
+// CommonTime → Game/CommonTime.cpp（第一阶段正式实现，7 方法）
 // CReliablePerson → Game/CReliablePerson.cpp（第一阶段正式实现）
 class seriaRoom_AniDeco
 {
