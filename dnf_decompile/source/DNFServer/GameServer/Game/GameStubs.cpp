@@ -539,7 +539,7 @@ void CUser::FatigueUp(int) {}  // TODO(G2)
 
 
 void CUser::SendNotiPacket(eSendTarget, ENUM_NOTIPACKET, int) {}  // TODO(G2)
-void CUser::SetPvpIndex(short) {}  // TODO(G2)
+
 
 
 void CUser::add_inventory_item(unsigned int itemId) {}  // TODO(G2)
