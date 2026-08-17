@@ -767,8 +767,7 @@ int GetInvenSlot(Inven_Item* item, CInventory* inven, int slot, int type)
 
 
 
-int getItemChecksum(int slot, int itemIdx, int a, int b, int c) { return 0; }
-void finishItemChecksum(int* sum, int money, int coin, int a, int b) {}
+
 void write_log_gain_money(int reason, int amount, unsigned int user) {}
 void write_log_use_money(int reason, int amount, unsigned int user) {}
 bool isGainedGoldFromDungeonReason(eMoneyAddReason reason) { return false; }
