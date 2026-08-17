@@ -42,6 +42,16 @@
   的 CMAKE_CXX_LINK_EXECUTABLE 改用它，移除 -no-pie（4.4.7 不支持，4.4 默认非 PIE），LINK_FLAGS 加 -lrt
 - `DNF_TC_ROOT` 不必设：工具链脚本已全部相对路径化，自 `$(dirname $0)` 推导 toolchains 目录
 
+
+## 3.6 首轮 identical 还原（2026-08-17，本地闭环验证）
+
+打通构建+对比后，首批 6 个桩函数还原为 identical（全部按 ORIG 反汇编，语义字段无裸偏移）：
+- `CItem::IsEnableWorld`（34/34）、`IsCreatureItemType`/`isEquipableItemType`、
+  `my_compare_unsigned_short`（14/14）、`checkStackableLimit`（43/43）、`CheckEquipable`（44/44）
+- 关键手法：`CheckEquipable`/`checkStackableLimit` 用独立派生局部复现 ORIG 双槽栈布局；
+  `isEquipableItemType` 用 ITEM_TYPE_* 具名枚举（区别于成员版的 1/5/6/8）
+- 全量 identical 6406→6449，diff 4150→4144；继续按 GameStubs 桩清理推进
+
 ## 4. 当前状态（2026-08-17）
 
 ### 关键 TU 统计（identical/ae 合计 / diff）
