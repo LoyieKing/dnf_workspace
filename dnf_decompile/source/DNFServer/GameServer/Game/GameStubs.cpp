@@ -542,7 +542,7 @@ void CUser::SendNotiPacket(eSendTarget, ENUM_NOTIPACKET, int) {}  // TODO(G2)
 
 
 
-void CUser::add_inventory_item(unsigned int itemId) {}  // TODO(G2)
+
 void CUser::add_guild_pvp_result(int) {}  // TODO(G2)
 void CUser::add_pvp_play_info(unsigned int, unsigned int) {}  // TODO(G2)
 void CUser::add_pvp_result(bool, unsigned int*) {}  // TODO(G2)
@@ -1435,8 +1435,7 @@ void md5_finish(md5_context* ctx, unsigned char* out)
 }
 
 // ---- G1-2 CUserCharacInfo 依赖桩（真实符号，对应 TU 后续批次细化）----
-namespace WongWork
-{
+namespace WongWork {
 class CDungeonClear
 {
 public:
@@ -1444,13 +1443,26 @@ public:
     ~CDungeonClear();
     char getClearedDungeonDiff(short dungeonIdx) const;
     void addClearedDungeon(short dungeonIdx, signed char diff);
-    char m_pad[0x18];
+    std::map<short, char> m_map;
 };
-CDungeonClear::CDungeonClear() {}  // TODO(G1)
-CDungeonClear::~CDungeonClear() {}  // TODO(G1)
-char CDungeonClear::getClearedDungeonDiff(short) const { return 0; }  // TODO(G1)
-void CDungeonClear::addClearedDungeon(short, signed char) {}  // TODO(G1)
+CDungeonClear::CDungeonClear() {}
+CDungeonClear::~CDungeonClear() {}
+char CDungeonClear::getClearedDungeonDiff(short dungeonIdx) const
+{
+    std::map<short, char>::const_iterator it = m_map.find(dungeonIdx);
+    if (it == m_map.end())
+        return 0;
+    return it->second;
 }
+void CDungeonClear::addClearedDungeon(short dungeonIdx, signed char diff)
+{
+    std::map<short, char>::iterator it = m_map.find(dungeonIdx);
+    if (it == m_map.end())
+        m_map.insert(std::make_pair(dungeonIdx, diff));
+    else
+        it->second = diff;
+}
+}  // namespace WongWork
 // CommonTime → Game/CommonTime.cpp（第一阶段正式实现，7 方法）
 // CReliablePerson → Game/CReliablePerson.cpp（第一阶段正式实现）
 class seriaRoom_AniDeco
