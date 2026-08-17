@@ -555,7 +555,7 @@ void CUser::gain_exp_sp(int, int&, int&, eExpAddReason, int, bool) {}  // TODO(G
 
 bool CUser::isCompetitionMercenary() const { return false; }  // TODO(G2)
 
-int CUser::CheckMoveTown(int) { return 0; }  // TODO(G2)
+
 
 
 

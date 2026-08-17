@@ -72,7 +72,8 @@ public:
     char m_pad0[0x24];      // +0x00
     int m_areaCount;        // +0x24
     Area* m_pAreas;         // +0x28
-    char m_pad2c[0x34 - 0x2c];  // +0x2c
+    int m_requiredLevel;    // +0x2c
+    int m_questIdx;         // +0x30
 };
 
 // ---- MapArea：Area 的传送区域矩形（16 字节）----
