@@ -300,15 +300,7 @@ void Secu_GoldControl::AddGold(unsigned int, eMoneyAddReason) {}  // TODO(G1)
 void Secu_GoldControl::SubGold(unsigned int, eMoneySubReason) {}  // TODO(G1)
 void Secu_GoldControl::SavetoDB(bool, bool, bool) {}  // TODO(G2)
 
-class CDungeonGainedGold
-{
-public:
-    unsigned int incGainedGold(unsigned int amount);
-};
-unsigned int CDungeonGainedGold::incGainedGold(unsigned int amount)
-{
-    return 0;  // TODO(G1)
-}
+// CDungeonGainedGold → Game/CDungeonGainedGold.cpp（第一阶段正式实现）
 
 class CSecu_ProtectionField
 {
@@ -340,6 +332,7 @@ bool CSlotBoundChecker::get_item_type(int, int, Inven_Item::ITEM_TYPE&) const
 }
 
 class PvpResultType;
+class CDungeonGainedGold;  // 定义见 Game/CDungeonGainedGold.cpp
 class CUser
 {
 public:

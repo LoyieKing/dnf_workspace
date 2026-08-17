@@ -44,6 +44,8 @@ BINS = {
               ROOT / 'dnf_decompile/build/relay/df_relay_r'),
     'coserver': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/coserver/df_coserver_r',
                  ROOT / 'dnf_decompile/build/coserver/df_coserver_r'),
+    'game': (ROOT / 'dnf_installer/build/dnf_data/home/template/init/df_game_r',
+             ROOT / 'dnf_decompile/build/game/df_game_r'),
 }
 DEFAULT_BIN = 'monitor'
 
