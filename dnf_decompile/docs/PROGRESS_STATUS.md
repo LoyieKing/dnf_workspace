@@ -55,6 +55,17 @@
   与成员版不同（1/5/6 无 8）
 - 全量 identical 6406→6450，diff 4150→4143；继续按 GameStubs 桩清理推进
 
+## 3.7 检测：CUser 成员布局 0x3c 漂移（2026-08-17）
+
+还原 `CUser::CheckFatigue` 时发现 CUser 成员布局与 ORIG 存在 **0x3c 偏移漂移**：
+- `m_field704ac`（header 注释 +0x704ac）编译落位 +0x70470；`m_premium`（注释 +0x7121c）落位 +0x711e0
+- ORIG 在 7 个 CUser 方法（DisConnSig/set_acc_info/UpdateLogout/CheckFatigue/reset/log_out/
+  SendCeraShopGiftStatisticLog）均以 +0x704ac 访问该字段，确认 ORIG 偏移为 0x704ac
+- 漂移量恒定 0x3c，起于 +0x70470 之前某成员尺寸偏差（候选区：m_network/UserMercenaryInfoMgr/
+  m_rentalInfo/m_accountCargo/m_gameOption/m_skillCommands[50]），需按 ORIG 构造 0x864e410
+  逐子对象审计修正。修正是「class 数据结构全部还原」交付项的一部分，但改动会波及大量已
+  identical 的 CUser 方法，需单独布局修正批处理，本回合不强行改
+
 ## 4. 当前状态（2026-08-17）
 
 ### 关键 TU 统计（identical/ae 合计 / diff）
