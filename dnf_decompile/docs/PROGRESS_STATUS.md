@@ -32,20 +32,17 @@
 - 逐函数 diff：`source/toolchain/diff_func_cinv.py`；语义对比：`source/toolchain/cozy_compare.py`
 - 构建：`cd build/game && make -j16`；`file df_game_r` 必须显示 ELF
 
+## 3.5 构建打通（2026-08-17 新环境复建）
+
+新 checkout 已打通 df_game_r 构建 + 全量对比闭环：
+- 依赖：`build/manager/mysqlclient/libmysqlclient.a`（`source/toolchain/build-mysqlclient.sh`）、
+  `build/manager/yassl/libyassl.a`（新增 `source/toolchain/build-yassl.sh`）已构建
+- **32 位链接**：宿主 g++ 11 无 multilib，新增 `source/toolchain/cmake/dnf_game_link.sh`
+  （c6root g++ 驱动，`--sysroot=c6root` + `-B` 4.4.4/32 + 显式 crt 序列）；game/CMakeLists
+  的 CMAKE_CXX_LINK_EXECUTABLE 改用它，移除 -no-pie（4.4.7 不支持，4.4 默认非 PIE），LINK_FLAGS 加 -lrt
+- `DNF_TC_ROOT` 不必设：工具链脚本已全部相对路径化，自 `$(dirname $0)` 推导 toolchains 目录
+
 ## 4. 当前状态（2026-08-17）
-
-### 全量对比
-
-| 指标 | 数值 |
-|---|---|
-| 共同符号 | 11854 |
-| identical（strict+ae） | **6406**（strict 5921 + ae 485） |
-| near | 1162 |
-| diff | 4286 |
-| 仅 ORIG（未翻译） | 34567 |
-| nsl | 726/729 identical |
-
-构建全绿（有效 ELF）。目标回合起点（2026-08-16 23:55）为 2854 identical，累计 +3552。源码 128 个 .cpp。
 
 ### 关键 TU 统计（identical/ae 合计 / diff）
 
