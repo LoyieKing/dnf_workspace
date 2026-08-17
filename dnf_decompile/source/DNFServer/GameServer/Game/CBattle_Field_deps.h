@@ -54,7 +54,10 @@ enum ENUM_BLOOD_STATE { ENUM_BLOOD_STATE_0 = 0 };
 #define DNF_ENUM_ENUM_MAZE_QUEST_TYPE_DEFINED
 enum ENUM_MAZE_QUEST_TYPE { ENUM_MAZE_QUEST_TYPE_0 = 0 };
 #endif
+#ifndef DNF_ENUM_ENUM_PREMIUM_TYPE_DEFINED
+#define DNF_ENUM_ENUM_PREMIUM_TYPE_DEFINED
 enum ENUM_PREMIUM_TYPE { ENUM_PREMIUM_TYPE_0 = 0 };
+#endif
 #ifndef DNF_ENUM_ERIDABLEOBJECTSTATE_DEFINED
 #define DNF_ENUM_ERIDABLEOBJECTSTATE_DEFINED
 enum eRidableObjectState { eRidableObjectState_0 = 0 };
@@ -289,6 +292,7 @@ class CAICharacter
 public:
     unsigned char getLevel() const;  // ORIG 0x??
     unsigned int getIdx() const;     // ORIG 0x??
+    int getAppearancePoint() const;  // ORIG 0x??
 };
 
 class CMonster
@@ -409,6 +413,7 @@ extern "C" CAICharacter* cbf_CAICharacterList_getByLevel(void* list, unsigned in
     asm("_ZN16CAICharacterList10getByLevelEj");
 
 // ---- CParty 最小声明（真实 CParty.h 交付后替换） ----
+#ifndef GAME_CPARTY_H_
 class CParty
 {
 public:
@@ -435,8 +440,10 @@ public:
     void historyBloodRoundClear(int round, unsigned int timeA, unsigned int timeB,
                                 const char* name);           // ORIG T 0x85b7db6
 };
+#endif  // GAME_CPARTY_H_
 
 // ---- CDungeon 最小声明（真实 CDungeon.h 交付后替换） ----
+#ifndef CDUNGEON_CLASS_DEFINED
 class CDungeon
 {
 public:
@@ -471,8 +478,10 @@ public:
     int get_index() const;                             // ORIG W 0x80fdcf0
     const char* GetDungeonName() const;                // ORIG T 0x81455a6
 };
+#endif  // CDUNGEON_CLASS_DEFINED
 
 // ---- CMap 最小声明（真实 CMap.h 交付后替换；与并行批次同布局） ----
+#ifndef CMAP_CLASS_DEFINED
 class CMap
 {
 public:
@@ -485,5 +494,6 @@ public:
     std::list<_mapItem> get_item_list() const;            // ORIG W 0x81508c6（+0x1c）
     std::vector<STAICharacterMapArrangeData>& getAICharacters() const;  // ORIG W 0x81508fc（+0x6c）
 };
+#endif  // CMAP_CLASS_DEFINED
 
 #endif  // DNF_GAME_CBATTLE_FIELD_DEPS_H_

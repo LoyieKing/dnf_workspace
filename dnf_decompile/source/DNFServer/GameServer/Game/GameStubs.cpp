@@ -342,15 +342,13 @@ public:
         eSendTarget_1 = 1
     };
     void DecreaseGuildPowerWarPoint(unsigned int);
-    int get_charac_no(int);
-    int get_charac_no(int) const;
+
     int get_state();
     int get_area(bool param);
-    void set_area(int area);
-    char IsPermissionPrivateStore();
-    void* getHades();
+
+
     void DisConnSig(DISCONN_SIG sig, bool flag, int param);
-    void SetTradeSpace(int idx);
+
     void OnDisconnect();
     void SetCharacLevel(int level);
     void AddDungeonClear(int dungeonIdx, int clearCount);
@@ -359,13 +357,14 @@ public:
     UserQuest* getCurCharacQuestW();
     int AddItem(int itemIdx, int count, eItemAddReason reason,
                 ENUM_ITEMSPACE& space, int slot);
+    void add_inventory_item(unsigned int itemId);
     unsigned int GetUID() const;
     unsigned int get_acc_id() const;
     const char* get_acc_name() const;
     bool CheckItemLock(int a, int b) const;
     int GetAccountLastPlayTime();
     ENUM_SERVER_GROUP GetServerGroup() const;
-    bool isBlackUser(int characNo) const;
+
     Secu_GoldControl* GetGoldControl();
     CDungeonGainedGold* getDungeonGainedGold();
     WongWork::CHackAnalyzer* getHackAnalyzer();
@@ -391,25 +390,25 @@ public:
     int get_unique_id() const;
     void* GetParty();
     void send_equip(int slot);
-    void DeleteRentalItemInfo(int idx);
-    void* GetPICSMap();
-    const char* GetSsnString();
+
+
+
     void LogoutCachedCharacter(unsigned char slot);
     void ReCalcChattingEmoticon();
     void ResetItemByScript(std::vector<std::pair<int, int> >& list);
     void SendChattingEmoticon();
-    void SetGameMasterMode(bool flag);
-    void SetSaveRentalInfoToExchange(bool flag);
+
+
     void UpdateData();
     void UpdateLogout(bool flag);
-    bool checkLogOutCorrectly();
+
     void deleteDailyStackableItem(std::vector<std::pair<int, int> >& list,
                                   int a, int b);
     void deleteSpecificItem(
         const std::vector<std::pair<int, int> >& list,
         std::vector<std::pair<int, int> >& out);
     void doLinkCharacDisconnect();
-    char getSex();
+
     void giveup_panalty();
     void log_out();
     void prepareDisconnect();
@@ -423,26 +422,22 @@ public:
     void resetDailyData();
     void RecoverCoin(unsigned int v);
     void SendOpenflag();
-    void* GetPVPRoom();
-    int CheckMoney(int money);
-    int getDungeonIdxAfterClear();
-    void* GetSecretShopData();
+
     void RewardItem2DeleteInvalidItem(
         const std::string& name,
         const std::vector<std::pair<int, int> >& list);
-    void RecoverFatigue(int v);
+
     void ResetDailyCharacExpandData();
     void SendConditionEventInfo();
     void SendProperDungeonClearCount();
     void resetNPCRelationShipDailyData();
     void sendNPCRelationShipFavor();
     void ResetCurCharacUsedGiftFatigueQuantity();
-    bool CheckFatigue();
+
     bool CheckQuestMonster(int a, int b, ENUM_QUEST_ENEMY_TYPE type);
     void FatigueUp(int v);
-    bool IsEquipAvatar();
-    bool IsHavePremiumAdvantage() const;
-    void LogHistory(const char* fmt, ...);
+
+
     void SendMoneyFullReason(ENUM_MONEY_FULL_REASON reason, unsigned long a,
                              unsigned long b);
     void SendNotiPacket(eSendTarget target, ENUM_NOTIPACKET cmd, int param);
@@ -452,72 +447,68 @@ public:
     void add_guild_pvp_result(int v);
     void add_pvp_play_info(unsigned int a, unsigned int b);
     void add_pvp_result(bool flag, unsigned int* out);
-    unsigned int find_pvp_masterid_walkingout_me(unsigned int idx);
+
     void gainExpAsUpperMember(int exp);
     void gainGuildSkillExp(int exp);
     void gainPowerWarRewardExp(int exp);
     void gain_exp_sp(int a, int& b, int& c, eExpAddReason reason, int d, bool e);
-    bool has_within_Mission() const;
-    void insert_pvp_masterid_walkingout_me(unsigned int idx);
+
+
     bool isCompetitionMercenary() const;
-    bool isGMUser();
+
     int CheckMoveTown(int vill);
-    unsigned int get_posX();
-    unsigned int get_posY();
-    char get_direction();
+
     void saveTaxMoneyForUpperMember(int v);
     void sendBlueMarbleEnterCount();
     void send_MissionList();
-    void update_old_pvp_point();
+
     void update_pvp_point(int v);
     void update_pvp_rank(const PvpResultType& result);
     void AddDailyItem();
     void DimensionInoutUpdate(bool a, bool b);
-    char GetEventCreateDnfReward();
+
     void ResetDailyQuest();
     void ResetTrainingQuest();
     void SendOneADayItemShopIndex(const std::vector<std::pair<int, int> >& list);
     void SendUpdateItem(eSendTarget target, ENUM_ITEMSPACE space, int slot);
-    void SetPowerUp(bool flag);
+
     void UpdateAuraAvatarOption(int a, int b);
-    void* getBlueMarble();
-    int get_aura_avatar_option_value(int idx);
-    int get_guildwar_point_per_pvpplay();
-    int get_pvp_WinningRate_relateMission() const;
+
+
+
+
     bool isDuplicationMessage(const std::string& msg);
     char is_equip_aura_avatar(char slot, int& out);
     void processDelDailyItem();
     void reqHumanCertify4ClearMap(bool flag);
     void setChattingMessageCount(int count);
     void deleteSpecificItems(const std::vector<std::pair<int, int> >* list);
-    bool IsGameMasterMode() const;
+
 };
-int CUser::get_area(bool) { return 0; }  // TODO(G2)
-void CUser::set_area(int) {}  // TODO(G2)
-char CUser::IsPermissionPrivateStore() { return 0; }  // TODO(G2)
-void* CUser::getHades() { return 0; }  // TODO(G2)
+
+
+
 void CUser::DisConnSig(DISCONN_SIG, bool, int) {}  // TODO(G2)
 void CUser::givePvPSkillTree(int, bool, int) {}  // TODO(G2)
-void CUser::SetTradeSpace(int) {}  // TODO(G2)
+
 void CUser::OnDisconnect() {}  // TODO(G2)
 void CUser::SetCharacLevel(int) {}  // TODO(G2)
-void CUser::AddDungeonClear(int, int) {}  // TODO(G2)
+
 void CUser::master_new_skill(stBuySkillInfo&, bool) {}  // TODO(G2)
 void CUser::ChangeGrowType_GM(int, int) {}  // TODO(G2)
-UserQuest* CUser::getCurCharacQuestW() { return 0; }  // TODO(G2)
 int CUser::AddItem(int, int, eItemAddReason, ENUM_ITEMSPACE&, int) { return 0; }  // TODO(G2)
-void CUser::DeleteRentalItemInfo(int) {}  // TODO(G2)
-void* CUser::GetPICSMap() { return 0; }  // TODO(G2)
-const char* CUser::GetSsnString() { return ""; }  // TODO(G2)
+
+
+
 void CUser::LogoutCachedCharacter(unsigned char) {}  // TODO(G2)
 void CUser::ReCalcChattingEmoticon() {}  // TODO(G2)
 void CUser::ResetItemByScript(std::vector<std::pair<int, int> >&) {}  // TODO(G2)
 void CUser::SendChattingEmoticon() {}  // TODO(G2)
-void CUser::SetGameMasterMode(bool) {}  // TODO(G2)
-void CUser::SetSaveRentalInfoToExchange(bool) {}  // TODO(G2)
+
+
 void CUser::UpdateData() {}  // TODO(G2)
 void CUser::UpdateLogout(bool) {}  // TODO(G2)
-bool CUser::checkLogOutCorrectly() { return false; }  // TODO(G2)
+
 void CUser::deleteDailyStackableItem(std::vector<std::pair<int, int> >&, int,
                                      int)
 {
@@ -528,76 +519,66 @@ void CUser::deleteSpecificItem(
 {
 }  // TODO(G2)
 void CUser::doLinkCharacDisconnect() {}  // TODO(G2)
-char CUser::getSex() { return 0; }  // TODO(G2)
+
 void CUser::giveup_panalty() {}  // TODO(G2)
 void CUser::log_out() {}  // TODO(G2)
 void CUser::prepareDisconnect() {}  // TODO(G2)
-void CUser::processReturnUserQuestAutoClear() {}  // TODO(G2)
-void CUser::send_clear_quest_list() {}  // TODO(G2)
+
+
 void CUser::send_itemspace(int) {}  // TODO(G2)
 void CUser::send_ontime_reward_start_notify() {}  // TODO(G2)
-void CUser::send_pvp_record() {}  // TODO(G2)
+
 void CUser::send_skill_info() {}  // TODO(G2)
-bool CUser::isBlackUser(int) const { return false; }  // TODO(G2)
-bool CUser::CheckFatigue() { return false; }  // TODO(G2)
+
+
 bool CUser::CheckQuestMonster(int, int, ENUM_QUEST_ENEMY_TYPE)
 {
     return false;  // TODO(G2)
 }
 void CUser::FatigueUp(int) {}  // TODO(G2)
-bool CUser::IsEquipAvatar() { return false; }  // TODO(G2)
-bool CUser::IsHavePremiumAdvantage() const { return false; }  // TODO(G2)
-void CUser::LogHistory(const char*, ...) {}  // TODO(G2)
-void CUser::SendMoneyFullReason(ENUM_MONEY_FULL_REASON, unsigned long,
-                                unsigned long)
-{
-}  // TODO(G2)
+
+
 void CUser::SendNotiPacket(eSendTarget, ENUM_NOTIPACKET, int) {}  // TODO(G2)
 void CUser::SetPvpIndex(short) {}  // TODO(G2)
-bool CUser::acceptable_within_mission() const { return false; }  // TODO(G2)
-void CUser::add_guild_point_item() {}  // TODO(G2)
+
+
+void CUser::add_inventory_item(unsigned int itemId) {}  // TODO(G2)
 void CUser::add_guild_pvp_result(int) {}  // TODO(G2)
 void CUser::add_pvp_play_info(unsigned int, unsigned int) {}  // TODO(G2)
 void CUser::add_pvp_result(bool, unsigned int*) {}  // TODO(G2)
-unsigned int CUser::find_pvp_masterid_walkingout_me(unsigned int) { return 0; }
-void CUser::gainExpAsUpperMember(int) {}  // TODO(G2)
+
+
 void CUser::gainGuildSkillExp(int) {}  // TODO(G2)
-void CUser::gainPowerWarRewardExp(int) {}  // TODO(G2)
+
 void CUser::gain_exp_sp(int, int&, int&, eExpAddReason, int, bool) {}  // TODO(G2)
-bool CUser::has_within_Mission() const { return false; }  // TODO(G2)
-void CUser::insert_pvp_masterid_walkingout_me(unsigned int) {}  // TODO(G2)
+
+
 bool CUser::isCompetitionMercenary() const { return false; }  // TODO(G2)
-bool CUser::isGMUser() { return false; }  // TODO(G2)
+
 int CUser::CheckMoveTown(int) { return 0; }  // TODO(G2)
-unsigned int CUser::get_posX() { return 0; }  // TODO(G2)
-unsigned int CUser::get_posY() { return 0; }  // TODO(G2)
-char CUser::get_direction() { return 0; }  // TODO(G2)
-void CUser::saveTaxMoneyForUpperMember(int) {}  // TODO(G2)
-void CUser::sendBlueMarbleEnterCount() {}  // TODO(G2)
-void CUser::send_MissionList() {}  // TODO(G2)
-void CUser::update_old_pvp_point() {}  // TODO(G2)
+
+
+
+
 void CUser::update_pvp_point(int) {}  // TODO(G2)
-void CUser::update_pvp_rank(const PvpResultType&) {}  // TODO(G2)
-void CUser::ResetDailyCharacExpandDataMidnight() {}  // TODO(G2)
+
+
 void CUser::resetDailyData() {}  // TODO(G2)
 void CUser::RecoverCoin(unsigned int) {}  // TODO(G2)
 void CUser::SendOpenflag() {}  // TODO(G2)
-void* CUser::GetPVPRoom() { return 0; }  // TODO(G3)
-int CUser::CheckMoney(int) { return 0; }  // TODO(G4)
-int CUser::getDungeonIdxAfterClear() { return 0; }  // TODO(G4)
-void* CUser::GetSecretShopData() { return 0; }  // TODO(G4)
+
 void CUser::RewardItem2DeleteInvalidItem(
     const std::string&, const std::vector<std::pair<int, int> >&)
 {
 }  // TODO(G3)
-int CUser::get_charac_no(int) const { return 0; }  // TODO(G3)
-void CUser::RecoverFatigue(int) {}  // TODO(G2)
-void CUser::ResetDailyCharacExpandData() {}  // TODO(G2)
-void CUser::SendConditionEventInfo() {}  // TODO(G2)
-void CUser::SendProperDungeonClearCount() {}  // TODO(G2)
-void CUser::resetNPCRelationShipDailyData() {}  // TODO(G2)
-void CUser::sendNPCRelationShipFavor() {}  // TODO(G2)
-void CUser::ResetCurCharacUsedGiftFatigueQuantity() {}  // TODO(G2)
+
+
+
+
+
+extern "C" int _ZN22CConditionEventManager16GetCurEventIndexEv(void*) { return 0; }
+
+
 class cUserHistoryLog
 {
 public:
@@ -633,6 +614,9 @@ public:
     void ItemDelCargo(int a, int b, int c, eItemDelReason reason);
     void EnterDungeon(const char* dungeon, int a);
     void LeaveDungeon(const char* dungeon, int a);
+    void LeaveDungeon(const char* dungeonName, int unk, const char* memberNames, int state);
+    void LeaveDungeon(int dungeonIdx, int unk, const char* memberNames, int state);
+    void DungeonClearInfo(int isLast, int playTimeSec);
     void SendMail(MSG_MAILBOX_SEND* mail, unsigned int a);
     void MoveArea(int a, int b, int c, int d, int e);
     void SetTrader(const char* accName, const char* characName);
@@ -655,10 +639,10 @@ void cUserHistoryLog::CoinSub(int, int, eCoinSubReason) {}
 void cUserHistoryLog::EventCoinSub(int, int, eCoinSubReason) {}
 void cUserHistoryLog::PayCoinSub(int, int, eCoinSubReason) {}
 void cUserHistoryLog::CreatureItemAdd(INVEN_TYPE, int, int, int, int,
-                                      eItemAddReason)
-{
-}
-void cUserHistoryLog::InitSkill(int, int, int, int, eSkillInitReason) {}
+                                      eItemAddReason) {}
+void cUserHistoryLog::LeaveDungeon(const char*, int, const char*, int) {}
+void cUserHistoryLog::LeaveDungeon(int, int, const char*, int) {}
+void cUserHistoryLog::DungeonClearInfo(int, int) {}
 void cUserHistoryLog::SkillAdd(int, int, int, int, eSkillAddReason) {}
 void cUserHistoryLog::SkillDel(int, int, int, int, eSkillDelReason) {}
 void cUserHistoryLog::SPAdd(int, int, int, eSPAddReason) {}
@@ -1458,10 +1442,14 @@ class CDungeonClear
 public:
     CDungeonClear();
     ~CDungeonClear();
+    char getClearedDungeonDiff(short dungeonIdx) const;
+    void addClearedDungeon(short dungeonIdx, signed char diff);
     char m_pad[0x18];
 };
 CDungeonClear::CDungeonClear() {}  // TODO(G1)
 CDungeonClear::~CDungeonClear() {}  // TODO(G1)
+char CDungeonClear::getClearedDungeonDiff(short) const { return 0; }  // TODO(G1)
+void CDungeonClear::addClearedDungeon(short, signed char) {}  // TODO(G1)
 }
 // CommonTime → Game/CommonTime.cpp（第一阶段正式实现，7 方法）
 // CReliablePerson → Game/CReliablePerson.cpp（第一阶段正式实现）
@@ -1533,28 +1521,6 @@ void* CDataManager::get_event_script_mng() { return 0; }  // ORIG W 0x8110b62
 
 // ---- G2 CParty 依赖桩（真实符号，对应 TU 后续批次细化）----
 enum ENUM_PARTY_INFO_TYPE { ENUM_PARTY_INFO_TYPE_0 = 0 };
-class CParty
-{
-public:
-    char _checkValidUser(int idx);
-    bool checkValidUser(int idx);
-    unsigned int GetMemberSlotNo(CUser const* user) const;
-    void Reset_party_overlapped_drop_ratio();
-    int leave_user(CUser* user, ENUM_PARTY_INFO_TYPE type);
-    bool IsEventCharacParty();
-    bool IsReturnUserParty();
-    void send_invite_bluemarble(int idx);
-    int get_member_count();
-};
-char CParty::_checkValidUser(int) { return 0; }  // TODO(G2)
-bool CParty::checkValidUser(int) { return false; }  // TODO(G2)
-unsigned int CParty::GetMemberSlotNo(CUser const*) const { return 0; }  // TODO(G2)
-void CParty::Reset_party_overlapped_drop_ratio() {}  // TODO(G2)
-int CParty::leave_user(CUser*, ENUM_PARTY_INFO_TYPE) { return 0; }  // TODO(G2)
-bool CParty::IsEventCharacParty() { return false; }  // TODO(G2)
-bool CParty::IsReturnUserParty() { return false; }  // TODO(G2)
-void CParty::send_invite_bluemarble(int) {}  // TODO(G2)
-int CParty::get_member_count() { return 0; }  // TODO(G2)
 class CDungeonEntranceLog
 {
 public:
@@ -1878,18 +1844,6 @@ public:
 };
 int CBossTower::getIdx() { return 0; }
 void CBossTower::setIdx(int) {}
-class CDeathTower
-{
-public:
-    int getIdx();
-    void setIdx(int idx);
-    void reset();
-    int onLeaveUser(CUser* user);
-};
-int CDeathTower::getIdx() { return 0; }
-void CDeathTower::setIdx(int) {}
-void CDeathTower::reset() {}
-int CDeathTower::onLeaveUser(CUser*) { return 0; }
 }
 namespace QuickParty
 {
@@ -2932,8 +2886,7 @@ extern "C" void* sub_ARAD_Singleton_ServiceRestrictManager_Get(void)
     asm("_ZN4ARAD9SingletonI22ServiceRestrictManagerE3GetEv");
 extern "C" void sub_CUser_master_new_skills(void* self, void* skills, int kind)
     asm("_ZN5CUser17master_new_skillsEP15_Mastered_skill20ENUM_SKILL_TREE_KIND");
-extern "C" bool sub_CUser_isAffectedPremium(const void* self, int premiumType)
-    asm("_ZNK5CUser17isAffectedPremiumE17ENUM_PREMIUM_TYPE");
+
 char sub_ServerParameterScript_isDungeonOpen(void*) { return 0; }  // TODO(G2)
 int sub_CTradeSpace_cancel_trade_for_china(void*, void*) { return 0; }  // TODO(G2)
 void sub_DB_AvatarChangeOwner_makeRequest(unsigned int, unsigned int,
@@ -2957,7 +2910,6 @@ void sub_EventCharacterParameterScript_GetEventCharacterInfo(const void*, int,
 }  // TODO(G2)
 void* sub_ARAD_Singleton_ServiceRestrictManager_Get() { return 0; }  // TODO(G2)
 void sub_CUser_master_new_skills(void*, void*, int) {}  // TODO(G2)
-bool sub_CUser_isAffectedPremium(const void*, int) { return false; }  // TODO(G2)
 
 class CTradeSpace
 {
@@ -3223,13 +3175,6 @@ public:
 };
 MSG_STAT_RANKRES::MSG_STAT_RANKRES() { memset(m_pad, 0, sizeof(m_pad)); }
 MSG_STAT_RANKRES::~MSG_STAT_RANKRES() {}
-class _Quest_Authen_Data
-{
-public:
-    _Quest_Authen_Data();
-    char m_pad[0x48];
-};
-_Quest_Authen_Data::_Quest_Authen_Data() { memset(m_pad, 0, sizeof(m_pad)); }
 
 // ---- stQuestTriggerState_t（UserQuest 8 字节触发状态）----
 class stQuestTriggerState_t
@@ -3456,30 +3401,29 @@ bool checkAcceptableQuest(const Quest* quest,
 // ---- CUser 方法定义（声明在 CUser 本地类，见上；权威 CUser.h 已译，
 //      本 TU 不 include 以避免重定义）----
 void CUser::AddDailyItem() {}  // TODO(G1)
-void CUser::DimensionInoutUpdate(bool, bool) {}  // TODO(G1)
-char CUser::GetEventCreateDnfReward() { return 0; }  // TODO(G1)
-void CUser::ResetDailyQuest() {}  // TODO(G1)
-void CUser::ResetTrainingQuest() {}  // TODO(G1)
+
+
+
+
 void CUser::SendOneADayItemShopIndex(
     const std::vector<std::pair<int, int> >&)
 {
 }  // TODO(G1)
 void CUser::SendUpdateItem(eSendTarget, ENUM_ITEMSPACE, int) {}  // TODO(G1)
-void CUser::SetPowerUp(bool) {}  // TODO(G1)
+
 void CUser::UpdateAuraAvatarOption(int, int) {}  // TODO(G1)
-void* CUser::getBlueMarble() { return 0; }  // TODO(G1)
-int CUser::get_aura_avatar_option_value(int) { return 0; }  // TODO(G1)
-int CUser::get_guildwar_point_per_pvpplay() { return 0; }  // TODO(G1)
-int CUser::get_pvp_WinningRate_relateMission() const { return 0; }  // TODO(G1)
-bool CUser::isDuplicationMessage(const std::string&) { return false; }  // TODO(G1)
+
+
+
+
+
 char CUser::is_equip_aura_avatar(char, int&) { return 0; }  // TODO(G1)
 void CUser::processDelDailyItem() {}  // TODO(G1)
 void CUser::reqHumanCertify4ClearMap(bool) {}  // TODO(G1)
-void CUser::setChattingMessageCount(int) {}  // TODO(G1)
 void CUser::deleteSpecificItems(const std::vector<std::pair<int, int> >*)
 {
 }  // TODO(G1)
-bool CUser::IsGameMasterMode() const { return false; }  // TODO(G1)
+
 
 void cUserHistoryLog::pvpMissionClearReward(int, int, int, int) {}  // TODO(G1)
 
