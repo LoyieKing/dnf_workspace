@@ -45,12 +45,15 @@
 
 ## 3.6 首轮 identical 还原（2026-08-17，本地闭环验证）
 
-打通构建+对比后，首批 6 个桩函数还原为 identical（全部按 ORIG 反汇编，语义字段无裸偏移）：
-- `CItem::IsEnableWorld`（34/34）、`IsCreatureItemType`/`isEquipableItemType`、
-  `my_compare_unsigned_short`（14/14）、`checkStackableLimit`（43/43）、`CheckEquipable`（44/44）
-- 关键手法：`CheckEquipable`/`checkStackableLimit` 用独立派生局部复现 ORIG 双槽栈布局；
-  `isEquipableItemType` 用 ITEM_TYPE_* 具名枚举（区别于成员版的 1/5/6/8）
-- 全量 identical 6406→6449，diff 4150→4144；继续按 GameStubs 桩清理推进
+打通构建+对比后，首批 8 个桩函数还原（全部按 ORIG 反汇编，语义字段/具名枚举，无裸偏移魔法数）：
+- identical：`CItem::IsEnableWorld`（34/34）、`IsCreatureItemType`/`isEquipableItemType`、
+  `my_compare_unsigned_short`（14/14）、`checkStackableLimit`（43/43）、`CheckEquipable`（44/44）、
+  `finishItemChecksum`（25/25，header 返回 void→int）
+- 语义正确（残差 4.4.7/4.4.6 寄存器序）：`getItemChecksum`（checksum=(idx+a+b+c)*(slot*10)/10 后
+  高16+低16 折叠）。CInventory TU 试切 c6446r 仅 +1（155→156），不值得整 TU 路由
+- 关键手法：独立派生局部（CStackableItem*）复现 ORIG 双槽栈布局；`isEquipableItemType`
+  与成员版不同（1/5/6 无 8）
+- 全量 identical 6406→6450，diff 4150→4143；继续按 GameStubs 桩清理推进
 
 ## 4. 当前状态（2026-08-17）
 
