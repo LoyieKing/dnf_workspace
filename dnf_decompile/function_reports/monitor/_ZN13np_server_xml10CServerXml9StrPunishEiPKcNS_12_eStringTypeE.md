@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8057ed2` | `0x265` | `0x809e3b6` | `0x264` |
+| monitor | DIFF | `0x8057ed2` | `0x265` | `0x809e296` | `0x264` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,190 @@
+@@ -1,191 +1,189 @@
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -202,10 +205,10 @@
 -nop
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -280,4 +283,4 @@ np_server_xml::CServerXml::_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eS
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h, source/shared/common/include/ReverseEngineerLib.h 等 290 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h, source/shared/common/include/ReverseEngineerLib.h 等 293 个文件*

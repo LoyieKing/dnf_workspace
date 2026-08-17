@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806cd2e` | `0x50` | `0x807f1e6` | `0x50` |
+| monitor | DIFF | `0x806cd2e` | `0x50` | `0x807f0bc` | `0x50` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,9 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,28 +1,28 @@
++movzbl 0x7(%eax),%eax
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  sub    $0xc,%esp
@@ -40,9 +43,9 @@
  mov    %dl,0x6(%eax)
  mov    0x8(%ebp),%eax
  movzbl -0xc(%ebp),%edx
- mov    %dl,0x7(%eax)
- leave
- ret
+-mov    %dl,0x7(%eax)
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -67,4 +70,4 @@ CDNFProhibitUser::_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 290 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 293 个文件*

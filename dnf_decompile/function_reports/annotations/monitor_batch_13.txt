@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0089	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2692	CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader.md
+DNF-MON-DIFF-0012	DIFF	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	176	CUserManager::DeleteUsersOnGameServerDown(CGameServer*)	function_reports/monitor/_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer.md
+DNF-MON-DIFF-0114	DIFF	source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp	73	CTcpNetworkThread::dispatch(void*)	function_reports/monitor/_ZN17CTcpNetworkThread8dispatchEPv.md
+DNF-MON-DIFF-0110	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3935	CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader.md
+DNF-MON-NEAR-0001	NEAR	source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp	65	CAppConfig::Parse_Table(char*, int)	function_reports/monitor/_ZN10CAppConfig11Parse_TableEPci.md
+DNF-MON-DIFF-0086	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2501	CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader.md
+DNF-MON-DIFF-0141	DIFF	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	215	CUdpHandler::SendToServer(char*, int, unsigned short, char const*) const	function_reports/monitor/_ZNK11CUdpHandler12SendToServerEPcitPKc.md
+DNF-MON-DIFF-0054	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	977	CPacketTranslater::OnCeraUpdate(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader.md
+DNF-MON-DIFF-0037	DIFF	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	225	CServerHandler::GetTcpGameServerByCh(unsigned char)	function_reports/monitor/_ZN14CServerHandler20GetTcpGameServerByChEh.md
+DNF-MON-NEAR-0002	NEAR	source/DNFServer/GameServer/Monitor/IPCounter.cpp	92	CIPCounter::setOption(unsigned char, unsigned char)	function_reports/monitor/_ZN10CIPCounter9setOptionEhh.md

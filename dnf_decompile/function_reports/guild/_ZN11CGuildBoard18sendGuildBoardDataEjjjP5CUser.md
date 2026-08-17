@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d342` | `0x559` | `0x8090ce6` | `0x542` |
+| guild | DIFF | `0x809d342` | `0x559` | `0x8090ccc` | `0x542` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,342 +1,335 @@
+@@ -1,342 +1,333 @@
++lea    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -411,16 +416,15 @@
  movl   $"SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
  lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
 -nop
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x53d>
- nop
- mov    -0x4(%ebp),%ebx
- leave
- ret
+-nop
+-mov    -0x4(%ebp),%ebx
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -600,4 +604,4 @@ CGuildBoard::_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildBoard.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildBoard.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 283 个文件*

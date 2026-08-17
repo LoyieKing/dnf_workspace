@@ -776,7 +776,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 151 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 152 行）：
 
 ```cpp
 void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)

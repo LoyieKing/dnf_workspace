@@ -1,0 +1,13 @@
+[
+ {
+  "id": "DNF-PNT-DIFF-0001",
+  "svc": "point",
+  "status": "DIFF",
+  "mangled": "_ZN3nsl9TCPThread4loopEPv",
+  "demangled": "nsl::TCPThread::loop(void*)",
+  "file": "source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPThread.cpp",
+  "line": 39,
+  "report": "function_reports/point/_ZN3nsl9TCPThread4loopEPv.md",
+  "_root_handled": true
+ }
+]

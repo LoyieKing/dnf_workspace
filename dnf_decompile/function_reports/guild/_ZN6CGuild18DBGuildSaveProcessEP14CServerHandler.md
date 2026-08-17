@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d464` | `0x24a` | `0x80533f2` | `0x23a` |
+| guild | DIFF | `0x808d464` | `0x24a` | `0x80533ec` | `0x23a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,14 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,145 +1,137 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %esi
 -push   %ebx
 -sub    $0x40,%esp
-+sub    $0x48,%esp
- mov    0x8(%ebp),%eax
- movzbl 0x4d96(%eax),%eax
+-mov    0x8(%ebp),%eax
+-movzbl 0x4d96(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler+0x23f>
 +je     <T> <_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler+0x234>
@@ -196,6 +195,11 @@
 +nop
 +leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%eax
++movb   $0x0,0x48(%eax)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -276,7 +280,7 @@ CGuild::_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler(CGuild *this,CServerHan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 628 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 634 行）：
 
 ```cpp
 void CGuild::DBGuildSaveProcess(CServerHandler* handler)

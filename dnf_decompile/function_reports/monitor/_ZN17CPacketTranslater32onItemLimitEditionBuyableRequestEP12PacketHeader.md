@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b49a` | `0x2b9` | `0x8076bd6` | `0x2c5` |
+| monitor | DIFF | `0x808b49a` | `0x2b9` | `0x8076aee` | `0x2c5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,193 +1,197 @@
+@@ -1,193 +1,198 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -267,10 +272,10 @@
 -jmp    <T> <_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader+0x2b2>
 -nop
  add    $0x40,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -349,7 +354,7 @@ void CPacketTranslater::_ZN17CPacketTranslater32onItemLimitEditionBuyableRequest
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3963 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3935 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader* pkt)

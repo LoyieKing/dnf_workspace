@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0058	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1684	CPacketTranslater::OnPayTaxToUpper(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader.md
+DNF-MON-DIFF-0047	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	565	village_attacked::CVillageAttackedManager::SendCharacRank()	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv.md
+DNF-MON-DIFF-0105	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4879	CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP12PacketHeader.md
+DNF-MON-DIFF-0026	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	522	CMemberManager::MemerMemLogin(unsigned int, CUser*)	function_reports/monitor/_ZN14CMemberManager13MemerMemLoginEjP5CUser.md
+DNF-MON-DIFF-0118	DIFF	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	76	CMemoryCashManager::QueryCashMemoryMember(CUser*)	function_reports/monitor/_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser.md
+DNF-MON-DIFF-0128	DIFF	source/DNFServer/GameServer/Monitor/TaskImpl.cpp	64	CTask_ChristmasEvent::MakeEventStartTick(int)	function_reports/monitor/_ZN20CTask_ChristmasEvent18MakeEventStartTickEi.md
+DNF-MON-DIFF-0015	DIFF	source/DNFServer/GameServer/Monitor/DNFAppStartInit.cpp	40	CAppStartInit::Init(CApplication*, int, char**)	function_reports/monitor/_ZN13CAppStartInit4InitEP12CApplicationiPPc.md
+DNF-MON-NEAR-0012	NEAR	source/DNFServer/GameServer/Monitor/Peer.cpp	146	CPeer::send_packet(char*, int)	function_reports/monitor/_ZN5CPeer11send_packetEPci.md
+DNF-MON-DIFF-0029	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	363	CMemberManager::SaveMemberOnConnect(CServerHandler*, CUser*, CUser*, unsigned char)	function_reports/monitor/_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h.md
+DNF-MON-DIFF-0123	DIFF	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	149	COnTimeEventManager::StartEvent(unsigned int, unsigned int)	function_reports/monitor/_ZN19COnTimeEventManager10StartEventEjj.md

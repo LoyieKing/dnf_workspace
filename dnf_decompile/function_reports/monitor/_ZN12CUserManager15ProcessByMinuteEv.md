@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x8071776` | `0x15c` | `0x808b168` | `0x15c` |
+| monitor | NEAR | `0x8071776` | `0x15c` | `0x808b044` | `0x15c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,98 +1,98 @@
++test   %al,%al
++jne    <T> <_ZN12CUserManager18MemberEnterProcessEv+0x32>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -117,10 +121,10 @@
  jne    <T> <_ZN12CUserManager15ProcessByMinuteEv+0x3e>
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -204,7 +208,7 @@ void __thiscall CUserManager::_ZN12CUserManager15ProcessByMinuteEv(CUserManager 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 84 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 85 行）：
 
 ```cpp
 void CUserManager::ProcessByMinute()

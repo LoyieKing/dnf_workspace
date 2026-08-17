@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80532b0` | `0x2f1` | `0x80a8eca` | `0x2f1` |
+| guild | NEAR | `0x80532b0` | `0x2f1` | `0x80a911e` | `0x2f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,207 @@
+@@ -1,207 +1,206 @@
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -218,15 +226,15 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0x20(%ebp),%ebx
- mov    %ebx,%eax
- lea    -0xc(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-mov    -0x20(%ebp),%ebx
+-mov    %ebx,%eax
+-lea    -0xc(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -350,7 +358,7 @@ LAB_0805345d:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 320 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 321 行）：
 
 ```cpp
 int CTcpNetSystem::SendPacket()

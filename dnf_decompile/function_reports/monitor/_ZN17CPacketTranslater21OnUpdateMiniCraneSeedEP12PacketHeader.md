@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d126` | `0x319` |
+| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807cffc` | `0x319` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,235 +1,236 @@
+@@ -1,235 +1,237 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -317,11 +323,11 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
  add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -386,7 +392,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5556 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5526 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)

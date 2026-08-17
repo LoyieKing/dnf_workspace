@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x808b01c` | `0x70` | `0x8052b64` | `0x70` |
+| guild | NEAR | `0x808b01c` | `0x70` | `0x8052b60` | `0x70` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,28 +1,28 @@
- push   %ebp
- mov    %esp,%ebp
-+mov    0xc(%ebp),%edx
- mov    0x8(%ebp),%eax
+@@ -1,28 +1,29 @@
+-push   %ebp
+-mov    %esp,%ebp
+-mov    0x8(%ebp),%eax
 -mov    0xc(%ebp),%edx
- mov    (%edx),%ecx
- mov    %ecx,0x66ec(%eax)
+-mov    (%edx),%ecx
+-mov    %ecx,0x66ec(%eax)
  mov    0x4(%edx),%ecx
  mov    %ecx,0x66f0(%eax)
  mov    0x8(%edx),%ecx
@@ -43,6 +42,13 @@
  mov    %dl,0x6712(%eax)
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x10,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -72,7 +78,7 @@ CGuild::_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 463 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 464 行）：
 
 ```cpp
 void CGuild::SetTodayGuildMember(STTodayGuildMember& member)

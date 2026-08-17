@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8083100` | `0x2f4` | `0x806ef38` | `0x2fe` |
+| monitor | DIFF | `0x8083100` | `0x2f4` | `0x806eeb8` | `0x2fe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,202 +1,204 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -279,11 +284,11 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
  add    $0x6c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -347,7 +352,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1822 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1799 行）：
 
 ```cpp
 void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)

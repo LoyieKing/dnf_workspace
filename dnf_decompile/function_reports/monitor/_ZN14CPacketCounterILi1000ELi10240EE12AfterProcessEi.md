@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807d5ac` | `0x11d` | `0x8068b2a` | `0x117` |
+| monitor | DIFF | `0x807d5ac` | `0x11d` | `0x8068a72` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,80 @@
+@@ -1,83 +1,78 @@
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -112,16 +115,14 @@
 +jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
  nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
- nop
+-nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
- nop
+-nop
 -add    $0x10,%esp
 -pop    %ebx
 -pop    %ebp
-+leave
- ret
+-ret
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x115>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -158,7 +159,7 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/PacketCounter.h](source/DNFServer/GameServer/Monitor/PacketCounter.h)（约第 310 行）：
+定义于 [source/DNFServer/GameServer/Monitor/PacketCounter.h](source/DNFServer/GameServer/Monitor/PacketCounter.h)（约第 311 行）：
 
 ```cpp
 void CPacketCounter<A, B>::AfterProcess(int id)

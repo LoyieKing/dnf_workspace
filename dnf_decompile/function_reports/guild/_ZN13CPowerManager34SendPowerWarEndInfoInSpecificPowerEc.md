@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a5148` | `0x389` | `0x809c3c2` | `0x391` |
+| guild | DIFF | `0x80a5148` | `0x389` | `0x809c616` | `0x391` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,226 +1,233 @@
+@@ -1,226 +1,231 @@
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -303,13 +308,13 @@
  movl   $"./log/PowerResult",0x4(%esp)
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -431,7 +436,7 @@ CPowerManager::_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 590 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 593 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080076` | `0x328` | `0x806c0a2` | `0x328` |
+| monitor | DIFF | `0x8080076` | `0x328` | `0x806c08a` | `0x328` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,213 +1,212 @@
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -301,12 +306,12 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -add    $0x9c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 +add    $0x8c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -389,7 +394,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1023 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1014 行）：
 
 ```cpp
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)

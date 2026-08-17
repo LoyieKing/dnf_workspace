@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8062ff0` | `0x1a1` | `0x806766a` | `0x1a1` |
+| statics | DIFF | `0x8062ff0` | `0x1a1` | `0x8067672` | `0x1a1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -210,7 +210,7 @@ CHWSpecResearcher::_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/HWSpecResearcher.cpp](source/DNFServer/GameServer/Statics/HWSpecResearcher.cpp)（约第 48 行）：
+定义于 [source/DNFServer/GameServer/Statics/HWSpecResearcher.cpp](source/DNFServer/GameServer/Statics/HWSpecResearcher.cpp)（约第 49 行）：
 
 ```cpp
 void CHWSpecResearcher::SendDBMWHWSpec(CServerHandler* handler, unsigned char param)

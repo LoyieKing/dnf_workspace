@@ -1,0 +1,262 @@
+[
+ {
+  "id": "DNF-STA-DIFF-0001",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN14CNetworkThread8dispatchEPv",
+  "demangled": "CNetworkThread::dispatch(void*)",
+  "file": "source/DNFServer/GameServer/Statics/DNFNetworkThread.cpp",
+  "line": 30,
+  "report": "function_reports/statics/_ZN14CNetworkThread8dispatchEPv.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0002",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics",
+  "demangled": "StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 1519,
+  "report": "function_reports/statics/_ZN16StatisticManager16AddLagStatisticsEP26Packet_Stat_Lag_Statistics.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0003",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc",
+  "demangled": "StatisticManager::SendDBLagStatistics(CServerHandler*, char*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 1582,
+  "report": "function_reports/statics/_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0004",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler",
+  "demangled": "StatisticManager::SendDBPartyStatistic(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 449,
+  "report": "function_reports/statics/_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0005",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager22AddSecretShopStatisticEP28Packet_Secret_Shop_Statistic",
+  "demangled": "StatisticManager::AddSecretShopStatistic(Packet_Secret_Shop_Statistic*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 1761,
+  "report": "function_reports/statics/_ZN16StatisticManager22AddSecretShopStatisticEP28Packet_Secret_Shop_Statistic.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0006",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler",
+  "demangled": "StatisticManager::SendDBPartyJobStatistic(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 499,
+  "report": "function_reports/statics/_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0007",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS",
+  "demangled": "StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 1840,
+  "report": "function_reports/statics/_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS.md"
+ },
+ {
+  "id": "DNF-STA-NEAR-0001",
+  "svc": "statics",
+  "status": "NEAR",
+  "mangled": "_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler",
+  "demangled": "StatisticManager::SendDBPartyCharacStatistic(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 542,
+  "report": "function_reports/statics/_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0008",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party",
+  "demangled": "StatisticManager::WriteDungeonPartyStatistic(Packet_Dungeon_Statistic_Party*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 280,
+  "report": "function_reports/statics/_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0009",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager27WriteHellPartyStatisticItemEP31Packet_HellParty_Statistic_Item",
+  "demangled": "StatisticManager::WriteHellPartyStatisticItem(Packet_HellParty_Statistic_Item*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 907,
+  "report": "function_reports/statics/_ZN16StatisticManager27WriteHellPartyStatisticItemEP31Packet_HellParty_Statistic_Item.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0010",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics",
+  "demangled": "StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report_Statistics*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 973,
+  "report": "function_reports/statics/_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0011",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager32WriteDungeonPartyCharacStatisticEP37Packet_Dungeon_Statistic_Party_Charac",
+  "demangled": "StatisticManager::WriteDungeonPartyCharacStatistic(Packet_Dungeon_Statistic_Party_Charac*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 368,
+  "report": "function_reports/statics/_ZN16StatisticManager32WriteDungeonPartyCharacStatisticEP37Packet_Dungeon_Statistic_Party_Charac.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0012",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job",
+  "demangled": "StatisticManager::WriteDeathTowerPlayDataJobStatistic(Packet_DeathTower_Statistic_Playdata_Job*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 220,
+  "report": "function_reports/statics/_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0013",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party",
+  "demangled": "StatisticManager::WriteDeathTowerPlayDataPartyStatistic(Packet_DeathTower_Statistic_Playdata_Party*)",
+  "file": "source/DNFServer/GameServer/Statics/Statistics.cpp",
+  "line": 252,
+  "report": "function_reports/statics/_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0014",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh",
+  "demangled": "CHWSpecResearcher::SendDBMWHWSpec(CServerHandler*, unsigned char)",
+  "file": "source/DNFServer/GameServer/Statics/HWSpecResearcher.cpp",
+  "line": 49,
+  "report": "function_reports/statics/_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0015",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler",
+  "demangled": "CHWSpecResearcher::SendDBMWErrorLine(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/HWSpecResearcher.cpp",
+  "line": 114,
+  "report": "function_reports/statics/_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0016",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp",
+  "line": 152,
+  "report": "function_reports/statics/_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0017",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler",
+  "demangled": "FrameLagCollector::SaveUsedMemory(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 682,
+  "report": "function_reports/statics/_ZN17FrameLagCollector14SaveUsedMemoryEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0018",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler",
+  "demangled": "FrameLagCollector::SaveFrameLagData(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 494,
+  "report": "function_reports/statics/_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0019",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct",
+  "demangled": "FrameLagCollector::accFrameLagStruct(FrameLagCollector::FrameLagDataStruct&, FrameLagStruct*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 633,
+  "report": "function_reports/statics/_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0020",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector18FrameLagDataStruct4initEv",
+  "demangled": "FrameLagCollector::FrameLagDataStruct::init()",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 717,
+  "report": "function_reports/statics/_ZN17FrameLagCollector18FrameLagDataStruct4initEv.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0021",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add",
+  "demangled": "FrameLagCollector::PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 228,
+  "report": "function_reports/statics/_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0022",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector22PushMonitoringSpecDataEP43Packet_Frame_Lag_Statistic_Result_Load_Spec",
+  "demangled": "FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Load_Spec*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 361,
+  "report": "function_reports/statics/_ZN17FrameLagCollector22PushMonitoringSpecDataEP43Packet_Frame_Lag_Statistic_Result_Load_Spec.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0023",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec",
+  "demangled": "FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Reload_Spec*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 407,
+  "report": "function_reports/statics/_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0024",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector25is_valid_statistic_packetEP30Packet_Frame_Lag_Statistic_Add",
+  "demangled": "FrameLagCollector::is_valid_statistic_packet(Packet_Frame_Lag_Statistic_Add*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 610,
+  "report": "function_reports/statics/_ZN17FrameLagCollector25is_valid_statistic_packetEP30Packet_Frame_Lag_Statistic_Add.md"
+ },
+ {
+  "id": "DNF-STA-DIFF-0025",
+  "svc": "statics",
+  "status": "DIFF",
+  "mangled": "_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler",
+  "demangled": "FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Statics/FrameLagCollector.cpp",
+  "line": 585,
+  "report": "function_reports/statics/_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServerHandler.md"
+ }
+]

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092702` | `0xcc` | `0x805818a` | `0xc4` |
+| guild | DIFF | `0x8092702` | `0xcc` | `0x8058166` | `0xc4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,10 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,61 +1,57 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x48,%esp
- movl   $0x0,-0xc(%ebp)
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x48,%esp
+-movl   $0x0,-0xc(%ebp)
  lea    -0x2a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Achieve_Guild_AttendanceC1Ev>
@@ -77,6 +77,10 @@
  jne    <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj+0x3b>
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++movl   $0xffffffff,(%eax)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -133,7 +137,7 @@ CGuild::_ZN6CGuild26NotifyAllAchieveAttendanceEjj(CGuild *this,uint param_1,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2431 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2473 行）：
 
 ```cpp
 void CGuild::NotifyAllAchieveAttendance(unsigned int charNo, unsigned int phase)

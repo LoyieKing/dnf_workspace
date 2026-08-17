@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809ad34` | `0x21b` | `0x8061436` | `0x219` |
+| guild | DIFF | `0x809ad34` | `0x21b` | `0x8061432` | `0x219` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,12 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,166 +1,165 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x54,%esp
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x54,%esp
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5emptyEv>
  test   %al,%al
  je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20>
@@ -190,6 +190,12 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++cmpl   $0x0,0xc(%ebp)
++jne    <T> <_ZN9CGuildWar24IsGuildWarEnterableGuildEj+0x13>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -335,7 +341,7 @@ undefined4 CGuildWar::_ZN9CGuildWar12SameRankWorkEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 248 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 250 行）：
 
 ```cpp
 int CGuildWar::SameRankWork()

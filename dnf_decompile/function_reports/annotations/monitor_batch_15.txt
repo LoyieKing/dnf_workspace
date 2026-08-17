@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0095	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3999	CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader.md
+DNF-MON-DIFF-0013	DIFF	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	234	CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer*)	function_reports/monitor/_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer.md
+DNF-MON-DIFF-0116	DIFF	source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp	55	CFrameCountHandler::GetFrameCountInfo()	function_reports/monitor/_ZN18CFrameCountHandler17GetFrameCountInfoEv.md
+DNF-MON-DIFF-0064	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2859	CPacketTranslater::OnAddBuddyDBReply(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader.md
+DNF-MON-DIFF-0119	DIFF	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	177	CMemoryCashManager::QueryCashMemoryBlackList(CUser*)	function_reports/monitor/_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser.md
+DNF-MON-DIFF-0048	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	507	village_attacked::CVillageAttackedManager::UpdateHuntingPoint(CUser**, bool, int*, unsigned int*)	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj.md
+DNF-MON-DIFF-0143	DIFF	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	272	CUdpHandler::RecvFromServer(char*, int*, unsigned int*, unsigned short*) const	function_reports/monitor/_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt.md
+DNF-MON-DIFF-0094	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4334	CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader.md
+DNF-MON-DIFF-0021	DIFF	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	168	CTcpNetSystem::Init(unsigned short)	function_reports/monitor/_ZN13CTcpNetSystem4InitEt.md
+DNF-MON-DIFF-0016	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp	85	CMemberExpTbl::Parse_Table(char*, int)	function_reports/monitor/_ZN13CMemberExpTbl11Parse_TableEPci.md

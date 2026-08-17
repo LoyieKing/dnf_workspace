@@ -250,7 +250,7 @@ CAppStopInit::_ZN12CAppStopInit4InitEP12CApplicationiPPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp](source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp)（约第 35 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp](source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp)（约第 36 行）：
 
 ```cpp
 void CAppStopInit::Init(CApplication* app, int argc, char** argv)

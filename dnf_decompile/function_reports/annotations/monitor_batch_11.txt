@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0056	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1425	CPacketTranslater::OnMemberSecede(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader.md
+DNF-MON-DIFF-0038	DIFF	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	73	CServerHandler::Process()	function_reports/monitor/_ZN14CServerHandler7ProcessEv.md
+DNF-MON-DIFF-0092	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3882	CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader.md
+DNF-MON-DIFF-0083	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	5526	CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader.md
+DNF-MON-DIFF-0120	DIFF	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	128	CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser*)	function_reports/monitor/_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser.md
+DNF-MON-DIFF-0011	DIFF	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	292	CUserManager::SendConnectedBuddysList(CUser*)	function_reports/monitor/_ZN12CUserManager23SendConnectedBuddysListEP5CUser.md
+DNF-MON-DIFF-0077	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2652	CPacketTranslater::OnExchangeServerInfo(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater20OnExchangeServerInfoEP12PacketHeader.md
+DNF-MON-DIFF-0081	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3601	CPacketTranslater::OnPvPChannelUserCount(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader.md
+DNF-MON-DIFF-0124	DIFF	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	263	COnTimeEventManager::OnRewardEnd()	function_reports/monitor/_ZN19COnTimeEventManager11OnRewardEndEv.md
+DNF-MON-NEAR-0003	NEAR	source/DNFServer/GameServer/Monitor/CashObject.cpp	104	CCashObject::GetBuddysObject(CBuddy**)	function_reports/monitor/_ZN11CCashObject15GetBuddysObjectEPP6CBuddy.md

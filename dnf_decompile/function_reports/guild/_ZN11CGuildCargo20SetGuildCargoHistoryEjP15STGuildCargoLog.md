@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fdce` | `0x56` | `0x809357c` | `0x59` |
+| guild | DIFF | `0x809fdce` | `0x56` | `0x80937da` | `0x59` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,29 +1,29 @@
+@@ -1,29 +1,26 @@
++mov    0x8(%ebp),%eax
++movb   $0x1,0x18e4(%eax)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -40,14 +44,13 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE10push_frontERKS0_>
  addl   $0x1,-0xc(%ebp)
- mov    -0xc(%ebp),%eax
- cmp    -0x10(%ebp),%eax
- setl   %al
- test   %al,%al
+-mov    -0xc(%ebp),%eax
+-cmp    -0x10(%ebp),%eax
+-setl   %al
+-test   %al,%al
 -jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x1f>
-+jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x22>
- leave
- ret
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -76,7 +79,7 @@ CGuildCargo::_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 360 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 362 行）：
 
 ```cpp
 void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)

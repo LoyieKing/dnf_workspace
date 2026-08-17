@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e73e` | `0x287` | `0x8054694` | `0x2a1` |
+| guild | DIFF | `0x808e73e` | `0x287` | `0x805465e` | `0x2a1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,16 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,172 +1,177 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %edi
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x4c,%esp
-+sub    $0x54,%esp
- cmpl   $0x0,0x10(%ebp)
+-cmpl   $0x0,0x10(%ebp)
 -jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x19>
-+jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x17>
  mov    $0x2,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
 +jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
@@ -225,6 +223,12 @@
 -pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%edx
++lea    -0x14(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -317,7 +321,7 @@ LAB_0808e7b2:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1061 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1070 行）：
 
 ```cpp
 int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8071b74` | `0x216` | `0x808baf0` | `0x211` |
+| monitor | DIFF | `0x8071b74` | `0x216` | `0x808b9cc` | `0x211` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,143 +1,142 @@
+@@ -1,143 +1,141 @@
++mov    -0x4(%ebp),%ebx
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
 +push   %esi
@@ -185,6 +188,9 @@
 -jmp    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20d>
 -nop
 -add    $0x604,%esp
+-pop    %ebx
+-pop    %ebp
+-ret
 +jmp    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x207>
 +mov    0xc(%ebp),%eax
 +mov    %eax,(%esp)
@@ -212,10 +218,6 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN16CServerInterface12SendToServerEPci>
 +add    $0x600,%esp
- pop    %ebx
-+pop    %esi
- pop    %ebp
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -295,7 +297,7 @@ CUserManager::_ZN12CUserManager23SendConnectedBuddysListEP5CUser(CUserManager *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 288 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 292 行）：
 
 ```cpp
 void CUserManager::SendConnectedBuddysList(CUser* user)

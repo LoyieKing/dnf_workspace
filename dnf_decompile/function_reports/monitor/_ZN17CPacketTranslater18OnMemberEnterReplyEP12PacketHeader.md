@@ -14,6 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,746 +1,734 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -1111,11 +1116,11 @@
 -jmp    <T> <_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHeader+0xc27>
 -nop
  add    $0xcc,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -1371,7 +1376,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1228 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1238 行）：
 
 ```cpp
 void CPacketTranslater::OnMemberEnterReply(PacketHeader* pkt)

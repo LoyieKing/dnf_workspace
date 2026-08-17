@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f3d2` | `0x14e` | `0x8055358` | `0x142` |
+| guild | DIFF | `0x808f3d2` | `0x14e` | `0x8055322` | `0x142` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,96 @@
- push   %ebp
- mov    %esp,%ebp
+@@ -1,102 +1,97 @@
+-push   %ebp
+-mov    %esp,%ebp
 -push   %ebx
 -sub    $0x34,%esp
 -movl   $0x0,-0xc(%ebp)
-+sub    $0x38,%esp
-+movl   $0x0,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
@@ -148,6 +146,11 @@
 +mov    -0x10(%ebp),%eax
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x2fd4,%esp
++cmpl   $0x0,0xc(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -238,7 +241,7 @@ CGuild::_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1329 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1346 行）：
 
 ```cpp
 int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)

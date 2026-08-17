@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088880` | `0x178` | `0x8073f76` | `0x178` |
+| monitor | DIFF | `0x8088880` | `0x178` | `0x8073f10` | `0x178` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,108 +1,106 @@
+@@ -1,108 +1,108 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -146,12 +152,12 @@
 -jmp    <T> <_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader+0x170>
 -nop
 -add    $0x5c,%esp
-+add    $0x50,%esp
- pop    %ebx
- pop    %esi
+-pop    %ebx
+-pop    %esi
 -pop    %edi
- pop    %ebp
- ret
+-pop    %ebp
+-ret
++add    $0x50,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -186,7 +192,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3240 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3224 行）：
 
 ```cpp
 void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)

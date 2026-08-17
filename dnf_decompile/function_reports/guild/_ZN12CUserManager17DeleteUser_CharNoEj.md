@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x806958a` | `0xbb` | `0x808cbac` | `0xbb` |
+| guild | NEAR | `0x806958a` | `0xbb` | `0x808ce00` | `0xbb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,57 +1,57 @@
+@@ -1,57 +1,59 @@
++lea    -0xc(%ebp),%esp
++add    $0x0,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -69,12 +77,12 @@
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- add    $0x30,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    $0x0,%eax
+-add    $0x30,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -131,7 +139,7 @@ CUserManager::_ZN12CUserManager17DeleteUser_CharNoEj(CUserManager *this,uint par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 336 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 338 行）：
 
 ```cpp
 int CUserManager::DeleteUser_CharNo(unsigned int charNo)

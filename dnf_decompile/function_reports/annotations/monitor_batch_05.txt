@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0052	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	721	CPacketTranslater::OnCharLogin(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader.md
+DNF-MON-DIFF-0069	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3293	CPacketTranslater::OnInnerPacketLogin(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader.md
+DNF-MON-DIFF-0080	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1637	CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader.md
+DNF-MON-DIFF-0010	DIFF	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	341	CUserManager::GetSchoolCount(unsigned int, unsigned int*, unsigned char&)	function_reports/monitor/_ZN12CUserManager14GetSchoolCountEjPjRh.md
+DNF-MON-DIFF-0074	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4637	CPacketTranslater::OnRegisterEventItem(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader.md
+DNF-MON-DIFF-0045	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	194	village_attacked::CVillageAttackedManager::OnSchedule()	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv.md
+DNF-MON-DIFF-0039	DIFF	source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp	333	exchange_server::CCacheCharacterMgr::CollectGarbage()	function_reports/monitor/_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv.md
+DNF-MON-DIFF-0127	DIFF	source/DNFServer/GameServer/Monitor/TaskImpl.cpp	103	CTask_ChristmasEvent::_DoExecute()	function_reports/monitor/_ZN20CTask_ChristmasEvent10_DoExecuteEv.md
+DNF-MON-DIFF-0007	DIFF	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	195	CBuddyHandle::addFromCash(CBuddy*)	function_reports/monitor/_ZN12CBuddyHandle11addFromCashEP6CBuddy.md
+DNF-MON-DIFF-0050	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	707	village_attacked::CVillageAttackedManager::SendRequestRevengeDungeon(char*)	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc.md

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ec94` | `0x3aa` | `0x807a37a` | `0x3af` |
+| monitor | DIFF | `0x808ec94` | `0x3aa` | `0x807a298` | `0x3af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,275 +1,275 @@
+@@ -1,275 +1,273 @@
++sub    $0x20,%esp
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -345,11 +348,11 @@
 +jmp    <T> <_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP12PacketHeader+0x3a7>
 +nop
  add    $0x5c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -417,7 +420,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4897 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4879 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt)

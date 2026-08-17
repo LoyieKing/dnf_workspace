@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8084444` | `0x518` | `0x807a5b4` | `0x516` |
+| guild | DIFF | `0x8084444` | `0x518` | `0x807a684` | `0x516` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,12 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,317 +1,313 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0xcc,%esp
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0xcc,%esp
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x34(%ebp)
 +mov    %eax,-0x38(%ebp)
@@ -487,6 +487,12 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x12c,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -649,7 +655,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnGuildCargoCheckPushItemEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4518 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4581 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoCheckPushItem(PacketHeader* pkt)
@@ -666,13 +672,13 @@ void CPacketTranslater::OnGuildCargoCheckPushItem(PacketHeader* pkt)
         Packet_Channel_Check_Guild_Cargo_Push_Item reply;
         unsigned int charNo = pb->m_charNo;
         reply.me = charNo;
-        reply.m13 = pb->m_field12;
-        reply.m17 = pb->m_field16;
-        reply.m1b = pb->m_field1a;
-        reply.m23 = pb->m_field22;
-        reply.m1f = pb->m_field1e;
-        reply.m25 = pb->m_field24;
-        reply.m24 = pb->m_field23;
+        reply.m13 = pb->m_slot;
+        reply.m17 = pb->m_itemId;
+        reply.m1b = pb->m_count;
+        reply.m23 = pb->m_stackable;
+        reply.m1f = pb->m_maxStack;
+        reply.m25 = pb->m_invenSlot;
+        reply.m24 = pb->m_invenType;
         unsigned int guildKey = pb->m_guildKey;
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
         if (user == 0)
@@ -719,11 +725,11 @@ void CPacketTranslater::OnGuildCargoCheckPushItem(PacketHeader* pkt)
         if (grade == 3 || grade == 1 || grade == 2)
         {
             int result = guild->GetGuildCargo()->CheckInsertItem(
-                pb->m_field16,
-                pb->m_field1a,
-                pb->m_field12,
-                pb->m_field22,
-                pb->m_field1e);
+                pb->m_itemId,
+                pb->m_count,
+                pb->m_slot,
+                pb->m_stackable,
+                pb->m_maxStack);
             reply.m12 = (unsigned char)result;
             user->SendTcpGameserver(&reply);
         }

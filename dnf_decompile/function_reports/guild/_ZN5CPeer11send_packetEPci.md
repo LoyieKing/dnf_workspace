@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80516b2` | `0x21b` | `0x809977e` | `0x21b` |
+| guild | NEAR | `0x80516b2` | `0x21b` | `0x80999dc` | `0x21b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,133 +1,133 @@
+@@ -1,133 +1,134 @@
++mov    $0x1,%ebx
++mov    %ebx,%eax
++add    $0x7c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -143,13 +151,13 @@
  mov    0x8(%ebp),%eax
  mov    %edx,0x1838(%eax)
  mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CPeer11send_packetEv>
- add    $0x30,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CPeer11send_packetEv>
+-add    $0x30,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -218,7 +226,7 @@ undefined4 __thiscall CPeer::_ZN5CPeer11send_packetEPci(CPeer *this,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 295 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 298 行）：
 
 ```cpp
 int CPeer::send_packet(char* buf, int len)

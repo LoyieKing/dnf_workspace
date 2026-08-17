@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a2bd2` | `0xa7` | `0x808ff8e` | `0xa7` |
+| guild | NEAR | `0x80a2bd2` | `0xa7` | `0x80901e2` | `0xa7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,48 @@
+@@ -1,48 +1,51 @@
++pop    %ebx
++pop    %ebp
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++mov    $0x1,%eax
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -65,12 +74,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEneERKS3_>
  test   %al,%al
- je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa0>
- mov    $0x1,%eax
- jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa5>
- mov    $0x0,%eax
- leave
- ret
+-je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa0>
+-mov    $0x1,%eax
+-jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa5>
+-mov    $0x0,%eax
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -107,7 +116,7 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 115 行）：
+定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 116 行）：
 
 ```cpp
 int CGMAccounts::isGM(unsigned int id)

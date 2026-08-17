@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8086af6` | `0x2b7` | `0x807cb28` | `0x2c8` |
+| guild | DIFF | `0x8086af6` | `0x2b7` | `0x807ccce` | `0x2c8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,170 +1,172 @@
+@@ -1,170 +1,174 @@
++call   <T> <__cxa_end_catch>
++add    $0x7c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -232,12 +240,12 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- call   <T> <__cxa_end_catch>
- add    $0x110,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-call   <T> <__cxa_end_catch>
+-add    $0x110,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -315,7 +323,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5129 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5203 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
@@ -349,8 +357,8 @@ void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
         dbPkt.m_b = pb->m_guildKey;
         dbPkt.m_c = pb->m_boardNo;
         dbPkt.m_d = pb->m_charNo;
-        *(unsigned char*)((char*)&dbPkt + 0x9b) = pb->m_field16;
-        *(unsigned char*)((char*)&dbPkt + 0x9c) = pb->m_field17;
+        *(unsigned char*)((char*)&dbPkt + 0x9b) = pb->m_job;
+        *(unsigned char*)((char*)&dbPkt + 0x9c) = pb->m_growType;
         memcpy((char*)&dbPkt + 0x9e, user->GetCharName(), 0x1e);
         memcpy(&dbPkt.m_info, pb->m_info, 0x78);
         m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);

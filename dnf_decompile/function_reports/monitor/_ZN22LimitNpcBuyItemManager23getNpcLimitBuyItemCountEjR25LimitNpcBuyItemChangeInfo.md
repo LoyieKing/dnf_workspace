@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805b20e` | `0x85` | `0x8095dd8` | `0x8f` |
+| monitor | DIFF | `0x805b20e` | `0x85` | `0x8095cb8` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,45 +1,51 @@
++nop
++mov    -0x4(%ebp),%ebx
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
 +push   %esi
@@ -67,12 +71,9 @@
  nop
 -mov    -0x4(%ebp),%ebx
 -leave
+-ret
 +lea    -0x8(%ebp),%esp
 +add    $0x0,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -116,4 +117,4 @@ _ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeIn
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 290 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 293 个文件*

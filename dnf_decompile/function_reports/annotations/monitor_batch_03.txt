@@ -1,0 +1,10 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0113	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	429	CPacketTranslater::OnLogout(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater8OnLogoutEP12PacketHeader.md
+DNF-MON-DIFF-0100	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	5136	CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader.md
+DNF-MON-DIFF-0044	DIFF	source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp	56	CTcpAcceptThread::dispatch(void*)	function_reports/monitor/_ZN16CTcpAcceptThread8dispatchEPv.md
+DNF-MON-DIFF-0084	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3149	CPacketTranslater::OnUserRepelByCharName(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater21OnUserRepelByCharNameEP12PacketHeader.md
+DNF-MON-DIFF-0055	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3100	CPacketTranslater::OnGMRequestMid(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader.md
+DNF-MON-DIFF-0121	DIFF	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	305	CMemoryCashManager::InsertCashMemorySetCharacterObject(CUser*, CMember*, bool&, bool&)	function_reports/monitor/_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_.md
+DNF-MON-DIFF-0049	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	330	village_attacked::CVillageAttackedManager::OnEndVillageAttacked()	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv.md
+DNF-MON-DIFF-0025	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	346	CMemberManager::InsertMember(unsigned int, CMember*)	function_reports/monitor/_ZN14CMemberManager12InsertMemberEjP7CMember.md
+DNF-MON-DIFF-0130	DIFF	source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp	69	TowerOfDespairWaitGameServerResponse_Task::_DoExecute()	function_reports/monitor/_ZN41TowerOfDespairWaitGameServerResponse_Task10_DoExecuteEv.md

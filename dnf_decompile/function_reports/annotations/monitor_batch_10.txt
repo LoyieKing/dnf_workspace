@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0059	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	576	CPacketTranslater::OnReplyUserInfo(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader.md
+DNF-MON-NEAR-0004	NEAR	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	582	CUserManager::AddSchoolNo(unsigned int, unsigned char)	function_reports/monitor/_ZN12CUserManager11AddSchoolNoEjh.md
+DNF-MON-DIFF-0096	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4823	CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader.md
+DNF-MON-DIFF-0091	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2435	CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader.md
+DNF-MON-DIFF-0066	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2971	CPacketTranslater::OnDelBuddyDBReply(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader.md
+DNF-MON-DIFF-0022	DIFF	source/DNFServer/GameServer/Monitor/ServerXml.cpp	164	np_server_xml::CServerXml::StrPunish(int, char const*, np_server_xml::_eStringType)	function_reports/monitor/_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE.md
+DNF-MON-DIFF-0076	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4302	CPacketTranslater::OnWebRequestARSInfo(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater19OnWebRequestARSInfoEP12PacketHeader.md
+DNF-MON-DIFF-0106	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3224	CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader.md
+DNF-MON-DIFF-0088	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3076	CPacketTranslater::OnWebChangeUserHandicap(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader.md
+DNF-MON-DIFF-0017	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp	104	CMemberExpTbl::GetMemberExpLevel(unsigned int)	function_reports/monitor/_ZN13CMemberExpTbl17GetMemberExpLevelEj.md

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e42e` | `0x30f` | `0x805435e` | `0x305` |
+| guild | DIFF | `0x808e42e` | `0x30f` | `0x8054358` | `0x305` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,14 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,217 +1,211 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x60,%esp
-+sub    $0x64,%esp
- mov    0x14(%ebp),%eax
- mov    %ax,-0x3c(%ebp)
+-mov    0x14(%ebp),%eax
+-mov    %ax,-0x3c(%ebp)
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
@@ -306,6 +305,12 @@
 -pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x54,%esp
++cmpl   $0x0,0x10(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -400,7 +405,7 @@ CGuild::_ZN6CGuild13BuyGuildSkillEiisj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 990 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1003 行）：
 
 ```cpp
 bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)

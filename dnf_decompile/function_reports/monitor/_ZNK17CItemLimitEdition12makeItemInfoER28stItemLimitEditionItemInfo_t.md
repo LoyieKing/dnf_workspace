@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80a5c70` | `0x37` | `0x8094a0c` | `0x37` |
+| monitor | NEAR | `0x80a5c70` | `0x37` | `0x80948ec` | `0x37` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,25 @@
+@@ -1,25 +1,23 @@
++setge  %al
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,11 +38,11 @@
  mov    0xc(%ebp),%edx
  mov    %eax,0x18(%edx)
  add    $0x1c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -72,7 +75,7 @@ CItemLimitEdition::_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionIt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 213 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 216 行）：
 
 ```cpp
 void CItemLimitEdition::makeItemInfo(stItemLimitEditionItemInfo_t& info) const

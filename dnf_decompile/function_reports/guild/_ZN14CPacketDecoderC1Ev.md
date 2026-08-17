@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806f934` | `0x60f` | `0x8065fc6` | `0x60f` |
+| guild | DIFF | `0x806f934` | `0x60f` | `0x8065f8e` | `0x60f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,250 +1,250 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x10,%esp
- mov    0x8(%ebp),%eax
- movl   $0x0,(%eax)
+@@ -1,250 +1,253 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x10,%esp
+-mov    0x8(%ebp),%eax
+-movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x4(%eax)
  mov    0x8(%ebp),%eax
@@ -267,6 +267,14 @@
  movl   $&_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader,0x9c7c(%eax)
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x2c,%esp
++cmpl   $0x0,0xc(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -405,7 +413,7 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoderC1Ev(CPacketDecoder *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp)（约第 76 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp)（约第 77 行）：
 
 ```cpp
 CPacketDecoder::CPacketDecoder()

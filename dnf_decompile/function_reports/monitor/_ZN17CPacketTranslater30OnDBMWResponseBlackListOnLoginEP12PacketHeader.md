@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80866d4` | `0x26d` | `0x80721a8` | `0x26a` |
+| monitor | DIFF | `0x80866d4` | `0x26d` | `0x80720f0` | `0x26a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,9 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,171 +1,170 @@
+@@ -1,171 +1,168 @@
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -198,10 +200,10 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
  add    $0x40,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -258,7 +260,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2622 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2601 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)

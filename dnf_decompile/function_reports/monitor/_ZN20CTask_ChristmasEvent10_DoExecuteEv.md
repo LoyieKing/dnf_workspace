@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a099c` | `0x146` |
+| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a087c` | `0x14c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,70 +1,83 @@
+@@ -1,70 +1,87 @@
++pop    %ebx
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -22,16 +26,16 @@
 -sub    $0x44,%esp
 -lea    -0x32(%ebp),%eax
 +sub    $0x4c,%esp
-+lea    -0x44(%ebp),%eax
++lea    -0x42(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_ServerEvent_StartC1Ev>
 -movl   $0x1,-0x28(%ebp)
 -movw   $0x14,-0x24(%ebp)
 -movw   $0xe10,-0x22(%ebp)
-+movl   $0x1,-0x3a(%ebp)
-+movw   $0x14,-0x36(%ebp)
++movl   $0x1,-0x38(%ebp)
++movw   $0x14,-0x34(%ebp)
 +movw   $0xe10,-0x32(%ebp)
-+lea    -0x44(%ebp),%ebx
++lea    -0x42(%ebp),%ebx
  call   <T> <_Z20CApplicationInstancev>
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -169,7 +173,7 @@ void CTask_ChristmasEvent::_ZN20CTask_ChristmasEvent10_DoExecuteEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 101 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 103 行）：
 
 ```cpp
 void CTask_ChristmasEvent::_DoExecute()

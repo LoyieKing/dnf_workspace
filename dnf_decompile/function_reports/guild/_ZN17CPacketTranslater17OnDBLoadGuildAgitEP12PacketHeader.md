@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082fac` | `0x1d7` | `0x80791dc` | `0x1b9` |
+| guild | DIFF | `0x8082fac` | `0x1d7` | `0x8079236` | `0x1b9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,122 +1,113 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x40,%esp
+@@ -1,122 +1,114 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x40,%esp
 -movl   $0x0,-0x14(%ebp)
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader+0x53>
 +jne    <T> <_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader+0x4c>
@@ -181,6 +181,13 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x8c,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -231,7 +238,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4169 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4222 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)

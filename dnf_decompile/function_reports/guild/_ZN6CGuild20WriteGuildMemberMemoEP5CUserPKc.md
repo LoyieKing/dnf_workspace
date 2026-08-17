@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80919d2` | `0x124` | `0x8057420` | `0x12a` |
+| guild | DIFF | `0x80919d2` | `0x124` | `0x80573f8` | `0x12a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,84 +1,86 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x24,%esp
- cmpl   $0x0,0xc(%ebp)
+@@ -1,84 +1,85 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
+-cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11a>
-+je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x120>
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11d>
 +je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x123>
@@ -115,6 +114,11 @@
  pop    %ebx
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x68,%esp
++mov    0x8(%ebp),%eax
++movzwl 0x1c(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -159,7 +163,7 @@ CGuild::_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc(CGuild *this,CUser *param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2068 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2102 行）：
 
 ```cpp
 void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808f03e` | `0xa79` | `0x807a72a` | `0x982` |
+| monitor | DIFF | `0x808f03e` | `0xa79` | `0x807a648` | `0x982` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,705 +1,644 @@
+@@ -1,705 +1,645 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -1107,11 +1113,11 @@
 +jmp    <T> <_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader+0x977>
  nop
  add    $0x2fc,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -1343,7 +1349,7 @@ LAB_0808f697:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4945 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4928 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
@@ -1358,44 +1364,44 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
     }
     Packet_Monitor_Other_Channel_Chat_Hyper_Link* chat =
         (Packet_Monitor_Other_Channel_Chat_Hyper_Link*)pkt;
-    if (chat->what_0x1b != 0 &&
-        (unsigned char)chat->what_0x1b < 0x1e)
+    if (chat->m_buddyNameLen != 0 &&
+        (unsigned char)chat->m_buddyNameLen < 0x1e)
     {
         CUser* target = (&m_pclApp->m_userManager)->FindUser_CharName(chat->buddy_n_user_id_what);
-        chat->what_0x17 =
+        chat->m_recverCharId =
             target != 0 ? (int)target->GetUniqCharNo() : (int)0xffffffff;
     }
-    if (chat->what_0x13 == 0 ||
-        chat->what_0x17 == 0 ||
-        chat->what_0x173 == 0)
+    if (chat->m_characNo == 0 ||
+        chat->m_recverCharId == 0 ||
+        chat->m_msgLen == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1d71,"./log/Except",
             "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink, sender(%d), "
             "receiver(%d), msglen(%d)",
-            chat->what_0x13, chat->what_0x17,
-            (unsigned int)(unsigned char)chat->what_0x173);
+            chat->m_characNo, chat->m_recverCharId,
+            (unsigned int)(unsigned char)chat->m_msgLen);
         throw CDNFException(
             "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink : packet->m_uSenderCharID "
             "&&  packet->m_uRecverCharID && packet->m_msgLen");
     }
     Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link reply;
-    reply.m_senderCharId = (unsigned int)chat->what_0x0a;
-    CUser* sender = (&m_pclApp->m_userManager)->FindUser_CharNo((unsigned int)chat->what_0x13);
+    reply.m_senderCharId = (unsigned int)chat->m_chatType;
+    CUser* sender = (&m_pclApp->m_userManager)->FindUser_CharNo((unsigned int)chat->m_characNo);
     if (sender == 0)
     {
         return;
     }
-    CUser* receiver = (&m_pclApp->m_userManager)->FindUser_CharNo((unsigned int)chat->what_0x17);
+    CUser* receiver = (&m_pclApp->m_userManager)->FindUser_CharNo((unsigned int)chat->m_recverCharId);
     if (receiver == 0)
     {
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         memcpy(reply.m_name, chat->buddy_n_user_id_what, 0x1d);
         reply.m_type = 1;
-        reply.m_itemCount = chat->what_0x3a;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
+        reply.m_itemCount = chat->m_itemCount;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->m_itemCount; i++)
         {
-            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
+            memcpy(reply.m_items[i], chat->m_items[i], 0x68);
         }
         reply.packetSize = 0x170;
         sender->SendToGameserver((char*)&reply, 0x170);
@@ -1417,10 +1423,10 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         reply.m_type = 2;
-        reply.m_itemCount = chat->what_0x3a;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
+        reply.m_itemCount = chat->m_itemCount;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->m_itemCount; i++)
         {
-            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
+            memcpy(reply.m_items[i], chat->m_items[i], 0x68);
         }
         memcpy(reply.m_name, chat->buddy_n_user_id_what, 0x1d);
         reply.packetSize = 0x170;
@@ -1445,10 +1451,10 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         reply.m_type = 3;
-        reply.m_itemCount = chat->what_0x3a;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
+        reply.m_itemCount = chat->m_itemCount;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->m_itemCount; i++)
         {
-            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
+            memcpy(reply.m_items[i], chat->m_items[i], 0x68);
         }
         memcpy(reply.m_name, chat->buddy_n_user_id_what, 0x1d);
         reply.packetSize = 0x170;
@@ -1459,16 +1465,16 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
         memcpy(reply.m_name, sender->GetCharName(), 0x1d);
         reply.m_idByChannel = receiver->GetIdByChannel();
         reply.m_uniqCharNo = receiver->GetUniqCharNo();
-        reply.m_itemCount = chat->what_0x3a;
-        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->what_0x3a; i++)
+        reply.m_itemCount = chat->m_itemCount;
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)chat->m_itemCount; i++)
         {
-            memcpy(reply.m_items[i], chat->what_0x3b[i], 0x68);
+            memcpy(reply.m_items[i], chat->m_items[i], 0x68);
         }
-        reply.m_msgLen = chat->what_0x173;
-        memcpy(reply.m_msg, chat->what_0x174,
-               (unsigned int)(unsigned char)chat->what_0x173);
+        reply.m_msgLen = chat->m_msgLen;
+        memcpy(reply.m_msg, chat->m_msg,
+               (unsigned int)(unsigned char)chat->m_msgLen);
         reply.packetSize =
-            (unsigned short)((unsigned char)chat->what_0x173 + 0x170);
+            (unsigned short)((unsigned char)chat->m_msgLen + 0x170);
         receiver->SendToGameserver((char*)&reply, reply.packetSize);
     }
 

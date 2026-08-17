@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080846` | `0x76a` | `0x806c5f0` | `0x78a` |
+| monitor | DIFF | `0x8080846` | `0x76a` | `0x806c5d8` | `0x78a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,496 +1,503 @@
+@@ -1,496 +1,504 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -221,7 +227,7 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+mov    -0x38(%ebp),%eax
++mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22IsAbleToRegisterMemberEv>
  movzbl %al,%eax
@@ -763,11 +769,11 @@
 +jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x77f>
  nop
  add    $0xdc,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -955,7 +961,7 @@ LAB_08080cce:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1129 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1121 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
@@ -996,7 +1002,7 @@ void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x5a2,"./log/MemberModify",
             "Err Member Register Restrict : requester(%d:%d) responser(%d:%d)",
             requester->GetUniqCharNo(), requester->IsAbleToRegisterMember(),
-            target->GetUniqCharNo(), requester->IsAbleToRegisterMember());
+            target->GetUniqCharNo(), target->IsAbleToRegisterMember());
         return;
     }
     if (requester->IsBlackUser(target->GetUniqCharNo()) != 0)

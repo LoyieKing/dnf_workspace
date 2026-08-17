@@ -456,7 +456,7 @@ CDBManager::_ZN10CDBManager15SendGuildLetterEijPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 488 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 490 行）：
 
 ```cpp
 bool CDBManager::SendGuildLetter(int serverId, unsigned int guildId, char* msg)

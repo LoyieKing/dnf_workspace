@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x809106c` | `0x84` | `0x8056ae8` | `0x84` |
+| guild | NEAR | `0x809106c` | `0x84` | `0x8056ac0` | `0x84` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,46 +1,46 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x10,%esp
- mov    0x8(%ebp),%eax
- movzwl 0x1c(%eax),%eax
+@@ -1,46 +1,45 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x10,%esp
+-mov    0x8(%ebp),%eax
+-movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
@@ -61,6 +61,10 @@
  mov    $0x0,%eax
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x10,%esp
++movl   $0x0,-0x4(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -86,7 +90,7 @@ CGuild * __thiscall CGuild::_ZN6CGuild29getUnconnectedGuildMemberNameEj(CGuild *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1822 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1850 行）：
 
 ```cpp
 char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)

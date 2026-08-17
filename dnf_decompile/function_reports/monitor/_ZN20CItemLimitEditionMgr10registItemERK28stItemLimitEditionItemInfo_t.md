@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x809345c` | `0x17f` | `0x809433e` | `0x17f` |
+| monitor | NEAR | `0x809345c` | `0x17f` | `0x8094222` | `0x17f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,115 +1,115 @@
+@@ -1,115 +1,114 @@
++mov    %edx,0xb(%eax)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -135,10 +138,10 @@
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
  jmp    <T> <_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t+0x17a>
- nop
- mov    -0x4(%ebp),%ebx
- leave
- ret
+-nop
+-mov    -0x4(%ebp),%ebx
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -231,7 +234,7 @@ LAB_080934c6:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 67 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 68 行）：
 
 ```cpp
 void CItemLimitEditionMgr::registItem(const stItemLimitEditionItemInfo_t& info)

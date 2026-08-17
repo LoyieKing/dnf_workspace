@@ -1,0 +1,9 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0006	DIFF	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	312	CApplication::Load(int, char**)	function_reports/monitor/_ZN12CApplication4LoadEiPPc.md
+DNF-MON-DIFF-0034	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp	201	CPacketDecoder::TcpProcess()	function_reports/monitor/_ZN14CPacketDecoder10TcpProcessEv.md
+DNF-MON-DIFF-0073	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3363	CPacketTranslater::OnInnerPacketLogout(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader.md
+DNF-MON-DIFF-0104	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2601	CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader.md
+DNF-MON-DIFF-0030	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	178	CMemberManager::IsPossableMemberEnter(CUser*, CMember*, CUser*, CMember*, int)	function_reports/monitor/_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i.md
+DNF-MON-DIFF-0003	DIFF	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	41	CUdpHandler::InitServerSocket(int)	function_reports/monitor/_ZN11CUdpHandler16InitServerSocketEi.md
+DNF-MON-NEAR-0006	NEAR	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	432	CUserManager::InsertUser_CharNo(unsigned int, CUser*)	function_reports/monitor/_ZN12CUserManager17InsertUser_CharNoEjP5CUser.md
+DNF-MON-NEAR-0009	NEAR	source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp	9	CMemoryCashManager::ProcessCashDataPrint()	function_reports/monitor/_ZN18CMemoryCashManager20ProcessCashDataPrintEv.md

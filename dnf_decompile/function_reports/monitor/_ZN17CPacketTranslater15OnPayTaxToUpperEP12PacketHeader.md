@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8082b74` | `0x58b` | `0x806e746` | `0x5a5` |
+| monitor | DIFF | `0x8082b74` | `0x58b` | `0x806e6c6` | `0x5a5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,355 +1,359 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -499,11 +504,11 @@
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x580>
 -nop
  add    $0xec,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -635,7 +640,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1708 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1684 行）：
 
 ```cpp
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)

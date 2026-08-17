@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e906` | `0x20` | `0x8094038` | `0x21` |
+| monitor | DIFF | `0x805e906` | `0x20` | `0x8093f14` | `0x21` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,9 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,13 +1,13 @@
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  sub    $0x4,%esp
@@ -25,14 +28,13 @@
 -mov    $0xffffffc8,%eax
 -mov    0x8(%ebp),%edx
 -mov    %al,(%edx)
+-leave
+-ret
 +cmpb   $0xc8,-0x4(%ebp)
 +jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x16>
 +movb   $0xc8,-0x4(%ebp)
 +movzbl -0x4(%ebp),%edx
 +mov    0x8(%ebp),%eax
-+mov    %dl,(%eax)
- leave
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -53,7 +55,7 @@ void __thiscall CIPCounter::_ZN10CIPCounter13setMinIPCountEh(CIPCounter *this,uc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 80 行）：
+定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 82 行）：
 
 ```cpp
 void CIPCounter::setMinIPCount(unsigned char count)

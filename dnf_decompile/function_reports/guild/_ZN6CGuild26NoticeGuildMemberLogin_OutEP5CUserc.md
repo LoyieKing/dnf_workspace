@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f23e` | `0x193` | `0x80551b8` | `0x19f` |
+| guild | DIFF | `0x808f23e` | `0x193` | `0x8055182` | `0x19f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,118 +1,123 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x68,%esp
- mov    0x10(%ebp),%eax
- mov    %al,-0x4c(%ebp)
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x68,%esp
+-mov    0x10(%ebp),%eax
+-mov    %al,-0x4c(%ebp)
  cmpl   $0x0,0xc(%ebp)
  je     <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc+0x21>
  mov    0xc(%ebp),%eax
@@ -152,6 +152,11 @@
  nop
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x38,%esp
++movl   $0x0,-0x10(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -231,7 +236,7 @@ CGuild::_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc(CGuild *this,CUser *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1297 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1313 行）：
 
 ```cpp
 void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)

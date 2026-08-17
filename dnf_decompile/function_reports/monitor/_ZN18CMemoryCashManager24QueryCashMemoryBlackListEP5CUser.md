@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a1034` | `0x245` | `0x8098084` | `0x207` |
+| monitor | DIFF | `0x80a1034` | `0x245` | `0x8097f64` | `0x207` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,174 +1,147 @@
+@@ -1,174 +1,148 @@
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -197,10 +202,10 @@
  mov    $0x0,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -326,7 +331,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 177 行）：
 
 ```cpp
 char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807cfd6` | `0x333` | `0x8068072` | `0x33f` |
+| monitor | DIFF | `0x807cfd6` | `0x333` | `0x8067f92` | `0x33f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,9 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,248 @@
+@@ -1,242 +1,245 @@
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -278,11 +280,11 @@
  test   %al,%al
  jne    <T> <_ZN14CPacketDecoder10TcpProcessEv+0xf9>
  add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -385,7 +387,7 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10TcpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp)（约第 200 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp)（约第 201 行）：
 
 ```cpp
 void CPacketDecoder::TcpProcess()

@@ -133,7 +133,7 @@ _ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 185 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 186 行）：
 
 ```cpp
 bool CInitAccusationListMgr::setSchedule(bool const& flag)

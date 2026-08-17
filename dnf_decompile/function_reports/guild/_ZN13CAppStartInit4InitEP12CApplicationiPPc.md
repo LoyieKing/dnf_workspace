@@ -278,7 +278,7 @@ CAppStartInit::_ZN13CAppStartInit4InitEP12CApplicationiPPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp](source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp)（约第 92 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp](source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp)（约第 93 行）：
 
 ```cpp
 void CAppStartInit::Init(CApplication* app, int argc, char** argv)

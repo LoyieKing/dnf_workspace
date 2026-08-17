@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a6b0` | `0x197` |
+| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a590` | `0x197` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,107 @@
+@@ -1,97 +1,106 @@
++pop    %ebx
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -130,12 +134,10 @@
 -jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x17b>
 -nop
 -add    $0x34,%esp
+-pop    %ebx
+-pop    %ebp
+-ret
 +add    $0x2c,%esp
- pop    %ebx
-+pop    %esi
-+pop    %edi
- pop    %ebp
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -190,7 +192,7 @@ COnTimeEventManager::_ZN19COnTimeEventManager13OnRewardStartEv(COnTimeEventManag
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 228 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 230 行）：
 
 ```cpp
 void COnTimeEventManager::OnRewardStart()

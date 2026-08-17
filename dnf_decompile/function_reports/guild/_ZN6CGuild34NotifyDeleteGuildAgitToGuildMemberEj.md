@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091f30` | `0xee` | `0x805795e` | `0xf1` |
+| guild | DIFF | `0x8091f30` | `0xee` | `0x8057958` | `0xf1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,72 +1,74 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x48,%esp
- mov    0x8(%ebp),%eax
- movzwl 0x1c(%eax),%eax
+@@ -1,72 +1,75 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x48,%esp
+-mov    0x8(%ebp),%eax
+-movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
@@ -91,6 +91,12 @@
  nop
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x38,%esp
++mov    0x8(%ebp),%eax
++movzwl 0x1c(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -151,7 +157,7 @@ void __thiscall CGuild::_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj(CGuild 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2206 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2247 行）：
 
 ```cpp
 void CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int charNo)

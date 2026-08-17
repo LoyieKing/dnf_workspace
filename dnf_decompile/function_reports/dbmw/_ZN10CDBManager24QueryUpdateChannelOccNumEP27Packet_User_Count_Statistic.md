@@ -208,7 +208,7 @@ CDBManager::_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Stati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1484 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1502 行）：
 
 ```cpp
 bool CDBManager::QueryUpdateChannelOccNum(Packet_User_Count_Statistic* packet)

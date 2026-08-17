@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809ff8c` | `0xea` | `0x809373e` | `0xef` |
+| guild | DIFF | `0x809ff8c` | `0xea` | `0x809399c` | `0xef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,69 +1,71 @@
+@@ -1,69 +1,74 @@
++setg   %al
++test   %al,%al
++jne    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0x69>
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -100,13 +110,13 @@
  movl   $"id:%d,s:%d,sc:%d,up:%d,add:%d,en:%d,ex:%d,at:%d,av:%d,sp:%d",0x4(%esp)
  movl   $&_ZZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfoE8szBuffer,(%esp)
  call   <T> <sprintf>
- mov    $&_ZZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfoE8szBuffer,%eax
- add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-mov    $&_ZZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfoE8szBuffer,%eax
+-add    $0x4c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -133,7 +143,7 @@ undefined1 * CGuildCargo::_ZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfo(DnfI
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 400 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 404 行）：
 
 ```cpp
 const char* CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)

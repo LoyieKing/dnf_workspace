@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x8069586` | `0x644` |
+| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x8069564` | `0x644` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,395 +1,402 @@
+@@ -1,395 +1,401 @@
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -658,12 +661,12 @@
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x611>
 -nop
 -add    $0xac,%esp
-+add    $0xc0,%esp
- pop    %ebx
- pop    %esi
+-pop    %ebx
+-pop    %esi
 -pop    %edi
- pop    %ebp
- ret
+-pop    %ebp
+-ret
++add    $0xc0,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -836,7 +839,7 @@ void CPacketTranslater::_ZN17CPacketTranslater7OnLoginEP12PacketHeader(PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 285 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 286 行）：
 
 ```cpp
 void CPacketTranslater::OnLogin(PacketHeader* pkt)

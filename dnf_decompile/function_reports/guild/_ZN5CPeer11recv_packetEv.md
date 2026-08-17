@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051086` | `0x1a1` | `0x8099130` | `0x1bf` |
+| guild | DIFF | `0x8051086` | `0x1a1` | `0x809938e` | `0x1bf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,117 +1,121 @@
++mov    $0x1,%eax
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -141,13 +148,12 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
-+jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
- mov    -0xc(%ebp),%eax
- add    $0x30,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    -0xc(%ebp),%eax
+-add    $0x30,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -220,7 +226,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11recv_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 169 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 170 行）：
 
 ```cpp
 int CPeer::recv_packet()

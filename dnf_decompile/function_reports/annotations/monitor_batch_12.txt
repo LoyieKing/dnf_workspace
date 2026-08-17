@@ -1,0 +1,12 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0060	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1535	CPacketTranslater::OnCallMemberList(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader.md
+DNF-MON-DIFF-0102	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3802	CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader.md
+DNF-MON-DIFF-0005	DIFF	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	951	CApplication::TranslateSignal()	function_reports/monitor/_ZN12CApplication15TranslateSignalEv.md
+DNF-MON-DIFF-0067	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1014	CPacketTranslater::OnEventItemUpdate(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader.md
+DNF-MON-DIFF-0075	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1992	CPacketTranslater::OnWebQueryUserState(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader.md
+DNF-MON-DIFF-0085	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2055	CPacketTranslater::OnRelayServerUserCheck(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader.md
+DNF-MON-DIFF-0036	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp	281	CPacketDecoder::MsgDecode(PacketHeader*)	function_reports/monitor/_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader.md
+DNF-MON-DIFF-0024	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	95	CMemberManager::DeleteMember(unsigned int, bool)	function_reports/monitor/_ZN14CMemberManager12DeleteMemberEjb.md
+DNF-MON-DIFF-0033	DIFF	source/DNFServer/GameServer/Monitor/PacketCounter.h	311	CPacketCounter<1000, 10240>::AfterProcess(int)	function_reports/monitor/_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi.md
+DNF-MON-DIFF-0001	DIFF	source/DNFServer/GameServer/Monitor/IPCounter.cpp	67	CIPCounter::setLoadTerm(unsigned char)	function_reports/monitor/_ZN10CIPCounter11setLoadTermEh.md
+DNF-MON-DIFF-0002	DIFF	source/DNFServer/GameServer/Monitor/IPCounter.cpp	82	CIPCounter::setMinIPCount(unsigned char)	function_reports/monitor/_ZN10CIPCounter13setMinIPCountEh.md

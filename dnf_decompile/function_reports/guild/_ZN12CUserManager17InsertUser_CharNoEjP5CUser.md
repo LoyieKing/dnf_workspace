@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80694aa` | `0xdf` | `0x808cacc` | `0xdf` |
+| guild | NEAR | `0x80694aa` | `0xdf` | `0x808cd20` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,66 +1,66 @@
++mov    -0x1c(%ebp),%eax
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -86,14 +94,14 @@
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- lea    -0xc(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-mov    $0x0,%eax
+-lea    -0xc(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -139,7 +147,7 @@ CUserManager::_ZN12CUserManager17InsertUser_CharNoEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 317 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 318 行）：
 
 ```cpp
 bool CUserManager::InsertUser_CharNo(unsigned int charNo, CUser* user)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80501bc` | `0x1b8` | `0x8087bda` | `0x1ad` |
+| monitor | DIFF | `0x80501bc` | `0x1b8` | `0x8087ab6` | `0x1ad` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,9 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,112 +1,103 @@
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -150,13 +153,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
- mov    (%eax),%eax
+-mov    (%eax),%eax
 -add    $0x40,%esp
 -pop    %ebx
 -pop    %esi
 -pop    %ebp
-+leave
- ret
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -220,7 +222,7 @@ CUdpHandler::_ZN11CUdpHandler16InitServerSocketEi(CUdpHandler *this,int param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp](source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp)（约第 40 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp](source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp)（约第 41 行）：
 
 ```cpp
 int CUdpHandler::InitServerSocket(int port)

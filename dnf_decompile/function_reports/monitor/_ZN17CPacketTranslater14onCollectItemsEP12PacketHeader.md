@@ -14,6 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,262 +1,267 @@
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -300,11 +305,11 @@
 -jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x388>
 -nop
  add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -387,7 +392,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5278 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5339 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItems(PacketHeader* pkt)
@@ -404,15 +409,15 @@ void CPacketTranslater::onCollectItems(PacketHeader* pkt)
         {
             if (((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current == 0)
             {
-                SendColletItemsReward(req->m_charNo, req->m_idByChannel, req->m_name,
+                SendColletItemsReward(req->m_accId, req->m_idByChannel, req->m_name,
                                       (int)req->m_nameLen, TimeGateRewardType::TYPE_0);
             }
             else
             {
-                if (((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current + req->m_add >=
+                if (((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current + req->m_itemCount >=
                     ((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_total)
                 {
-                    SendColletItemsReward(req->m_charNo, req->m_idByChannel, req->m_name,
+                    SendColletItemsReward(req->m_accId, req->m_idByChannel, req->m_name,
                                           (int)req->m_nameLen, TimeGateRewardType::TYPE_2);
                     ((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_time =
                         (long)time(0);
@@ -422,16 +427,16 @@ void CPacketTranslater::onCollectItems(PacketHeader* pkt)
                     if ((((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current -
                          ((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current % 0x14) + 0x14 <=
                         ((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current +
-                            req->m_add)
+                            req->m_itemCount)
                     {
-                        SendColletItemsReward(req->m_charNo, req->m_idByChannel, req->m_name,
+                        SendColletItemsReward(req->m_accId, req->m_idByChannel, req->m_name,
                                               (int)req->m_nameLen, TimeGateRewardType::TYPE_1);
                     }
                 }
             }
             ((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current =
                 ((MonitorCollectItemsState*)m_pclApp->getCollectItems())->m_current +
-                req->m_add;
+                req->m_itemCount;
         }
     }
     catch (CDNFException& e)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa1ea` | `0x24a` | `0x80a1214` | `0x25c` |
+| guild | DIFF | `0x80aa1ea` | `0x24a` | `0x80a1468` | `0x25c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,169 +1,173 @@
+@@ -1,169 +1,172 @@
++jne    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x27>
++mov    -0x10(%ebp),%edx
++mov    0xc(%ebp),%eax
++mov    %edx,(%eax)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -261,13 +267,12 @@
  call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xb7>
-+jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xbb>
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -369,4 +374,4 @@ CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildM
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 283 个文件*

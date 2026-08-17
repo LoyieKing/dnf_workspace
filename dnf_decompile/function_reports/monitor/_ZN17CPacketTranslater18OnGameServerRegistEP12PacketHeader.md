@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d0dc` | `0x2ae` | `0x80787d4` | `0x2af` |
+| monitor | DIFF | `0x808d0dc` | `0x2ae` | `0x80786f2` | `0x2af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,176 +1,176 @@
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -249,10 +253,10 @@
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x2a8>
 -nop
- add    $0x54,%esp
- pop    %ebx
- pop    %ebp
- ret
+-add    $0x54,%esp
+-pop    %ebx
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -345,7 +349,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4380 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4358 行）：
 
 ```cpp
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)

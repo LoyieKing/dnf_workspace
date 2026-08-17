@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809acda` | `0x216` | `0x806214c` | `0x216` |
+| monitor | DIFF | `0x809acda` | `0x216` | `0x806215e` | `0x210` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,94 +13,67 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,134 +1,131 @@
+@@ -1,134 +1,132 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x64,%esp
-+sub    $0x68,%esp
+ push   %ebx
+ sub    $0x64,%esp
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMemberManager10FindMemberEj>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x6e>
-+mov    %eax,-0x18(%ebp)
-+cmpl   $0x0,-0x18(%ebp)
-+jne    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x68>
++jne    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x69>
  movl   $0x26d,0x8(%esp)
-+movl   $&_ZZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandlerE12__FUNCTION__,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"[MEMBER]\tCMemberManager::LoadMember()\tpclMember is Null, member key(%d)\n",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x214>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CMemberManager14FindMemberUserEj>
-+mov    %eax,-0x14(%ebp)
-+cmpl   $0x0,-0x14(%ebp)
-+jne    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0xca>
-+movl   $0x273,0x8(%esp)
  movl   $&_ZZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"[MEMBER]\tCMemberManager::LoadMember()\tpclMember is Null, member key(%d)\n",0x8(%esp)
-+movl   $"[MEMBER]\tCMemberManager::LoadMember()\tpclUser is Null, member key(%d)\n",0x8(%esp)
+ movl   $"[MEMBER]\tCMemberManager::LoadMember()\tpclMember is Null, member key(%d)\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x210>
--mov    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CMemberManager14FindMemberUserEj>
--mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
++jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x20a>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CMemberManager14FindMemberUserEj>
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0xd5>
--movl   $0x273,0x8(%esp)
--movl   $&_ZZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandlerE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"[MEMBER]\tCMemberManager::LoadMember()\tpclUser is Null, member key(%d)\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
++jne    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0xcb>
+ movl   $0x273,0x8(%esp)
+ movl   $&_ZZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandlerE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"[MEMBER]\tCMemberManager::LoadMember()\tpclUser is Null, member key(%d)\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x210>
--mov    -0xc(%ebp),%eax
-+jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x214>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x20a>
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser8GetLevelEv>
--cwtl
-+mov    %ax,-0xe(%ebp)
-+movswl -0xe(%ebp),%eax
+ cwtl
  mov    0x18(%ebp),%edx
  mov    %edx,0x10(%esp)
  mov    0x14(%ebp),%edx
@@ -108,49 +81,40 @@
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj>
--mov    -0x10(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember7IsEmptyEv>
  test   %al,%al
 -je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x1f1>
--lea    -0x3a(%ebp),%eax
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x139>
++je     <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x133>
 +movl   $0x1,0x8(%esp)
-+mov    -0x14(%ebp),%eax
++mov    -0xc(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+mov    -0x18(%ebp),%eax
++mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x214>
-+lea    -0x42(%ebp),%eax
++jmp    <T> <_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler+0x20a>
+ lea    -0x3a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN38Packet_Monitor_Notice_Delete_Member_IdC1Ev>
--mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x30(%ebp)
--mov    -0xc(%ebp),%eax
-+mov    %eax,-0x38(%ebp)
-+mov    -0x14(%ebp),%eax
+ mov    %eax,-0x30(%ebp)
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x2c(%ebp)
--lea    -0x3a(%ebp),%eax
-+mov    %eax,-0x34(%ebp)
-+lea    -0x42(%ebp),%eax
+ mov    %eax,-0x2c(%ebp)
+ lea    -0x3a(%ebp),%eax
  movl   $0x12,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
  movl   $0x0,0xc(%esp)
@@ -161,31 +125,24 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMemberManager28SendToDBMemberUpdateCharInfoEP14CServerHandlerjh>
--mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
-+mov    %eax,-0xc(%ebp)
+ mov    %eax,%ebx
  movl   $0x285,0x8(%esp)
  movl   $&_ZZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandlerE12__FUNCTION__,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
  mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CMemberManager::LoadMember, true == pclMember->IsEmpty()\tChar id(%d), Member Key(%d)",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
  movl   $0x1,0x8(%esp)
@@ -202,10 +159,9 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc>
 -mov    $0x1,%eax
--add    $0x64,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x64,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -285,4 +241,4 @@ CMemberManager::_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHa
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 290 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 293 个文件*

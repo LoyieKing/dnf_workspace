@@ -1,0 +1,1562 @@
+[
+ {
+  "id": "DNF-MON-NEAR-0001",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN10CAppConfig11Parse_TableEPci",
+  "demangled": "CAppConfig::Parse_Table(char*, int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp",
+  "line": 65,
+  "report": "function_reports/monitor/_ZN10CAppConfig11Parse_TableEPci.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0001",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN10CIPCounter11setLoadTermEh",
+  "demangled": "CIPCounter::setLoadTerm(unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/IPCounter.cpp",
+  "line": 67,
+  "report": "function_reports/monitor/_ZN10CIPCounter11setLoadTermEh.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0002",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN10CIPCounter13setMinIPCountEh",
+  "demangled": "CIPCounter::setMinIPCount(unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/IPCounter.cpp",
+  "line": 82,
+  "report": "function_reports/monitor/_ZN10CIPCounter13setMinIPCountEh.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0002",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN10CIPCounter9setOptionEhh",
+  "demangled": "CIPCounter::setOption(unsigned char, unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/IPCounter.cpp",
+  "line": 92,
+  "report": "function_reports/monitor/_ZN10CIPCounter9setOptionEhh.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0003",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN11CCashObject15GetBuddysObjectEPP6CBuddy",
+  "demangled": "CCashObject::GetBuddysObject(CBuddy**)",
+  "file": "source/DNFServer/GameServer/Monitor/CashObject.cpp",
+  "line": 104,
+  "report": "function_reports/monitor/_ZN11CCashObject15GetBuddysObjectEPP6CBuddy.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0003",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN11CUdpHandler16InitServerSocketEi",
+  "demangled": "CUdpHandler::InitServerSocket(int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp",
+  "line": 41,
+  "report": "function_reports/monitor/_ZN11CUdpHandler16InitServerSocketEi.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0004",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CAppStopInit4InitEP12CApplicationiPPc",
+  "demangled": "CAppStopInit::Init(CApplication*, int, char**)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp",
+  "line": 32,
+  "report": "function_reports/monitor/_ZN12CAppStopInit4InitEP12CApplicationiPPc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0005",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CApplication15TranslateSignalEv",
+  "demangled": "CApplication::TranslateSignal()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFApplication.cpp",
+  "line": 951,
+  "report": "function_reports/monitor/_ZN12CApplication15TranslateSignalEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0006",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CApplication4LoadEiPPc",
+  "demangled": "CApplication::Load(int, char**)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFApplication.cpp",
+  "line": 312,
+  "report": "function_reports/monitor/_ZN12CApplication4LoadEiPPc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0007",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CBuddyHandle11addFromCashEP6CBuddy",
+  "demangled": "CBuddyHandle::addFromCash(CBuddy*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp",
+  "line": 195,
+  "report": "function_reports/monitor/_ZN12CBuddyHandle11addFromCashEP6CBuddy.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0008",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CBuddyHandle11printBuddysEPc",
+  "demangled": "CBuddyHandle::printBuddys(char*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp",
+  "line": 248,
+  "report": "function_reports/monitor/_ZN12CBuddyHandle11printBuddysEPc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0009",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CBuddyHandle5addDBEP14CServerHandlerPc",
+  "demangled": "CBuddyHandle::addDB(CServerHandler*, char*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp",
+  "line": 47,
+  "report": "function_reports/monitor/_ZN12CBuddyHandle5addDBEP14CServerHandlerPc.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0004",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager11AddSchoolNoEjh",
+  "demangled": "CUserManager::AddSchoolNo(unsigned int, unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 582,
+  "report": "function_reports/monitor/_ZN12CUserManager11AddSchoolNoEjh.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0010",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CUserManager14GetSchoolCountEjPjRh",
+  "demangled": "CUserManager::GetSchoolCount(unsigned int, unsigned int*, unsigned char&)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 341,
+  "report": "function_reports/monitor/_ZN12CUserManager14GetSchoolCountEjPjRh.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0005",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager15ProcessByMinuteEv",
+  "demangled": "CUserManager::ProcessByMinute()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 85,
+  "report": "function_reports/monitor/_ZN12CUserManager15ProcessByMinuteEv.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0006",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager17InsertUser_CharNoEjP5CUser",
+  "demangled": "CUserManager::InsertUser_CharNo(unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 432,
+  "report": "function_reports/monitor/_ZN12CUserManager17InsertUser_CharNoEjP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0007",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager19InsertUser_CharNameEPcP5CUser",
+  "demangled": "CUserManager::InsertUser_CharName(char*, CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 455,
+  "report": "function_reports/monitor/_ZN12CUserManager19InsertUser_CharNameEPcP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0011",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CUserManager23SendConnectedBuddysListEP5CUser",
+  "demangled": "CUserManager::SendConnectedBuddysList(CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 292,
+  "report": "function_reports/monitor/_ZN12CUserManager23SendConnectedBuddysListEP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0012",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer",
+  "demangled": "CUserManager::DeleteUsersOnGameServerDown(CGameServer*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 176,
+  "report": "function_reports/monitor/_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0013",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer",
+  "demangled": "CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUserManager.cpp",
+  "line": 234,
+  "report": "function_reports/monitor/_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0014",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN12momiji_event13EndEffectTask10_DoExecuteEv",
+  "demangled": "momiji_event::EndEffectTask::_DoExecute()",
+  "file": "source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp",
+  "line": 69,
+  "report": "function_reports/monitor/_ZN12momiji_event13EndEffectTask10_DoExecuteEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0015",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CAppStartInit4InitEP12CApplicationiPPc",
+  "demangled": "CAppStartInit::Init(CApplication*, int, char**)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFAppStartInit.cpp",
+  "line": 40,
+  "report": "function_reports/monitor/_ZN13CAppStartInit4InitEP12CApplicationiPPc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0016",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CMemberExpTbl11Parse_TableEPci",
+  "demangled": "CMemberExpTbl::Parse_Table(char*, int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp",
+  "line": 85,
+  "report": "function_reports/monitor/_ZN13CMemberExpTbl11Parse_TableEPci.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0017",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CMemberExpTbl17GetMemberExpLevelEj",
+  "demangled": "CMemberExpTbl::GetMemberExpLevel(unsigned int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp",
+  "line": 104,
+  "report": "function_reports/monitor/_ZN13CMemberExpTbl17GetMemberExpLevelEj.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0018",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CTcpNetSystem10SendPacketEv",
+  "demangled": "CTcpNetSystem::SendPacket()",
+  "file": "source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp",
+  "line": 252,
+  "report": "function_reports/monitor/_ZN13CTcpNetSystem10SendPacketEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0019",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CTcpNetSystem14OpenTcpServiceERiPKct",
+  "demangled": "CTcpNetSystem::OpenTcpService(int&, char const*, unsigned short)",
+  "file": "source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp",
+  "line": 187,
+  "report": "function_reports/monitor/_ZN13CTcpNetSystem14OpenTcpServiceERiPKct.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0020",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CTcpNetSystem19CleanTcpSendPacketQEv",
+  "demangled": "CTcpNetSystem::CleanTcpSendPacketQ()",
+  "file": "source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp",
+  "line": 371,
+  "report": "function_reports/monitor/_ZN13CTcpNetSystem19CleanTcpSendPacketQEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0021",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13CTcpNetSystem4InitEt",
+  "demangled": "CTcpNetSystem::Init(unsigned short)",
+  "file": "source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp",
+  "line": 168,
+  "report": "function_reports/monitor/_ZN13CTcpNetSystem4InitEt.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0022",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE",
+  "demangled": "np_server_xml::CServerXml::StrPunish(int, char const*, np_server_xml::_eStringType)",
+  "file": "source/DNFServer/GameServer/Monitor/ServerXml.cpp",
+  "line": 164,
+  "report": "function_reports/monitor/_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0023",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler",
+  "demangled": "CMemberManager::LoadMember(unsigned int, STMemberDBInfo&, unsigned int, unsigned int, CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 224,
+  "report": "function_reports/monitor/_ZN14CMemberManager10LoadMemberEjR14STMemberDBInfojjP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0024",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager12DeleteMemberEjb",
+  "demangled": "CMemberManager::DeleteMember(unsigned int, bool)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 95,
+  "report": "function_reports/monitor/_ZN14CMemberManager12DeleteMemberEjb.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0025",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager12InsertMemberEjP7CMember",
+  "demangled": "CMemberManager::InsertMember(unsigned int, CMember*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 346,
+  "report": "function_reports/monitor/_ZN14CMemberManager12InsertMemberEjP7CMember.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0026",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager13MemerMemLoginEjP5CUser",
+  "demangled": "CMemberManager::MemerMemLogin(unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 522,
+  "report": "function_reports/monitor/_ZN14CMemberManager13MemerMemLoginEjP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0027",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb",
+  "demangled": "CMemberManager::RegisterMember(CMember*, short, CUser*, bool)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 423,
+  "report": "function_reports/monitor/_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0028",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager15MemberMemLogoutEjP5CUserb",
+  "demangled": "CMemberManager::MemberMemLogout(unsigned int, CUser*, bool)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 124,
+  "report": "function_reports/monitor/_ZN14CMemberManager15MemberMemLogoutEjP5CUserb.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0029",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h",
+  "demangled": "CMemberManager::SaveMemberOnConnect(CServerHandler*, CUser*, CUser*, unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 363,
+  "report": "function_reports/monitor/_ZN14CMemberManager19SaveMemberOnConnectEP14CServerHandlerP5CUserS3_h.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0030",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i",
+  "demangled": "CMemberManager::IsPossableMemberEnter(CUser*, CMember*, CUser*, CMember*, int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 178,
+  "report": "function_reports/monitor/_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0031",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh",
+  "demangled": "CMemberManager::SaveMemberOnUnConnect(CServerHandler*, unsigned int, unsigned int, unsigned int, unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 393,
+  "report": "function_reports/monitor/_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0032",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CMemberManager25MemberRegisterFlagProcessEv",
+  "demangled": "CMemberManager::MemberRegisterFlagProcess()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp",
+  "line": 62,
+  "report": "function_reports/monitor/_ZN14CMemberManager25MemberRegisterFlagProcessEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0033",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi",
+  "demangled": "CPacketCounter<1000, 10240>::AfterProcess(int)",
+  "file": "source/DNFServer/GameServer/Monitor/PacketCounter.h",
+  "line": 310,
+  "report": "function_reports/monitor/_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0034",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoder10TcpProcessEv",
+  "demangled": "CPacketDecoder::TcpProcess()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp",
+  "line": 201,
+  "report": "function_reports/monitor/_ZN14CPacketDecoder10TcpProcessEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0035",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoder10UdpProcessEv",
+  "demangled": "CPacketDecoder::UdpProcess()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp",
+  "line": 241,
+  "report": "function_reports/monitor/_ZN14CPacketDecoder10UdpProcessEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0036",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader",
+  "demangled": "CPacketDecoder::MsgDecode(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp",
+  "line": 281,
+  "report": "function_reports/monitor/_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0037",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CServerHandler20GetTcpGameServerByChEh",
+  "demangled": "CServerHandler::GetTcpGameServerByCh(unsigned char)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp",
+  "line": 225,
+  "report": "function_reports/monitor/_ZN14CServerHandler20GetTcpGameServerByChEh.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0038",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN14CServerHandler7ProcessEv",
+  "demangled": "CServerHandler::Process()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp",
+  "line": 73,
+  "report": "function_reports/monitor/_ZN14CServerHandler7ProcessEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0039",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv",
+  "demangled": "exchange_server::CCacheCharacterMgr::CollectGarbage()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp",
+  "line": 333,
+  "report": "function_reports/monitor/_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0040",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb",
+  "demangled": "init_accusation::CInitAccusationListMgr::setSchedule(bool const&)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFApplication.cpp",
+  "line": 186,
+  "report": "function_reports/monitor/_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0041",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16CDNFProhibitUser20IsTimeOutConnectableEv",
+  "demangled": "CDNFProhibitUser::IsTimeOutConnectable()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp",
+  "line": 8,
+  "report": "function_reports/monitor/_ZN16CDNFProhibitUser20IsTimeOutConnectableEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0042",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb",
+  "demangled": "CDNFProhibitUser::SetUserConnectableTime(unsigned int, short, char, bool)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp",
+  "line": 63,
+  "report": "function_reports/monitor/_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0043",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16CServerInterface19IsHeartBeatTimeOverEv",
+  "demangled": "CServerInterface::IsHeartBeatTimeOver()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFServerInterface.cpp",
+  "line": 92,
+  "report": "function_reports/monitor/_ZN16CServerInterface19IsHeartBeatTimeOverEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0044",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16CTcpAcceptThread8dispatchEPv",
+  "demangled": "CTcpAcceptThread::dispatch(void*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp",
+  "line": 56,
+  "report": "function_reports/monitor/_ZN16CTcpAcceptThread8dispatchEPv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0045",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv",
+  "demangled": "village_attacked::CVillageAttackedManager::OnSchedule()",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 194,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0046",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii",
+  "demangled": "village_attacked::CVillageAttackedManager::InsertTimer(int, int)",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 177,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0047",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv",
+  "demangled": "village_attacked::CVillageAttackedManager::SendCharacRank()",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 565,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0048",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj",
+  "demangled": "village_attacked::CVillageAttackedManager::UpdateHuntingPoint(CUser**, bool, int*, unsigned int*)",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 507,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0049",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv",
+  "demangled": "village_attacked::CVillageAttackedManager::OnEndVillageAttacked()",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 330,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0050",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc",
+  "demangled": "village_attacked::CVillageAttackedManager::SendRequestRevengeDungeon(char*)",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 707,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0051",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv",
+  "demangled": "village_attacked::CVillageAttackedManager::OnServerGroupRewardVillageAttacked()",
+  "file": "source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp",
+  "line": 475,
+  "report": "function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0052",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCharLogin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 721,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0053",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnHeartBeat(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 658,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0054",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCeraUpdate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 977,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0055",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGMRequestMid(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3100,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0056",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnMemberSecede(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1425,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0057",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader",
+  "demangled": "CPacketTranslater::onCollectItems(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5339,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0058",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnPayTaxToUpper(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1684,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0059",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnReplyUserInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 576,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0060",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCallMemberList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1535,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0061",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnChangeCharName(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3497,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0062",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnLogoutComplete(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1799,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0008",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN17CPacketTranslater16OnPvPChannelInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnPvPChannelInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3564,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater16OnPvPChannelInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0063",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnTakeScreenShot(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4174,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0064",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnAddBuddyDBReply(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2859,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0065",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCharacterDelete(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1880,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0066",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDelBuddyDBReply(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2971,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0067",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnEventItemUpdate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1014,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0068",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGameServerRegist(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4358,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0069",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnInnerPacketLogin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3293,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0070",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnMemberEnterReply(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1238,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0071",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnSetCleanPadPoint(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4067,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0072",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDeleteToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2342,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0073",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnInnerPacketLogout(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3363,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0074",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRegisterEventItem(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4637,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0075",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnWebQueryUserState(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1992,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0076",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnWebRequestARSInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnWebRequestARSInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4302,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater19OnWebRequestARSInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0077",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnExchangeServerInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnExchangeServerInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2652,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater20OnExchangeServerInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0078",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRequestMemberEnter(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1121,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0079",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnMonitorPunishCancel(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4743,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0080",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 1637,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0081",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnPvPChannelUserCount(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3601,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0082",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRegisterToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2259,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0083",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5526,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0084",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnUserRepelByCharNameEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnUserRepelByCharName(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3149,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater21OnUserRepelByCharNameEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0085",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRelayServerUserCheck(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2055,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0086",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2501,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0087",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3023,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0088",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnWebChangeUserHandicap(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3076,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0089",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2692,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0090",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader",
+  "demangled": "CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3189,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0091",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2435,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0092",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader",
+  "demangled": "CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3882,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0093",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5479,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0094",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4334,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0095",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3999,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0096",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4823,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0097",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 859,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0098",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2120,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0099",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnVillageMonsterFightResult(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4211,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0100",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5136,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0101",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader",
+  "demangled": "CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3748,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0102",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader",
+  "demangled": "CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3802,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0103",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader",
+  "demangled": "CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5224,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0104",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 2601,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0105",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4879,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0106",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader",
+  "demangled": "CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3224,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0107",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader",
+  "demangled": "CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5185,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0108",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader",
+  "demangled": "CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5264,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0109",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader",
+  "demangled": "CPacketTranslater::onSocialEventRewardItemResponse(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 5098,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0110",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader",
+  "demangled": "CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 3935,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0111",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 4928,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0112",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater7OnLoginEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnLogin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 286,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater7OnLoginEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0113",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater8OnLogoutEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnLogout(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp",
+  "line": 429,
+  "report": "function_reports/monitor/_ZN17CPacketTranslater8OnLogoutEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0114",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CTcpNetworkThread8dispatchEPv",
+  "demangled": "CTcpNetworkThread::dispatch(void*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp",
+  "line": 73,
+  "report": "function_reports/monitor/_ZN17CTcpNetworkThread8dispatchEPv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0115",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN17CUdpNetworkThread8dispatchEPv",
+  "demangled": "CUdpNetworkThread::dispatch(void*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFNetworkThread.cpp",
+  "line": 67,
+  "report": "function_reports/monitor/_ZN17CUdpNetworkThread8dispatchEPv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0116",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN18CFrameCountHandler17GetFrameCountInfoEv",
+  "demangled": "CFrameCountHandler::GetFrameCountInfo()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp",
+  "line": 55,
+  "report": "function_reports/monitor/_ZN18CFrameCountHandler17GetFrameCountInfoEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0117",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN18CMemoryCashManager18ProcessLifeTimeOutEv",
+  "demangled": "CMemoryCashManager::ProcessLifeTimeOut()",
+  "file": "source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp",
+  "line": 51,
+  "report": "function_reports/monitor/_ZN18CMemoryCashManager18ProcessLifeTimeOutEv.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0009",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN18CMemoryCashManager20ProcessCashDataPrintEv",
+  "demangled": "CMemoryCashManager::ProcessCashDataPrint()",
+  "file": "source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp",
+  "line": 9,
+  "report": "function_reports/monitor/_ZN18CMemoryCashManager20ProcessCashDataPrintEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0118",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser",
+  "demangled": "CMemoryCashManager::QueryCashMemoryMember(CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp",
+  "line": 76,
+  "report": "function_reports/monitor/_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0119",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser",
+  "demangled": "CMemoryCashManager::QueryCashMemoryBlackList(CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp",
+  "line": 177,
+  "report": "function_reports/monitor/_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0120",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser",
+  "demangled": "CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp",
+  "line": 128,
+  "report": "function_reports/monitor/_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0121",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_",
+  "demangled": "CMemoryCashManager::InsertCashMemorySetCharacterObject(CUser*, CMember*, bool&, bool&)",
+  "file": "source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp",
+  "line": 305,
+  "report": "function_reports/monitor/_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0010",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start",
+  "demangled": "CEventActionManager::OnStartAction(Packet_Monitor_Event_Start*)",
+  "file": "source/DNFServer/GameServer/Monitor/EventActionManager.cpp",
+  "line": 146,
+  "report": "function_reports/monitor/_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0122",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN19CEventActionManager4initEv",
+  "demangled": "CEventActionManager::init()",
+  "file": "source/DNFServer/GameServer/Monitor/EventActionManager.cpp",
+  "line": 120,
+  "report": "function_reports/monitor/_ZN19CEventActionManager4initEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0123",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN19COnTimeEventManager10StartEventEjj",
+  "demangled": "COnTimeEventManager::StartEvent(unsigned int, unsigned int)",
+  "file": "source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp",
+  "line": 149,
+  "report": "function_reports/monitor/_ZN19COnTimeEventManager10StartEventEjj.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0124",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN19COnTimeEventManager11OnRewardEndEv",
+  "demangled": "COnTimeEventManager::OnRewardEnd()",
+  "file": "source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp",
+  "line": 263,
+  "report": "function_reports/monitor/_ZN19COnTimeEventManager11OnRewardEndEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0125",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN19COnTimeEventManager13OnRewardStartEv",
+  "demangled": "COnTimeEventManager::OnRewardStart()",
+  "file": "source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp",
+  "line": 230,
+  "report": "function_reports/monitor/_ZN19COnTimeEventManager13OnRewardStartEv.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0011",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t",
+  "demangled": "CItemLimitEditionMgr::registItem(stItemLimitEditionItemInfo_t const&)",
+  "file": "source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp",
+  "line": 68,
+  "report": "function_reports/monitor/_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0126",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb",
+  "demangled": "CItemLimitEditionMgr::processScheduledJob(CApplication*, bool)",
+  "file": "source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp",
+  "line": 137,
+  "report": "function_reports/monitor/_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0127",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN20CTask_ChristmasEvent10_DoExecuteEv",
+  "demangled": "CTask_ChristmasEvent::_DoExecute()",
+  "file": "source/DNFServer/GameServer/Monitor/TaskImpl.cpp",
+  "line": 103,
+  "report": "function_reports/monitor/_ZN20CTask_ChristmasEvent10_DoExecuteEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0128",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN20CTask_ChristmasEvent18MakeEventStartTickEi",
+  "demangled": "CTask_ChristmasEvent::MakeEventStartTick(int)",
+  "file": "source/DNFServer/GameServer/Monitor/TaskImpl.cpp",
+  "line": 64,
+  "report": "function_reports/monitor/_ZN20CTask_ChristmasEvent18MakeEventStartTickEi.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0129",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo",
+  "demangled": "LimitNpcBuyItemManager::getNpcLimitBuyItemCount(unsigned int, LimitNpcBuyItemChangeInfo&)",
+  "file": "source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp",
+  "line": 120,
+  "report": "function_reports/monitor/_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0130",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN41TowerOfDespairWaitGameServerResponse_Task10_DoExecuteEv",
+  "demangled": "TowerOfDespairWaitGameServerResponse_Task::_DoExecute()",
+  "file": "source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp",
+  "line": 69,
+  "report": "function_reports/monitor/_ZN41TowerOfDespairWaitGameServerResponse_Task10_DoExecuteEv.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0012",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZN5CPeer11send_packetEPci",
+  "demangled": "CPeer::send_packet(char*, int)",
+  "file": "source/DNFServer/GameServer/Monitor/Peer.cpp",
+  "line": 146,
+  "report": "function_reports/monitor/_ZN5CPeer11send_packetEPci.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0131",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN5CPeer11send_packetEv",
+  "demangled": "CPeer::send_packet()",
+  "file": "source/DNFServer/GameServer/Monitor/Peer.cpp",
+  "line": 86,
+  "report": "function_reports/monitor/_ZN5CPeer11send_packetEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0132",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN5CPeer7parsingEi",
+  "demangled": "CPeer::parsing(int)",
+  "file": "source/DNFServer/GameServer/Monitor/Peer.cpp",
+  "line": 242,
+  "report": "function_reports/monitor/_ZN5CPeer7parsingEi.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0133",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN5CUser18MemberEnterProcessEv",
+  "demangled": "CUser::MemberEnterProcess()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUser.cpp",
+  "line": 182,
+  "report": "function_reports/monitor/_ZN5CUser18MemberEnterProcessEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0134",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN7CMember10LoadMemberER14STMemberDBInfosjj",
+  "demangled": "CMember::LoadMember(STMemberDBInfo&, short, unsigned int, unsigned int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMember.cpp",
+  "line": 282,
+  "report": "function_reports/monitor/_ZN7CMember10LoadMemberER14STMemberDBInfosjj.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0135",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN7CMember21GetConnLowerMemberCntEv",
+  "demangled": "CMember::GetConnLowerMemberCnt()",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMember.cpp",
+  "line": 453,
+  "report": "function_reports/monitor/_ZN7CMember21GetConnLowerMemberCntEv.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0136",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN7CMember21NoticeLevelUpToLowersEj",
+  "demangled": "CMember::NoticeLevelUpToLowers(unsigned int)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMember.cpp",
+  "line": 399,
+  "report": "function_reports/monitor/_ZN7CMember21NoticeLevelUpToLowersEj.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0137",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN7CMember21NoticeMemberLogin_OutEP5CUserc",
+  "demangled": "CMember::NoticeMemberLogin_Out(CUser*, char)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMember.cpp",
+  "line": 76,
+  "report": "function_reports/monitor/_ZN7CMember21NoticeMemberLogin_OutEP5CUserc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0138",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser",
+  "demangled": "CMember::NoticeChatMsgToMemberMembers(char*, int, CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMember.cpp",
+  "line": 245,
+  "report": "function_reports/monitor/_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0139",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser",
+  "demangled": "CMember::NoticeChatMsgToMemberMembersHyperLink(char*, int, unsigned char, hyperlink_item_info const*, CUser*)",
+  "file": "source/DNFServer/GameServer/Monitor/DNFMember.cpp",
+  "line": 202,
+  "report": "function_reports/monitor/_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0140",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZNK11CUdpHandler12SendToClientEPcitPKcj",
+  "demangled": "CUdpHandler::SendToClient(char*, int, unsigned short, char const*, unsigned int) const",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp",
+  "line": 146,
+  "report": "function_reports/monitor/_ZNK11CUdpHandler12SendToClientEPcitPKcj.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0141",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZNK11CUdpHandler12SendToServerEPcitPKc",
+  "demangled": "CUdpHandler::SendToServer(char*, int, unsigned short, char const*) const",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp",
+  "line": 215,
+  "report": "function_reports/monitor/_ZNK11CUdpHandler12SendToServerEPcitPKc.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0142",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt",
+  "demangled": "CUdpHandler::RecvFromClient(char*, int*, unsigned int*, unsigned short*) const",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp",
+  "line": 97,
+  "report": "function_reports/monitor/_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt.md"
+ },
+ {
+  "id": "DNF-MON-DIFF-0143",
+  "svc": "monitor",
+  "status": "DIFF",
+  "mangled": "_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt",
+  "demangled": "CUdpHandler::RecvFromServer(char*, int*, unsigned int*, unsigned short*) const",
+  "file": "source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp",
+  "line": 272,
+  "report": "function_reports/monitor/_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt.md"
+ },
+ {
+  "id": "DNF-MON-NEAR-0013",
+  "svc": "monitor",
+  "status": "NEAR",
+  "mangled": "_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionItemInfo_t",
+  "demangled": "CItemLimitEdition::makeItemInfo(stItemLimitEditionItemInfo_t&) const",
+  "file": "source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp",
+  "line": 216,
+  "report": "function_reports/monitor/_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionItemInfo_t.md"
+ }
+]

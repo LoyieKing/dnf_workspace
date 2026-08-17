@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807da5a` | `0x2e7` | `0x8073e00` | `0x2d0` |
+| guild | DIFF | `0x807da5a` | `0x2e7` | `0x8073e4a` | `0x2d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,14 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,206 +1,195 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- add    $0xffffff80,%esp
- mov    0x8(%ebp),%eax
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-add    $0xffffff80,%esp
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
-+mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x52>
@@ -281,6 +280,13 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++add    $0xffffff80,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,-0x18(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -360,7 +366,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2814 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2841 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061a70` | `0x117` |
+| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061a82` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -173,7 +173,7 @@ CMemberManager::_ZN14CMemberManager25MemberRegisterFlagProcessEv(CMemberManager 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 61 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 62 行）：
 
 ```cpp
 void CMemberManager::MemberRegisterFlagProcess()

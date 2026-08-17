@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8063044` | `0x457` | `0x80e3872` | `0x457` |
+| dbmw | DIFF | `0x8063044` | `0x457` | `0x80e3776` | `0x457` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -445,7 +445,7 @@ void CTcpNetworkThread::_ZN17CTcpNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp)（约第 64 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp)（约第 65 行）：
 
 ```cpp
 void CTcpNetworkThread::dispatch(void* param)

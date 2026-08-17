@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4708` | `0xa4` | `0x809a3b2` | `0xa4` |
+| monitor | DIFF | `0x80a4708` | `0xa4` | `0x809a292` | `0xa4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,49 @@
+@@ -1,49 +1,47 @@
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -62,11 +65,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
  jmp    <T> <_ZN19COnTimeEventManager10StartEventEjj+0x9e>
- nop
- add    $0x24,%esp
- pop    %ebx
- pop    %ebp
- ret
+-nop
+-add    $0x24,%esp
+-pop    %ebx
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -100,7 +103,7 @@ COnTimeEventManager::_ZN19COnTimeEventManager10StartEventEjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 148 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 149 行）：
 
 ```cpp
 void COnTimeEventManager::StartEvent(unsigned int a, unsigned int b)

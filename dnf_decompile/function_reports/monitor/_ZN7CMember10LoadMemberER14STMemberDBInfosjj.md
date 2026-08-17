@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809821a` | `0xcb` | `0x80607e6` | `0xcd` |
+| monitor | DIFF | `0x809821a` | `0xcb` | `0x80607f8` | `0xcd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -115,7 +115,7 @@ CMember::_ZN7CMember10LoadMemberER14STMemberDBInfosjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 278 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 282 行）：
 
 ```cpp
 void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)

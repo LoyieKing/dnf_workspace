@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a2d3c` | `0x1c1` |
+| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a2c22` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -232,7 +232,7 @@ CTcpNetSystem::_ZN13CTcpNetSystem14OpenTcpServiceERiPKct
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 185 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 187 行）：
 
 ```cpp
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807ff8a` | `0x3d5` | `0x80762f2` | `0x3c8` |
+| guild | DIFF | `0x807ff8a` | `0x3d5` | `0x807634c` | `0x3c8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,13 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,253 +1,244 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
 -add    $0xffffff80,%esp
-+sub    $0x90,%esp
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -lea    -0x63(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
@@ -409,6 +408,12 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0xa0,%esp
++mov    0x8(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -520,7 +525,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnPacketJoinPowerEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3437 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3479 行）：
 
 ```cpp
 void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
@@ -531,7 +536,7 @@ void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
         Packet_Answer_Join_Power reply;
         reply.m_a = 0;
         reply.m_12 = req->m_charNo;
-        reply.m_16 = req->m_field12;
+        reply.m_16 = req->m_powerSide;
         if (m_pclApp != 0)
         {
             unsigned int charNo = req->m_charNo;
@@ -553,7 +558,7 @@ void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
             }
             if (guild->IsSubGuildMaster(charNo) == 1 || guild->IsGuildMaster(charNo) == 1)
             {
-                unsigned char side = req->m_field12 == 1 ? 3 : 4;
+                unsigned char side = req->m_powerSide == 1 ? 3 : 4;
                 guild->SetPowerSide(side);
                 guild->IncPowerJoinCount();
                 CServerInterface* gs = user->GetGameServer();

@@ -1,0 +1,2 @@
+id	status	mangled	demangled	file	line	report
+DNF-PNT-DIFF-0001	DIFF	_ZN3nsl9TCPThread4loopEPv	nsl::TCPThread::loop(void*)	source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPThread.cpp	39	function_reports/point/_ZN3nsl9TCPThread4loopEPv.md

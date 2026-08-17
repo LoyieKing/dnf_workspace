@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80915e4` | `0x95` | `0x805705e` | `0x9b` |
+| guild | DIFF | `0x80915e4` | `0x95` | `0x8057036` | `0x9b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,13 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,45 +1,48 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -sub    $0x28,%esp
-+push   %ebx
-+sub    $0x24,%esp
- mov    0x8(%ebp),%eax
- add    $0x4d98,%eax
+-mov    0x8(%ebp),%eax
+-add    $0x4d98,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE5emptyEv>
  test   %al,%al
@@ -72,6 +70,12 @@
 +mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x24,%esp
++movl   $0x4,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -125,4 +129,4 @@ CGuild::_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 283 个文件*

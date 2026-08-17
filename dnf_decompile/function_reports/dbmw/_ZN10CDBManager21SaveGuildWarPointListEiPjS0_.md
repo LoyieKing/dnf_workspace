@@ -22,7 +22,7 @@
 +sub    $0x38,%esp
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN10CDBManager21SaveGuildWarPointListEiPjS0_+0x14>
-+jne    <T> <_ZN10CDBManager21SaveGuildWarPointListEiPjS0_+0x1c>
++je     <T> <_ZN10CDBManager21SaveGuildWarPointListEiPjS0_+0x12>
  cmpl   $0x0,0x14(%ebp)
 -jne    <T> <_ZN10CDBManager21SaveGuildWarPointListEiPjS0_+0x1e>
 +jne    <T> <_ZN10CDBManager21SaveGuildWarPointListEiPjS0_+0x1c>
@@ -191,4 +191,4 @@ CDBManager::_ZN10CDBManager21SaveGuildWarPointListEiPjS0_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 287 个文件*

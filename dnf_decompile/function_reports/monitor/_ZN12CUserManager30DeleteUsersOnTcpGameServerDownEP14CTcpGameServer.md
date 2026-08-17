@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8070982` | `0x2f9` | `0x808b7ea` | `0x306` |
+| monitor | DIFF | `0x8070982` | `0x2f9` | `0x808b6c6` | `0x306` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,9 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,222 +1,224 @@
++mov    -0x4(%ebp),%ebx
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -386,11 +389,12 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x1c4>
+-mov    $0x0,%eax
+-mov    -0x4(%ebp),%ebx
+-leave
+-ret
 +jne    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x1d0>
- mov    $0x0,%eax
- mov    -0x4(%ebp),%ebx
- leave
- ret
++mov    $0x0,%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -550,7 +554,7 @@ CUserManager::_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 231 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 234 行）：
 
 ```cpp
 int CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)

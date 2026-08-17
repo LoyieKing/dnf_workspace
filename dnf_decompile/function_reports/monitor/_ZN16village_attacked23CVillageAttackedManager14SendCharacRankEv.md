@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a8b6a` | `0x368` |
+| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a898e` | `0x368` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,9 +21,6 @@
  push   %ebx
 -sub    $0x119c,%esp
 +sub    $0x1190,%esp
-+lea    -0x1172(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
 +movb   $0x0,-0x19(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
@@ -33,6 +30,9 @@
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x399>
 -lea    -0x48(%ebp),%eax
 +jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x35d>
++lea    -0x1172(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18stUserHuntingPointSaIS0_EEC1Ev>
@@ -573,19 +573,19 @@ _ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv(CVillageAttacke
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 559 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 565 行）：
 
 ```cpp
 void CVillageAttackedManager::SendCharacRank()
 {
-    Packet_DBMW_Query_Msg pkt;
-    char sql[0xff];
     unsigned char serverGroup = 0;
     if (m_huntingPoints.empty())
     {
         return;
     }
     {
+        Packet_DBMW_Query_Msg pkt;
+        char sql[0xff];
         std::priority_queue<stUserHuntingPoint> pq;
         for (std::map<unsigned int, stHuntingPoint>::iterator it = m_huntingPoints.begin();
              it != m_huntingPoints.end(); ++it)

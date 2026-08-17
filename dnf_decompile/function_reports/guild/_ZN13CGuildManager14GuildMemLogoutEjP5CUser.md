@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8095a22` | `0x349` | `0x805b5cc` | `0x33e` |
+| guild | DIFF | `0x8095a22` | `0x349` | `0x805b5a8` | `0x33e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,256 +1,250 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0x4c,%esp
- cmpl   $0x0,0x10(%ebp)
+@@ -1,256 +1,248 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0x4c,%esp
+-cmpl   $0x0,0x10(%ebp)
  je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x1c>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
@@ -209,27 +209,37 @@
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser>
--xor    $0x1,%eax
--test   %al,%al
--jne    <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x340>
 +test   %al,%al
 +je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x336>
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,0x4(%esp)
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild31InsertGuildMemberChanglableInfoEj>
- mov    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN13CGuildManager12IsEmptyGuildEj>
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,0x4(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild31InsertGuildMemberChanglableInfoEj>
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager12IsEmptyGuildEj>
+ xor    $0x1,%eax
+ test   %al,%al
+-jne    <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x340>
+-mov    0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild31InsertGuildMemberChanglableInfoEj>
+-mov    0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CGuildManager12IsEmptyGuildEj>
 -test   %al,%al
 -je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x321>
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x2d0>
 +movl   $0x0,0x8(%esp)
 +mov    0x10(%ebp),%eax
@@ -285,6 +295,11 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -373,7 +388,7 @@ CGuildManager::_ZN13CGuildManager14GuildMemLogoutEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 343 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 345 行）：
 
 ```cpp
 void CGuildManager::GuildMemLogout(unsigned int guildKey, CUser* user)

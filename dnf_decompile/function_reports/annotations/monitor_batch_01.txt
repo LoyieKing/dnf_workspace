@@ -1,0 +1,10 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0070	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1238	CPacketTranslater::OnMemberEnterReply(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHeader.md
+DNF-MON-DIFF-0072	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2342	CPacketTranslater::OnDeleteToBlackList(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader.md
+DNF-MON-DIFF-0062	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1799	CPacketTranslater::OnLogoutComplete(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader.md
+DNF-MON-DIFF-0009	DIFF	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	47	CBuddyHandle::addDB(CServerHandler*, char*)	function_reports/monitor/_ZN12CBuddyHandle5addDBEP14CServerHandlerPc.md
+DNF-MON-NEAR-0011	NEAR	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	68	CItemLimitEditionMgr::registItem(stItemLimitEditionItemInfo_t const&)	function_reports/monitor/_ZN20CItemLimitEditionMgr10registItemERK28stItemLimitEditionItemInfo_t.md
+DNF-MON-DIFF-0008	DIFF	source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp	248	CBuddyHandle::printBuddys(char*)	function_reports/monitor/_ZN12CBuddyHandle11printBuddysEPc.md
+DNF-MON-DIFF-0027	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	423	CMemberManager::RegisterMember(CMember*, short, CUser*, bool)	function_reports/monitor/_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb.md
+DNF-MON-DIFF-0040	DIFF	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	186	init_accusation::CInitAccusationListMgr::setSchedule(bool const&)	function_reports/monitor/_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb.md
+DNF-MON-DIFF-0041	DIFF	source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp	8	CDNFProhibitUser::IsTimeOutConnectable()	function_reports/monitor/_ZN16CDNFProhibitUser20IsTimeOutConnectableEv.md

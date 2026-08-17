@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a5e58` | `0x29b` | `0x80946e0` | `0x2b1` |
+| monitor | DIFF | `0x80a5e58` | `0x29b` | `0x80945c4` | `0x2ad` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,185 +1,191 @@
+@@ -1,185 +1,190 @@
++mov    -0x4(%ebp),%ebx
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -22,12 +25,15 @@
  mov    0x10(%ebp),%eax
 -mov    %al,-0x1bc(%ebp)
 +mov    %al,-0x24c(%ebp)
++lea    -0x240(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN32Packet_Item_Limit_Edition_UpdateC1Ev>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x292>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a8>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a4>
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x10(%ebp)
@@ -40,13 +46,14 @@
  sub    %eax,%ecx
  mov    %ecx,%eax
  cmp    $0x4,%eax
- jg     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x5b>
+-jg     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x5b>
 -movzbl -0x1bc(%ebp),%eax
++jg     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x69>
 +movzbl -0x24c(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x295>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ab>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a7>
  mov    0x8(%ebp),%eax
 -mov    -0x10(%ebp),%edx
 +mov    -0x20(%ebp),%edx
@@ -83,7 +90,7 @@
 -call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEC1ERKSt17_Rb_tree_iteratorIS4_E>
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x11c>
 -lea    -0x20(%ebp),%eax
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xf1>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xff>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
@@ -97,7 +104,7 @@
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x111>
 -mov    -0x9c(%ebp),%ebx
 -lea    -0x20(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xe6>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xf4>
 +mov    -0x1c(%ebp),%ebx
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -138,9 +145,9 @@
 -mov    -0x9c(%ebp),%eax
 -test   %eax,%eax
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x20d>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xa2>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xb0>
 +cmpl   $0x0,-0x1c(%ebp)
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x213>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x221>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -158,7 +165,7 @@
 -lea    -0xaa(%ebp),%eax
 -add    $0x4,%edx
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x202>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x210>
 +mov    -0x14(%ebp),%edx
 +lea    -0xb0(%ebp),%eax
  shl    $0x2,%edx
@@ -190,7 +197,7 @@
  test   %al,%al
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1f5>
 -lea    -0x28(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1fe>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x20c>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
@@ -198,11 +205,11 @@
 +mov    0x4(%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1ec>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1fa>
 +mov    -0x10(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1e3>
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1ec>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1fa>
  mov    %ebx,(%esp)
  call   <T> <_ZN17CItemLimitEditionD1Ev>
  mov    %ebx,(%esp)
@@ -223,7 +230,7 @@
 +setb   %al
  test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x169>
-+jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x16b>
++jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x179>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
@@ -231,10 +238,9 @@
  test   %al,%al
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x296>
 -lea    -0x1b8(%ebp),%eax
-+je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ac>
-+lea    -0x240(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN32Packet_Item_Limit_Edition_UpdateC1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZN32Packet_Item_Limit_Edition_UpdateC1Ev>
++je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a8>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
@@ -270,14 +276,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x296>
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ac>
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a8>
  nop
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x296>
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2ac>
- nop
- mov    -0x4(%ebp),%ebx
- leave
- ret
+-nop
+-mov    -0x4(%ebp),%ebx
+-leave
+-ret
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2a8>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -398,11 +404,12 @@ CItemLimitEditionMgr::_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 135 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 137 行）：
 
 ```cpp
 void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
 {
+    Packet_Item_Limit_Edition_Update pkt2;
     time_t now;
     if (m_items.empty())
     {
@@ -447,7 +454,6 @@ void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
         }
         if (!m_items.empty())
         {
-            Packet_Item_Limit_Edition_Update pkt2;
             pkt2.m_serverGroup = (unsigned int)app->Get_ServerGroup();
             makeItemLimitEditionUpdatePacket(pkt2);
             CServerHandler* h = app->Get_ServerHandler();

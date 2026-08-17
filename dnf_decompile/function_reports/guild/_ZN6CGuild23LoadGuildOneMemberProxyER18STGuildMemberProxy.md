@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090852` | `0x115` | `0x80564fc` | `0x10c` |
+| guild | DIFF | `0x8090852` | `0x115` | `0x80564d4` | `0x10c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,79 +1,75 @@
- push   %ebp
- mov    %esp,%ebp
+@@ -1,79 +1,76 @@
+-push   %ebp
+-mov    %esp,%ebp
 -push   %esi
 -push   %ebx
 -sub    $0x30,%esp
-+sub    $0x38,%esp
- mov    0x8(%ebp),%eax
- movzwl 0x1c(%eax),%eax
+-mov    0x8(%ebp),%eax
+-movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
@@ -111,6 +110,12 @@
 -pop    %ebp
 +leave
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x24,%esp
++cmpl   $0x0,0x10(%ebp)
++je     <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x149>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -155,7 +160,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1678 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1701 行）：
 
 ```cpp
 bool CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)

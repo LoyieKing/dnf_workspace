@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807cd58` | `0x402` | `0x80730c0` | `0x3fd` |
+| guild | DIFF | `0x807cd58` | `0x402` | `0x807314c` | `0x3fd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,275 +1,273 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0xb3c,%esp
+@@ -1,275 +1,275 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0xb3c,%esp
 +mov    0x8(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -385,6 +385,14 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x4c,%esp
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -481,7 +489,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2663 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2696 行）：
 
 ```cpp
 void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
@@ -501,7 +509,7 @@ void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
             return;
         }
         Packet_Monitor_Call_Guild_Info_Reply replyPkt;
-        replyPkt.ma = pb->m_fieldA;
+        replyPkt.ma = pb->m_uid;
         replyPkt.me = pb->m_charNo;
         replyPkt.m12 = pb->m_count;
         for (int i = 0; i < (unsigned char)pb->m_count; i++)

@@ -1,0 +1,10 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0111	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4928	CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader.md
+DNF-MON-DIFF-0071	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4067	CPacketTranslater::OnSetCleanPadPoint(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader.md
+DNF-MON-DIFF-0035	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp	241	CPacketDecoder::UdpProcess()	function_reports/monitor/_ZN14CPacketDecoder10UdpProcessEv.md
+DNF-MON-DIFF-0103	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	5224	CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader.md
+DNF-MON-DIFF-0028	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	124	CMemberManager::MemberMemLogout(unsigned int, CUser*, bool)	function_reports/monitor/_ZN14CMemberManager15MemberMemLogoutEjP5CUserb.md
+DNF-MON-DIFF-0090	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3189	CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader.md
+DNF-MON-DIFF-0125	DIFF	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	230	COnTimeEventManager::OnRewardStart()	function_reports/monitor/_ZN19COnTimeEventManager13OnRewardStartEv.md
+DNF-MON-DIFF-0031	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	393	CMemberManager::SaveMemberOnUnConnect(CServerHandler*, unsigned int, unsigned int, unsigned int, unsigned char)	function_reports/monitor/_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh.md
+DNF-MON-DIFF-0135	DIFF	source/DNFServer/GameServer/Monitor/DNFMember.cpp	453	CMember::GetConnLowerMemberCnt()	function_reports/monitor/_ZN7CMember21GetConnLowerMemberCntEv.md

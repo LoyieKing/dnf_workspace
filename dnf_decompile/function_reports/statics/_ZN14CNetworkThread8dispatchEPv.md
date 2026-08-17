@@ -724,7 +724,7 @@ void CNetworkThread::_ZN14CNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFNetworkThread.cpp](source/DNFServer/GameServer/Statics/DNFNetworkThread.cpp)（约第 29 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFNetworkThread.cpp](source/DNFServer/GameServer/Statics/DNFNetworkThread.cpp)（约第 30 行）：
 
 ```cpp
 void CNetworkThread::dispatch(void* param)

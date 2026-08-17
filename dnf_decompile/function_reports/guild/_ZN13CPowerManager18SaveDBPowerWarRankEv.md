@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4250` | `0x68a` | `0x809b752` | `0x66a` |
+| guild | DIFF | `0x80a4250` | `0x68a` | `0x809b738` | `0x66a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,390 +1,379 @@
+@@ -1,390 +1,380 @@
++mov    %edx,(%esp)
++call   <T> <_ZN6CPower24RewardGuildPowerWarPointER13CGuildManagerbiiii>
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -620,9 +628,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0xa4(%ebp),%eax
-+lea    -0xb4(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
 -movl   $0x27b,0x8(%esp)
 -movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -637,12 +644,14 @@
 -nop
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x680>
 -nop
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
++lea    -0xb4(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -816,7 +825,7 @@ void __thiscall CPowerManager::_ZN13CPowerManager18SaveDBPowerWarRankEv(CPowerMa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 287 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 288 行）：
 
 ```cpp
 void CPowerManager::SaveDBPowerWarRank()

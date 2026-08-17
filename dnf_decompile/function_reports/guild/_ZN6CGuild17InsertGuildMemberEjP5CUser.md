@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808cec6` | `0x10f` | `0x8052e54` | `0x10b` |
+| guild | DIFF | `0x808cec6` | `0x10f` | `0x8052e50` | `0x10b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,79 +1,79 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0x5c,%esp
- mov    0x10(%ebp),%eax
+@@ -1,79 +1,80 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0x5c,%esp
+-mov    0x10(%ebp),%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0xff>
 +jne    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x1a>
@@ -98,6 +98,14 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x4c,%esp
++cmpl   $0x0,0x10(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -154,7 +162,7 @@ CGuild::_ZN6CGuild17InsertGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 502 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 504 行）：
 
 ```cpp
 bool CGuild::InsertGuildMember(unsigned int charNo, CUser* user)

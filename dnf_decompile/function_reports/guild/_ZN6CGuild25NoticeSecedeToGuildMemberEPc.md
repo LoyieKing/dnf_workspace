@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054aee` | `0x107` |
+| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054ab8` | `0x107` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,78 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x88,%esp
- mov    0x8(%ebp),%eax
+@@ -1,76 +1,80 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x88,%esp
+-mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
@@ -95,6 +95,12 @@
  nop
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x68,%esp
++mov    0x8(%ebp),%eax
++movzwl 0x1c(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -154,7 +160,7 @@ void __thiscall CGuild::_ZN6CGuild25NoticeSecedeToGuildMemberEPc(CGuild *this,ch
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1150 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1161 行）：
 
 ```cpp
 void CGuild::NoticeSecedeToGuildMember(char* info)

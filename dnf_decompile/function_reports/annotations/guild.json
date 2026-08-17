@@ -1,0 +1,1673 @@
+[
+ {
+  "id": "DNF-GLD-DIFF-0001",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser",
+  "demangled": "CGuildBoard::sendGuildBoardData(unsigned int, unsigned int, unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/GuildBoard.cpp",
+  "line": 171,
+  "report": "function_reports/guild/_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0001",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii",
+  "demangled": "CGuildCargo::DeleteItem(DnfItemInfo&, int, int, unsigned char, int, int)",
+  "file": "source/DNFServer/GameServer/Guild/GuildCargo.cpp",
+  "line": 270,
+  "report": "function_reports/guild/_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0002",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption",
+  "demangled": "CGuildCargo::InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR, int, char const*, int, int, RandomOption const*)",
+  "file": "source/DNFServer/GameServer/Guild/GuildCargo.cpp",
+  "line": 453,
+  "report": "function_reports/guild/_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0002",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CGuildCargo14SendGuildCargoEP5CUser",
+  "demangled": "CGuildCargo::SendGuildCargo(CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/GuildCargo.cpp",
+  "line": 376,
+  "report": "function_reports/guild/_ZN11CGuildCargo14SendGuildCargoEP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0003",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfo",
+  "demangled": "CGuildCargo::PrintDnfItemInfo(DnfItemInfo&)",
+  "file": "source/DNFServer/GameServer/Guild/GuildCargo.cpp",
+  "line": 404,
+  "report": "function_reports/guild/_ZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfo.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0004",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CGuildCargo20SendGuildCargoToDBMWEP14CServerHandleri",
+  "demangled": "CGuildCargo::SendGuildCargoToDBMW(CServerHandler*, int)",
+  "file": "source/DNFServer/GameServer/Guild/GuildCargo.cpp",
+  "line": 424,
+  "report": "function_reports/guild/_ZN11CGuildCargo20SendGuildCargoToDBMWEP14CServerHandleri.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0005",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog",
+  "demangled": "CGuildCargo::SetGuildCargoHistory(unsigned int, STGuildCargoLog*)",
+  "file": "source/DNFServer/GameServer/Guild/GuildCargo.cpp",
+  "line": 362,
+  "report": "function_reports/guild/_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0006",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CTcpHandlerC1Ev",
+  "demangled": "CTcpHandler::CTcpHandler()",
+  "file": "source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp",
+  "line": 173,
+  "report": "function_reports/guild/_ZN11CTcpHandlerC1Ev.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0007",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CTcpHandlerC2Ev",
+  "demangled": "CTcpHandler::CTcpHandler()",
+  "file": "source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp",
+  "line": 173,
+  "report": "function_reports/guild/_ZN11CTcpHandlerC2Ev.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0008",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN11CUdpHandler16InitServerSocketEi",
+  "demangled": "CUdpHandler::InitServerSocket(int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp",
+  "line": 91,
+  "report": "function_reports/guild/_ZN11CUdpHandler16InitServerSocketEi.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0009",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN12CApplication15TranslateSignalEv",
+  "demangled": "CApplication::TranslateSignal()",
+  "file": "source/DNFServer/GameServer/Guild/DNFApplication.cpp",
+  "line": 445,
+  "report": "function_reports/guild/_ZN12CApplication15TranslateSignalEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0010",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN12CApplication4LoadEiPPc",
+  "demangled": "CApplication::Load(int, char**)",
+  "file": "source/DNFServer/GameServer/Guild/DNFApplication.cpp",
+  "line": 153,
+  "report": "function_reports/guild/_ZN12CApplication4LoadEiPPc.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0003",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager17DeleteUser_CharNoEj",
+  "demangled": "CUserManager::DeleteUser_CharNo(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFUserManager.cpp",
+  "line": 338,
+  "report": "function_reports/guild/_ZN12CUserManager17DeleteUser_CharNoEj.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0004",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager17InsertUser_CharNoEjP5CUser",
+  "demangled": "CUserManager::InsertUser_CharNo(unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFUserManager.cpp",
+  "line": 318,
+  "report": "function_reports/guild/_ZN12CUserManager17InsertUser_CharNoEjP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0005",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN12CUserManager19InsertUser_CharNameEPcP5CUser",
+  "demangled": "CUserManager::InsertUser_CharName(char*, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFUserManager.cpp",
+  "line": 364,
+  "report": "function_reports/guild/_ZN12CUserManager19InsertUser_CharNameEPcP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0011",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CAppStartInit4InitEP12CApplicationiPPc",
+  "demangled": "CAppStartInit::Init(CApplication*, int, char**)",
+  "file": "source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp",
+  "line": 93,
+  "report": "function_reports/guild/_ZN13CAppStartInit4InitEP12CApplicationiPPc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0012",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CGuildManager13GuildMemLoginEjP5CUser",
+  "demangled": "CGuildManager::GuildMemLogin(unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildManager.cpp",
+  "line": 300,
+  "report": "function_reports/guild/_ZN13CGuildManager13GuildMemLoginEjP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0013",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb",
+  "demangled": "CGuildManager::DBGuildProcess(CServerHandler*, bool)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildManager.cpp",
+  "line": 528,
+  "report": "function_reports/guild/_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0014",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CGuildManager14GuildMemLogoutEjP5CUser",
+  "demangled": "CGuildManager::GuildMemLogout(unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildManager.cpp",
+  "line": 345,
+  "report": "function_reports/guild/_ZN13CGuildManager14GuildMemLogoutEjP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0006",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN13CGuildManager16GetAttendanceExpEji",
+  "demangled": "CGuildManager::GetAttendanceExp(unsigned int, int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildManager.cpp",
+  "line": 792,
+  "report": "function_reports/guild/_ZN13CGuildManager16GetAttendanceExpEji.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0015",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo",
+  "demangled": "CGuildManager::GetAttendanceInfo(unsigned int, STAttendanceInfo&)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildManager.cpp",
+  "line": 811,
+  "report": "function_reports/guild/_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0016",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CPowerManager18SaveDBPowerWarRankEv",
+  "demangled": "CPowerManager::SaveDBPowerWarRank()",
+  "file": "source/DNFServer/GameServer/Guild/PowerManager.cpp",
+  "line": 288,
+  "report": "function_reports/guild/_ZN13CPowerManager18SaveDBPowerWarRankEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0017",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CPowerManager23SendPowerWarProcessInfoEj",
+  "demangled": "CPowerManager::SendPowerWarProcessInfo(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/PowerManager.cpp",
+  "line": 527,
+  "report": "function_reports/guild/_ZN13CPowerManager23SendPowerWarProcessInfoEj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0018",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc",
+  "demangled": "CPowerManager::SendPowerWarEndInfoInSpecificPower(char)",
+  "file": "source/DNFServer/GameServer/Guild/PowerManager.cpp",
+  "line": 593,
+  "report": "function_reports/guild/_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0007",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN13CTcpNetSystem10SendPacketEv",
+  "demangled": "CTcpNetSystem::SendPacket()",
+  "file": "source/DNFServer/GameServer/Guild/TcpNetSystem.cpp",
+  "line": 321,
+  "report": "function_reports/guild/_ZN13CTcpNetSystem10SendPacketEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0019",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE",
+  "demangled": "np_server_xml::CServerXml::StrPunish(int, char const*, np_server_xml::_eStringType)",
+  "file": "source/DNFServer/GameServer/Guild/ServerXml.cpp",
+  "line": 275,
+  "report": "function_reports/guild/_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0020",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoder10TcpProcessEv",
+  "demangled": "CPacketDecoder::TcpProcess()",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp",
+  "line": 274,
+  "report": "function_reports/guild/_ZN14CPacketDecoder10TcpProcessEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0021",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoder10UdpProcessEv",
+  "demangled": "CPacketDecoder::UdpProcess()",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp",
+  "line": 234,
+  "report": "function_reports/guild/_ZN14CPacketDecoder10UdpProcessEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0022",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader",
+  "demangled": "CPacketDecoder::MsgDecode(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp",
+  "line": 203,
+  "report": "function_reports/guild/_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0023",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoderC1Ev",
+  "demangled": "CPacketDecoder::CPacketDecoder()",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp",
+  "line": 77,
+  "report": "function_reports/guild/_ZN14CPacketDecoderC1Ev.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0024",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN14CPacketDecoderC2Ev",
+  "demangled": "CPacketDecoder::CPacketDecoder()",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp",
+  "line": 77,
+  "report": "function_reports/guild/_ZN14CPacketDecoderC2Ev.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0025",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN14CServerHandler7ProcessEv",
+  "demangled": "CServerHandler::Process()",
+  "file": "source/DNFServer/GameServer/Guild/DNFServerHandler.cpp",
+  "line": 151,
+  "report": "function_reports/guild/_ZN14CServerHandler7ProcessEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0026",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater12OnGuildCargoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4457,
+  "report": "function_reports/guild/_ZN17CPacketTranslater12OnGuildCargoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0027",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCallGuildInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2696,
+  "report": "function_reports/guild/_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0028",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWGuildJoin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1851,
+  "report": "function_reports/guild/_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0029",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnReplyUserInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 377,
+  "report": "function_reports/guild/_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0030",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnChangeCharName(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3853,
+  "report": "function_reports/guild/_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0031",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnCallGuildInviteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCallGuildInvite(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1621,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnCallGuildInviteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0032",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnChangeGuildNameEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnChangeGuildName(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3785,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnChangeGuildNameEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0033",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCharacterDelete(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1420,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0034",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCreateGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4000,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0035",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBLoadGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4222,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0036",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDeleteGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4053,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0037",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater17OnPacketJoinPowerEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnPacketJoinPower(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3479,
+  "report": "function_reports/guild/_ZN17CPacketTranslater17OnPacketJoinPowerEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0038",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnApproveJoinGuild(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5718,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0039",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCallGuildLevelUp(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2640,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0040",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnCallGuildMembersEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCallGuildMembers(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1452,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnCallGuildMembersEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0041",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGameServerRegist(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5556,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0042",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnIncreaseGuildExp(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 897,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0043",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnInnerPacketLogin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3720,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0044",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildEnter(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 621,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0045",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnReplyGuildInvite(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1738,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0046",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRequestBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2925,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0047",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnUpgradeGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4260,
+  "report": "function_reports/guild/_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0048",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBCreateGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4122,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0049",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBDeleteGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4166,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0050",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDeleteToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2884,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0051",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargoHistory(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4528,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0052",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargoPopItem(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4774,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0053",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnGuildCargoUpgradeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargoUpgrade(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4988,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnGuildCargoUpgradeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0054",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildCreate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 746,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0055",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildSecede(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 653,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0056",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildWarEnd(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1353,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0057",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater19OnPacketSecedePowerEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnPacketSecedePower(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3543,
+  "report": "function_reports/guild/_ZN17CPacketTranslater19OnPacketSecedePowerEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0058",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnDBReplyGuildCreateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBReplyGuildCreate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3304,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnDBReplyGuildCreateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0059",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBReplyGuildSecede(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2209,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0060",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4313,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0061",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnGuildCargoMoveItemEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargoMoveItem(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4878,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnGuildCargoMoveItemEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0062",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargoPushItem(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4676,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0063",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildChatMsg(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 820,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0064",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildDismiss(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 783,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0008",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRequestGuildCreate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3248,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0065",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRequestGuildSecede(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2128,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0066",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnWebGuildBoardWrite(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5384,
+  "report": "function_reports/guild/_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0067",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnCallGuildAllMembersEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCallGuildAllMembers(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1494,
+  "report": "function_reports/guild/_ZN17CPacketTranslater21OnCallGuildAllMembersEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0068",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnChangePowerWarPoint(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3393,
+  "report": "function_reports/guild/_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0069",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildAttendanceInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5805,
+  "report": "function_reports/guild/_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0070",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRegisterToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2841,
+  "report": "function_reports/guild/_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0071",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater21OnSetGuildMemberGradeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnSetGuildMemberGrade(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1131,
+  "report": "function_reports/guild/_ZN17CPacketTranslater21OnSetGuildMemberGradeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0072",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4355,
+  "report": "function_reports/guild/_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0009",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3017,
+  "report": "function_reports/guild/_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0073",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 714,
+  "report": "function_reports/guild/_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0074",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnChangeGuildNameFromWeb(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3922,
+  "report": "function_reports/guild/_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0075",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater24OnDBReplyGuildAllMembersEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBReplyGuildAllMembers(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1540,
+  "report": "function_reports/guild/_ZN17CPacketTranslater24OnDBReplyGuildAllMembersEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0076",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnMonitorSendGuildLetter(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1985,
+  "report": "function_reports/guild/_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0077",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2958,
+  "report": "function_reports/guild/_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0078",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater25OnGuildCargoCheckPushItemEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildCargoCheckPushItem(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 4581,
+  "report": "function_reports/guild/_ZN17CPacketTranslater25OnGuildCargoCheckPushItemEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0079",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1285,
+  "report": "function_reports/guild/_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0080",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2090,
+  "report": "function_reports/guild/_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0081",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBReplyUnconnGuildMember(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1589,
+  "report": "function_reports/guild/_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0082",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5158,
+  "report": "function_reports/guild/_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0083",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1317,
+  "report": "function_reports/guild/_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0084",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnDBLoadReplyGuildBoardWriteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBLoadReplyGuildBoardWrite(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5244,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnDBLoadReplyGuildBoardWriteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0085",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnDBReplyGuildMasterDelegateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBReplyGuildMasterDelegate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2404,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnDBReplyGuildMasterDelegateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0086",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5756,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0087",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnGuildMasterDelegateFromWebEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildMasterDelegateFromWeb(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2497,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnGuildMasterDelegateFromWebEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0088",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnGuildRequestGuildBoardOpenEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildRequestGuildBoardOpen(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5086,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnGuildRequestGuildBoardOpenEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0089",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnRequestGuildMasterDelegateEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2313,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnRequestGuildMasterDelegateEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0090",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 1019,
+  "report": "function_reports/guild/_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0091",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5484,
+  "report": "function_reports/guild/_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0092",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 5203,
+  "report": "function_reports/guild/_ZN17CPacketTranslater29OnGuildRequestGuildBoardWriteEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0093",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnNoticeGuildChatMsgHyperLink(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 856,
+  "report": "function_reports/guild/_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0094",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3085,
+  "report": "function_reports/guild/_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0095",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3958,
+  "report": "function_reports/guild/_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0096",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 2589,
+  "report": "function_reports/guild/_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0097",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater39OnDBMWChangeUnconnectedGuildMemberGradeEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 3127,
+  "report": "function_reports/guild/_ZN17CPacketTranslater39OnDBMWChangeUnconnectedGuildMemberGradeEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0098",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CPacketTranslater8OnLogoutEP12PacketHeader",
+  "demangled": "CPacketTranslater::OnLogout(PacketHeader*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp",
+  "line": 238,
+  "report": "function_reports/guild/_ZN17CPacketTranslater8OnLogoutEP12PacketHeader.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0099",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CTcpNetworkThread8dispatchEPv",
+  "demangled": "CTcpNetworkThread::dispatch(void*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp",
+  "line": 95,
+  "report": "function_reports/guild/_ZN17CTcpNetworkThread8dispatchEPv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0100",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17CUdpNetworkThread8dispatchEPv",
+  "demangled": "CUdpNetworkThread::dispatch(void*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp",
+  "line": 86,
+  "report": "function_reports/guild/_ZN17CUdpNetworkThread8dispatchEPv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0101",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17STGuildDBInfoOnlyC1Ev",
+  "demangled": "STGuildDBInfoOnly::STGuildDBInfoOnly()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2499,
+  "report": "function_reports/guild/_ZN17STGuildDBInfoOnlyC1Ev.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0102",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN17STGuildDBInfoOnlyC2Ev",
+  "demangled": "STGuildDBInfoOnly::STGuildDBInfoOnly()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2499,
+  "report": "function_reports/guild/_ZN17STGuildDBInfoOnlyC2Ev.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0103",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN18CFrameCountHandler17GetFrameCountInfoEv",
+  "demangled": "CFrameCountHandler::GetFrameCountInfo()",
+  "file": "source/DNFServer/GameServer/Guild/DNFTickHandler.cpp",
+  "line": 94,
+  "report": "function_reports/guild/_ZN18CFrameCountHandler17GetFrameCountInfoEv.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0010",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt",
+  "demangled": "CFrameCountHandler::InitFrameCountInfo(CApplication*, unsigned int, unsigned short)",
+  "file": "source/DNFServer/GameServer/Guild/DNFTickHandler.cpp",
+  "line": 77,
+  "report": "function_reports/guild/_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0104",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii",
+  "demangled": "CPowerWarGuildInfo::RewardGuildPowerWarPoint(CGuildManager&, bool, int, int, int, int)",
+  "file": "source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp",
+  "line": 216,
+  "report": "function_reports/guild/_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0105",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward",
+  "demangled": "CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward*)",
+  "file": "source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp",
+  "line": 290,
+  "report": "function_reports/guild/_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0106",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN5CPeer11recv_packetEv",
+  "demangled": "CPeer::recv_packet()",
+  "file": "source/DNFServer/GameServer/Guild/Peer.cpp",
+  "line": 170,
+  "report": "function_reports/guild/_ZN5CPeer11recv_packetEv.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0011",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN5CPeer11send_packetEPci",
+  "demangled": "CPeer::send_packet(char*, int)",
+  "file": "source/DNFServer/GameServer/Guild/Peer.cpp",
+  "line": 298,
+  "report": "function_reports/guild/_ZN5CPeer11send_packetEPci.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0107",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN5CPeer11send_packetEv",
+  "demangled": "CPeer::send_packet()",
+  "file": "source/DNFServer/GameServer/Guild/Peer.cpp",
+  "line": 335,
+  "report": "function_reports/guild/_ZN5CPeer11send_packetEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0108",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN5CPeer7parsingEi",
+  "demangled": "CPeer::parsing(int)",
+  "file": "source/DNFServer/GameServer/Guild/Peer.cpp",
+  "line": 208,
+  "report": "function_reports/guild/_ZN5CPeer7parsingEi.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0012",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN6CGuild12AddGuildFundEj",
+  "demangled": "CGuild::AddGuildFund(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2325,
+  "report": "function_reports/guild/_ZN6CGuild12AddGuildFundEj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0109",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser",
+  "demangled": "CGuild::GuildLevelUp(CServerHandler*, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1070,
+  "report": "function_reports/guild/_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0110",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild13BuyGuildSkillEiisj",
+  "demangled": "CGuild::BuyGuildSkill(int, int, short, unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1003,
+  "report": "function_reports/guild/_ZN6CGuild13BuyGuildSkillEiisj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0111",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser",
+  "demangled": "CGuild::AddGuildMember(ST_Notice_Guild_Enter&, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1727,
+  "report": "function_reports/guild/_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0112",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj",
+  "demangled": "CGuild::ChangeGuildMaster(CServerHandler*, CUser*, unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1793,
+  "report": "function_reports/guild/_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0113",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild17InsertGuildMemberEjP5CUser",
+  "demangled": "CGuild::InsertGuildMember(unsigned int, CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 504,
+  "report": "function_reports/guild/_ZN6CGuild17InsertGuildMemberEjP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0114",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild17ReplyGuildMembersEP5CUser",
+  "demangled": "CGuild::ReplyGuildMembers(CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1374,
+  "report": "function_reports/guild/_ZN6CGuild17ReplyGuildMembersEP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0115",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede",
+  "demangled": "CGuild::SecedeProxyMember(ST_Notice_Guild_Secede&)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1761,
+  "report": "function_reports/guild/_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0116",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild17SetSubGuildMasterEjb",
+  "demangled": "CGuild::SetSubGuildMaster(unsigned int, bool)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1881,
+  "report": "function_reports/guild/_ZN6CGuild17SetSubGuildMasterEjb.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0117",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler",
+  "demangled": "CGuild::DBGuildSaveProcess(CServerHandler*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 634,
+  "report": "function_reports/guild/_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0118",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild18DBSaveGuildMembersEhP14CServerHandlerh",
+  "demangled": "CGuild::DBSaveGuildMembers(unsigned char, CServerHandler*, unsigned char)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 737,
+  "report": "function_reports/guild/_ZN6CGuild18DBSaveGuildMembersEhP14CServerHandlerh.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0119",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild18SendToGuildForMailEv",
+  "demangled": "CGuild::SendToGuildForMail()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 966,
+  "report": "function_reports/guild/_ZN6CGuild18SendToGuildForMailEv.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0013",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember",
+  "demangled": "CGuild::SetTodayGuildMember(STTodayGuildMember&)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 464,
+  "report": "function_reports/guild/_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0120",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild20ReplyGuildAllMembersEP5CUser",
+  "demangled": "CGuild::ReplyGuildAllMembers(CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1485,
+  "report": "function_reports/guild/_ZN6CGuild20ReplyGuildAllMembersEP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0121",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc",
+  "demangled": "CGuild::WriteGuildMemberMemo(CUser*, char const*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2102,
+  "report": "function_reports/guild/_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0122",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild22NotifyTodayGuildMemberEP5CUser",
+  "demangled": "CGuild::NotifyTodayGuildMember(CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2445,
+  "report": "function_reports/guild/_ZN6CGuild22NotifyTodayGuildMemberEP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0123",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo",
+  "demangled": "CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1346,
+  "report": "function_reports/guild/_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0124",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild22SendGuildInfoToMembersEb",
+  "demangled": "CGuild::SendGuildInfoToMembers(bool)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 867,
+  "report": "function_reports/guild/_ZN6CGuild22SendGuildInfoToMembersEb.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0125",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser",
+  "demangled": "CGuild::LoadGuildOneMemberProxy(CUser*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1667,
+  "report": "function_reports/guild/_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0126",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy",
+  "demangled": "CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy&)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1701,
+  "report": "function_reports/guild/_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy.md",
+  "_needs_manual": true
+ },
+ {
+  "id": "DNF-GLD-DIFF-0127",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild23SendGuildInfoToManagersEv",
+  "demangled": "CGuild::SendGuildInfoToManagers()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 938,
+  "report": "function_reports/guild/_ZN6CGuild23SendGuildInfoToManagersEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0128",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh",
+  "demangled": "CGuild::LoadGuildAllMembersProxy(STGuildMemberProxy*, unsigned char, unsigned char)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1647,
+  "report": "function_reports/guild/_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0129",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild24NoticeEnterToGuildMemberEPc",
+  "demangled": "CGuild::NoticeEnterToGuildMember(char*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1136,
+  "report": "function_reports/guild/_ZN6CGuild24NoticeEnterToGuildMemberEPc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0130",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild25ChangeGuildMemberCharNameEjPc",
+  "demangled": "CGuild::ChangeGuildMemberCharName(unsigned int, char*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2056,
+  "report": "function_reports/guild/_ZN6CGuild25ChangeGuildMemberCharNameEjPc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0131",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild25NoticeSecedeToGuildMemberEPc",
+  "demangled": "CGuild::NoticeSecedeToGuildMember(char*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1161,
+  "report": "function_reports/guild/_ZN6CGuild25NoticeSecedeToGuildMemberEPc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0132",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild25NotifyAllTodayGuildMemberEv",
+  "demangled": "CGuild::NotifyAllTodayGuildMember()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2414,
+  "report": "function_reports/guild/_ZN6CGuild25NotifyAllTodayGuildMemberEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0133",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc",
+  "demangled": "CGuild::NoticeGuildMemberLogin_Out(CUser*, char)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1313,
+  "report": "function_reports/guild/_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0134",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild26NotifyAllAchieveAttendanceEjj",
+  "demangled": "CGuild::NotifyAllAchieveAttendance(unsigned int, unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2473,
+  "report": "function_reports/guild/_ZN6CGuild26NotifyAllAchieveAttendanceEjj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0135",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild26NotifyMessageToGuildMemberEv",
+  "demangled": "CGuild::NotifyMessageToGuildMember()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1939,
+  "report": "function_reports/guild/_ZN6CGuild26NotifyMessageToGuildMemberEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0136",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild26SendGuildAgitInfoToMembersEv",
+  "demangled": "CGuild::SendGuildAgitInfoToMembers()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2204,
+  "report": "function_reports/guild/_ZN6CGuild26SendGuildAgitInfoToMembersEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0137",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild26UpdateChangableInfoProcessEv",
+  "demangled": "CGuild::UpdateChangableInfoProcess()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2022,
+  "report": "function_reports/guild/_ZN6CGuild26UpdateChangableInfoProcessEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0138",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild27DismissGuildMemberAndNoticeEi",
+  "demangled": "CGuild::DismissGuildMemberAndNotice(int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1285,
+  "report": "function_reports/guild/_ZN6CGuild27DismissGuildMemberAndNoticeEi.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0139",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc",
+  "demangled": "CGuild::NoticeChatMsgToGuildMembers(unsigned int, char*, int, char const*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1214,
+  "report": "function_reports/guild/_ZN6CGuild27NoticeChatMsgToGuildMembersEjPciPKc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0140",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild28SendGuildNameChangeToMembersEv",
+  "demangled": "CGuild::SendGuildNameChangeToMembers()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 895,
+  "report": "function_reports/guild/_ZN6CGuild28SendGuildNameChangeToMembersEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0141",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild29NoticeMarkChangeToGuildMemberEj",
+  "demangled": "CGuild::NoticeMarkChangeToGuildMember(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1185,
+  "report": "function_reports/guild/_ZN6CGuild29NoticeMarkChangeToGuildMemberEj.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0014",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN6CGuild29getUnconnectedGuildMemberNameEj",
+  "demangled": "CGuild::getUnconnectedGuildMemberName(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1850,
+  "report": "function_reports/guild/_ZN6CGuild29getUnconnectedGuildMemberNameEj.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0015",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji",
+  "demangled": "CGuild::ChangeUnconnectedGuildMemberGrade(unsigned int, int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1833,
+  "report": "function_reports/guild/_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0142",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc",
+  "demangled": "CGuild::NoticeGuildMasterDelegateToMembers(char*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 844,
+  "report": "function_reports/guild/_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0143",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj",
+  "demangled": "CGuild::NotifyCreateGuildAgitToGuildMember(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2223,
+  "report": "function_reports/guild/_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0144",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj",
+  "demangled": "CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2247,
+  "report": "function_reports/guild/_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0145",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc",
+  "demangled": "CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int, char*, int, unsigned char, hyperlink_item_info const*, char const*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 1246,
+  "report": "function_reports/guild/_ZN6CGuild36NoticeChatMsgToGuildMembersHyperLinkEjPcihPK19hyperlink_item_infoPKc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0146",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc",
+  "demangled": "CGuild::LoadGuild(STGuildDBInfoOnly&, char*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 590,
+  "report": "function_reports/guild/_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc.md"
+ },
+ {
+  "id": "DNF-GLD-NEAR-0016",
+  "svc": "guild",
+  "status": "NEAR",
+  "mangled": "_ZN8WongWork11CGMAccounts4isGMEj",
+  "demangled": "WongWork::CGMAccounts::isGM(unsigned int)",
+  "file": "source/DNFServer/GameServer/Guild/GMAccounts.cpp",
+  "line": 116,
+  "report": "function_reports/guild/_ZN8WongWork11CGMAccounts4isGMEj.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0147",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN9CGuildWar12SameRankWorkEv",
+  "demangled": "CGuildWar::SameRankWork()",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildWar.cpp",
+  "line": 250,
+  "report": "function_reports/guild/_ZN9CGuildWar12SameRankWorkEv.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0148",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN9CGuildWar13DBSaveProcessEP12CApplication",
+  "demangled": "CGuildWar::DBSaveProcess(CApplication*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildWar.cpp",
+  "line": 362,
+  "report": "function_reports/guild/_ZN9CGuildWar13DBSaveProcessEP12CApplication.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0149",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info",
+  "demangled": "CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info*)",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuildWar.cpp",
+  "line": 161,
+  "report": "function_reports/guild/_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0150",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZNK11CUdpHandler12SendToServerEPcitPKc",
+  "demangled": "CUdpHandler::SendToServer(char*, int, unsigned short, char const*) const",
+  "file": "source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp",
+  "line": 309,
+  "report": "function_reports/guild/_ZNK11CUdpHandler12SendToServerEPcitPKc.md"
+ },
+ {
+  "id": "DNF-GLD-DIFF-0151",
+  "svc": "guild",
+  "status": "DIFF",
+  "mangled": "_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo",
+  "demangled": "CGuild::PopGuildMemberChanglableInfo(unsigned int, STGuildMemberChangableInfo&) const",
+  "file": "source/DNFServer/GameServer/Guild/DNFGuild.cpp",
+  "line": 2003,
+  "report": "function_reports/guild/_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo.md"
+ }
+]

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b192` | `0x43a` |
+| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b16e` | `0x43a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,329 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,331 +1,330 @@
++je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1c>
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++test   %eax,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xf8>
++lea    -0x35(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcEC1Ev>
++lea    -0x35(%ebp),%eax
++mov    %eax,0x8(%esp)
++movl   $"CGuildManager::GuildMemLogin() : m_pclApp , pclUser == NULL\n",0x4(%esp)
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsC1EPKcRKSaIcE>
++lea    -0x3c(%ebp),%esi
++movl   $0x8,(%esp)
++call   <T> <__cxa_allocate_exception>
++mov    %eax,%ebx
++mov    %ebx,%eax
++mov    %esi,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN13CDNFExceptionC1ERKSs>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x9b>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%esi
++mov    %ecx,%edi
++mov    %ebx,(%esp)
++call   <T> <__cxa_free_exception>
++mov    %edi,%ecx
++mov    %esi,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x95>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xd5>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
++call   <T> <_ZSt9terminatev>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x35(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++mov    %ecx,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x35(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
++movl   $&_ZTI13CDNFException,0x4(%esp)
++mov    %ebx,(%esp)
++call   <T> <__cxa_throw>
++cmpl   $0x0,0xc(%ebp)
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1de>
++lea    -0x2d(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcEC1Ev>
++lea    -0x2d(%ebp),%eax
++mov    %eax,0x8(%esp)
++movl   $"CGuildManager::GuildMemLogin() : dwGuildKey == 0\n",0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsC1EPKcRKSaIcE>
++lea    -0x34(%ebp),%esi
++movl   $0x8,(%esp)
++call   <T> <__cxa_allocate_exception>
++mov    %eax,%ebx
++mov    %ebx,%eax
++mov    %esi,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN13CDNFExceptionC1ERKSs>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x181>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%esi
++mov    %ecx,%edi
++mov    %ebx,(%esp)
++call   <T> <__cxa_free_exception>
++mov    %edi,%ecx
++mov    %esi,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x17b>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1bb>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
++call   <T> <_ZSt9terminatev>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x2d(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++mov    %ecx,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x2d(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
++movl   $&_ZTI13CDNFException,0x4(%esp)
++mov    %ebx,(%esp)
++call   <T> <__cxa_throw>
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++mov    %eax,-0x20(%ebp)
++cmpl   $0x0,-0x20(%ebp)
++sete   %al
++test   %al,%al
++je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2d9>
++lea    -0x25(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcEC1Ev>
++lea    -0x25(%ebp),%eax
++mov    %eax,0x8(%esp)
++movl   $"CGuildManager::GuildMemLogin() pclServerHandler == NULL\n",0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsC1EPKcRKSaIcE>
++lea    -0x2c(%ebp),%esi
++movl   $0x8,(%esp)
++call   <T> <__cxa_allocate_exception>
++mov    %eax,%ebx
++mov    %ebx,%eax
++mov    %esi,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN13CDNFExceptionC1ERKSs>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x27c>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%esi
++mov    %ecx,%edi
++mov    %ebx,(%esp)
++call   <T> <__cxa_free_exception>
++mov    %edi,%ecx
++mov    %esi,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x276>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2b6>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
++call   <T> <_ZSt9terminatev>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x25(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++mov    %ecx,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x25(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
++movl   $&_ZTI13CDNFException,0x4(%esp)
++mov    %ebx,(%esp)
++call   <T> <__cxa_throw>
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x24(%ebp)
++cmpl   $0x0,-0x24(%ebp)
++sete   %al
++test   %al,%al
++je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x326>
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,0xc(%esp)
++mov    -0x20(%ebp),%eax
++mov    %eax,0x8(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager11CreateGuildEjP14CServerHandlerj>
++mov    %eax,-0x24(%ebp)
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x391>
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,0x8(%esp)
++mov    -0x20(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild10QueryGuildEP14CServerHandlerj>
++mov    0x10(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild25SendGuildInfoToMemberOnlyEP5CUser>
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild15CheckGuildSkillEv>
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,%ebx
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication16Get_GuildManagerEv>
++mov    %ebx,0x8(%esp)
++mov    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager11AttendGuildEjj>
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication16Get_GuildManagerEv>
++mov    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager14GetTodayMemberEj>
++mov    %eax,-0x1c(%ebp)
++cmpl   $0x0,-0x1c(%ebp)
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3d4>
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++mov    %eax,0x4(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild21QueryTodayGuildMemberEP14CServerHandler>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3f8>
++mov    -0x1c(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember>
++mov    0x10(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild22NotifyTodayGuildMemberEP5CUser>
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    0x10(%ebp),%edx
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser>
++test   %al,%al
++je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x42f>
++mov    -0x20(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser16QueryGuildMemberEP14CServerHandler>
++mov    -0x24(%ebp),%eax
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -21,331 +344,330 @@
  push   %ebx
  sub    $0x4c,%esp
  cmpl   $0x0,0x10(%ebp)
- je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1c>
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
- test   %eax,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xf8>
- lea    -0x35(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcEC1Ev>
- lea    -0x35(%ebp),%eax
- mov    %eax,0x8(%esp)
- movl   $"CGuildManager::GuildMemLogin() : m_pclApp , pclUser == NULL\n",0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x3c(%ebp),%esi
- movl   $0x8,(%esp)
- call   <T> <__cxa_allocate_exception>
- mov    %eax,%ebx
- mov    %ebx,%eax
- mov    %esi,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x9b>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%esi
- mov    %ecx,%edi
- mov    %ebx,(%esp)
- call   <T> <__cxa_free_exception>
- mov    %edi,%ecx
- mov    %esi,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x95>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
- call   <T> <_ZSt9terminatev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xd5>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x35(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0x35(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
- movl   $&_ZTI13CDNFException,0x4(%esp)
- mov    %ebx,(%esp)
- call   <T> <__cxa_throw>
- cmpl   $0x0,0xc(%ebp)
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1de>
- lea    -0x2d(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcEC1Ev>
- lea    -0x2d(%ebp),%eax
- mov    %eax,0x8(%esp)
- movl   $"CGuildManager::GuildMemLogin() : dwGuildKey == 0\n",0x4(%esp)
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x34(%ebp),%esi
- movl   $0x8,(%esp)
- call   <T> <__cxa_allocate_exception>
- mov    %eax,%ebx
- mov    %ebx,%eax
- mov    %esi,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x181>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%esi
- mov    %ecx,%edi
- mov    %ebx,(%esp)
- call   <T> <__cxa_free_exception>
- mov    %edi,%ecx
- mov    %esi,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x17b>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
- call   <T> <_ZSt9terminatev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1bb>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x2d(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0x2d(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
- movl   $&_ZTI13CDNFException,0x4(%esp)
- mov    %ebx,(%esp)
- call   <T> <__cxa_throw>
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
- mov    %eax,-0x20(%ebp)
- cmpl   $0x0,-0x20(%ebp)
- sete   %al
- test   %al,%al
- je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2d9>
- lea    -0x25(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcEC1Ev>
- lea    -0x25(%ebp),%eax
- mov    %eax,0x8(%esp)
- movl   $"CGuildManager::GuildMemLogin() pclServerHandler == NULL\n",0x4(%esp)
- lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x2c(%ebp),%esi
- movl   $0x8,(%esp)
- call   <T> <__cxa_allocate_exception>
- mov    %eax,%ebx
- mov    %ebx,%eax
- mov    %esi,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x27c>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%esi
- mov    %ecx,%edi
- mov    %ebx,(%esp)
- call   <T> <__cxa_free_exception>
- mov    %edi,%ecx
- mov    %esi,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x276>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
- call   <T> <_ZSt9terminatev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
- lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2b6>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x25(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0x25(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
- movl   $&_ZTI13CDNFException,0x4(%esp)
- mov    %ebx,(%esp)
- call   <T> <__cxa_throw>
- mov    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN13CGuildManager9FindGuildEj>
- mov    %eax,-0x24(%ebp)
- cmpl   $0x0,-0x24(%ebp)
- sete   %al
- test   %al,%al
- je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x326>
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,0xc(%esp)
- mov    -0x20(%ebp),%eax
- mov    %eax,0x8(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN13CGuildManager11CreateGuildEjP14CServerHandlerj>
- mov    %eax,-0x24(%ebp)
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x391>
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,0x8(%esp)
- mov    -0x20(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild10QueryGuildEP14CServerHandlerj>
- mov    0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild25SendGuildInfoToMemberOnlyEP5CUser>
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild15CheckGuildSkillEv>
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,%ebx
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication16Get_GuildManagerEv>
- mov    %ebx,0x8(%esp)
- mov    0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CGuildManager11AttendGuildEjj>
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication16Get_GuildManagerEv>
- mov    0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CGuildManager14GetTodayMemberEj>
- mov    %eax,-0x1c(%ebp)
- cmpl   $0x0,-0x1c(%ebp)
- jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3d4>
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
- mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild21QueryTodayGuildMemberEP14CServerHandler>
- jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3f8>
- mov    -0x1c(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember>
- mov    0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild22NotifyTodayGuildMemberEP5CUser>
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    0x10(%ebp),%edx
- mov    %edx,0x8(%esp)
- mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser>
+-je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1c>
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
+-test   %eax,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xf8>
+-lea    -0x35(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcEC1Ev>
+-lea    -0x35(%ebp),%eax
+-mov    %eax,0x8(%esp)
+-movl   $"CGuildManager::GuildMemLogin() : m_pclApp , pclUser == NULL\n",0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsC1EPKcRKSaIcE>
+-lea    -0x3c(%ebp),%esi
+-movl   $0x8,(%esp)
+-call   <T> <__cxa_allocate_exception>
+-mov    %eax,%ebx
+-mov    %ebx,%eax
+-mov    %esi,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CDNFExceptionC1ERKSs>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x9b>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%esi
+-mov    %ecx,%edi
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_free_exception>
+-mov    %edi,%ecx
+-mov    %esi,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x95>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
+-call   <T> <_ZSt9terminatev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xd5>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0xba>
+-call   <T> <_ZSt9terminatev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x35(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-mov    %ecx,(%esp)
+-call   <T> <_Unwind_Resume>
+-lea    -0x35(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+-movl   $&_ZTI13CDNFException,0x4(%esp)
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_throw>
+-cmpl   $0x0,0xc(%ebp)
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1de>
+-lea    -0x2d(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcEC1Ev>
+-lea    -0x2d(%ebp),%eax
+-mov    %eax,0x8(%esp)
+-movl   $"CGuildManager::GuildMemLogin() : dwGuildKey == 0\n",0x4(%esp)
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsC1EPKcRKSaIcE>
+-lea    -0x34(%ebp),%esi
+-movl   $0x8,(%esp)
+-call   <T> <__cxa_allocate_exception>
+-mov    %eax,%ebx
+-mov    %ebx,%eax
+-mov    %esi,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CDNFExceptionC1ERKSs>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x181>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%esi
+-mov    %ecx,%edi
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_free_exception>
+-mov    %edi,%ecx
+-mov    %esi,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x17b>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
+-call   <T> <_ZSt9terminatev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1bb>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x1a0>
+-call   <T> <_ZSt9terminatev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x2d(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-mov    %ecx,(%esp)
+-call   <T> <_Unwind_Resume>
+-lea    -0x2d(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+-movl   $&_ZTI13CDNFException,0x4(%esp)
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_throw>
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+-mov    %eax,-0x20(%ebp)
+-cmpl   $0x0,-0x20(%ebp)
+-sete   %al
+-test   %al,%al
+-je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2d9>
+-lea    -0x25(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcEC1Ev>
+-lea    -0x25(%ebp),%eax
+-mov    %eax,0x8(%esp)
+-movl   $"CGuildManager::GuildMemLogin() pclServerHandler == NULL\n",0x4(%esp)
+-lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsC1EPKcRKSaIcE>
+-lea    -0x2c(%ebp),%esi
+-movl   $0x8,(%esp)
+-call   <T> <__cxa_allocate_exception>
+-mov    %eax,%ebx
+-mov    %ebx,%eax
+-mov    %esi,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CDNFExceptionC1ERKSs>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x27c>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%esi
+-mov    %ecx,%edi
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_free_exception>
+-mov    %edi,%ecx
+-mov    %esi,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x276>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
+-call   <T> <_ZSt9terminatev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
+-lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2b6>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
+-call   <T> <_ZSt9terminatev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x25(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-mov    %ecx,(%esp)
+-call   <T> <_Unwind_Resume>
+-lea    -0x25(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+-movl   $&_ZTI13CDNFException,0x4(%esp)
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_throw>
+-mov    0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CGuildManager9FindGuildEj>
+-mov    %eax,-0x24(%ebp)
+-cmpl   $0x0,-0x24(%ebp)
+-sete   %al
+-test   %al,%al
+-je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x326>
+-mov    0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,0xc(%esp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,0x8(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CGuildManager11CreateGuildEjP14CServerHandlerj>
+-mov    %eax,-0x24(%ebp)
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x391>
+-mov    0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,0x8(%esp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild10QueryGuildEP14CServerHandlerj>
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild25SendGuildInfoToMemberOnlyEP5CUser>
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild15CheckGuildSkillEv>
+-mov    0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,%ebx
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication16Get_GuildManagerEv>
+-mov    %ebx,0x8(%esp)
+-mov    0xc(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CGuildManager11AttendGuildEjj>
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication16Get_GuildManagerEv>
+-mov    0xc(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CGuildManager14GetTodayMemberEj>
+-mov    %eax,-0x1c(%ebp)
+-cmpl   $0x0,-0x1c(%ebp)
+-jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3d4>
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+-mov    %eax,0x4(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild21QueryTodayGuildMemberEP14CServerHandler>
+-jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3f8>
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild19SetTodayGuildMemberER18STTodayGuildMember>
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild22NotifyTodayGuildMemberEP5CUser>
+-mov    0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    0x10(%ebp),%edx
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser>
 -xor    $0x1,%eax
- test   %al,%al
+-test   %al,%al
 -jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x432>
-+je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x42f>
- mov    -0x20(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser16QueryGuildMemberEP14CServerHandler>
- mov    -0x24(%ebp),%eax
- add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-mov    -0x20(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser16QueryGuildMemberEP14CServerHandler>
+-mov    -0x24(%ebp),%eax
+-add    $0x4c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -450,7 +772,7 @@ CGuildManager::_ZN13CGuildManager13GuildMemLoginEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 299 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 300 行）：
 
 ```cpp
 CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)

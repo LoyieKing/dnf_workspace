@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80797ec` | `0x5d7` | `0x806fc0a` | `0x5cb` |
+| guild | DIFF | `0x80797ec` | `0x5d7` | `0x806fc84` | `0x5cb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,402 +1,394 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
+@@ -1,402 +1,393 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
 -sub    $0x9c,%esp
-+sub    $0xac,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader+0xf2>
@@ -103,15 +102,6 @@
 -mov    %eax,-0x24(%ebp)
 -lea    -0x87(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
-+mov    -0x34(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,-0x30(%ebp)
-+mov    -0x34(%ebp),%eax
-+mov    0xe(%eax),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x34(%ebp),%eax
-+add    $0x12,%eax
-+mov    %eax,-0x28(%ebp)
 +lea    -0x8f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Monitor_Reply_Guild_MailC1Ev>
@@ -121,6 +111,15 @@
 -mov    0xe(%eax),%esi
 -mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%ebx
++mov    -0x34(%ebp),%eax
++mov    0xa(%eax),%eax
++mov    %eax,-0x30(%ebp)
++mov    -0x34(%ebp),%eax
++mov    0xe(%eax),%eax
++mov    %eax,-0x2c(%ebp)
++mov    -0x34(%ebp),%eax
++add    $0x12,%eax
++mov    %eax,-0x28(%ebp)
  movl   $0xa98,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x6c(%ebp),%eax
@@ -583,6 +582,11 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x168,%esp
++mov    0x8(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -734,7 +738,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1966 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1985 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorSendGuildLetter(PacketHeader* pkt)
@@ -743,10 +747,10 @@ void CPacketTranslater::OnMonitorSendGuildLetter(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnMonitorSendGuildLetter : 0 == m_pclApp");
     char* pb = (char*)pkt;
+    Packet_Monitor_Reply_Guild_Mail reply;
     unsigned int charNo = ((Packet_Monitor_Send_Guild_Mail*)pb)->m_charNo;
     unsigned int guildId = ((Packet_Monitor_Send_Guild_Mail*)pb)->m_guildId;
     const char* msg = ((Packet_Monitor_Send_Guild_Mail*)pb)->m_msg;
-    Packet_Monitor_Reply_Guild_Mail reply;
     {
         DNF_LOG_SCOPE_LINE(0xa98, "./log/GuildLetter", "charNo(%d),guildId(%d),msg(%s)", charNo, guildId, msg);
     }

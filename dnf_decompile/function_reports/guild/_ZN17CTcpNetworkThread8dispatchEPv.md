@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805a2a0` | `0x457` | `0x808729c` | `0x45e` |
+| guild | DIFF | `0x805a2a0` | `0x457` | `0x80874d4` | `0x45e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,327 +1,330 @@
+@@ -1,327 +1,327 @@
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZdlPv>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -353,15 +358,15 @@
  call   <T> <__cxa_end_catch>
  mov    %esi,%ecx
  mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
+-mov    %ecx,(%esp)
+-call   <T> <_Unwind_Resume>
 -nop
- add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-add    $0x4c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -445,7 +450,7 @@ void CTcpNetworkThread::_ZN17CTcpNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp)（约第 94 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp)（约第 95 行）：
 
 ```cpp
 void CTcpNetworkThread::dispatch(void* param)

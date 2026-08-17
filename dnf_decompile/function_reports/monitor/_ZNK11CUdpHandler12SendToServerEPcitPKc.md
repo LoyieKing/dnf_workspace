@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8050bf2` | `0x27b` | `0x8088396` | `0x27b` |
+| monitor | DIFF | `0x8050bf2` | `0x27b` | `0x8088272` | `0x27b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,149 +1,149 @@
++pop    %ebx
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -160,10 +164,10 @@
  mov    $0x0,%eax
  jmp    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x275>
  mov    $0x1,%eax
- add    $0x74,%esp
- pop    %ebx
- pop    %ebp
- ret
+-add    $0x74,%esp
+-pop    %ebx
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -245,7 +249,7 @@ CUdpHandler::_ZNK11CUdpHandler12SendToServerEPcitPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp](source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp)（约第 211 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp](source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp)（约第 215 行）：
 
 ```cpp
 int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, const char* ip) const

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051228` | `0x489` | `0x80992f0` | `0x48e` |
+| guild | DIFF | `0x8051228` | `0x489` | `0x809954e` | `0x48e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,289 +1,292 @@
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
++mov    -0xc(%ebp),%eax
++add    $0x30,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -360,6 +368,14 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
+-mov    $0x1,%ebx
+-mov    %ebx,%eax
+-add    $0x7c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 +mov    $0x0,%ebx
 +jmp    <T> <_ZN5CPeer7parsingEi+0x484>
 +mov    -0x28(%ebp),%edx
@@ -380,14 +396,6 @@
 +add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x181c(%eax)
- mov    $0x1,%ebx
- mov    %ebx,%eax
- add    $0x7c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -511,7 +519,7 @@ LAB_080515c7:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 206 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 208 行）：
 
 ```cpp
 bool CPeer::parsing(int len)

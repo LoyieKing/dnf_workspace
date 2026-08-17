@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096a74` | `0x159` | `0x805c612` | `0x155` |
+| guild | DIFF | `0x8096a74` | `0x159` | `0x805c5ee` | `0x155` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,12 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,105 +1,103 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x44,%esp
- mov    0x10(%ebp),%eax
- mov    %al,-0x2c(%ebp)
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x44,%esp
+-mov    0x10(%ebp),%eax
+-mov    %al,-0x2c(%ebp)
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x153>
 +je     <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb+0x14f>
@@ -138,6 +138,12 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%eax
++add    $0x4,%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -206,7 +212,7 @@ void CGuildManager::_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 525 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 528 行）：
 
 ```cpp
 void CGuildManager::DBGuildProcess(CServerHandler* handler, bool flag)

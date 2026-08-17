@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805a44c` | `0x457` | `0x8084e46` | `0x460` |
+| monitor | DIFF | `0x805a44c` | `0x457` | `0x8084d06` | `0x460` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,327 +1,331 @@
+@@ -1,327 +1,329 @@
++mov    %eax,0x28(%edx)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -376,11 +379,11 @@
  call   <T> <_Unwind_Resume>
 -nop
  add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -463,7 +466,7 @@ void CTcpNetworkThread::_ZN17CTcpNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp)（约第 72 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp)（约第 73 行）：
 
 ```cpp
 void CTcpNetworkThread::dispatch(void* param)

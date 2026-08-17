@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0098	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2120	CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader.md
+DNF-MON-DIFF-0137	DIFF	source/DNFServer/GameServer/Monitor/DNFMember.cpp	76	CMember::NoticeMemberLogin_Out(CUser*, char)	function_reports/monitor/_ZN7CMember21NoticeMemberLogin_OutEP5CUserc.md
+DNF-MON-DIFF-0057	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	5339	CPacketTranslater::onCollectItems(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader.md
+DNF-MON-DIFF-0108	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	5264	CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader.md
+DNF-MON-DIFF-0051	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	475	village_attacked::CVillageAttackedManager::OnServerGroupRewardVillageAttacked()	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv.md
+DNF-MON-DIFF-0142	DIFF	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	97	CUdpHandler::RecvFromClient(char*, int*, unsigned int*, unsigned short*) const	function_reports/monitor/_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt.md
+DNF-MON-DIFF-0046	DIFF	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	177	village_attacked::CVillageAttackedManager::InsertTimer(int, int)	function_reports/monitor/_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii.md
+DNF-MON-DIFF-0020	DIFF	source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp	371	CTcpNetSystem::CleanTcpSendPacketQ()	function_reports/monitor/_ZN13CTcpNetSystem19CleanTcpSendPacketQEv.md
+DNF-MON-DIFF-0136	DIFF	source/DNFServer/GameServer/Monitor/DNFMember.cpp	399	CMember::NoticeLevelUpToLowers(unsigned int)	function_reports/monitor/_ZN7CMember21NoticeLevelUpToLowersEj.md
+DNF-MON-NEAR-0013	NEAR	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	216	CItemLimitEdition::makeItemInfo(stItemLimitEditionItemInfo_t&) const	function_reports/monitor/_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionItemInfo_t.md

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808701a` | `0x1a7` | `0x8051b2c` | `0x1a4` |
+| dbmw | DIFF | `0x808701a` | `0x1a7` | `0x8051b10` | `0x1a0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,111 +1,110 @@
+@@ -1,111 +1,109 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x58,%esp
@@ -30,21 +30,17 @@
  jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x2b>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a5>
-+jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a2>
-+movb   $0x0,-0x9(%ebp)
++jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x19e>
  cmpb   $0x0,-0x30(%ebp)
--jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xbe>
-+jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xc2>
+ jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xbe>
  cmpl   $0x0,0x10(%ebp)
--jg     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x45>
-+jg     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x49>
+ jg     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x45>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a5>
-+jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a2>
++jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x19e>
  cmpl   $0x0,0x14(%ebp)
--jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x81>
+ jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x81>
 -mov    -0xc(%ebp),%eax
-+jne    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x85>
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -60,10 +56,9 @@
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0xd(%ebp)
--jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xf3>
--mov    -0xc(%ebp),%eax
 +mov    %al,-0x9(%ebp)
-+jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xf7>
+ jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xf3>
+-mov    -0xc(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -81,10 +76,9 @@
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0xd(%ebp)
--jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xf3>
--mov    -0xc(%ebp),%eax
 +mov    %al,-0x9(%ebp)
-+jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xf7>
+ jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0xf3>
+-mov    -0xc(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -104,10 +98,9 @@
 +movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x13b>
-+je     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x13f>
+ je     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x13b>
  movl   $0x29d6,0x8(%esp)
-+movl   $&_ZZN10CDBManager18updateCollectItemsEhijhE12__FUNCTION__,0x4(%esp)
+ movl   $&_ZZN10CDBManager18updateCollectItemsEhijhE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -117,7 +110,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a2>
++jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x19e>
 +mov    -0x10(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
@@ -128,9 +121,9 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x19d>
++je     <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x199>
 +movl   $0x29df,0x8(%esp)
- movl   $&_ZZN10CDBManager18updateCollectItemsEhijhE12__FUNCTION__,0x4(%esp)
++movl   $&_ZZN10CDBManager18updateCollectItemsEhijhE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -167,7 +160,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a5>
-+jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x1a2>
++jmp    <T> <_ZN10CDBManager18updateCollectItemsEhijh+0x19e>
  mov    $0x1,%eax
  leave
  ret
@@ -240,4 +233,4 @@ CDBManager::_ZN10CDBManager18updateCollectItemsEhijh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 284 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 287 个文件*

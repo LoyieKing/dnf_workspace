@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x805e830` | `0x89` | `0x8094052` | `0x89` |
+| monitor | NEAR | `0x805e830` | `0x89` | `0x8093f36` | `0x89` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,43 +1,43 @@
+@@ -1,43 +1,44 @@
++mov    %dl,(%eax)
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -64,9 +68,9 @@
 +cmpb   $0x4,-0x4(%ebp)
  jne    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
  mov    0x8(%ebp),%eax
- movb   $0x0,0x11(%eax)
- leave
- ret
+-movb   $0x0,0x11(%eax)
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -101,7 +105,7 @@ CIPCounter::_ZN10CIPCounter9setOptionEhh(CIPCounter *this,uchar param_1,uchar pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 88 行）：
+定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 92 行）：
 
 ```cpp
 void CIPCounter::setOption(unsigned char type, unsigned char opt)

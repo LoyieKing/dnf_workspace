@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80938a0` | `0x107` | `0x805d93e` | `0x113` |
+| monitor | DIFF | `0x80938a0` | `0x107` | `0x805d950` | `0x113` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -176,7 +176,7 @@ exchange_server::CCacheCharacterMgr::_ZN15exchange_server18CCacheCharacterMgr14C
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 332 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 333 行）：
 
 ```cpp
 bool CCacheCharacterMgr::CollectGarbage()

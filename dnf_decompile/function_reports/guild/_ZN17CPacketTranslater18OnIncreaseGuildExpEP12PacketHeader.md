@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80743e8` | `0x589` | `0x806a910` | `0x550` |
+| guild | DIFF | `0x80743e8` | `0x589` | `0x806a8f8` | `0x550` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,398 +1,380 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
+@@ -1,398 +1,381 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
 -sub    $0x9c,%esp
-+sub    $0x8c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0xf2>
@@ -599,6 +598,13 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x6c,%esp
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -727,7 +733,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 887 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 897 行）：
 
 ```cpp
 void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
@@ -749,24 +755,24 @@ void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x453,"./log/Guild",
             "GUILD EXP : char no(%d) guild key(%d), add exp(%d), guild exp(%d), book(%d)",
             pb->m_charNo, pb->m_guildKey, addExp, oldExp,
-            (int)(char)pb->m_field_17);
+            (int)(char)pb->m_expType);
         unsigned int max1 = (&m_pclApp->m_guildManager)->GetMaxGuildExp1();
         unsigned int max2 = (&m_pclApp->m_guildManager)->GetMaxGuildExp2();
         unsigned int level = guild->GetGuildLevel();
         int expLevel = (&m_pclApp->m_guildManager)->GetGuildLevelWithExp(oldExp);
         if (level == (unsigned int)expLevel)
         {
-            if (pb->m_field_17 == 0)
+            if (pb->m_expType == 0)
             {
                 unsigned int next = (&m_pclApp->m_guildManager)->GetGuildExpWithLevel(level + 1);
                 unsigned int limit = next < max1 ? next : max1;
                 guild->AddGuildExpUntilLimit(addExp, limit);
             }
-            else if (pb->m_field_17 == 1 || pb->m_field_17 == 2)
+            else if (pb->m_expType == 1 || pb->m_expType == 2)
             {
                 guild->AddGuildExpUntilLimit(addExp, max2);
             }
-            if (pb->m_field_16 != 0)
+            if (pb->m_notify != 0)
             {
                 if (m_pclApp->Get_UserManager()->FindUser_CharNo(
                         pb->m_charNo) != 0)

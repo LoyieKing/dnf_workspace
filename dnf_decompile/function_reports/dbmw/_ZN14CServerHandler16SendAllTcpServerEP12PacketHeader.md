@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fe08` | `0xfa` | `0x80e03b6` | `0xfa` |
+| dbmw | DIFF | `0x808fe08` | `0xfa` | `0x80e02ba` | `0xfa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -146,7 +146,7 @@ CServerHandler::_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 154 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 155 行）：
 
 ```cpp
 void CServerHandler::SendAllTcpServer(PacketHeader* header)

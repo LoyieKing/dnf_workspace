@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054bf6` | `0x14b` |
+| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054bc0` | `0x14b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,15 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,95 +1,93 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %edi
 -push   %esi
 -push   %ebx
 -sub    $0x5c,%esp
-+sub    $0x68,%esp
- mov    0x8(%ebp),%eax
- movzwl 0x1c(%eax),%eax
+-mov    0x8(%ebp),%eax
+-movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
@@ -148,6 +147,11 @@
 +nop
 +leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x158,%esp
++cmpl   $0xff,0x14(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -217,7 +221,7 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1173 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1185 行）：
 
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)

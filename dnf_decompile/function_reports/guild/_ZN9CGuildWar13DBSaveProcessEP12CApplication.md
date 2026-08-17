@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809b142` | `0x9d` | `0x8061876` | `0xa2` |
+| guild | DIFF | `0x809b142` | `0x9d` | `0x806183e` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,53 +1,56 @@
- push   %ebp
- mov    %esp,%ebp
+@@ -1,53 +1,57 @@
+-push   %ebp
+-mov    %esp,%ebp
 -sub    $0x78,%esp
-+push   %ebx
-+sub    $0x74,%esp
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar17IsGuildWarEventOnEv>
  xor    $0x1,%eax
  test   %al,%al
@@ -79,6 +77,13 @@
 +pop    %ebx
 +pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x4c,%esp
++mov    0x8(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -116,7 +121,7 @@ CGuildWar::_ZN9CGuildWar13DBSaveProcessEP12CApplication(CGuildWar *this,CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 359 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 362 行）：
 
 ```cpp
 void CGuildWar::DBSaveProcess(CApplication* app)

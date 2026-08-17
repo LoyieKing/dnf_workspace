@@ -159,7 +159,7 @@ momiji_event::EndEffectTask::_ZN12momiji_event13EndEffectTask10_DoExecuteEv(EndE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 68 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 69 行）：
 
 ```cpp
 void EndEffectTask::_DoExecute()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098b5e` | `0x325` | `0x805fd38` | `0x317` |
+| monitor | DIFF | `0x8098b5e` | `0x325` | `0x805fd4a` | `0x317` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -504,7 +504,7 @@ CMember::_ZN7CMember21NoticeMemberLogin_OutEP5CUserc(CMember *this,CUser *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 75 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 76 行）：
 
 ```cpp
 void CMember::NoticeMemberLogin_Out(CUser* user, char flag)

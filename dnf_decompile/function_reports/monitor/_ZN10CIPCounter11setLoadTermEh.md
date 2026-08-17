@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x8093fe4` | `0x53` |
+| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x8093ec0` | `0x53` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,27 +1,27 @@
+@@ -1,27 +1,30 @@
++nop
++jmp    <T> <_ZN10CIPCounter4ProcEj+0xb2>
++nop
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x4,%esp
@@ -47,12 +52,12 @@
 -mov    $0x708,%eax
 -mov    0x8(%ebp),%edx
 -mov    %eax,0xc(%edx)
+-leave
+-ret
 +cmp    $0x707,%eax
 +ja     <T> <_ZN10CIPCounter11setLoadTermEh+0x51>
 +mov    0x8(%ebp),%eax
 +movl   $0x708,0xc(%eax)
- leave
- ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -81,7 +86,7 @@ void __thiscall CIPCounter::_ZN10CIPCounter11setLoadTermEh(CIPCounter *this,ucha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 66 行）：
+定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 67 行）：
 
 ```cpp
 void CIPCounter::setLoadTerm(unsigned char term)

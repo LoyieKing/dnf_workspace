@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a4d8` | `0x98` | `0x80805b2` | `0x97` |
+| monitor | DIFF | `0x807a4d8` | `0x98` | `0x8080476` | `0x97` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,8 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,50 +1,49 @@
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -65,8 +67,8 @@
  test   %al,%al
  jne    <T> <_ZN14CServerHandler20GetTcpGameServerByChEh+0x26>
  mov    $0x0,%eax
- leave
- ret
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -115,7 +117,7 @@ CServerHandler::_ZN14CServerHandler20GetTcpGameServerByChEh(CServerHandler *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 227 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 225 行）：
 
 ```cpp
 CTcpGameServer* CServerHandler::GetTcpGameServerByCh(unsigned char channel)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099f66` | `0x112` | `0x80628fe` | `0x116` |
+| monitor | DIFF | `0x8099f66` | `0x112` | `0x806290a` | `0x116` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -163,7 +163,7 @@ CMemberManager::_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 416 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 423 行）：
 
 ```cpp
 int CMemberManager::RegisterMember(CMember* member, short level, CUser* user, bool flag)

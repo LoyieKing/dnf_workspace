@@ -363,7 +363,7 @@ CAppConfig::_ZN10CAppConfig11Parse_TableEPci(CAppConfig *this,char *param_1,int 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp](source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp)（约第 64 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp](source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp)（约第 65 行）：
 
 ```cpp
 bool CAppConfig::Parse_Table(char* line, int idx)

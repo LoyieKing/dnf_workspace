@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050010` | `0x1b8` | `0x8088f5a` | `0x1b8` |
+| guild | DIFF | `0x8050010` | `0x1b8` | `0x80891ae` | `0x1b8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,112 +1,112 @@
+@@ -1,112 +1,109 @@
++mov    0x8(%ebp),%eax
++movl   $0xffffffff,0x4(%eax)
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -127,13 +131,13 @@
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
- add    $0x40,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x40,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -197,7 +201,7 @@ CUdpHandler::_ZN11CUdpHandler16InitServerSocketEi(CUdpHandler *this,int param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp](source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp)（约第 90 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp](source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp)（约第 91 行）：
 
 ```cpp
 int CUdpHandler::InitServerSocket(int port)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80a0acc` | `0xc4` | `0x8099ef6` | `0xc4` |
+| monitor | NEAR | `0x80a0acc` | `0xc4` | `0x8099dd6` | `0xc4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,9 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,60 +1,60 @@
+@@ -1,60 +1,57 @@
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -71,11 +73,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager12resetCashCntEv>
  add    $0x5c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -115,7 +117,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager20ProcessCashDataPrintEv(CMemoryCashM
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp)（约第 8 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp)（约第 9 行）：
 
 ```cpp
 void CMemoryCashManager::ProcessCashDataPrint()

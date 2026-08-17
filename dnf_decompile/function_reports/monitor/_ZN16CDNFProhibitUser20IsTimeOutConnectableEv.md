@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f292` | `0x2e` |
+| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f168` | `0x2e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,8 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,18 +1,16 @@
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  mov    0x8(%ebp),%eax
@@ -32,8 +34,8 @@
 -jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x31>
 +jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
  mov    $0x0,%eax
- pop    %ebp
- ret
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -52,7 +54,7 @@ CDNFProhibitUser::_ZN16CDNFProhibitUser20IsTimeOutConnectableEv(CDNFProhibitUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp](source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp)（约第 7 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp](source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp)（约第 8 行）：
 
 ```cpp
 bool CDNFProhibitUser::IsTimeOutConnectable()

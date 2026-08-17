@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80975a0` | `0xc5` | `0x805d13a` | `0xc5` |
+| guild | NEAR | `0x80975a0` | `0xc5` | `0x805d116` | `0xc5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,59 +1,59 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x24,%esp
- mov    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
+@@ -1,59 +1,60 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
+-mov    0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
@@ -77,6 +77,13 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x20,%esp
++mov    0xc(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -132,7 +139,7 @@ CGuildManager::_ZN13CGuildManager16GetAttendanceExpEji(CGuildManager *this,uint 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 788 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 792 行）：
 
 ```cpp
 int CGuildManager::GetAttendanceExp(unsigned int guildKey, int phase)

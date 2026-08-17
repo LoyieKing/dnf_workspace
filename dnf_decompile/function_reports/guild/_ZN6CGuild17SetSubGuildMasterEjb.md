@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091138` | `0x15d` | `0x8056bb4` | `0x15e` |
+| guild | DIFF | `0x8091138` | `0x15d` | `0x8056b8c` | `0x15e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,13 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,107 +1,107 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x40,%esp
- mov    0x10(%ebp),%eax
- mov    %al,-0x1c(%ebp)
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x40,%esp
+-mov    0x10(%ebp),%eax
+-mov    %al,-0x1c(%ebp)
  cmpb   $0x0,-0x1c(%ebp)
  je     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x4f>
  mov    0x8(%ebp),%eax
@@ -134,6 +134,13 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x30,%esp
++mov    0x8(%ebp),%eax
++add    $0x20,%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -182,7 +189,7 @@ void __thiscall CGuild::_ZN6CGuild17SetSubGuildMasterEjb(CGuild *this,uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1852 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1881 行）：
 
 ```cpp
 void CGuild::SetSubGuildMaster(unsigned int charNo, bool flag)

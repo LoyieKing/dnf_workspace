@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c550` | `0x1b1` | `0x80f5382` | `0x1b1` |
+| dbmw | DIFF | `0x805c550` | `0x1b1` | `0x80f527c` | `0x1b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -201,7 +201,7 @@ CTcpNetSystem::_ZN13CTcpNetSystem14OpenTcpServiceERiPKct
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 52 行）：
 
 ```cpp
 int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned short port)

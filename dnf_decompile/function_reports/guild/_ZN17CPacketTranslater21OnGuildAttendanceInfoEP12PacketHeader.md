@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808902a` | `0x287` | `0x807ef80` | `0x273` |
+| guild | DIFF | `0x808902a` | `0x287` | `0x807f1ee` | `0x273` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,161 +1,159 @@
++call   <T> <__cxa_end_catch>
++sub    $0xffffff80,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -221,12 +227,12 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- call   <T> <__cxa_end_catch>
- sub    $0xffffff80,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-call   <T> <__cxa_end_catch>
+-sub    $0xffffff80,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -292,7 +298,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnGuildAttendanceInfoEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5713 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5805 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
@@ -312,7 +318,7 @@ void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x2014, "./log/Guild", "CPacketTranslater::OnGuildAttendanceInfo : 0 == pGuild");
             return;
         }
-        unsigned int charNo = pb->m_charNo;
+        unsigned int charNo = pb->m_characNo;
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
         if (user == 0)
         {

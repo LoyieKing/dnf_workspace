@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a0140` | `0x11a` | `0x80938f2` | `0x11a` |
+| guild | NEAR | `0x80a0140` | `0x11a` | `0x8093b50` | `0x11a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,80 +1,80 @@
++setg   %al
++test   %al,%al
++jne    <T> <_ZN11CGuildCargo7IsEmptyEv+0xf>
++mov    $0x1,%eax
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -95,13 +102,13 @@
  je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x113>
  mov    0x8(%ebp),%eax
  add    $0x18e8,%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9pop_frontEv>
- add    $0x60,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9pop_frontEv>
+-add    $0x60,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -162,4 +169,4 @@ CGuildCargo::_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildCargo.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 280 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildCargo.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 283 个文件*

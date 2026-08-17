@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807350a` | `0x499` | `0x8073698` | `0x49e` |
+| statics | DIFF | `0x807350a` | `0x499` | `0x80736a0` | `0x49e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -491,7 +491,7 @@ StatisticManager::_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1571 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1582 行）：
 
 ```cpp
 void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeStr)

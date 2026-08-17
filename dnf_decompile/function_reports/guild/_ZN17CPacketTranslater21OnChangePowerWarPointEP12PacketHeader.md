@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807fad0` | `0x4ba` | `0x8075e3e` | `0x4b6` |
+| guild | DIFF | `0x807fad0` | `0x4ba` | `0x8075e96` | `0x4b6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,12 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,318 +1,316 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0xbc,%esp
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0xbc,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,-0x34(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -358,6 +358,12 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x90,%esp
++mov    0x8(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -480,7 +486,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnChangePowerWarPointEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3356 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3393 行）：
 
 ```cpp
 void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
@@ -496,43 +502,43 @@ void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
         CPowerManager* pm = m_pclApp->GetPowerManager();
         if (pm->IsPowerWarOn() == 1)
         {
-            if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA != 1 &&
-                ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA != 2)
+            if (((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide != 1 &&
+                ((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide != 2)
             {
-                if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 0)
+                if (((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide == 0)
                 {
                     DNF_LOG_SCOPE_LINE(0x11c9,"./log/Power",
                         "ChangePowerWarPoint Invalid Power Side Income(side:%d, 0:%d, 1:%d, 2:%d, 3:%d, pp:%d)",
-                        (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
-                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldB,
-                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldF,
-                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_field13,
-                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_field17,
-                        (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
+                        (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide,
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[0],
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[1],
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[2],
+                        ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[3],
+                        (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerPoint);
                     return;
                 }
                 DNF_LOG_SCOPE_LINE(0x11ce,"./log/Power",
                     "ChangePowerWarPoint Invalid Power Side Income(side:%d, 0:%d, 1:%d, 2:%d, 3:%d, pp:%d)",
-                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
-                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldB,
-                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldF,
-                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_field13,
-                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_field17,
-                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
-                if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 3)
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide,
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[0],
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[1],
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[2],
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[3],
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerPoint);
+                if (((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide == 3)
                 {
-                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA = 1;
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide = 1;
                 }
                 else
                 {
-                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA = 2;
+                    ((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide = 2;
                 }
             }
             int winScore = (int)(short)pm->IncPowerScore(
-                (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
-                ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B);
+                (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide,
+                ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerPoint);
             ENUM_POWER_SIDE_TYPE loseSide;
-            if (((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA == 1)
+            if (((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide == 1)
             {
                 loseSide = (ENUM_POWER_SIDE_TYPE)2;
             }
@@ -541,21 +547,21 @@ void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
                 loseSide = (ENUM_POWER_SIDE_TYPE)1;
             }
             int loseScore = (int)(short)pm->IncPowerScore(
-                loseSide, ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C);
+                loseSide, ((Packet_Guild_Change_Power_War_Point*)pb)->m_loserPoint);
             {
                 DNF_LOG_SCOPE_LINE(0x11e1,"./log/Power", "win side(%d), win pp(%d, %d), lose pp(%d, %d)",
-                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
-                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B,
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide,
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerPoint,
                     winScore,
-                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C, loseScore);
+                    (unsigned int)((Packet_Guild_Change_Power_War_Point*)pb)->m_loserPoint, loseScore);
             }
             pm->UpdatePowerWarInfo(1,
-                                   (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldA,
-                                   ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2B,
-                                   &((Packet_Guild_Change_Power_War_Point*)pb)->m_fieldB);
+                                   (ENUM_POWER_SIDE_TYPE)((Packet_Guild_Change_Power_War_Point*)pb)->m_powerSide,
+                                   ((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerPoint,
+                                   &((Packet_Guild_Change_Power_War_Point*)pb)->m_winnerCharNos[0]);
             pm->UpdatePowerWarInfo(0, loseSide,
-                                   ((Packet_Guild_Change_Power_War_Point*)pb)->m_field2C,
-                                   &((Packet_Guild_Change_Power_War_Point*)pb)->m_field1B);
+                                   ((Packet_Guild_Change_Power_War_Point*)pb)->m_loserPoint,
+                                   &((Packet_Guild_Change_Power_War_Point*)pb)->m_loserCharNos[0]);
             std::vector<unsigned int> users;
             users.reserve(8);
             ((Packet_Guild_Change_Power_War_Point*)pkt)->GetUserList(users);

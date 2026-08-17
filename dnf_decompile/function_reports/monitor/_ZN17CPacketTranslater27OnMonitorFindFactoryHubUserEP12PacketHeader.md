@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b754` | `0x4f4` | `0x8076e9c` | `0x4ce` |
+| monitor | DIFF | `0x808b754` | `0x4f4` | `0x8076db4` | `0x4ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,349 +1,337 @@
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -501,11 +506,11 @@
 +jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4c3>
  nop
  add    $0x9c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -620,7 +625,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4026 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3999 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
@@ -657,7 +662,7 @@ void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
                 strncpy(reply.m_name, find->m_name,
                         (unsigned int)(unsigned char)find->m_nameLen);
                 reply.m_field2e = find->m_field2e;
-                reply.m_field30 = find->m_field30;
+                reply.m_field30 = find->m_accId;
                 reply.packetSize = 0x34;
                 userA->SendToGameserver((char*)&reply, 0x34);
             }
@@ -667,7 +672,7 @@ void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
                 reply.m_found = 1;
                 reply.m_nameLen = 0;
                 reply.m_field2e = find->m_field2e;
-                reply.m_field30 = find->m_field30;
+                reply.m_field30 = find->m_accId;
                 reply.packetSize = 0x34;
                 userB->SendToGameserver((char*)&reply, 0x34);
             }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a0db8` | `0x23b` | `0x80d5504` | `0x235` |
+| dbmw | DIFF | `0x80a0db8` | `0x23b` | `0x80d53fa` | `0x241` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,36 +13,32 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,147 +1,146 @@
+@@ -1,147 +1,150 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x50,%esp
-+sub    $0x40,%esp
+ sub    $0x50,%esp
  mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+mov    -0x18(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x1592,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onEndGameEventFromServer data. (event:%d)\n",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  lea    0x50(%eax),%edx
--mov    -0x20(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer>
@@ -51,90 +47,84 @@
  je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0xa7>
  movl   $0x1596,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onEndGameEventFromServer fail\n",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x23a>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
  movl   $0xa,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler12GetTcpServerEh>
--mov    %eax,-0x1c(%ebp)
--cmpl   $0x0,-0x1c(%ebp)
-+mov    %eax,-0x14(%ebp)
-+cmpl   $0x0,-0x14(%ebp)
- je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x12c>
+ mov    %eax,-0x1c(%ebp)
+ cmpl   $0x0,-0x1c(%ebp)
+-je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x12c>
++je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x132>
  movl   $0x16,0x8(%esp)
  movl   $0x27fc,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
--mov    %eax,-0x18(%ebp)
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
-+lea    0xa(%eax),%edx
+ mov    %eax,-0x18(%ebp)
  mov    -0x18(%ebp),%eax
--mov    %eax,-0x14(%ebp)
--mov    -0x20(%ebp),%eax
+ mov    %eax,-0x14(%ebp)
++mov    -0x18(%ebp),%eax
++lea    0xa(%eax),%edx
+ mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%edx
+-mov    -0x14(%ebp),%eax
+-mov    %edx,0xa(%eax)
 +mov    0xa(%eax),%eax
 +mov    %eax,(%edx)
-+mov    -0x10(%ebp),%eax
++mov    -0x18(%ebp),%eax
 +lea    0x12(%eax),%edx
-+mov    -0x18(%ebp),%eax
-+mov    0x12(%eax),%eax
-+mov    %eax,(%edx)
-+mov    -0x10(%ebp),%eax
-+lea    0xe(%eax),%edx
-+mov    -0x18(%ebp),%eax
-+mov    0xe(%eax),%eax
-+mov    %eax,(%edx)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x14(%ebp),%eax
--mov    %edx,0xa(%eax)
--mov    -0x20(%ebp),%eax
+ mov    -0x20(%ebp),%eax
 -mov    0x12(%eax),%edx
 -mov    -0x14(%ebp),%eax
 -mov    %edx,0x12(%eax)
--mov    -0x20(%ebp),%eax
++mov    0x12(%eax),%eax
++mov    %eax,(%edx)
++mov    -0x18(%ebp),%eax
++lea    0xe(%eax),%edx
+ mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%edx
 -mov    -0x14(%ebp),%eax
 -mov    %edx,0xe(%eax)
 -mov    -0x14(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
++mov    0xe(%eax),%eax
++mov    %eax,(%edx)
++mov    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
-+mov    -0x18(%ebp),%ebx
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x23a>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetMonitorServerEv>
--mov    %eax,-0x10(%ebp)
--mov    -0x20(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    -0x20(%ebp),%eax
  movl   $0x16,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
-+mov    %ebx,0x4(%esp)
+ mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x23a>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1da>
-+jne    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d4>
++jne    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1e0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -148,19 +138,17 @@
  mov    %eax,%ebx
  movl   $0x15ac,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onEndGameEventFromServer Exception Break : %s\n",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d3>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1cd>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d9>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -170,23 +158,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x23a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x15b1,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onEndGameEventFromServer Exception Break\n",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22f>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x229>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x235>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -195,8 +181,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0x50,%esp
-+add    $0x40,%esp
+ add    $0x50,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
@@ -261,7 +246,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24onEndGameEventFromServerEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1352 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1385 行）：
 
 ```cpp
 void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
@@ -289,6 +274,8 @@ void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
         if (tcp)
         {
             char* buf = (char*)tcp->makePacketHeader(0x27fc, 0x16);
+            char* sendBuf = buf;
+            (void)sendBuf;
             *(int*)(buf + 0xa) = pkt->m_eventType;
             *(int*)(buf + 0x12) = pkt->m_endTime;
             *(int*)(buf + 0xe) = pkt->m_serverId;
@@ -296,8 +283,8 @@ void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
         }
         else
         {
-            m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-                (char*)pkt, 0x16);
+            CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
+            ms->SendToServer((char*)pkt, 0x16);
         }
     }
     DNF_CATCH_LOG("./log/AradOnly",

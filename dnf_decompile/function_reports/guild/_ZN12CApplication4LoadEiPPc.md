@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806230c` | `0x77a` | `0x804de58` | `0x77b` |
+| guild | DIFF | `0x806230c` | `0x77a` | `0x804de58` | `0x778` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,527 +1,527 @@
+@@ -1,527 +1,526 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -34,7 +34,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x510(%eax)
@@ -100,7 +100,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
  lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -138,7 +138,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xf8(%eax)
@@ -207,7 +207,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
  lea    -0x49(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -229,7 +229,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x68(%eax)
@@ -281,7 +281,7 @@
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xfc(%eax)
@@ -381,7 +381,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
  lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -476,20 +476,16 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x63(%ebp),%eax
-+lea    -0x62(%ebp),%eax
+ lea    -0x63(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_DB_Query_On_Guild_BootingC1Ev>
-+lea    -0x62(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--mov    %al,-0x59(%ebp)
-+mov    %al,0xa(%ebx)
+ mov    %al,-0x59(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x68(%eax),%eax
--lea    -0x63(%ebp),%edx
-+lea    -0x62(%ebp),%edx
+ lea    -0x63(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
@@ -529,7 +525,7 @@
  ret
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0x74c>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x74d>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0x74a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -751,7 +747,7 @@ CApplication::_ZN12CApplication4LoadEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 152 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 153 行）：
 
 ```cpp
 void CApplication::Load(int argc, char** argv)
@@ -813,12 +809,7 @@ void CApplication::Load(int argc, char** argv)
         DNF_LOG_SCOPE_LINE(0x180, "./log/TcpServer", "Application TCP cfg empty!");
     }
     Packet_DB_Query_On_Guild_Booting pkt;
-    struct BootingFields
-    {
-        char pad[0xa];
-        unsigned char group;
-    };
-    ((BootingFields*)&pkt)->group = Get_ServerGroup();
+    pkt.m_group = Get_ServerGroup();
     m_serverHandler->SendToDB(&pkt);
     m_powerManager.SetPowerDBFlag(2);
     typedef std::queue<CTcpRecvBuffer*> TcpRecvQueue;

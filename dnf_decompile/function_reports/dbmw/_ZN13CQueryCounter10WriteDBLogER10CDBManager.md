@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed970` | `0x2b8` |
+| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed86a` | `0x2b8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -268,7 +268,7 @@ CQueryCounter::_ZN13CQueryCounter10WriteDBLogER10CDBManager(CQueryCounter *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 46 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 47 行）：
 
 ```cpp
 void CQueryCounter::WriteDBLog(CDBManager& db)

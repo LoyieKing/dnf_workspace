@@ -96,7 +96,7 @@ LAB_080a06a2:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/CashObject.cpp](source/DNFServer/GameServer/Monitor/CashObject.cpp)（约第 103 行）：
+定义于 [source/DNFServer/GameServer/Monitor/CashObject.cpp](source/DNFServer/GameServer/Monitor/CashObject.cpp)（约第 104 行）：
 
 ```cpp
 int CCashObject::GetBuddysObject(CBuddy** buddies)

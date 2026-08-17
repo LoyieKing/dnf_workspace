@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8077bca` | `0x414` | `0x806df58` | `0x410` |
+| guild | DIFF | `0x8077bca` | `0x414` | `0x806e012` | `0x410` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,311 +1,309 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0x5c,%esp
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+@@ -1,311 +1,308 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0x5c,%esp
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0xef>
 -lea    -0x45(%ebp),%eax
@@ -434,6 +434,12 @@
  pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x10c,%esp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -511,7 +517,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1570 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1589 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyUnconnGuildMember(PacketHeader* pkt)
@@ -545,5 +551,6 @@ void CPacketTranslater::OnDBReplyUnconnGuildMember(PacketHeader* pkt)
         puts("CPacketTranslater::OnCallGuildMembers() Exception Break");
         DNF_LOG_SCOPE_LINE(0x8bb, "./log/Except", "CPacketTranslater::OnDBReplyUnconnGuildMember() Exception Break\n");
     }
+// [DNF-NONIDENTICAL] DNF-GLD-DIFF-0031 | guild | 与ORIG差异=DIFF | CPacketTranslater::OnCallGuildInvite | 详见 function_reports/guild/_ZN17CPacketTranslater17OnCallGuildInviteEP12PacketHeader.md
 }void CPacketTranslater::OnCallGuildInvite(PacketHeader* pkt)
 ```

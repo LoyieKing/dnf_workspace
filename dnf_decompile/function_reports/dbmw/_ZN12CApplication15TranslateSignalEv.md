@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806f216` | `0x3d8` |
+| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806f0b0` | `0x3d8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -268,26 +268,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
--lea    -0x83(%ebp),%eax
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
-+lea    -0x87(%ebp),%eax
+ lea    -0x83(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Notice_Guild_Mail_ArrivedC1Ev>
  mov    -0x10(%ebp),%eax
--mov    %eax,-0x78(%ebp)
--movb   $0x1,-0x79(%ebp)
-+mov    %eax,-0x7c(%ebp)
-+movb   $0x1,-0x7d(%ebp)
+ mov    %eax,-0x78(%ebp)
+ movb   $0x1,-0x79(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetMonitorServerEv>
  mov    %eax,-0xc(%ebp)
--movzwl -0x81(%ebp),%eax
-+movzwl -0x85(%ebp),%eax
+ movzwl -0x81(%ebp),%eax
  movzwl %ax,%edx
--lea    -0x83(%ebp),%eax
-+lea    -0x87(%ebp),%eax
+ lea    -0x83(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0xc(%ebp),%eax
@@ -456,7 +451,7 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 409 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 411 行）：
 
 ```cpp
 void CApplication::TranslateSignal()

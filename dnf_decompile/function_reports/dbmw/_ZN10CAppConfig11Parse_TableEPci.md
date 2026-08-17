@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806860c` | `0x142a` | `0x806a8f0` | `0x1424` |
+| dbmw | DIFF | `0x806860c` | `0x142a` | `0x806a78a` | `0x1424` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -2590,7 +2590,7 @@ CAppConfig::_ZN10CAppConfig11Parse_TableEPci(CAppConfig *this,char *param_1,int 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp](source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp)（约第 83 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp](source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp)（约第 84 行）：
 
 ```cpp
 bool CAppConfig::Parse_Table(char* data, int size)

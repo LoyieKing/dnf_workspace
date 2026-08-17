@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80920c4` | `0x11d` | `0x80ec15a` | `0x112` |
+| dbmw | DIFF | `0x80920c4` | `0x11d` | `0x80ec06a` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -158,7 +158,7 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 88 行）：
+定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 89 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::AfterProcess(int id)

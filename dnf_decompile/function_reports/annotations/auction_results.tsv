@@ -1,0 +1,2 @@
+id	status	mangled	demangled	file	line	report
+DNF-AUC-DIFF-0001	DIFF	_ZN3nsl9TCPThread4loopEPv	nsl::TCPThread::loop(void*)	source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPThread.cpp	39	function_reports/auction/_ZN3nsl9TCPThread4loopEPv.md

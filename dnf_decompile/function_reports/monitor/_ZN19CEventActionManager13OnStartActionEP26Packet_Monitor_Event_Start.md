@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80a4068` | `0x47` | `0x809341c` | `0x47` |
+| monitor | NEAR | `0x80a4068` | `0x47` | `0x80932f8` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,25 +1,25 @@
++jne    <T> <_ZN19CEventActionManager7destroyEv+0xf>
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -36,10 +40,10 @@
  mov    0xc(%ebp),%eax
 -mov    -0x10(%ebp),%edx
  mov    %edx,0xe(%eax)
- jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x45>
- nop
- leave
- ret
+-jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x45>
+-nop
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -68,7 +72,7 @@ CEventActionManager::_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_E
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 144 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 146 行）：
 
 ```cpp
 void CEventActionManager::OnStartAction(Packet_Monitor_Event_Start* pkt)

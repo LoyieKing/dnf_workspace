@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a14f8` | `0x188` |
+| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a174c` | `0x188` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,115 @@
+@@ -1,110 +1,111 @@
++call   <T> <_ZdlPv>
++movl   $0x0,0xc(%ebp)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -130,6 +134,7 @@
 -jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x70>
 -jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x167>
 -nop
+-mov    0xc(%ebp),%eax
 +je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x168>
 +mov    -0x14(%ebp),%eax
 +cmp    -0x18(%ebp),%eax
@@ -139,16 +144,14 @@
 +mov    $0x0,%eax
 +test   %al,%al
 +jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x6f>
-+mov    -0x18(%ebp),%edx
- mov    0xc(%ebp),%eax
--mov    -0x18(%ebp),%edx
- mov    %edx,0xb(%eax)
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+ mov    -0x18(%ebp),%edx
+-mov    %edx,0xb(%eax)
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -220,7 +223,7 @@ _ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 288 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 290 行）：
 
 ```cpp
 void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward* pkt)

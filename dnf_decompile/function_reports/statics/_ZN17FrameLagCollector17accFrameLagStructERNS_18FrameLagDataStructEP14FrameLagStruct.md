@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8067f1a` | `0x420` | `0x8061180` | `0x42f` |
+| statics | DIFF | `0x8067f1a` | `0x420` | `0x8061180` | `0x437` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,356 +1,365 @@
+@@ -1,356 +1,367 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x24,%esp
-+sub    $0x2c,%esp
+ sub    $0x24,%esp
  movl   $0x0,-0x18(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct+0x409>
 -mov    -0x18(%ebp),%eax
@@ -30,7 +29,7 @@
 -sub    %eax,%ecx
 -mov    %ecx,%eax
 -add    0x10(%ebp),%eax
-+jmp    <T> <_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct+0x418>
++jmp    <T> <_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct+0x420>
 +mov    0x10(%ebp),%edx
 +mov    -0x18(%ebp),%eax
 +shl    $0x3,%eax
@@ -336,7 +335,7 @@
 -add    %edi,%eax
 -add    $0x1e,%eax
 -flds   0x14(%ebx,%eax,8)
-+jmp    <T> <_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct+0x3ee>
++jmp    <T> <_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct+0x3f6>
 +mov    -0x18(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x3,%eax
@@ -539,10 +538,9 @@
 -mov    0x4(%edx,%ebx,4),%edx
 +mov    0x4(%edx,%ecx,4),%edx
  add    $0x1,%edx
--mov    %edx,-0x2c(%ebp)
-+mov    %edx,-0x34(%ebp)
+ mov    %edx,-0x2c(%ebp)
  mov    $0x0,%edx
--divl   -0x2c(%ebp)
+ divl   -0x2c(%ebp)
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%edx
 -mov    %ecx,%eax
@@ -562,7 +560,6 @@
 -add    %edi,%eax
 -add    $0x1e,%eax
 -flds   0x14(%ebx,%eax,8)
-+divl   -0x34(%ebp)
 +mov    %eax,%edx
 +mov    0xc(%ebp),%eax
 +lea    0x20(%ebx),%ecx
@@ -586,12 +583,10 @@
  mov    0xc(%ebp),%eax
  mov    0x4(%eax,%edx,4),%eax
  add    $0x1,%eax
--mov    $0x0,%edx
--mov    %eax,-0x28(%ebp)
--mov    %edx,-0x24(%ebp)
--fildll -0x28(%ebp)
-+mov    %eax,-0x2c(%ebp)
-+fildl  -0x2c(%ebp)
+ mov    $0x0,%edx
+ mov    %eax,-0x28(%ebp)
+ mov    %edx,-0x24(%ebp)
+ fildll -0x28(%ebp)
  fdivrp %st,%st(1)
 -mov    0xc(%ebp),%edx
 -mov    %ecx,%eax
@@ -627,8 +622,7 @@
  setle  %al
  test   %al,%al
  jne    <T> <_ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagStruct+0x15>
--add    $0x24,%esp
-+add    $0x2c,%esp
+ add    $0x24,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -704,4 +698,4 @@ _ZN17FrameLagCollector17accFrameLagStructERNS_18FrameLagDataStructEP14FrameLagSt
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/FrameLagCollector.cpp, source/DNFServer/GameServer/Statics/DNFDBServer.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFManagerServer.h, source/DNFServer/GameServer/Statics/DNFServerConfig.h, source/DNFServer/GameServer/Statics/DNFServerHandler.h, source/DNFServer/GameServer/Statics/DNFTableBase.h, source/DNFServer/GameServer/Statics/FrameLagCollector.cpp 等 250 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/FrameLagCollector.cpp, source/DNFServer/GameServer/Statics/DNFDBServer.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFManagerServer.h, source/DNFServer/GameServer/Statics/DNFServerConfig.h, source/DNFServer/GameServer/Statics/DNFServerHandler.h, source/DNFServer/GameServer/Statics/DNFTableBase.h, source/DNFServer/GameServer/Statics/FrameLagCollector.cpp 等 253 个文件*

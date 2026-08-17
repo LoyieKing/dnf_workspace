@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805570e` | `0x13c` | `0x80e570c` | `0x13e` |
+| dbmw | DIFF | `0x805570e` | `0x13c` | `0x80e5610` | `0x13e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -163,7 +163,7 @@ void CFrameCountHandler::_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 47 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 48 行）：
 
 ```cpp
 void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int a, unsigned short b)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d268` | `0x172` | `0x80531f4` | `0x174` |
+| guild | DIFF | `0x808d268` | `0x172` | `0x80531ee` | `0x174` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,115 +1,112 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x40,%esp
- mov    0x8(%ebp),%eax
- movzwl 0x1c(%eax),%eax
+@@ -1,115 +1,109 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x40,%esp
+-mov    0x8(%ebp),%eax
+-movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
@@ -146,6 +146,10 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0xf8,%esp
++mov    0xc(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -197,7 +201,7 @@ CGuild::_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 585 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 590 行）：
 
 ```cpp
 void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)

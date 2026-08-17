@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80917fc` | `0x170` | `0x805723e` | `0x17b` |
+| guild | DIFF | `0x80917fc` | `0x170` | `0x8057216` | `0x17b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,12 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,93 +1,98 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x28,%esp
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x28,%esp
 -movb   $0x0,-0xd(%ebp)
-+movb   $0x0,-0x11(%ebp)
- movl   $0x4,0x4(%esp)
+-movl   $0x4,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
@@ -138,6 +137,11 @@
 +movzbl -0x11(%ebp),%eax
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x48,%esp
++movl   $0x4,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -181,7 +185,7 @@ CGuild::_ZN6CGuild25ChangeGuildMemberCharNameEjPc(CGuild *this,uint param_1,char
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2023 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2056 行）：
 
 ```cpp
 int CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)

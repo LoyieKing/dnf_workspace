@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8097666` | `0x160` | `0x805d200` | `0x161` |
+| guild | DIFF | `0x8097666` | `0x160` | `0x805d1dc` | `0x161` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,106 +1,106 @@
- push   %ebp
- mov    %esp,%ebp
-+push   %esi
- push   %ebx
+@@ -1,106 +1,105 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x24,%esp
-+sub    $0x20,%esp
- mov    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
@@ -136,9 +134,6 @@
 -mov    0x10(%ebp),%eax
 -mov    %edx,0xc(%eax)
 -jmp    <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x15b>
--nop
--mov    -0x4(%ebp),%ebx
--leave
 +lea    (%edx,%eax,1),%eax
 +mov    &_ZL13guild_att_exp(,%eax,4),%eax
 +mov    %eax,0xc(%esi)
@@ -147,7 +142,16 @@
 +pop    %ebx
 +pop    %esi
 +pop    %ebp
- ret
++ret
+ nop
+-mov    -0x4(%ebp),%ebx
+-leave
+-ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x38,%esp
++mov    0xc(%ebp),%eax
++mov    %al,-0x1c(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -216,7 +220,7 @@ CGuildManager::_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 806 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 811 行）：
 
 ```cpp
 void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& info)

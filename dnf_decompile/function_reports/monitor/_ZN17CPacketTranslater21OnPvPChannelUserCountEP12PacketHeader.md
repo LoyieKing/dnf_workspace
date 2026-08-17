@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x8075578` | `0x181` |
+| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x80754b2` | `0x181` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,6 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,100 +1,101 @@
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -139,10 +143,10 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
  add    $0x1830,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -190,7 +194,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3629 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3601 行）：
 
 ```cpp
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt)
@@ -208,8 +212,8 @@ void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt)
             {
                 Packet_PvPChannelInfo reply;
                 reply.m_charNo = cnt->m_charNo;
-                reply.m_fieldE = cnt->m_fieldE;
-                reply.m_field12 = cnt->m_field12;
+                reply.m_uid = cnt->m_uid;
+                reply.m_schoolNo = cnt->m_schoolNo;
                 reply.m_count = 0xff;
                 user->GetChannelUserCount((STPvPChannelInfo*)reply.m_channels, reply.m_count);
                 reply.packetSize =

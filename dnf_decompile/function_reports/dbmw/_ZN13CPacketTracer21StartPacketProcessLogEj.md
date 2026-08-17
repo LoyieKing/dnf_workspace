@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80ced4e` | `0xd1` |
+| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80cebee` | `0xd1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -132,7 +132,7 @@ void CPacketTracer::_ZN13CPacketTracer21StartPacketProcessLogEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 62 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 64 行）：
 
 ```cpp
 void CPacketTracer::StartPacketProcessLog(unsigned int id)

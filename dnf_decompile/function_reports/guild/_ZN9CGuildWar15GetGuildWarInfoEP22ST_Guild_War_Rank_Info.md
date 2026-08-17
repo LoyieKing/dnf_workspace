@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809a95c` | `0x120` | `0x8061072` | `0x12c` |
+| guild | DIFF | `0x809a95c` | `0x120` | `0x806104e` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,90 +1,94 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x24,%esp
- cmpl   $0x0,0xc(%ebp)
+@@ -1,90 +1,95 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
+-cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x11a>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x126>
  movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0x14(%ebp),%eax
@@ -121,6 +120,13 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x40,%esp
++mov    0xc(%ebp),%eax
++test   %eax,%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -185,7 +191,7 @@ CGuildWar::_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 160 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 161 行）：
 
 ```cpp
 void CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)

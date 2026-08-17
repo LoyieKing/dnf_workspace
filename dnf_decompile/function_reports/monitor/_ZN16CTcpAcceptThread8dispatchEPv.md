@@ -13,7 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,302 +1,305 @@
+@@ -1,302 +1,303 @@
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -352,11 +355,11 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
  add    $0x3c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -433,7 +436,7 @@ void CTcpAcceptThread::_ZN16CTcpAcceptThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp)（约第 55 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp)（约第 56 行）：
 
 ```cpp
 void CTcpAcceptThread::dispatch(void* param)

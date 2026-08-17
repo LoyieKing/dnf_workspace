@@ -1,0 +1,11 @@
+id	status	file	line	demangled	report
+DNF-MON-DIFF-0115	DIFF	source/DNFServer/GameServer/Monitor/DNFNetworkThread.cpp	67	CUdpNetworkThread::dispatch(void*)	function_reports/monitor/_ZN17CUdpNetworkThread8dispatchEPv.md
+DNF-MON-DIFF-0082	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	2259	CPacketTranslater::OnRegisterToBlackList(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader.md
+DNF-MON-DIFF-0079	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4743	CPacketTranslater::OnMonitorPunishCancel(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketHeader.md
+DNF-MON-DIFF-0093	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	5479	CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader.md
+DNF-MON-DIFF-0063	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	4174	CPacketTranslater::OnTakeScreenShot(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader.md
+DNF-MON-DIFF-0065	DIFF	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	1880	CPacketTranslater::OnCharacterDelete(PacketHeader*)	function_reports/monitor/_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader.md
+DNF-MON-DIFF-0004	DIFF	source/DNFServer/GameServer/Monitor/DNFAppStopInit.cpp	32	CAppStopInit::Init(CApplication*, int, char**)	function_reports/monitor/_ZN12CAppStopInit4InitEP12CApplicationiPPc.md
+DNF-MON-DIFF-0032	DIFF	source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp	62	CMemberManager::MemberRegisterFlagProcess()	function_reports/monitor/_ZN14CMemberManager25MemberRegisterFlagProcessEv.md
+DNF-MON-NEAR-0007	NEAR	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	455	CUserManager::InsertUser_CharName(char*, CUser*)	function_reports/monitor/_ZN12CUserManager19InsertUser_CharNameEPcP5CUser.md
+DNF-MON-DIFF-0043	DIFF	source/DNFServer/GameServer/Monitor/DNFServerInterface.cpp	92	CServerInterface::IsHeartBeatTimeOver()	function_reports/monitor/_ZN16CServerInterface19IsHeartBeatTimeOverEv.md
