@@ -5,7 +5,8 @@ set -euo pipefail
 
 ASM=/tmp/df_cr/asm
 DECOMP=/tmp/df_cr/decomp
-OUT="${1:-/home/loyieking/dnf_workspace/dnf_decompile/docs/class_func_reports}"
+_DECOMP="$(cd "$(dirname "$0")/../.." && pwd)"                    # .../dnf_decompile
+OUT="${1:-${_DECOMP}/docs/class_func_reports}"
 mkdir -p "$OUT"
 
 assemble_one() {

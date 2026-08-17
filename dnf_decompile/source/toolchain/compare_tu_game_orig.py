@@ -5,10 +5,13 @@
 .o 中短裸分支目标(2位hex)同样归一化；C2/D2 别名计入同址（良性）。
 """
 import re, subprocess, sys
-sys.path.insert(0, '/home/loyieking/dnf_workspace/dnf_decompile/source/toolchain')
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import load_disasm_cached, norm_line, norm_identical_ext
 
-GAME_ORIG = '/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/init/df_game_r'
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
+GAME_ORIG = str(ROOT / 'dnf_installer/build/dnf_data/home/template/init/df_game_r')
 PLT_RE = re.compile(r'@plt')
 
 def obj_syms(obj):

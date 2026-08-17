@@ -6,7 +6,9 @@
 #   /tmp/df_cr/class_func_count.tsv  每行: <函数数> <类路径>（降序）
 set -euo pipefail
 
-BIN="${1:-/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/init/df_game_r}"
+_DECOMP="$(cd "$(dirname "$0")/../.." && pwd)"                    # .../dnf_decompile
+_ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"                   # 工作区根：<workspace>/
+BIN="${1:-${_ROOT}/dnf_installer/build/dnf_data/home/template/init/df_game_r}"
 OUT=/tmp/df_cr
 mkdir -p "$OUT"
 

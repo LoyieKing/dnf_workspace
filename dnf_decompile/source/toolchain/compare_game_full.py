@@ -12,8 +12,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import load_disasm_cached, norm_line, norm_identical_ext
 
-ROOT = Path('/home/loyieking/dnf_workspace')
-GAME_NEW = ROOT / 'dnf_decompile/build/game/df_game_r'
+# 相对路径：本文件位于 <workspace>/dnf_decompile/source/toolchain/，
+# 工作区根 = dnf_decompile 的父目录（含 dnf_decompile 与 dnf_installer 两个兄弟目录）
+_DECOMP = Path(__file__).resolve().parent.parent.parent        # .../dnf_decompile
+ROOT = _DECOMP.parent                                          # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
+GAME_NEW = _DECOMP / 'build/game/df_game_r'
 GAME_ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/init/df_game_r'
 
 PLT_RE = re.compile(r'@plt')

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """CInventory 辅助：打印某函数 OUR .o 与 ORIG 的逐行 diff（AE 归一后）。"""
 import re, subprocess, sys
-sys.path.insert(0, '/home/loyieking/dnf_workspace/dnf_decompile/source/toolchain')
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import load_disasm_cached, norm_line
 from compare_tu_game_orig import clean, disasm_obj, obj_syms
 
-GAME_ORIG = '/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/init/df_game_r'
+_DECOMP = Path(__file__).resolve().parent.parent.parent            # .../dnf_decompile
+ROOT = _DECOMP.parent                                              # 工作区根：<workspace>/
+GAME_ORIG = str(ROOT / 'dnf_installer/build/dnf_data/home/template/init/df_game_r')
 
 def main():
     obj = sys.argv[1]

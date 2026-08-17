@@ -4,10 +4,13 @@
 输出: 每函数 identical/NEAR/DIFF + 汇总。
 """
 import re, subprocess, sys
-sys.path.insert(0, '/home/loyieking/dnf_workspace/dnf_decompile/source/toolchain')
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import norm_line
 
-POINT = '/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/point/df_point_r'
+_DECOMP = Path(__file__).resolve().parent.parent.parent            # .../dnf_decompile
+ROOT = _DECOMP.parent                                              # 工作区根：<workspace>/
+POINT = str(ROOT / 'dnf_installer/build/dnf_data/home/template/neople/point/df_point_r')
 
 def obj_nsl_syms(obj):
     out = subprocess.check_output(f"nm -S --defined-only '{obj}'", shell=True, text=True, stderr=subprocess.DEVNULL)

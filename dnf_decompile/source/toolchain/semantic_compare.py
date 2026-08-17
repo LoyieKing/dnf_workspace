@@ -20,9 +20,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path('/home/loyieking/dnf_workspace')
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = ROOT / 'dnf_decompile/build/community/df_community_r'
+NEW = _DECOMP / 'build/community/df_community_r'
 
 BRANCH = {'jmp', 'je', 'jne', 'jz', 'jnz', 'ja', 'jae', 'jb', 'jbe', 'jg', 'jge', 'jl', 'jle',
           'js', 'jns', 'jo', 'jno', 'jp', 'jnp', 'loop', 'loope', 'loopne'}

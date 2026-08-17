@@ -13,16 +13,16 @@ JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 MYSQL="$ROOT/Library3rd/MySQL"
 OUT="$ROOT/../build/manager/mysqlclient"
+C6="$ROOT/../toolchains/c6root"
 
-CXX="/tmp/c6root/usr/bin/gcc"
-export GCC_EXEC_PREFIX=/tmp/c6root/usr/libexec/gcc/
-export LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib
-
+CXX="$C6/usr/bin/gcc"
+export GCC_EXEC_PREFIX="$C6/usr/libexec/gcc/"
+export LD_LIBRARY_PATH="$C6/usr/lib64:$C6/usr/lib"
 FLAGS="-m32 -O2 -fPIC -DNDEBUG -DDBUG_OFF -DHAVE_YASSL -DYASSL_PURE_C -DHAVE_OPENSSL \
   -nostdinc \
-  -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
-  -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
-  -isystem /tmp/c6root/usr/include \
+  -isystem $C6/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
+  -isystem $C6/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
+  -isystem $C6/usr/include \
   -I$MYSQL/include -I$MYSQL/mysys -I$MYSQL/strings \
   -I$MYSQL/extlib/yassl/include -I$MYSQL/extlib/yassl/taocrypt/include \
   -I$MYSQL/extlib/yassl/taocrypt/mySTL -I$MYSQL/extlib/zlib"

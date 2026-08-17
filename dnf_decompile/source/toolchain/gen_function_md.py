@@ -31,10 +31,11 @@ from report_resolve import (
     trim_trailing_nops,
 )
 
-ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
-INSTALLER = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
-OUT_ROOT = ROOT / 'function_reports'
-SOURCE_ROOT = ROOT / 'source'
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
+INSTALLER = ROOT / 'dnf_installer/build/dnf_data/home/template/neople'
+OUT_ROOT = _DECOMP / 'function_reports'
+SOURCE_ROOT = _DECOMP / 'source'
 VENDOR_DIRS = (
     SOURCE_ROOT / 'Library3rd',
 )

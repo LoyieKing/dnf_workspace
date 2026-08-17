@@ -15,9 +15,8 @@
 
 ## 2. 工作区与权威资料
 
-- 工作区根：`/home/loyieking/dnf_workspace/dnf_decompile`
-- ORIG 二进制（权威参照）：`/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/init/df_game_r`（elf32-i386 静态，约 3.6 万函数）
-- point ORIG（nsl 符号参照，df_game_r 的 nsl 被 strip）：`.../neople/point/df_point_r`
+- 工作区根：`<workspace>/`（本仓库顶层，含 `dnf_decompile/` 与 `dnf_installer/` 两个兄弟目录；下文以 `$WS` 代指）
+- ORIG 二进制（权威参照）：`$WS/dnf_installer/build/dnf_data/home/template/init/df_game_r`（elf32-i386 静态，约 3.6 万函数）
 - 类反编译报告（汇编+Ghidra C）：`docs/class_func_reports/*.md`（约 2500 个类，逐类）
 - 拓扑文档：`docs/df_game_r_class_topology.md`、`docs/class_topology/df_group_1..8_report.md`
 - 源码目录：`source/DNFServer/GameServer/Game/`（当前 108 个 .cpp）

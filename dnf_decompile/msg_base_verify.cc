@@ -4,9 +4,9 @@
 // 本文件验证：sizeof 链（13/13/4/4）与派生负载偏移（请求 +0x0d、响应 +0x04）。
 //
 // 编译：
-//   TC=/home/loyieking/dnf_workspace/dnf_decompile/toolchains/c6root/usr/bin/g++
-//   export GCC_EXEC_PREFIX=/home/loyieking/dnf_workspace/dnf_decompile/toolchains/c6root/usr/libexec/gcc/
-//   export LD_LIBRARY_PATH=/home/loyieking/dnf_workspace/dnf_decompile/toolchains/c6root/usr/lib64:/home/loyieking/dnf_workspace/dnf_decompile/toolchains/c6root/usr/lib
+//   TC=$PWD/toolchains/c6root/usr/bin/g++   （自 dnf_decompile 仓库根）
+//   export GCC_EXEC_PREFIX=$PWD/toolchains/c6root/usr/libexec/gcc/
+//   export LD_LIBRARY_PATH=$PWD/toolchains/c6root/usr/lib64:$PWD/toolchains/c6root/usr/lib
 //   $TC -m32 -O0 -I.../source/shared/packet/include -I.../source/shared/common/include \
 //       -Wno-invalid-offsetof -c msg_base_verify.cc -o msg_base_verify.o
 //   （-Wno-invalid-offsetof：c6root g++ 4.4 对"带构造函数的 pack(1) 类"用

@@ -45,9 +45,10 @@ from report_resolve import (
     trim_trailing_nops,
 )
 
-ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
-INSTALLER = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
-OUT_ROOT = ROOT / 'function_reports'
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
+INSTALLER = ROOT / 'dnf_installer/build/dnf_data/home/template/neople'
+OUT_ROOT = _DECOMP / 'function_reports'
 
 # 语义豁免：仅对指定服务生效；经 cozy/PATH_EQ 分析确认无字段/this/ret/调用
 # 语义差异，仅剩编译器栈槽/rodata 地址。字段命名/变量范围/字段范围不得豁免。

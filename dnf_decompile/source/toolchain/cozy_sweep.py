@@ -17,9 +17,10 @@ import time
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path("/home/loyieking/dnf_workspace")
+_DECOMP = Path(__file__).resolve().parent.parent.parent         # .../dnf_decompile
+ROOT = _DECOMP.parent                                          # 工作区根：<workspace>/
 TOOL = Path(__file__).resolve().parent / "cozy_compare.py"
-REPORT_DIR = ROOT / "dnf_decompile/function_reports"
+REPORT_DIR = _DECOMP / "function_reports"
 DEFAULT_OUT = Path("/tmp/grok-goal-62d2c03162ca/implementer/cozy_sweep.tsv")
 SERVICES = ("statics", "guild", "monitor", "manager", "dbmw")
 

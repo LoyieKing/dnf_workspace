@@ -7,9 +7,10 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
-MANIFEST_DIR = ROOT / 'build/community'
-TOOL = ROOT / 'source/toolchain/semantic_compare.py'
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/
+MANIFEST_DIR = _DECOMP / 'build/community'
+TOOL = _DECOMP / 'source/toolchain/semantic_compare.py'
 OUT = Path('/tmp/review_all_diffs/semantic_classified.tsv')
 
 

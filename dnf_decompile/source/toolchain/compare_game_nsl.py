@@ -11,8 +11,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import load_disasm_cached, norm_line, norm_identical_ext
 
-ROOT = Path('/home/loyieking/dnf_workspace')
-GAME_NEW = ROOT / 'dnf_decompile/build/game/df_game_r'
+_DECOMP = Path(__file__).resolve().parent.parent.parent        # .../dnf_decompile
+ROOT = _DECOMP.parent                                          # 工作区根：<workspace>/
+GAME_NEW = _DECOMP / 'build/game/df_game_r'
 POINT_ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/point/df_point_r'
 
 PLT_RE = re.compile(r'@plt')

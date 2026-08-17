@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """临时：单 TU .o 与 df_game_r ORIG 同名符号逐指令差异（AE 口径归一化）。"""
 import re, subprocess, sys, difflib
-sys.path.insert(0, '/home/loyieking/dnf_workspace/dnf_decompile/source/toolchain')
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import load_disasm_cached, norm_line
 import importlib.util
-spec = importlib.util.spec_from_file_location(
-    'ctu', '/home/loyieking/dnf_workspace/dnf_decompile/source/toolchain/compare_tu_game_orig.py')
+_TOOL = Path(__file__).resolve().parent / 'compare_tu_game_orig.py'
+spec = importlib.util.spec_from_file_location('ctu', str(_TOOL))
 ctu = importlib.util.module_from_spec(spec); spec.loader.exec_module(ctu)
 
 obj = sys.argv[1]

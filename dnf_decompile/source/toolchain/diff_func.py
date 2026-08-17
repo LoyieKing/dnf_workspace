@@ -22,30 +22,31 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import norm_line, load_disasm_cached
 
-ROOT = Path('/home/loyieking/dnf_workspace')
+_DECOMP = Path(__file__).resolve().parent.parent.parent         # .../dnf_decompile
+ROOT = _DECOMP.parent                                          # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
 BINS = {
     'monitor': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r',
-                ROOT / 'dnf_decompile/build/monitor/df_monitor_r'),
+                _DECOMP / 'build/monitor/df_monitor_r'),
     'guild': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/guild/df_guild_r',
-              ROOT / 'dnf_decompile/build/guild/df_guild_r'),
+              _DECOMP / 'build/guild/df_guild_r'),
     'auction': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/auction/df_auction_r',
-                ROOT / 'dnf_decompile/build/auction/df_auction_r'),
+                _DECOMP / 'build/auction/df_auction_r'),
     'point': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/point/df_point_r',
-              ROOT / 'dnf_decompile/build/point/df_point_r'),
+              _DECOMP / 'build/point/df_point_r'),
     'stun': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/stun/df_stun_r',
-             ROOT / 'dnf_decompile/build/stun/df_stun_r'),
+             _DECOMP / 'build/stun/df_stun_r'),
     'channel': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r',
-                ROOT / 'dnf_decompile/build/channel/df_channel_r'),
+                _DECOMP / 'build/channel/df_channel_r'),
     'bridge': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/bridge/df_bridge_r',
-               ROOT / 'dnf_decompile/build/bridge/df_bridge_r'),
+               _DECOMP / 'build/bridge/df_bridge_r'),
     'statics': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/statics/df_statics_r',
-                ROOT / 'dnf_decompile/build/statics/df_statics_r'),
+                _DECOMP / 'build/statics/df_statics_r'),
     'relay': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/relay/df_relay_r',
-              ROOT / 'dnf_decompile/build/relay/df_relay_r'),
+              _DECOMP / 'build/relay/df_relay_r'),
     'coserver': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/coserver/df_coserver_r',
-                 ROOT / 'dnf_decompile/build/coserver/df_coserver_r'),
+                 _DECOMP / 'build/coserver/df_coserver_r'),
     'game': (ROOT / 'dnf_installer/build/dnf_data/home/template/init/df_game_r',
-             ROOT / 'dnf_decompile/build/game/df_game_r'),
+             _DECOMP / 'build/game/df_game_r'),
 }
 DEFAULT_BIN = 'monitor'
 

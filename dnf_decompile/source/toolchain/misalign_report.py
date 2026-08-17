@@ -6,11 +6,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
-TOOL = ROOT / 'source/toolchain/semantic_compare.py'
-ALL_TSV = ROOT / 'build/community/df_community_r_all_function_compare.tsv'
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/
+TOOL = _DECOMP / 'source/toolchain/semantic_compare.py'
+ALL_TSV = _DECOMP / 'build/community/df_community_r_all_function_compare.tsv'
 SEM_TSV = Path('/tmp/review_all_diffs/semantic_classified.tsv')
-OUT = ROOT / 'docs/data/misalign_details.txt'
+OUT = _DECOMP / 'docs/data/misalign_details.txt'
 
 
 def run_one(symbol):

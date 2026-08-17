@@ -4,8 +4,9 @@ import csv
 import re
 from pathlib import Path
 
-ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
-OUT = ROOT / 'function_reports'
+_DECOMP = Path(__file__).resolve().parent.parent.parent          # .../dnf_decompile
+ROOT = _DECOMP.parent                                            # 工作区根：<workspace>/
+OUT = _DECOMP / 'function_reports'
 
 
 def read_counts(svc):

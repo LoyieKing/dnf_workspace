@@ -25,10 +25,11 @@ import angr
 import claripy
 from angr.calling_conventions import SimCCCdecl
 
-ROOT = Path("/home/loyieking/dnf_workspace")
+_DECOMP = Path(__file__).resolve().parent.parent.parent         # .../dnf_decompile
+ROOT = _DECOMP.parent                                          # 工作区根：<workspace>/（含 dnf_decompile 与 dnf_installer）
 ORIG_DIR = ROOT / "dnf_installer/build/dnf_data/home/template/neople"
-NEW_DIR = ROOT / "dnf_decompile/build"
-REPORT_DIR = ROOT / "dnf_decompile/function_reports"
+NEW_DIR = _DECOMP / "build"
+REPORT_DIR = _DECOMP / "function_reports"
 
 SERVICE_ORIG = {
     "statics": ORIG_DIR / "statics/df_statics_r",

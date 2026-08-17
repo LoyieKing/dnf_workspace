@@ -7,7 +7,7 @@ set -uo pipefail
 
 SRC="$1"; shift
 BASE=$(basename "$SRC" .cpp)
-ROOT=/home/loyieking/dnf_workspace/dnf_decompile
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SL=$ROOT/source/DNFServer/GameServer/ServerLab/ServerLib
 AU=$ROOT/source/DNFServer/GameServer/ServerLab/Auction/AuctionServer
 OUT=/tmp/tu_${BASE}.o
