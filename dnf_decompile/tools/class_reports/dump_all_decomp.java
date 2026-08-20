@@ -1,5 +1,5 @@
 // Ghidra headless script (Java): 多线程全量反编译 df_game_r 所有函数，按类输出 C 代码。
-// 输入: /tmp/df_cr/funcs.tsv  每行 <地址> <类路径> <方法名>
+// 输入: /tmp/df_cr/funcs.tsv  每行 <地址> <类路径> <方法名> [<mangled> <demangled>]
 // 输出: /tmp/df_cr/decomp/<类转义>/<方法转义>.c
 import ghidra.app.script.GhidraScript;
 import ghidra.app.decompiler.DecompInterface;

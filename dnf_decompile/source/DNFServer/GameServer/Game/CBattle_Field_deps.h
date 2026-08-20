@@ -15,6 +15,12 @@
 
 #include "ActiveStaticInfo.h"
 #include "CClearCondition.h"
+#include "CDataManager.h"
+#include "CSystemTime.h"
+#include "CUser.h"
+#include "CDungeon.h"
+#include "CRidable.h"
+#include "GameWorld.h"
 #include "TimerQueue.h"
 
 class CUser;
@@ -77,35 +83,7 @@ public:
 };
 }
 
-// ---- 地图/迷宫脚本类型 ----
-
-// GridScript（网格脚本）：布局来自 get_candidator_map / set_map_id / MoveMap。
-struct GridScript
-{
-    int m_gridValue;                 // +0x00
-    std::vector<int> m_mapCandidates;      // +0x04
-    std::vector<int> m_secondCandidates;   // +0x10
-    std::vector<int> m_layeredMapIndexes;  // +0x1c
-};
-
-// MazeScript（迷宫脚本）：布局来自 GetAppropriateMaze / SelectDungeon / SetGridPath。
-class MazeScript
-{
-public:
-    static GridScript* getGridR(MazeScript* self, int x, int y);  // ORIG 0x??
-
-    int m_width;                          // +0x00
-    int m_height;                         // +0x04
-    char m_pad8[0x48];                    // +0x08
-    int m_questType;                      // +0x50（GetAppropriateMaze 比对）
-    int m_difficultyLimit;                // +0x54
-    std::vector<DungeonClearCondition> m_clearCondition;  // +0x58
-    int m_mazeType;                       // +0x64（SelectDungeon 写 m_1ac）
-    char m_pad68[0x8];                    // +0x68
-    char m_flag70;                        // +0x70（GetAppropriateMaze 检查）
-};
-
-class RidableScript;
+// GridScript、MazeScript、RidableScript 等迷宫类型使用 CDungeon.h 的权威定义。
 
 // ---- CBattle_Field / MapInfo 支撑结构 ----
 
@@ -142,36 +120,6 @@ struct stMapPlayInfo_t
     unsigned int getPlayTick() const;        // ORIG W 0x830e7ea
 };
 
-struct stEventMonster_t
-{
-    int m_eventIdx;      // +0x00
-    int m_monsterIdx;    // +0x04
-    int m_prob;          // +0x08
-    int m_field0c;       // +0x0c
-    int m_field10;       // +0x10
-};
-
-struct stSecondEventMonster_t
-{
-    int m_eventIdx;      // +0x00
-    int m_monsterIdx;    // +0x04
-    int m_prob;          // +0x08
-    int m_field0c;       // +0x0c
-    int m_field10;       // +0x10
-};
-
-struct stDungeonAssignItem_t
-{
-    int m_assignItemIdx;      // +0x00（-1 = 按标准等级生成）
-    int m_field04;            // +0x04
-    int m_field08;            // +0x08
-};
-
-struct STNamedMonsterMapPos
-{
-    int m_x;   // +0x00
-    int m_y;   // +0x04
-};
 
 struct STAICharacterMapArrangeData
 {
@@ -392,24 +340,24 @@ extern CGlobalEffectManager* GlobalData_s_globalEffectManager_
 
 // ---- 缺失方法符号的直接引用（asm label 固定为 ORIG mangled 名；
 //     避免修改 CDataManager.h / CUser.h） ----
-extern "C" WongWork::CItemGeneratorMgr* cbf_CDataManager_getItemGenerator(CDataManager* self)
+extern WongWork::CItemGeneratorMgr* cbf_CDataManager_getItemGenerator(CDataManager* self)
     asm("_ZN12CDataManager16getItemGeneratorEv");
-extern "C" float cbf_CDataManager_getDropRate(const CDataManager* self)
+extern float cbf_CDataManager_getDropRate(const CDataManager* self)
     asm("_ZNK12CDataManager11getDropRateEv");
-extern "C" void* cbf_CDataManager_get_hellparty_groupOrder_map(CDataManager* self, int idx)
+extern void* cbf_CDataManager_get_hellparty_groupOrder_map(CDataManager* self, int idx)
     asm("_ZN12CDataManager25get_hellparty_groupOrder_mapEi");
-extern "C" BlueMarble* cbf_CUser_getBlueMarble(CUser* self)
+extern BlueMarble* cbf_CUser_getBlueMarble(CUser* self)
     asm("_ZN5CUser13getBlueMarbleEv");
-extern "C" WongWork::CDeathTower* cbf_CUser_getDeathTower(CUser* self)
+extern WongWork::CDeathTower* cbf_CUser_getDeathTower(CUser* self)
     asm("_ZN5CUser13getDeathTowerEv");
-extern "C" bool cbf_CUser_isAffectedPremium(const CUser* self, ENUM_PREMIUM_TYPE type)
+extern bool cbf_CUser_isAffectedPremium(const CUser* self, ENUM_PREMIUM_TYPE type)
     asm("_ZNK5CUser17isAffectedPremiumE17ENUM_PREMIUM_TYPE");
-extern "C" int cbf_CUser_getAddIndependentDropRateFromPremium(
+extern int cbf_CUser_getAddIndependentDropRateFromPremium(
     const CUser* self, ENUM_PREMIUM_TYPE type, unsigned int count)
     asm("_ZN5CUser36getAddIndependentDropRateFromPremiumE17ENUM_PREMIUM_TYPEj");
-extern "C" CAICharacter* cbf_CAICharacterList_get(void* list, unsigned int idx)
+extern CAICharacter* cbf_CAICharacterList_get(void* list, unsigned int idx)
     asm("_ZN16CAICharacterList3getEj");
-extern "C" CAICharacter* cbf_CAICharacterList_getByLevel(void* list, unsigned int level)
+extern CAICharacter* cbf_CAICharacterList_getByLevel(void* list, unsigned int level)
     asm("_ZN16CAICharacterList10getByLevelEj");
 
 // ---- CParty 最小声明（真实 CParty.h 交付后替换） ----

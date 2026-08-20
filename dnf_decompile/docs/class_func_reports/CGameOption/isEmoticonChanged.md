@@ -1,0 +1,40 @@
+# isEmoticonChanged
+
+`_ZN11CGameOption17isEmoticonChangedEv`
+
+`CGameOption::isEmoticonChanged()`
+
+| 类 | 地址 |
+|---|---|
+| `CGameOption` | `0x084b71d8` |
+
+> 生成自 df_game_r（elf32-i386），汇编=objdump -d（已去机器码，地址=绝对+函数内偏移），C=Ghidra 反编译。数据地址按 function_reports/report_resolve 规则翻译为 `&符号` / `"字符串"`。
+
+## 汇编
+
+```asm
+# 084b71d8  _ZN11CGameOption17isEmoticonChangedEv
+#           CGameOption::isEmoticonChanged()
+# range [0x084b71d8, 0x084b71e7]
+084b71d8 +0x00:  push   %ebp
+084b71d9 +0x01:  mov    %esp,%ebp
+084b71db +0x03:  mov    0x8(%ebp),%eax
+084b71de +0x06:  movzbl 0x62b(%eax),%eax
+084b71e5 +0x0d:  pop    %ebp
+084b71e6 +0x0e:  ret
+084b71e7 +0x0f:  nop
+```
+
+## 反编译 C
+
+```c
+// CGameOption::isEmoticonChanged @ 0x84b71d8
+
+/* CGameOption::isEmoticonChanged() */
+
+CGameOption __thiscall CGameOption::isEmoticonChanged(CGameOption *this)
+
+{
+  return this[0x62b];
+}
+```

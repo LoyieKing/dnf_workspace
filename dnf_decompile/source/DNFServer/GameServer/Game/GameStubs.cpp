@@ -1,3 +1,4 @@
+#include "GameRand.h"
 #include <string.h>
 // df_game_r Game/ 集成桩（2026-08-16）：
 // 第二层类（Stream/PacketBuf/CEnvironment/队列）依赖的上层/算法类，
@@ -1769,41 +1770,6 @@ namespace BlueMarbleUserState
 {
 enum T { T_0 = 0 };
 }
-struct map_item
-{
-    map_item();
-    ~map_item();
-    map_item(const map_item& other);
-    map_item& operator=(const map_item& other);
-    char m_pad[0x10];
-};
-map_item::map_item() {}
-map_item::~map_item() {}
-map_item::map_item(const map_item& other) { m_pad[0] = other.m_pad[0]; }
-map_item& map_item::operator=(const map_item& other)
-{
-    m_pad[0] = other.m_pad[0];
-    return *this;
-}
-struct map_monster
-{
-    map_monster();
-    ~map_monster();
-    map_monster(const map_monster& other);
-    map_monster& operator=(const map_monster& other);
-    char m_pad[0x14];
-};
-map_monster::map_monster() {}
-map_monster::~map_monster() {}
-map_monster::map_monster(const map_monster& other)
-{
-    m_pad[0] = other.m_pad[0];
-}
-map_monster& map_monster::operator=(const map_monster& other)
-{
-    m_pad[0] = other.m_pad[0];
-    return *this;
-}
 enum eRidableObjectState { eRidableObjectState_0 = 0 };
 class CRidable
 {
@@ -2044,10 +2010,6 @@ BaseItemKey::BaseItemKey(unsigned char, unsigned char, unsigned short)
 }  // TODO(G1 物品批次)
 BaseItemValue::BaseItemValue() : m_field0(0) {}  // TODO(G1 物品批次)
 BaseItemValue::BaseItemValue(int value) : m_field0(value) {}  // TODO(G1 物品批次)
-int get_rand_int(int range)
-{
-    return range > 0 ? rand() % range : 0;  // TODO(G1 物品批次)
-}
 void ExtreamDungeon::CCompound_ExtreamDun_Item::check_N_addItem(CEquipItem&)
 {
 }  // TODO(G1 物品批次)
@@ -3033,17 +2995,6 @@ public:
     void logMoney(const char* fmt, ...);
     void logNotice(const char* fmt, ...);
 };
-CLog* CLog::instance()
-{
-    static CLog s;
-    return &s;
-}
-void CLog::logConsole(const char*, ...) {}  // TODO(G3)
-void CLog::logCritical(const char*, ...) {}  // TODO(G3)
-void CLog::logDebug(const char*, ...) {}  // TODO(G3)
-void CLog::logError(const char*, ...) {}  // TODO(G3)
-void CLog::logMoney(const char*, ...) {}  // TODO(G3)
-void CLog::logNotice(const char*, ...) {}  // TODO(G3)
 
 class CMyFileLog
 {
@@ -3328,86 +3279,6 @@ public:
 };
 void CVillageObjectMgr::on_move_area(CUser*) {}  // TODO(G3)
 void CVillageObjectMgr::register_object(Zone, IObject*) {}  // TODO(G3)
-}
-
-// ---- Taiwan 事件流 + CStreamGuard::GetInBuffer<Taiwan::SigStayTimeEvent> ----
-namespace TaiwanInternalPack
-{
-struct T
-{
-    int m_v;
-};
-}
-namespace Taiwan
-{
-class SigStayTimeEvent
-{
-public:
-    void init();
-    void set(unsigned int accId);
-    char m_pad[0x20];
-};
-void SigStayTimeEvent::init() {}  // TODO(G3)
-void SigStayTimeEvent::set(unsigned int) {}  // TODO(G3)
-void internal_stream(CStreamGuard& guard, TaiwanInternalPack::T t, int uid);
-}
-void Taiwan::internal_stream(CStreamGuard&, TaiwanInternalPack::T, int) {}  // TODO(G3)
-void* force_TaiwanSigStayTimeEvent_GetInBuffer(CStreamGuard* guard)
-{
-    return guard->GetInBuffer<Taiwan::SigStayTimeEvent>();
-}
-
-// ---- HeroMissionEvent / ARAD::Singleton<HeroMissionEvent> ----
-namespace HeroMissionCondition
-{
-struct MissionNo
-{
-    enum T
-    {
-        T_0 = 0
-    };
-};
-}
-class HeroMissionEvent
-{
-public:
-    void processMission(CUser* user, HeroMissionCondition::MissionNo::T no,
-                        unsigned int param);
-};
-void HeroMissionEvent::processMission(CUser*, HeroMissionCondition::MissionNo::T,
-                                      unsigned int)
-{
-}  // TODO(G3)
-
-class Packet_MiniCraneSeed
-{
-public:
-    Packet_MiniCraneSeed();
-};
-Packet_MiniCraneSeed::Packet_MiniCraneSeed() {}
-
-namespace WongWork
-{
-class CGMAccounts
-{
-public:
-    static bool isGM(CGMAccounts* accounts, unsigned int characNo);
-};
-bool CGMAccounts::isGM(CGMAccounts*, unsigned int) { return false; }  // TODO(G3)
-}
-
-// ---- 自由函数 ----
-void get_str_date(char* buf, int a, char b) {}  // TODO(G3)
-void get_str_datetime(char* buf, int a) {}  // TODO(G3)
-bool is_Victory_in_a_row(std::bitset<32> bits, short victory)
-{
-    return false;  // TODO(G3)
-}
-bool checkAcceptableQuest(const Quest* quest,
-                          const WongWork::CQuestClear& cleared,
-                          const stSelectQuestParam& param)
-{
-    return false;  // TODO(G3)
 }
 
 // ---- CUser 方法定义（声明在 CUser 本地类，见上；权威 CUser.h 已译，

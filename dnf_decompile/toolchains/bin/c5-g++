@@ -1,0 +1,5 @@
+#!/bin/sh
+# CentOS 5.11 gcc-4.1.2-55.el5 包装
+export GCC_EXEC_PREFIX="/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c5root/usr/libexec/gcc/"
+export PATH="/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c5root/usr/libexec/gcc/x86_64-redhat-linux/4.1.2:$PATH"
+exec "/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c5root/usr/bin/g++" "$@"

@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/wangyilei/dnf_workspace/dnf_decompile/build/guild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

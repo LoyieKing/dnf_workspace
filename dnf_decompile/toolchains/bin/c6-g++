@@ -1,0 +1,5 @@
+#!/bin/sh
+# CentOS 6.10 gcc-4.4.7 包装（DNF_TC_ROOT=/home/wangyilei/dnf_workspace/dnf_decompile/toolchains）
+export GCC_EXEC_PREFIX="/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/libexec/gcc/"
+export LD_LIBRARY_PATH="/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/lib64:/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/lib"
+exec "/home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/bin/g++" "$@"

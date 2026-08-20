@@ -1,0 +1,66 @@
+# message
+
+`_ZNK12_GLOBAL__N_121system_error_category7messageEi`
+
+`(anonymous namespace)::system_error_category::message(int) const`
+
+| 类 | 地址 |
+|---|---|
+| `(anonymous namespace)::system_error_category` | `0x086df780` |
+
+> 生成自 df_game_r（elf32-i386），汇编=objdump -d（已去机器码，地址=绝对+函数内偏移），C=Ghidra 反编译。数据地址按 function_reports/report_resolve 规则翻译为 `&符号` / `"字符串"`。
+
+## 汇编
+
+```asm
+# 086df780  _ZNK12_GLOBAL__N_121system_error_category7messageEi
+#           (anonymous namespace)::system_error_category::message(int) const
+# range [0x086df780, 0x086df7bf]
+086df780 +0x00:  push   %ebp
+086df781 +0x01:  mov    %esp,%ebp
+086df783 +0x03:  push   %ebx
+086df784 +0x04:  sub    $0x24,%esp
+086df787 +0x07:  mov    0x10(%ebp),%eax
+086df78a +0x0a:  mov    0x8(%ebp),%ebx
+086df78d +0x0d:  mov    %eax,(%esp)
+086df790 +0x10:  call   0807d730 <_init+0x28>
+086df795 +0x15:  lea    -0x9(%ebp),%edx
+086df798 +0x18:  mov    %edx,0x8(%esp)
+086df79c +0x1c:  mov    %ebx,(%esp)
+086df79f +0x1f:  mov    %eax,0x4(%esp)
+086df7a3 +0x23:  call   08707630 <_ZSt21__copy_streambufs_eofIwSt11char_traitsIwEEiPSt15basic_streambufIT_T0_ES6_Rb+0x1240>  ; int std::__copy_streambufs_eof<wchar_t, std::char_traits<wchar_t> >(std::basic_streambuf<wchar_t, std::char_traits<wchar_t> >*, std::basic_streambuf<wchar_t, std::char_traits<wchar_t> >*, bool&)+0x1240
+086df7a8 +0x28:  mov    %ebx,%eax
+086df7aa +0x2a:  add    $0x24,%esp
+086df7ad +0x2d:  pop    %ebx
+086df7ae +0x2e:  pop    %ebp
+086df7af +0x2f:  ret    $0x4
+086df7b2 +0x32:  mov    %eax,(%esp)
+086df7b5 +0x35:  call   08ae3750 <_Unwind_Resume>
+086df7ba +0x3a:  nop
+086df7bb +0x3b:  nop
+086df7bc +0x3c:  nop
+086df7bd +0x3d:  nop
+086df7be +0x3e:  nop
+086df7bf +0x3f:  nop
+```
+
+## 反编译 C
+
+```c
+// message @ 0x86df780
+
+/* (anonymous namespace)::system_error_category::message(int) const */
+
+int (anonymous_namespace)::system_error_category::message(int param_1)
+
+{
+  char *pcVar1;
+  int in_stack_0000000c;
+  allocator local_d [5];
+  
+  pcVar1 = strerror(in_stack_0000000c);
+                    /* try { // try from 086df7a3 to 086df7a7 has its CatchHandler @ 086df7b2 */
+  std::string::string((string *)param_1,pcVar1,local_d);
+  return param_1;
+}
+```

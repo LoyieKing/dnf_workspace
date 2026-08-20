@@ -1,0 +1,38 @@
+# Init
+
+`_ZN4ARAD20Arad_GMCommandManger4InitEv`
+
+`ARAD::Arad_GMCommandManger::Init()`
+
+| 类 | 地址 |
+|---|---|
+| `ARAD::Arad_GMCommandManger` | `0x08198230` |
+
+> 生成自 df_game_r（elf32-i386），汇编=objdump -d（已去机器码，地址=绝对+函数内偏移），C=Ghidra 反编译。数据地址按 function_reports/report_resolve 规则翻译为 `&符号` / `"字符串"`。
+
+## 汇编
+
+```asm
+# 08198230  _ZN4ARAD20Arad_GMCommandManger4InitEv
+#           ARAD::Arad_GMCommandManger::Init()
+# range [0x08198230, 0x08198239]
+08198230 +0x00:  push   %ebp
+08198231 +0x01:  mov    %esp,%ebp
+08198233 +0x03:  mov    $0x1,%eax
+08198238 +0x08:  pop    %ebp
+08198239 +0x09:  ret
+```
+
+## 反编译 C
+
+```c
+// ARAD::Arad_GMCommandManger::Init @ 0x8198230
+
+/* ARAD::Arad_GMCommandManger::Init() */
+
+undefined4 ARAD::Arad_GMCommandManger::Init(void)
+
+{
+  return 1;
+}
+```

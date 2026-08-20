@@ -25,6 +25,8 @@
 #include "GameTypes.h"
 
 // ---- PvP / WarRoom 共享枚举（值以 ORIG asm 常量为准，见各报告） ----
+#ifndef DNF_ENUM_WARROOM_STATE_DEFINED
+#define DNF_ENUM_WARROOM_STATE_DEFINED
 enum WARROOM_STATE
 {
     WARROOM_STATE_NEG1 = -1,
@@ -35,6 +37,7 @@ enum WARROOM_STATE
     WARROOM_STATE_4 = 4,
     WARROOM_STATE_5 = 5
 };
+#endif
 
 enum ENUM_SEAT_STATE
 {
@@ -58,10 +61,10 @@ enum PVP_BATTLE_MODE
 };
 #endif
 
-enum ENUM_PVP_MATCHING_TYPE
-{
-    ENUM_PVP_MATCHING_TYPE_0 = 0
-};
+#ifndef DNF_ENUM_PVP_MATCHING_TYPE_DEFINED
+#define DNF_ENUM_PVP_MATCHING_TYPE_DEFINED
+enum ENUM_PVP_MATCHING_TYPE { ENUM_PVP_MATCHING_TYPE_0 = 0 };
+#endif
 
 // ---- BlueMarble 命名空间枚举（mangling 必须保持 N..1TE / 4TypeE 形态） ----
 namespace BlueMarbleState

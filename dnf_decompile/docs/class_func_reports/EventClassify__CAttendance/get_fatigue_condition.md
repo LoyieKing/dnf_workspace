@@ -1,0 +1,40 @@
+# get_fatigue_condition
+
+`_ZN13EventClassify11CAttendance21get_fatigue_conditionEv`
+
+`EventClassify::CAttendance::get_fatigue_condition()`
+
+| 类 | 地址 |
+|---|---|
+| `EventClassify::CAttendance` | `0x0810e7e8` |
+
+> 生成自 df_game_r（elf32-i386），汇编=objdump -d（已去机器码，地址=绝对+函数内偏移），C=Ghidra 反编译。数据地址按 function_reports/report_resolve 规则翻译为 `&符号` / `"字符串"`。
+
+## 汇编
+
+```asm
+# 0810e7e8  _ZN13EventClassify11CAttendance21get_fatigue_conditionEv
+#           EventClassify::CAttendance::get_fatigue_condition()
+# range [0x0810e7e8, 0x0810e7f5]
+0810e7e8 +0x00:  push   %ebp
+0810e7e9 +0x01:  mov    %esp,%ebp
+0810e7eb +0x03:  mov    0x8(%ebp),%eax
+0810e7ee +0x06:  mov    0x1c(%eax),%eax
+0810e7f1 +0x09:  mov    0xc(%eax),%eax
+0810e7f4 +0x0c:  pop    %ebp
+0810e7f5 +0x0d:  ret
+```
+
+## 反编译 C
+
+```c
+// EventClassify::CAttendance::get_fatigue_condition @ 0x810e7e8
+
+/* EventClassify::CAttendance::get_fatigue_condition() */
+
+undefined4 __thiscall EventClassify::CAttendance::get_fatigue_condition(CAttendance *this)
+
+{
+  return *(undefined4 *)(*(int *)(this + 0x1c) + 0xc);
+}
+```

@@ -1,0 +1,62 @@
+===== guild (c6, tc=dnf_toolchain_guild.cmake, DNF_TC_ROOT=/home/wangyilei/dnf_workspace/dnf_decompile/toolchains, -j6) =====
+[1/5] Building CXX object CMakeFiles/guild.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp.o
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFApplication.h:10,
+                 from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp:14:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.h:102: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildSkill STGuildDBInfoOnly::m_skills [16]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp:29:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.h:608: 警告： ignoring packed attribute because of unpacked non-POD field ‘STBlackUserDBType Packet_Request_Result_BlackList::m_items [10]’
+[2/5] Building CXX object CMakeFiles/guild.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp.o
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:166: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:12:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_Members_ToChannel.h:60: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_Members_ToChannel::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:13:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_Members_ToChannel_Next.h:21: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_Members_ToChannel_Next::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:14:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_All_Members_ToChannel.h:25: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_All_Members_ToChannel::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:15:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_All_Members_ToChannel_Next.h:21: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_All_Members_ToChannel_Next::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFApplication.h:10,
+                 from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:25:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.h:102: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildSkill STGuildDBInfoOnly::m_skills [16]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuildManager.cpp:40:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.h:608: 警告： ignoring packed attribute because of unpacked non-POD field ‘STBlackUserDBType Packet_Request_Result_BlackList::m_items [10]’
+[3/5] Building CXX object CMakeFiles/guild.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp.o
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:2503: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:2529: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:2546: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:2597: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:2655: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:2794: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:12:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_Members_ToChannel.h:60: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_Members_ToChannel::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:13:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_Members_ToChannel_Next.h:21: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_Members_ToChannel_Next::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:14:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_All_Members_ToChannel.h:25: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_All_Members_ToChannel::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:15:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/guild/../../shared/packet/include/Packet_Monitor_Call_Guild_All_Members_ToChannel_Next.h:21: 警告： ignoring packed attribute because of unpacked non-POD field ‘ST_Guild_Mem_Info Packet_Monitor_Call_Guild_All_Members_ToChannel_Next::m_members [96]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:23:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.h:102: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildSkill STGuildDBInfoOnly::m_skills [16]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.cpp:44:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.h:608: 警告： ignoring packed attribute because of unpacked non-POD field ‘STBlackUserDBType Packet_Request_Result_BlackList::m_items [10]’
+[4/5] Building CXX object CMakeFiles/guild.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp.o
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6212: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6282: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6296: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6462: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6510: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6552: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6571: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:6598: 警告： 这个十进制数常量仅在 ISO C90 中是无符号的
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.h:10,
+                 from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:11:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFGuild.h:102: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildSkill STGuildDBInfoOnly::m_skills [16]’
+In file included from /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:11:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.h:608: 警告： ignoring packed attribute because of unpacked non-POD field ‘STBlackUserDBType Packet_Request_Result_BlackList::m_items [10]’
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:169: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildCargoDBInfo PTL_GuildCargoLoadPkt::m_cargo’
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:227: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildDBInfoOnly PTL_ReplyQueryGuildPkt::m_info’
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:248: 警告： ignoring packed attribute because of unpacked non-POD field ‘STGuildMemerDBInfo PTL_ReplyQueryMemberPkt::m_info’
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp: In static member function ‘static void CPacketTranslater::OnLogin(PacketHeader*)’:
+/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp:481: 警告： 已弃用从字符串常量到‘char*’的转换
+[5/5] Linking CXX executable df_guild_r
+OK -> /home/wangyilei/dnf_workspace/dnf_decompile/build/guild/df_guild_r

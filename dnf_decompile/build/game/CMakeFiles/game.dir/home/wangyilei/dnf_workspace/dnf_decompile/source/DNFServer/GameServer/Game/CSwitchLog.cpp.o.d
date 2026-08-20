@@ -1,0 +1,28 @@
+CMakeFiles/game.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Game/CSwitchLog.cpp.o: \
+ /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Game/CSwitchLog.cpp \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/cstdarg \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/x86_64-redhat-linux/bits/c++config.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/bits/wordsize.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/x86_64-redhat-linux/bits/os_defines.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/features.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/sys/cdefs.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/gnu/stubs.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/gnu/stubs-32.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/x86_64-redhat-linux/bits/cpu_defines.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include/stdarg.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/cstdio \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/cstddef \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include/stddef.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/stdio.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/bits/types.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/bits/typesizes.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/libio.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/_G_config.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/wchar.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/bits/stdio_lim.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/bits/sys_errlist.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/tr1_impl/cstdio \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/lsd44/v4.4.6/usr/include/c++/4.4.6/cstring \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/string.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/toolchains/c6root/usr/include/xlocale.h \
+ /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Game/CLog.h

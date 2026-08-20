@@ -1,0 +1,17 @@
+openjdk version "17.0.11" 2024-04-16 LTS
+OpenJDK Runtime Environment Zulu17.50+19-CA (build 17.0.11+9-LTS)
+OpenJDK 64-Bit Server VM Zulu17.50+19-CA (build 17.0.11+9-LTS, mixed mode)
+INFO  Using log config file: jar:file:/home/wangyilei/ghidra/ghidra_10.4_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: /home/wangyilei/.ghidra/.ghidra_10.4_PUBLIC/application.log (LoggingInitialization)  
+INFO  Loading user preferences: /home/wangyilei/.ghidra/.ghidra_10.4_PUBLIC/preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (635 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (SSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: NativePRNGNonBlocking (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (ApplicationTrustManagerFactory)  
+Exception in thread "main" ghidra.util.exception.InvalidInputException: /home/wangyilei/dnf_workspace/dnf_decompile/../dnf_installer/build/dnf_data/home/template/neople/df__r is not a valid directory or file.
+	at ghidra.app.util.headless.AnalyzeHeadless.parseOptions(AnalyzeHeadless.java:217)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:119)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:78)
+	at ghidra.Ghidra.main(Ghidra.java:54)
