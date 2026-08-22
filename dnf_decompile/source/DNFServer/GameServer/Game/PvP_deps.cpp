@@ -278,9 +278,6 @@ extern "C" void sub_Statistics_PVPPlay2(int a, int b, int c)
     asm("_ZN10Statistics8PVPPlay2Eiii");
 extern "C" void sub_CCommonStatisticsMgr_IncreaseQuantity(void* self, int container, int v)
     asm("_ZN20CCommonStatisticsMgr16IncreaseQuantityENS_24ENUM_STATISTIC_CONTAINEREi");
-extern "C" void sub_channel_script_t_getBonusRate(void* self, unsigned char a,
-                                                  unsigned int b, unsigned int c)
-    asm("_ZNK16channel_script_t12getBonusRateEhjj");
 extern "C" void sub_RDARScriptStringManager_findString(void* self, int idx,
                                                        const char* a, bool* b)
     asm("_ZNK23RDARScriptStringManager10findStringEiPKcPb");
@@ -344,9 +341,6 @@ extern "C" void sub_CPrivateStoreMgr_IsBusyPrivateStore(void* self, void* user)
     asm("_ZN13private_store16CPrivateStoreMgr18IsBusyPrivateStoreEP5CUser");
 extern "C" void sub_CPrivateStoreMgr_GetInstance(void*)
     asm("_ZN13private_store26GetInstancePrivateStoreMgrEv");
-extern "C" void sub_Store_GetSellItemPrice(void* self, const void* item,
-                                           const void* items, bool b, int& out)
-    asm("_ZN5Store16GetSellItemPriceER10Inven_ItemPK5CItemsbRi");
 extern "C" void sub_MissionClearCondition_Parameter_C1(void* self, int mode)
     asm("_ZN31MissionClearCondition_ParameterC1E15PVP_BATTLE_MODE");
 extern "C" void sub_CMissionList_Charac_Update_Win_event(void* self, void* user,
@@ -387,8 +381,6 @@ extern "C" void sub_CNetwork_get_mtu(void* self)
     asm("_ZN8CNetworkILi4096ELi450000EE7get_mtuEv");
 extern "C" void sub_CNetwork_get_port(void* self)
     asm("_ZN8CNetworkILi4096ELi450000EE8get_portEv");
-extern "C" void sub_CUserPremium_GetAdvantageExpRate(void* self)
-    asm("_ZNK8WongWork12CUserPremium19GetAdvantageExpRateEv");
 extern "C" void sub_CDataManager_GetMaxGradePvPChannel(void* self)
     asm("_ZN12CDataManager21GetMaxGradePvPChannelEv");
 extern "C" void sub_CServerEvent_GetExpRate(void* self)
@@ -429,7 +421,6 @@ extern "C" void sub_UpgradeSeparateInfo_GetUpgradeSeparate(void* self)
 
 void sub_Statistics_PVPPlay2(int, int, int) {}
 void sub_CCommonStatisticsMgr_IncreaseQuantity(void*, int, int) {}
-void sub_channel_script_t_getBonusRate(void*, unsigned char, unsigned int, unsigned int) {}
 void sub_RDARScriptStringManager_findString(void*, int, const char*, bool*) {}
 void sub_CFairPvPScore_GetRemainBonusCount(void*) {}
 void sub_CFairPvPScore_GetLastTrainingSealCount(void*) {}
@@ -460,7 +451,6 @@ void sub_CDisconnectDetecter_UnregisterUser(void*, void*) {}
 void sub_CDisconnectDetecter_GetInstance(void*) {}
 void sub_CPrivateStoreMgr_IsBusyPrivateStore(void*, void*) {}
 void sub_CPrivateStoreMgr_GetInstance(void*) {}
-void sub_Store_GetSellItemPrice(void*, const void*, const void*, bool, int&) {}
 void sub_MissionClearCondition_Parameter_C1(void*, int) {}
 void sub_CMissionList_Charac_Update_Win_event(void*, void*, const void*, bool&) {}
 void sub_CMissionList_Charac_Update_Kill_event(void*, void*, const void*) {}
@@ -479,7 +469,6 @@ void sub_CNetwork_get_nat_type(void*) {}
 void sub_CNetwork_get_ip(void*) {}
 void sub_CNetwork_get_mtu(void*) {}
 void sub_CNetwork_get_port(void*) {}
-void sub_CUserPremium_GetAdvantageExpRate(void*) {}
 void sub_CDataManager_GetMaxGradePvPChannel(void*) {}
 void sub_CServerEvent_GetExpRate(void*) {}
 void sub_CDungeon_GetDungeonName(void*) {}

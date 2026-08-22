@@ -101,7 +101,7 @@ public:
     int get_world_map_index();                    // ORIG 086c2f8a
     void make_power_war_hp_of_vill(PacketGuard& packet, int& count); // ORIG 086c2d0c
     int take_fish();                              // ORIG 086c21e2
-    bool IsMovalbeArea(int vill, int area);       // ORIG 086c1fec
+    bool IsMovalbeArea(int vill, int area) const; // ORIG 086c3162（const）
 
     char m_pad0[0x68];        // +0x00
     int m_field68;            // +0x68（区域类型/钓鱼/竞技场判定）
@@ -161,8 +161,8 @@ extern void sub_CUser_SetUseAPCPotionTime(void* user, int t)
     asm("_ZN5CUser19SetUseAPCPotionTimeEl");
 extern void sub_CUser_SendFatigue(void* user) asm("_ZN5CUser11SendFatigueEv");
 extern void* sub_CUser_getHades(void* user) asm("_ZN5CUser8getHadesEv");
-extern void sub_XNuclear_CHades_Send_ReturnToVillage(void* self)
-    asm("_ZN8XNuclear5CHades20Send_ReturnToVillageEv");
+// sub_XNuclear_CHades_Send_ReturnToVillage（5 错拼长度 CHades）已由 CHades.cpp 真实定义
+// （_ZN8XNuclear6CHades20Send_ReturnToVillageEv），此声明已删除。
 extern void sub_CUser_AddDailyItem(void* user) asm("_ZN5CUser12AddDailyItemEv");
 extern void sub_CUser_ResetDailyQuest(void* user) asm("_ZN5CUser15ResetDailyQuestEv");
 extern void sub_CUser_ResetTrainingQuest(void* user) asm("_ZN5CUser18ResetTrainingQuestEv");
@@ -209,7 +209,7 @@ extern void* sub_CUser_getDungeonGainedGold(void* user)
     asm("_ZN5CUser20getDungeonGainedGoldEv");
 extern void* sub_CUser_GetGoldControl(void* user) asm("_ZN5CUser14GetGoldControlEv");
 extern void* sub_CUser_getCurCharacQuestR(void* user)
-    asm("_ZN5CUser18getCurCharacQuestREv");
+    asm("_ZNK5CUser18getCurCharacQuestREv");
 extern void sub_CDungeonGainedGold_reset(void* self) asm("_ZN18CDungeonGainedGold5resetEv");
 extern void sub_Secu_GoldControl_SavetoDB(void* self, bool a, bool b, bool c)
     asm("_ZN16Secu_GoldControl8SavetoDBEbbb");
@@ -286,37 +286,37 @@ extern void* sub_private_store_GetInstancePrivateStoreMgr(void)
     asm("_ZN13private_store26GetInstancePrivateStoreMgrEv");
 
 // ---- 事件 / 每日重置 ----
-// （CEventManager::GetRepeatEvent / CNetwork::get_nat_type 由 PvP_Room.cpp /
-//  WarRoom.cpp 各自本地声明，签名不一致，此处不提供以避免跨 TU 冲突）
-extern void sub_CEventManager_dailyresetData(void* self)
-    asm("_ZN13CEventManager14dailyresetDataEv");
+// （CEventManager::GetRepeatEvent 现由 CGuildServerProxy.h 真实实现；
+//  CNetwork::get_nat_type 由 PvP_Room.cpp / WarRoom.cpp 各自本地声明，
+//  签名不一致，此处不提供以避免跨 TU 冲突）
 extern void sub_CEventScriptMng_send_event_init_data(void* self, void* user, bool flag)
     asm("_ZN13EventClassify15CEventScriptMng20send_event_init_dataEP5CUserb");
 extern void sub_CItemShop_updateOneADayItemList(void* shop)
-    asm("_ZN9CItemShop22updateOneADayItemListEv");
+    asm("_ZN9CItemShop21updateOneADayItemListEv");
 extern void sub_CItemShop_testupdateOneADayItemList(void* shop)
     asm("_ZN9CItemShop25testupdateOneADayItemListEv");
 extern const std::vector<std::pair<int, int> >* sub_CItemShop_GetOneADayItemList(void* shop)
-    asm("_ZNK9CItemShop19GetOneADayItemListEv");
+    asm("_ZNK9CItemShop18GetOneADayItemListEv");
 extern void sub_CBoosterGage_send_data(void* gage, int user)
     asm("_ZN12CBoosterGage9send_dataEP5CUseri");
 extern short sub_CFatigueBatteryHandle_ChargingFatigueBattery(void* self, void* user, int a)
     asm("_ZN21CFatigueBatteryHandle22ChargingFatigueBatteryEP5CUseri");
 extern short sub_CFatigueBatteryHandle_ActiveFatigueBattery(void* self, void* user)
     asm("_ZN21CFatigueBatteryHandle20ActiveFatigueBatteryEP5CUser");
-extern char sub_CTimeGate_isOpen(void* self) asm("_ZNK10CTimeGate6isOpenEv");
+extern char sub_CTimeGate_isOpen(void* self) asm("_ZNK9CTimeGate6isOpenEv");
 extern void sub_InterSelectPcroomDailyReward_SendPacket(void* user)
-    asm("_ZN25InterSelectPcroomDailyReward10SendPacketEP5CUser");
+    asm("_ZN28InterSelectPcroomDailyReward10SendPacketEP5CUser");
 extern void* sub_ARAD_Singleton_HeroMissionEvent_Get(void)
-    asm("_ZN4ARAD9SingletonI15HeroMissionEventE3GetEv");
+    asm("_ZN4ARAD9SingletonI16HeroMissionEventE3GetEv");
 extern void sub_HeroMissionEvent_processMission(void* self, void* user, int mission,
                                                     int param)
-    asm("_ZN15HeroMissionEvent14processMissionEP5CUserN20HeroMissionCondition9MissionNo1TEj");
+    asm("_ZN16HeroMissionEvent14processMissionEP5CUserN20HeroMissionCondition9MissionNo1TEj");
 extern void sub_AradServerStateMessage_C1(void* self) asm("_ZN22AradServerStateMessageC1Ev");
 extern void sub_ARAD_notifyOpenMessageDialog(void* user, int a, int eventIdx, void* msg)
     asm("_ZN4ARAD23notifyOpenMessageDialogEP5CUseriiR22AradServerStateMessage");
-extern char sub_ARAD_EventPeriodDataManager_isApplied(void* self, int idx, int time)
-    asm("_ZNK30Arad_EventPeriodDataManager9isAppliedEii");
+// sub_ARAD_EventPeriodDataManager_isApplied（30 错拼长度前缀）已由
+// Arad_EventPeriodDataManager.cpp 真实定义（ARAD::Arad_EventPeriodDataManager::
+// isApplied(ENUM_REPEAT_EVENT_CODE,unsigned int)，ORIG 0x081956b0），此声明已删除。
 extern void* sub_ARAD_DataManager_findGameScript(void* self, const std::string& name)
     asm("_ZN4ARAD16Arad_DataManager14findGameScriptERKSs");
 extern void* sub_ARAD_Singleton_Arad_DataManager_Get(void)
@@ -334,16 +334,11 @@ extern void sub_WongWork_CMCAPManager_reset(void* self) asm("_ZN8WongWork12CMCAP
 // ---- 区域移动 / 外挂检测 ----
 extern char sub_CPartyTelePort_get_teleport_state(void* self)
     asm("_ZN14CPartyTelePort18get_teleport_stateEv");
-extern char sub_CHackLog_InvalidAreaMove_IsInvalidMovableArea(int a, int b, int c, int d)
-    asm("_ZN27CHackLog_InvalidAreaMove21IsInvalidMovableAreaEiiii");
-extern char sub_CHackLog_InvalidAreaMove_isMovableRoute(int a, int b, int c, int d,
-                                                            int e, int f)
-    asm("_ZN27CHackLog_InvalidAreaMove15isMovableRouteEiiiiii");
-extern unsigned int sub_CHackLog_InvalidAreaMove_GetHackType(void)
-    asm("_ZN27CHackLog_InvalidAreaMove11GetHackTypeEv");
-extern void sub_WongWork_CHackAnalyzer_addServerHackCnt(void* self, void* user,
-    unsigned int type, int a, int b, int c)
-    asm("_ZN8WongWork14CHackAnalyzer16addServerHackCntEP5CUserjiij");
+// sub_CHackLog_InvalidAreaMove_*（27 错拼长度前缀）已由 CHackLog_InvalidAreaMove.cpp
+// 真实定义（_ZN24CHackLog_InvalidAreaMove*），此声明已删除；GameWorld.cpp 直接
+// include CHackLog_InvalidAreaMove.h 调用静态方法。
+// sub_WongWork_CHackAnalyzer_addServerHackCnt（14 错拼长度）已随 GameWorld.cpp
+// 迁移到真实 CHackAnalyzer 方法，此声明已删除。
 
 // ---- PvP / 聊天 ----
 extern void sub_pvp_assault_CAssaultMgr_SendPacket(void* self, void* user, bool flag,
@@ -356,9 +351,9 @@ extern void sub_CSyncSlangFilter_Filter(void* self, const std::string& msg)
 extern void* sub_CSyncSlangFilter_GetInstance(void)
     asm("_ZN16CSyncSlangFilter11GetInstanceEv");
 extern char sub_WongWork_CGMAccounts_isGM(void* self, unsigned int accId)
-    asm("_ZN8WongWork10CGMAccounts5isGMEPS0_j");
+    asm("_ZN8WongWork11CGMAccounts4isGMEj");
 extern void sub_CTitleBook_sendListOtherUser(void* self, void* user, int type)
-    asm("_ZN10CTitleBook18sendListOtherUserEP5CUser25ENUM_TITLE_BOOK_INFO_TYPE");
+    asm("_ZN10CTitleBook17sendListOtherUserEP5CUser25ENUM_TITLE_BOOK_INFO_TYPE");
 
 // ---- 其他 ----
 extern void* sub_CGameManager_GetCraneMinigameManager(void* self)
@@ -366,17 +361,17 @@ extern void* sub_CGameManager_GetCraneMinigameManager(void* self)
 extern void sub_CraneMinigameManager_updateCraneItemNeedMaterial(void* self, int param)
     asm("_ZN20CraneMinigameManager27updateCraneItemNeedMaterialEi");
 extern void sub_CMonitorServerProxy_SendTcpPacket(void* self, char* buf, int len)
-    asm("_ZN19CMonitorServerProxy14SendTcpPacketEPci");
-extern void sub_Packet_MiniCraneSeed_C1(void* self) asm("_ZN21Packet_MiniCraneSeedC1Ev");
+    asm("_ZN19CMonitorServerProxy13SendTcpPacketEPci");
+extern void sub_Packet_MiniCraneSeed_C1(void* self) asm("_ZN20Packet_MiniCraneSeedC1Ev");
 extern void sub_CGuildServerProxy_SendPowerWarProcessInfo(void* self, unsigned int no)
     asm("_ZN17CGuildServerProxy23SendPowerWarProcessInfoEj");
-extern char sub_ServerParameterScript_isDungeonOpen(void* self)
-    asm("_ZN23ServerParameterScript12isDungeonOpenEv");
+// sub_ServerParameterScript_isDungeonOpen（23 错拼长度）已随 GameWorld.cpp
+// 迁移到真实 isDungeonOpen(int)，此声明已删除。
 extern void* sub_CDataManager_find_dungeon(void* self, int idx)
     asm("_ZNK12CDataManager11find_dungeonEi");
 extern int sub_CDungeon_get_min_level(void* self) asm("_ZNK8CDungeon13get_min_levelEv");
 extern void sub_CUserQuest_get_quest_info(void* self, char* buf)
-    asm("_ZN8UserQuest14get_quest_infoEPc");
+    asm("_ZNK9UserQuest14get_quest_infoEPc");
 extern char sub_CDataManager_reselectDailyTrainingQuest(void* self)
     asm("_ZN12CDataManager26reselectDailyTrainingQuestEv");
 extern void sub_CInventory_RemoveKCItem(void* self) asm("_ZN10CInventory12RemoveKCItemEv");
@@ -465,10 +460,6 @@ extern void sub_CStreamGuard_put_binary(void* self, void* data, int len)
     asm("_ZN12CStreamGuard10put_binaryEPvi");
 extern void sub_MsgQueueMgr_put(void* self, int queueIdx, void* guard)
     asm("_ZN11MsgQueueMgr3putENS_9QUEUE_IDXER12CStreamGuard");
-extern void* sub_CStreamGuard_GetInBuffer_nat(void* self)
-    asm("_ZN12CStreamGuard11GetInBufferI17SIG_NAT_TYPE_USEREEPT_v");
-extern void* sub_CStreamGuard_GetInBuffer_lev(void* self)
-    asm("_ZN12CStreamGuard11GetInBufferI24SIG_UPDATE_STATISTIC4LEVEEPT_v");
 
 // ---- TownScript / sync_script / CGM ----
 extern int sub_initTownScript(char* dir, char* lst) asm("_Z14initTownScriptPcS_");

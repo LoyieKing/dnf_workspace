@@ -82,7 +82,7 @@ bool ScanInt(int* value)
     return value && parseIntToken(*value);
 }
 
-int ScanIntBool(bool* ok)
+int ScanInt(bool* ok)
 {
     int value = 0;
     bool success = parseIntToken(value);
@@ -96,7 +96,7 @@ float ScanFloat(float* value)
     return parseFloatToken(*value) ? *value : 0.0f;
 }
 
-float ScanFloatBool(bool* ok)
+float ScanFloat(bool* ok)
 {
     float value = 0.0f;
     bool success = parseFloatToken(value);

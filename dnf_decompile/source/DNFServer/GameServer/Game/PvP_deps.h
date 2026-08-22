@@ -149,8 +149,8 @@ public:
     void Vote(int a, int b);
     void CancelVoter(int a);
     void CancelCandidate(int a);
-private:
-    char m_pad[0x100];
+    int m_timerKeys[16];
+    char m_pad[0xc0];
 };
 
 // ---- PvpUserTable（0x34c） ----

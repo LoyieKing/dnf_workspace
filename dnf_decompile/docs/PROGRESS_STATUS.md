@@ -152,3 +152,60 @@
 ## 9. 团队
 
 主 agent：/root。历史 subagent：trans_i1_itemcore（I1 物品）、trans_i2_inventory（I2 背包）、task_i1_refine_citem、task_i3_stackable、task_i4_itemlist_fix、task_g1_*、task_g2_*、task_sem_*（并行批次）。**subagent 推理级别：用户要求一律 low（spawn 时 reasoning_effort=low + fork_turns=none）。**
+
+## 10. 批4（GameStubs 迁移：18 个无专属 .cpp/.h 的小类）
+
+> 日期：2026-08-21。从 GameStubs.cpp 拆出 18 个类至独立 .h/.cpp 并登记 CMake；构建 0 错误。
+
+迁出类（各建独立 .h/.cpp，签名对照 ORIG，符号 T）：CServerEvent、CPvPLiveEventData、
+CShutdowManager、CMyFileLog、fair_pvp::CFairPvPScore、CSyncSlangFilter、CGM_Manager、
+WongWork::CLogGameChannel、WongWork::CSkillChanger、CMission_rank、CStatisticContainer、
+online_preliminary::COnlinePreliminaryTeam、CSpecialItemRoutingManager、
+village_object::CVillageObjectMgr、CFatigueBatteryHandle、village_attacked::CVillageMonsterMgr、
+以及 CPad / CMatchingSystem（复用并行 TU Sanicova.cpp / MatchingSystem.cpp）。
+
+新增 CMake TU（Store.cpp 之后）：上述各 .cpp 共 18 个。GameStubs.cpp 行数 2737 → 2549（-188）。
+
+集成要点：
+- CMyFileLog 的 ORIG ctor+两参 operator() 由 ServerCommon/DNFFileLog.cpp 提供；本批仅提供
+  PvP_GuildWar_Log.cpp 需要的单参 operator()(const char*,...)（自造桥接 _ZN10CMyFileLogclEPKcz）。
+- CGM_Manager 的 ctor/dtor、CLogGameChannel 的 ctor/StartLogTimer、CSyncSlangFilter 的
+  GetInstance 等由 GlobalData.cpp 提供，新建 TU 不重复定义。
+- village_object::Zone::Zone(unsigned char,unsigned char) 为 out-of-line 定义（Area.cpp 引用）。
+- CUser.h 的 Sanicova::CPad 补充方法声明（isActivate/getFailCnt/setFailCnt 等）以支撑 Sanicova.cpp。
+
+compare_game_full.py（2026-08-21）：共同 18117，strict=9659 ae=1707（identical=11366），
+near=1163，diff=5588，非identical=6751，仅ORIG=28304，仅NEW=1264。已抽查 18 类代表符号均 T。
+
+## 11. 批9（GameStubs 顶层 42 桩清零：真实符号迁移 + 发明符号 ABI 修正）
+
+> 日期：2026-08-22。GameStubs.cpp 剩余 42 个顶层桩函数全部迁出/删除：真实 ORIG 符号
+> 迁移到对应真实 TU（签名与 ORIG mangled 精确一致），发明符号（错误 ABI 本地版本）
+> 按 ORIG 反汇编修正签名/命名空间/类成员形态后由正确 TU 提供。构建 0 错误。
+> 明细见 `docs/GameStubs_migration_batch9_2026-08-22.md`。
+
+迁移去向（42 符号 → 20+ TU）：
+- 物品访问器：CStackableItem（getStackableLimit/IsExpAffect）、CEquipItem（get_sub_type/
+  RandomItemTable::Set）、CItem（isPackagable）
+- 全局工具：PacketBuf（_NS_PI_MakeHash_NOTI）、MySQL（GetIdentityFromDB）、CSystemTime
+  （OS_API::GetDateTimeTick）、CUserCharacInfo（GetTenThousandPercentage）、SkillSlot
+  （addSkillOnCreateCharacter）
+- 世界/统计：CCommonStatisticsMgr（GetInstanceCommonStatisticsMgr 单例）、TimerQueue
+  （G_TimerQueue）、EpollHandler（G_EpollHandler）、WarField（WarAreaCounter 4 方法）、
+  Inven_Item（UpgradeSeparateInfo::SetUpgradeSeparate）
+- 任务/物品域：CDataManagerScripts（_checkTimeoutItem/GetIntegratedPvPItemAttr/
+  AccountCargoScript×3/SecretShopScript×2/createStackableLotteryInfo/createGlobalEffectInfo/
+  SetLightServerFlag/DeleteInvalidItemScript）、CItemList（Arad_GiftItem_Set::open/
+  after_addItem）、CDataManager（CChattingEmoticonList find_emoticon/ReCalc）、
+  CTradeSpace（SendChangeTradeState）、CItemShop（importItemShopScript）、
+  CItemUpgrade（getUpgradeItemRepairCostRate）
+- 发明符号修正：write_log_gain/use_money + isGainedGoldFromDungeonReason（CInventory.cpp，
+  ABI 改为 (enum,int,CUser*)）；CItemGeneratorMgr 全局发明符号删除、CDataManager.h 改
+  WongWork 权威类型；DB_Load/SaveCerashopAddRestrictType::makeRequest 建类成员
+  （新 TU DB_CerashopAddRestrict.cpp 登记 CMake L330）
+
+验收：
+- `cmake --build dnf_decompile/build/game -j16` → **0 错误**（df_game_r 生成）
+- 42 个 ORIG 签名符号在链接二进制全部为 T；GameStubs.cpp.o 不再 define 其中任何符号
+- 发明符号残留（全局 CItemGeneratorMgr、扁平 DB_*_makeRequest、write_log_(int,int,uint)）全部消失
+- compare_tu_game_orig.py：CItem diff=0、EpollHandler diff=0；其余为算法正确翻译

@@ -225,13 +225,7 @@ public:
     int getIdx();                                 // ORIG W 0x82a7586
 };
 
-class CItemGeneratorMgr
-{
-public:
-    enum eGenerateType_t { eGenerateType_0 = 0 };
-
-    void* getGenerator(eGenerateType_t type);  // ORIG W 0x814a7d0
-};
+class CItemGeneratorMgr;  // 权威定义见 CItemGeneratorMgr.h（经 CDataManager.h 传递包含）
 
 }  // namespace WongWork
 
