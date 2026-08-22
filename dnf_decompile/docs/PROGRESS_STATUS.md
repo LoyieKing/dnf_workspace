@@ -209,3 +209,79 @@ near=1163，diff=5588，非identical=6751，仅ORIG=28304，仅NEW=1264。已抽
 - 42 个 ORIG 签名符号在链接二进制全部为 T；GameStubs.cpp.o 不再 define 其中任何符号
 - 发明符号残留（全局 CItemGeneratorMgr、扁平 DB_*_makeRequest、write_log_(int,int,uint)）全部消失
 - compare_tu_game_orig.py：CItem diff=0、EpollHandler diff=0；其余为算法正确翻译
+
+## 12. 类粒度逐函数对齐批次（function_reports 复用，2026-08-22）
+
+> 策略（用户指示）：以类为粒度、subagent 对齐所有函数到 identical（AE 口径）；
+> 复用 `function_reports` 生成脚本辅助 identical/diff 判断。已将 game 接入
+> `gen_report_manifest.py`/`gen_function_md.py`（ORIG 在 init/df_game_r，ORIG_STUB 特判），
+> 生成权威 manifest + 5185 个逐函数 md 报告（`function_reports/game/`）。
+
+### 批次结果（各 subagent 单 TU 编译验证，relink 由主 agent 集中执行）
+
+| 批次 | 类/TU | 前 identical+AE | 后 identical+AE | diff | 关键修复 |
+|---|---|---|---|---|---|
+| 1a | CUser.cpp | 1039 | 1137（identical 415/ae 722） | 259 | CerashopAddRestrict::UserInfo pack(1)+map 预实例化（修正 80+ 函数偏移差3）；15 处访问器改具名成员 |
+| 1b | CUserCharacInfo | 578 | 580 | 36 | SetIsInitSkillFlag/2ND 达 IDENTICAL；位域/精度/掩码修复 |
+| 2a | GameWorld | 501 | 518 | 108 | CEnvironment.h m_serverEnvir 布局 +0x04→+0x198（影响协议组装）；9 频道判定 if-return |
+| 3a | CInventory | — | 47 | 89(改善) | delete_item 完整实现；MakeItemPacket 签名 int→INVEN_TYPE |
+| 3b | PvP_Room | — | 90 | 86 | calculate_pvp_point 语义修正（observer 过滤/team/Calculate） |
+| 3c | CParty | 134 | 166 | 17 | 桩函数全部真实实现；bool 标志成员 char→bool |
+| Layout | CDataManager/CDeathTower/CItemList/PacketCtor/CEquipItem | — | — | — | 裸偏移→具名成员（pvp_channel_info_t/m_items/m_serverEnvir.m_gcNo 等） |
+
+### 关键结论
+- **编译器伪影为多数 DIFF 主因**：剩余 DIFF/NEAR 多为 c6(4.4.7) vs ORIG(4.4.6) 的栈槽/寄存器/
+  地址代数/EH 布局差异，语义已按 ORIG 报告还原，不可源码层修（需逐 TU 路由 c6446r 或有专用编译器）。
+- **类布局修正收益大**：CUser::UserInfo pack(1)、GameWorld CEnvironment::m_serverEnvir 布局修复
+  一次性修正数十个函数偏移。
+- **已补齐 CUser::SaveInventory**（ORIG 0x0864fe52 T，CParty UseAncientDungeonItems 依赖）；
+  深层序列化依赖（BigStreamPool/CStreamGuard/SIG_SAVE_INVENTORY 真实布局）未还原，按 ORIG
+  保留早退守卫+成功返 1 的可观察控制流（推断）。
+
+### 待办
+- 等待并集成 CGameManager/CDungeon/WarRoom 3 个进行中批次
+- relink 全量构建 + compare_game_full 复核（目标 identical 提升、missing 清零推进）
+- 剩余真实 stub（CUser FatigueUp/UpdateData/AntibotSend/LogHistory 等）按报告逐函数补齐
+
+### 批次结果补充（CGameManager）
+| 2b | CGameManager | 3627 | 3652（identical 586/ae 3066） | 191 | 池分配函数 SetXxx(GetIndex())+insert；operator new+try/catch；用户索引访问器 |
+
+### 全部对齐批次完成（9 个 alignment subagent + LayoutCleanup + 2 个缺失方法批次）
+- CUser/CUserCharacInfo/GameWorld/CGameManager/CInventory/PvP_Room/CDungeon/WarRoom/CParty 全部对齐完成。
+- 缺失方法批次已补 CUser::SaveInventory、CBattle_Field::setBloodState/get_dungeon_diff、CParty 一系列方法、
+  EventNewCharacterReward::isEventCharacter、CWorldMap::IsInHellDungeon/hasDeathTower、CWorldMapList::find_world_map。
+- 剩余：CParty 传递依赖（ImplementBlockers 进行中），然后全量 relink + compare_game_full 复核。
+
+## 13. 批次5 剩余类对齐 + 缺失符号补齐（2026-08-22）
+
+### 批次5 子代理结果（对齐 + 真实 bug 修复）
+| 类/TU | identical+ae 前后 | diff 前后 | 说明 |
+|---|---|---|---|
+| CAchievement | 126→225 | 23→17 | setTrigger 分支反；stTitleElement 模板 |
+| CMissionList_Charac | 137→137 | 30→30 | addNewMission find_mission 用 m_index；Update_RecvPacket_event 条件取反 |
+| CCargo | 11→11 | 29→26 | GetCargoRef/check_slot_empty 升 NEAR；26 条伪影 |
+| BlueMarble | 261→261 | 27→27 | 全部语义忠实；改 helper 返回类型会破坏 6 个 identical，刻意不改 |
+| CTitleBook | 156→167 | 32→23 | 移除 pack(1)（m_user +5→+8）；loadData 补 _reset；内联 GetTitleSlotRaw |
+| SkillSlot | 168→168 | 27→27 | calcUsedSP/check_skill_list find_skill 实参 bug |
+| CAccountCargo | 14→14 | 22→22 | CheckInsertCondition 区间反；Deposit/Withdraw 补错误包；字段 m_amp→m_fieldd |
+| CTradeSpace | 11→13 | 21→19 | add_item 偏移 +0x1b→+0x0b；checkTrade/checkCancelTrade 重写 |
+| CPowerManager | 9→17 | 23→15 | SetPowerInfo/GetPowerWarPoint 等 8 个翻 AE；多处跨模块阻塞 |
+| Quest | 606→613 | 34→31 | PostalReward 12→16 字节（修 -4 偏移）；get_appearmap 双地图语义 |
+| sync_script | 387→406 | 40→21 | 19 个转 AE；truncate 表系 |
+| cUserHistoryLog | 0→40 clean | 40→3 | 40 个空桩→真实实现（layout +0x00 CUser* 等） |
+| secretshop | 228→299 | 35→31 | IBuyRule ABI（去 virtual dtor）；missing 166→103 |
+| CCubeStatistic（新增） | — | — | 8 符号全实现（singleton/findCubeStuff/send/collect×2）；SECRET_SHOP_STATISTIC_DATA ctor |
+
+### 缺失符号补齐
+- CUser::SaveInventory（ORIG 0x0864fe52）：早退守卫 + 成功返 1，序列化体待依赖补齐（推断）
+- cUserHistoryLog::DungeonClearInfo 两重载（0x8684ac4/0x8684a6e）
+- CBattle_Field::setBloodState/get_dungeon_diff、CWorldMap::IsInHellDungeon/hasDeathTower、
+  CWorldMapList::find_world_map、EventNewCharacterReward::isEventCharacter、CParty 系列（+5 helper）
+- 冲突解决：CUser.cpp 删 cUserHistoryLog::RedeemItemAdd asm 桥（cUserHistoryLog.cpp 真定义）
+
+### 最终度量（compare_game_full）
+- 起始：共同 18633 identical=11768 near=1214 diff=5651 非identical=6865
+- 现在：共同 18744 identical=12168 near=1094 diff=5482 非identical=6576
+- **identical +400；diff -169；共同 +111；非identical -289**
+- nsl（ServerLib）：identical 726/729（99.6%），diff=1
+- 全量构建 df_game_r：0 错误，有效 ELF（32 位，not stripped）

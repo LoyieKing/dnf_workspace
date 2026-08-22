@@ -162,7 +162,13 @@ SERVICES = {
     'relay':     ('relay/df_relay_r', 'build/relay/df_relay_r'),
     'statics':   ('statics/df_statics_r', 'build/statics/df_statics_r'),
     'stun':      ('stun/df_stun_r', 'build/stun/df_stun_r'),
+    # game 是特殊服务：ORIG 位于 init/（与 neople/ 同级），由 main() 特判路径
+    'game':      ('ignored/df_game_r', 'build/game/df_game_r'),
 }
+
+# game 服务：ORIG 位于 init/（与 neople/ 同级），不在 INSTALLER 基准下。
+GAME_REL_O = 'init/df_game_r'
+GAME_REL_N = 'build/game/df_game_r'
 
 # 需要 md 的状态
 MD_STATUSES = ('NEAR', 'DIFF')
@@ -222,7 +228,10 @@ def obj_source_candidates(obj_path):
 
 def _list_build_objects(svc):
     """列出服务构建目录下的对象文件（与 collect_object_map 同一发现逻辑）。"""
-    build_dir = ROOT / 'build' / svc
+    if svc == 'game':
+        build_dir = _DECOMP / 'build' / svc
+    else:
+        build_dir = ROOT / 'build' / svc
     if not build_dir.exists():
         return []
     objs = []
@@ -659,9 +668,16 @@ def main():
             continue
         rel_o, rel_n = SERVICES[svc]
         orig_path = INSTALLER / rel_o
-        new_path = ROOT / rel_n
+        # 构建产物统一在 dnf_decompile/build/ 下（非 workspace/build/）
+        new_path = _DECOMP / rel_n
+        if svc == 'game':
+            orig_path = INSTALLER.parent / GAME_REL_O
+            new_path = _DECOMP / GAME_REL_N
         if args.new_bin:
             new_path = Path(args.new_bin).resolve()
+        if not orig_path.exists() or not new_path.exists():
+            print('SKIP {}: missing {} or {}'.format(svc, orig_path, new_path))
+            continue
         svc_dir = out_root / svc
         manifest_path = svc_dir / 'manifest.tsv'
         decomp_path = svc_dir / 'decompiled.txt'

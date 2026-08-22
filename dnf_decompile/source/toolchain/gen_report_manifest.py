@@ -72,7 +72,13 @@ SERVICES = {
     'relay':     ('relay/df_relay_r', 'build/relay/df_relay_r'),
     'statics':   ('statics/df_statics_r', 'build/statics/df_statics_r'),
     'stun':      ('stun/df_stun_r', 'build/stun/df_stun_r'),
+    # game 是特殊服务：ORIG 位于 init/（与 neople/ 同级），由 main() 特判路径
+    'game':      ('ignored/df_game_r', 'build/game/df_game_r'),
 }
+
+# game 服务：ORIG 位于 init/（与 neople/ 同级），不在 INSTALLER 基准下。
+GAME_REL_O = 'init/df_game_r'
+GAME_REL_N = 'build/game/df_game_r'
 
 # 工具链 / 运行时生成、不属于重建源码范围的符号（mangled 前缀或完整名）。
 TOOLCHAIN_EXACT = {
@@ -220,7 +226,11 @@ def main():
             continue
         rel_o, rel_n = SERVICES[svc]
         orig_path = INSTALLER / rel_o
-        new_path = ROOT / rel_n
+        # 构建产物统一在 dnf_decompile/build/ 下（非 workspace/build/）
+        new_path = _DECOMP / rel_n
+        if svc == 'game':
+            orig_path = INSTALLER.parent / GAME_REL_O
+            new_path = _DECOMP / GAME_REL_N
         if not orig_path.exists() or not new_path.exists():
             print('SKIP {}: missing {} or {}'.format(svc, orig_path, new_path))
             continue

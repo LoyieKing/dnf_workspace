@@ -187,7 +187,8 @@ extern CGameManager* G_CGameManager();  // ORIG 0x??
 class CWorldMap
 {
 public:
-    bool IsInHellDungeon() const;  // ORIG W 0x830e6ba
+    bool IsInHellDungeon();  // ORIG W 0x830e6ba（非 const）
+    bool hasDeathTower() const;    // ORIG W 0x822b520（const）
 };
 
 class CLuckPoint

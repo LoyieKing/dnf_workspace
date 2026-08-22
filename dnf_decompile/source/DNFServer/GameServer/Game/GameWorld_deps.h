@@ -372,7 +372,7 @@ extern void* sub_CDataManager_find_dungeon(void* self, int idx)
 extern int sub_CDungeon_get_min_level(void* self) asm("_ZNK8CDungeon13get_min_levelEv");
 extern void sub_CUserQuest_get_quest_info(void* self, char* buf)
     asm("_ZNK9UserQuest14get_quest_infoEPc");
-extern char sub_CDataManager_reselectDailyTrainingQuest(void* self)
+extern bool sub_CDataManager_reselectDailyTrainingQuest(void* self)
     asm("_ZN12CDataManager26reselectDailyTrainingQuestEv");
 extern void sub_CInventory_RemoveKCItem(void* self) asm("_ZN10CInventory12RemoveKCItemEv");
 extern void sub_CMyFileLog_C1(void* self, const char* file, int line)
