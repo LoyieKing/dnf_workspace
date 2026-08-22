@@ -17,7 +17,9 @@
 用法:
   game_func_report.py <源文件.cpp> <mangled符号> [--out md路径] [--no-compile] [--no-orig-report]
                        [--class-override CN] [--method M]
-  （--no-compile 用已有 build/game/df_game_r 切片，秒出；错拼 mangled 用 --class-override/--method）
+  （--no-compile 用已有 build/game/df_game_r 切片，秒出。ORIG 项目函数 mangled 前缀正确、
+   c++filt 可 demangle，报告按 demangled 自动定位；仅第三方模板(boost)等 c++filt 无法
+   demangle 时才需 --class-override/--method 显式指定。）
 
   - 单 TU 编译：复用 check_tu_game_orig.sh（内部 -c，仅几秒）。给 --no-compile 跳过（用当前 build/game 二进制分片）。
 
@@ -48,23 +50,9 @@ def run(cmd, **kw):
 
 
 def demangle(name):
-    d = run(['c++filt', name]).stdout.strip()
-    # 错拼 mangled（ORIG 长度前缀与实际名不符）c++filt 会返回原样；此时用手动解析。
-    if d == name or d.startswith('_Z'):
-        return demangle_fallback(name)
-    return d
-
-
-def demangle_fallback(name):
-    """c++filt 失败（错拼长度前缀）时，用 mangled_class/mangled_method 拼一个近似 dem。
-    仅用于报告路径定位（method/cls_folders）；不保证类型正确。"""
-    cls = mangled_class(name)
-    meth = mangled_method(name)
-    if cls and meth:
-        return '{}::{}()'.format(cls, meth)
-    if meth:
-        return '{}()'.format(meth)
-    return name
+    # ORIG 项目函数 mangled 全部前缀正确（已全量 c++filt 验证），c++filt 应成功；
+    # 若返回原样（仅第三方模板如 boost），原样返回并由 find_report 兜底。
+    return run(['c++filt', name]).stdout.strip()
 
 
 def method(dem):
@@ -85,110 +73,32 @@ def cls_folders(dem):
     return [c, c.replace('__', '_')]
 
 
-def mangled_class(name):
-    """类名 = mangled 中除方法段外的全部段（__ 连接，如 WongWork__CGMAccounts）。
-    用长度前缀精确截断（类名段长度正确）。"""
-    segs = _mangled_segs(name)
-    return '__'.join(segs[:-1]) if len(segs) >= 2 else (segs[0] if segs else '')
-
-
-def mangled_method(name):
-    """方法名 = mangled 最后一段（长度前缀精确截断；错拼时可能截短，由 find_report 剥尾兜底）。"""
-    segs = _mangled_segs(name)
-    return segs[-1] if segs else ''
-
-
-def _mangled_segs(name):
-    """读 Itanium mangled 的 <len><ident> 段序列（长度精确截断）。"""
-    if not name.startswith('_ZN'):
-        return []
-    body = name[3:]
-    segs = []
-    i = 0
-    n = len(body)
-    while i < n:
-        m = re.match(r'\d+', body[i:])
-        if not m:
-            break
-        ln = int(m.group(0))
-        i += len(m.group(0))
-        if i + ln > n:
-            break
-        seg = body[i:i + ln]
-        if not re.match(r'[A-Za-z_]', seg[0]):
-            break
-        segs.append(seg)
-        i += ln
-        # 下一字符若是 E（名字结束）则停（方法名后参数不解析）
-        if i < n and body[i] == 'E':
-            break
-    return segs
-
-
 def find_report(dem, mangled=None):
-    cands = []
+    """按 demangled 定位 class_func_reports/<类>/<方法>.md。
+    类名/方法名来自 c++filt 的 demangled（ORIG 前缀正确，demangle 可靠），
+    method(dem)/cls_folders(dem) 即可定位；mangled 参数保留只作类名拼装辅助。"""
     m = method(dem) if dem else ''
-    if m:
-        cands.append(m)
-    if mangled:
-        mm = mangled_method(mangled)
-        if mm:
-            cands.append(mm)
-    # 对候选做"剥离 mangled 参数尾缀"处理：方法名后的 Ev/Ei/Eb 等（E=Itanium 名字结束）
-    extra = []
-    for c in list(cands):
-        extra.append(re.sub(r'E[0-9A-Za-z_]*$', '', c))
-    cands += extra
-    # 去重保序
+    if not m:
+        return None
+    folders = cls_folders(dem or mangled or '')
+    # 去除方法名的 mangled 参数尾缀候选（如 'MakeItemListE' -> 'MakeItemList'）
+    meth_cands = [m]
+    if 'E' in m and mangled:
+        # dem 里方法名可能带尾缀残留（如错 mangle 无法 c++filt 时），剥 E... 备选
+        meth_cands.append(re.sub(r'E[0-9A-Za-z_]*$', '', m))
     seen = set()
-    uniq = []
-    for c in cands:
-        if c and c not in seen:
-            seen.add(c)
-            uniq.append(c)
-    for m in uniq:
-        # 类文件夹候选：dem 推导 + mangled 首段（可能含命名空间 __ 形式）
-        folders = cls_folders(dem or mangled or '')
-        if mangled:
-            mc = mangled_class(mangled)
-            if mc:
-                folders.append(mc)
-                if '__' not in mc:
-                    folders.append(mc.replace('_', '__'))
+    for mc in meth_cands:
+        if not mc or mc in seen:
+            continue
+        seen.add(mc)
         for c in folders:
-            p = CLS_REPORTS / c / (m + '.md')
+            p = CLS_REPORTS / c / (mc + '.md')
             if p.exists():
                 return p
-        hits = list(CLS_REPORTS.rglob(m + '.md'))
+        hits = list(CLS_REPORTS.rglob(mc + '.md'))
         if hits:
             return hits[0]
-    # 兜底：从 mangled 提取所有 CamelCase token 作方法名候选，rglob 找唯一报告
-    if mangled:
-        tokens = _mangled_tokens(mangled)
-        for t in tokens:
-            hits = list(CLS_REPORTS.rglob(t + '.md'))
-            if len(hits) == 1:
-                return hits[0]
     return None
-
-
-def _mangled_tokens(name):
-    """从 mangled 提取含大写的方法名候选 token（去重）。"""
-    import re as _re
-    # 字母开头的标识符（跳过 _ZN/_Z 前缀与下划线）；数字被忽略。
-    toks = _re.findall(r'[A-Za-z][A-Za-z0-9]*', name)
-    cands = []
-    for t in toks:
-        if _re.search(r'[A-Z]', t) and len(t) >= 3:
-            cands.append(t)
-            cands.append(_re.sub(r'E[A-Za-z0-9]*$', '', t))
-    seen = set()
-    out = []
-    for t in cands:
-        if t and t not in seen:
-            seen.add(t)
-            out.append(t)
-    return out
 
 
 def extract_asm(md):
@@ -238,9 +148,9 @@ def main():
     ap.add_argument('--no-orig-report', action='store_true',
                     help='不读 class_func_reports（仅用二进制切片做 ORIG）')
     ap.add_argument('--class-override', default=None,
-                    help='显式指定类报告文件夹名（错拼 mangled 无法定位时）')
+                    help='显式指定类报告文件夹名（c++filt 无法 demangle 的第三方模板时）')
     ap.add_argument('--method', default=None,
-                    help='显式指定方法名（错拼 mangled 无法定位时）')
+                    help='显式指定方法名（c++filt 无法 demangle 的第三方模板时）')
     args = ap.parse_args()
 
     # 1) 单 TU 编译（复用 check_tu_game_orig.sh；内部 -c 输出 /tmp/tu_<base>.o）
@@ -258,7 +168,7 @@ def main():
         rep = find_report(dem, args.symbol)
         if args.class_override:
             # 显式类文件夹 + 方法名
-            mo = args.method or method(dem) or mangled_method(args.symbol)
+            mo = args.method or method(dem)
             mc = args.class_override.replace('_', '__')  # user 可能传 CUser 或 CUser
             cand = CLS_REPORTS / mc / (mo + '.md')
             if cand.exists():

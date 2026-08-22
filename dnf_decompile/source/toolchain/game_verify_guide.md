@@ -58,3 +58,55 @@
    `nm` 拿地址后 `objdump -d ORIG` 按地址区间。
 3. 按报告还原语义/布局。
 4. 改完 `game_func_report.py` 复验。
+
+## 硬约束（补充，2026-08-22）
+
+6. **不允许使用 `extern "C"` 这种形式来获取链接符号**。
+   - 必须通过 include 正确类型定义的 header（`#include "xxx.h"`）来获取符号；
+   - 禁止 `extern "C" void f(...) asm("_ZN...")` 这类 asm 桥；
+   - 正解：include 对应类的头文件，直接用真实类型/方法调用（签名与 ORIG mangled 一致）。
+
+7. **重复类型定义时，应当合并，只留一个声明点**。
+   - 若需要就创建 .h/.cpp（新建头/源文件承载唯一声明点）；
+   - **不允许**因为"合并导致了大范围报错"就回滚改动；
+   - 合并带来的问题（命名、identical、编译错、链接错等）必须**主动正向修复**：
+     - 同一类型/枚举/结构只在一个头声明；
+     - 各 .cpp 的局部重复声明/前向声明/最小声明一律删除，统一 include 权威头；
+     - 修复后重新构建到 0 错误，并核对 identical/near/diff 无回归。
+
+8. **测量 mangled 前缀/字符串真实长度，必须用 shell 命令，禁止 LLM 凭记忆/猜测**。
+   - LLM 数长度会数错（如 `reset_uniqueid_flag`=19、`CGMAccounts`=11、`GetMileage`=11、`logCritical`=11）。
+   - 权威测量方式（在 `dnf_decompile/` 下）：
+     - 某标识符真实字符数：`printf '%s' 'GetMileage' | wc -c`（或 `echo -n ... | wc -c`）
+     - 检查某 mangled 的长度前缀是否错：提取 `_ZN<len>...` 前缀，段真实长 vs 前缀长对照。
+   - 一切涉及"真实长度/前缀是否匹配"的判断，先跑 shell 拿到数字再下结论。
+
+## 9. 删除 extern "C" asm 桥：处理协议（约束12 落地）
+目标：把源码里所有 `extern "C" ... sub_xxx(...) asm("_ZN...")` 桥删除，全部换为 include 真实类型定义 + 直接调用。
+
+每处 asm 桥处理步骤：
+1. 确定符号所归属的真实 C++ 类/自由函数（用 `c++filt <mangled>` 得 demangled 类名/方法名）。
+2. include 该类的权威头（`#include "Xxx.h"`）；若头不存在或类未建模：
+   - 该类有 `docs/class_func_reports/<类>/<方法>.md` → 按报告补类定义/方法声明（签名与 ORIG mangled 一致）。
+   - 无报告 → 用 `nm -S --defined-only ORIG | grep <mangled>` 确认是真实符号后，按需补最小类声明（含该方法），标「推断」。
+3. 删 asm 桥声明，把调用点 `sub_Xxx(obj, args...)` 改为真实调用：
+   - `obj->Method(args...)`（成员方法）
+   - `Type::StaticMethod(args...)`（静态）
+   - `FreeFunc(args...)`（自由函数）
+4. 若 asm 桥只是「无语用声明」（无调用点）→ 直接删除声明与空桩。
+5. 改完：`game_func_report.py --no-compile` 复验符号定位；受影响 TU `check_tu_game_orig.sh` 编译通过。
+6. 全量 relink（主 agent 集中）确认 0 undefined、0 重复定义。
+
+禁止：保留 `extern "C"` asm 桥作为"以后再说"；不允许因报错回滚——报错就按本协议正向修复。
+
+## 10. 改动范围 + hub 周知（硬性）
+- subagent 完全允许修改「一开始指定的文件范围」之外的其它头文件/源文件，
+  **前提是能提供权威的语义判断证据**（docs/class_func_reports/<类>/<方法>.md、
+  objdump -d ORIG 按地址、nm --defined-only ORIG、shell wc -c 实测长度等）。
+- 但**必须使用 hub 能力，周知所有其他 subagent 该更改**：
+  - 用 `hub send to:"all"` 广播"我将修改哪几个头/文件/加了哪个方法/类声明"，
+    让其它可能编辑同一文件的 subagent 知道并避让/协调。
+  - 改共享头（CUser.h/CGameManager.h/GameWorld.h 等）尤其要先广播、确认无冲突，
+    或说明已在处理避免重复定义。
+  - 若已与某个 subagent 存在文件重叠，用 `hub send to:<对方> ` 定向协调。
+- 禁止：未周知就修改会与其它 subagent 冲突的头文件；因担心"超范围"而不修（有证据就该修）。

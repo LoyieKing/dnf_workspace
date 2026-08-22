@@ -12,33 +12,6 @@ struct STMonsterParameterCategory
     int m_field8;
 };
 
-bool map_monster::isNamedMonster()
-{
-    const int id = m_mobIndex;
-    return (id > 0xc34f && id <= 0xc738) ||
-           (id > 0xdabf && id <= 0xea60);
-}
-
-bool map_monster::isNamedMonster() const
-{
-    return const_cast<map_monster*>(this)->isNamedMonster();
-}
-std::list<_mapMonster> CMap::get_condition_monster_list() const
-{
-    // 语义化：代理 CMap 暴露与真实 CMap.h（+0x14 m_conditionMonsterList）同布局的成员。
-    return m_conditionMonsterList;
-}
-
-void* CMonster::getMonsterScript() const
-{
-    // 具名成员访问：m_script 位于 +0x60（CBattle_Field_deps.h 与 CMonster.cpp 布局一致）。
-    return const_cast<STMonsterScript*>(&m_script);
-}
-void* CMonster::getMonsterScript(CMonster* self)
-{
-    return self == 0 ? 0 : self->getMonsterScript();
-}
-
 namespace
 {
 static int& field(ActiveStaticInfo* p, unsigned int off)

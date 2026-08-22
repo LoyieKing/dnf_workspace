@@ -11,7 +11,7 @@
 
 1. **首选资料**：`docs/class_func_reports/*.md`（每类一份，含逐函数汇编 + Ghidra C 反编译）是翻译工作的**首选内容**——所有 subagent 翻译时先读对应类的报告，再以 ORIG 反汇编核对；禁止跳过报告直接用猜测。
 2. **还原原始内存布局**：代码必须还原原始 class 的内存布局结构（成员按 ORIG 偏移声明、类型正确、pack/对齐一致）。翻译中发现签名/getter/setter（ORIG 弱符号访问器族）时，**优先用这些结构快速还原原始字段位置与语义**。
-3. **消除全局地址/偏移写法**：工程中应尽量消除 `(char*)this + 0x...`、`*(int*)(base + 0x...)`、`(void*)0x...` 这类裸偏移/裸地址写法——能通过真实成员声明表达的，一律改为具名成员访问；只有 ORIG 确为无符号的全局/数据区或错拼 mangled 符号才允许保留地址形式并加注释。
+3. **消除全局地址/偏移写法**：工程中应尽量消除 `(char*)this + 0x...`、`*(int*)(base + 0x...)`、`(void*)0x...` 这类裸偏移/裸地址写法——能通过真实成员声明表达的，一律改为具名成员访问；只有 ORIG 确为无符号的全局/数据区才允许保留地址形式并加注释。
 
 ## 2. 工作区与权威资料
 
@@ -129,9 +129,8 @@
 1. **ORIG 编译器**：Red Hat GCC 4.4.6-3（c6446r）。多个 TU 的虚调用寄存器形态在 4.4.6 下逐操作数一致，4.4.7 下 NEAR——逐 TU 路由解决。
 2. **nsl 符号**：df_game_r 的 nsl 被 strip，以 point ORIG 为权威参照。
 3. **用户规则**：SHA/MD5 等通用算法类只保证算法正确，不需 identical（CSHA/CTEA/Cipher/CNCrypto 等豁免）。
-4. **ORIG 错拼 mangled 符号**：约 20 个 ORIG 符号的长度前缀与真实名不符（如 `_ZN13CEventManager13GetRepeatEventEi` 的 GetRepeatEvent 实为 14 字符但前缀 13；ServerParameterScript 前缀 23 而非 21；HeroMissionEvent 15 而非 16；CItemShop 方法 22/19 而非 21/18）。无法用标准 C++ 声明生成，用 **asm-label 直补**（GameStubs/各 TU 中注明）。
-5. **GameStubs 策略**：未翻译符号先在 GameStubs.cpp（3641 行）以本地类+asm 桩保链接；对应 TU 翻译后由主 agent 删桩（有 97 个 CUser/8 个 CParty 方法被桩占位，需清理后才能并入真实实现）。
-6. **构建假绿陷阱**：链接失败会留下损坏的 df_game_r，make 视为 up-to-date → `file df_game_r` 显示 "data" 而非 ELF。验证前先 `mv df_game_r /tmp/x` 强制重链接。
+4. **GameStubs 策略**：未翻译符号先在 GameStubs.cpp（3641 行）以本地类+asm 桩保链接；对应 TU 翻译后由主 agent 删桩（有 97 个 CUser/8 个 CParty 方法被桩占位，需清理后才能并入真实实现）。
+5. **构建假绿陷阱**：链接失败会留下损坏的 df_game_r，make 视为 up-to-date → `file df_game_r` 显示 "data" 而非 ELF。验证前先 `mv df_game_r /tmp/x` 强制重链接。
 
 ## 7. 已知待办清理项
 
@@ -292,8 +291,8 @@ near=1163，diff=5588，非identical=6751，仅ORIG=28304，仅NEW=1264。已抽
 `source/toolchain/game_func_report.py`：单 TU 编译（不链接）+ 读 `docs/class_func_reports/<类>/<方法>.md`
 （ORIG 汇编 + Ghidra C）+ 生成合并报告（ORIG asm / Ghidra C / 我们 asm / diff / 分类）。
 - `--no-compile` 模式 <1.5s（用 build/game/df_game_r 的 load_disasm_cached 切片）。
-- 自动定位绝大多数符号；错拼 mangled（ORIG 长度前缀错，如 CLog/logCritical、CGMAccounts/removeGM、
-  CInventory/MakeItemList）用 `--method`/`--class-override` 显式指定。
+- 报告按 c++filt demangled 自动定位（ORIG 项目函数 mangled 前缀正确）；仅第三方模板(boost)等
+  c++filt 无法 demangle 时用 `--method`/`--class-override` 显式指定。
 - 判定：IDENTICAL / IDENTICAL_AE / NEAR / DIFF。
 
 ### 验证指南（4 条核心要求固化）
@@ -325,3 +324,52 @@ near=1163，diff=5588，非identical=6751，仅ORIG=28304，仅NEW=1264。已抽
 ### 度量（compare_game_full）
 共同 19274 / identical=12636 / near=1135 / diff=5503 / 非identical=6638。
 构建 0 错误，df_game_r = 有效 ELF。
+
+## 15. extern "C" asm 桥全量清理（约束12 落地，2026-08-22 进行中）
+
+处理协议（game_verify_guide.md §9）：删 `extern "C" ... asm("_ZN...")` 桥 → include 权威头 → 调用点改真实调用 → 缺类/方法建 .h 或补声明（带 ORIG 证据）→ 正向修复编译。
+范围扩展 + hub 周知（§10）：允许改指定范围外头（须权威证据），但必须 hub 广播周知其它 subagent。
+
+批次结果：
+- Village 批（CTraceMobDieHack 30/Village 27/Area 26/VillageMonster_helpers 7=90桥）：全删，5 TU OK；建 TownAreaScript.h；CVillageMonsterMgr::OnEvent void→bool。
+- CleanCPartyAsm 部分：CTradeSpace 24桥 + CInventory 全删；建 CTradeSpace.h/DB_AvatarChangeOwner.h。
+- CleanCParty2Asm：CParty 77桥全删（0 残留）；建 BattleData.h/SECRET_SHOP_DATA.h/Secu_HackLogCheckByParty.h；修 CBattle_Field_deps.h/CVillageMonsterMgr.h/GlobalData.h 等跨头冲突。
+- CleanUserQuestAsm：UserQuest 62/WarRoom 55/WarField 21=138桥全删；修 PvP_deps.h/CInventory.h 等 5 头。
+- CleanFAsm：IsEquipable 16/CAuction 15/Secu_HackLogCheckByParty 12/CAccountCargo 11/sync_script 10=64桥；建 RDARScriptStringManager.h/ServiceRestrictManager.h/SyncScriptDeps.h。
+- 进行中：CleanCGameManagerAsm(144桥)、CleanPvPAsm(109+75桥)。
+
+已知集成事项（main relink 时统一）：
+- 多处本地桩（GlobalData.cpp/WarField.cpp 的 ServiceRestrictManager、sync_script.h ST 镜像、PvP_deps.cpp WarField/map_monster/map_item 等）与新建权威头 ODR 去重。
+- WarAreaCounter::GetCurrenTimeTable void*→int（CDataManager.h，CleanCGameManagerAsm）。
+
+## 16. extern "C" asm 桥 + *_deps.h 全量清零（2026-08-22，重大里程碑）
+
+### 结果（已验证构建绿色 + 全量对比）
+- **asm 桥清零**：源码 0 个 `asm("_ZN...")` / `extern "C" sub_*`（原 902 个全删）→ 全部改真实 include 类型定义 + 直接调用。
+- **_deps.h 全删**：PvP_deps.h / CBattle_Field_deps.h / GameWorld_deps.h 3 个（原承载重复本地桩/前向）全部删除，类定义转移到正确/新建权威 .h。
+- **大量新建权威头**：CTradeSpace.h/DB_AvatarChangeOwner.h/TownAreaScript.h/BattleData.h/SECRET_SHOP_DATA.h/Secu_HackLogCheckByParty.h/Statistics.h/CDisconnectDetecter.h/CUserProc.h/RDARScriptStringManager.h/ServiceRestrictManager.h/SyncScriptDeps.h/CUserGlobalInfoHandle.h/HistoryLog.h/CSchoolMgr.h/CGuildAgitManager.h/CDoubleConnCheckServerProxy.h/Inter_MonitorGuildPointDel.h/CDeathTowerRanking.h/CDeathMatchBattleMgr.h/Village.h/Area.h/CBattle_Field_shared.h/MSG_STAT_RANKRES.h/STExpertJobScript.h/Redeem_Item__CRedeemItem.h + DNFLex 族(DNFLex.h/CompiledDNFLex.h/ScriptStringManager.h/DNFLexWrapper.h)。
+- **跨头冲突正向修复**：CBattle_Field_deps.h/GameWorld_deps.h/PvPTypes.h 本地桩 vs 权威头（add guard/include 权威）；WarField.h 成为 map_item/map_monster/MapInfo/stMapMonsterKillChecker_t/stMapPlayInfo_t 唯一声明点；PvPTypes.h 成为 PvP 域权威继承者；CVillageMonsterMgr.h 为 village_attacked 域唯一头。
+- **签名按 ORIG 正向修正**：CVillageMonsterMgr::OnEvent void→bool、CUser::make_basic_info void→int、GameWorld 域返回值、CerashopAddRestrict 系列、ServerParameterScript::GetPvPPenaltyRevision int→float、卡内 makeRequest static 等。
+- **宏约定**：CParty.cpp 显式构造/析构带模板参数(含逗号)用 typedef(MapII/MapInfoVec)避免 `~std::map<int,int>()` 逗号解析歧义。
+- **Singleton 模板唯一化**：Arad_DataManager.h 提供 `ARAD::Singleton<T>::Get()` 唯一模板定义，ARAD.cpp/CCeraShopAddRestrict.cpp 只保留显式实例化。
+
+### 验证
+- `df_game_r` 链接成功（有效 ELF，0 错误）。
+- compare_game_full：共同 19285 / identical 12647 / near 1134 / diff 5504 / 非identical 6638（较前 identical 12636 微升，无回归）。
+- 余：RefactorDNFLex（DNFLex 族收尾 TOP 域 TODO-1..7）进行中。
+
+## 17. DNFLex 族重构完成 + 最终验收（2026-08-22）
+
+- RefactorDNFLex：新增 6 TU 编入 CMake（DNFLexWrapper/DNFLexWrapperStream/DNFLexWrapperLoadStream/DNFLexCore/CompiledDNFLexCore/FlexLexerEngine[替 FlexLexerCore.cpp]）；DNFLex 族真实 C++ 成员（__dnf_script__FlexLexer vtable 链）替代 sub_FlexLexer_* C 符号；头 DNFLex.h/CompiledDNFLex.h/ScriptStringManager.h 唯一声明点。
+- 补 `toTString(const std::string&)` 定义（ORIG 0x8adeab0，SyncScriptDeps.cpp 与 toMbcs 同域）。
+- 集成修复：CParty.cpp 显式模板 dtor typedef(MapII/MapInfoVec)、ARAD::Singleton<T>::Get() 唯一模板定义（Arad_DataManager.h；ARAD.cpp/CCeraShopAddRestrict.cpp 只保留显式实例化）、Village +0x30 语义为 m_questIdx（CheckMoveTown ORIG 无 requiredLevel）、make_basic_info void→int、CUser.cpp Secu_HackLogCheckByParty include、MapInfo typedef 顺序。
+
+### 最终验收（全部达成）
+- `_deps.h` = 0（PvP_deps/CBattle_Field_deps/GameWorld_deps 全删）
+- extern "C" asm 桥 = 0（源码 0 个 `asm("_ZN...")`）
+- DNFLex 族真实 C++ 成员编入（187 个 DNFLex/FlexLexer/CompiledDNFLex 符号）
+- `df_game_r` 链接成功（有效 ELF 32 位，0 错误）
+- compare_game_full：共同 19406 / identical 12668 / near 1134 / diff 5604（较 12636 提升）
+
+### 结论
+约束12（禁止 extern C 获取链接符号，必须 include 真实类型定义）与约束2（重复类型合并/删 _deps、因报错不回滚）已完整落地。902 个 asm 桥 + 3 个 _deps.h + 大量本地重复类型全部清理为真实 include 类型定义。

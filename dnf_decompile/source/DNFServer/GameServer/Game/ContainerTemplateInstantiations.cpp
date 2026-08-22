@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
-#include "GameWorld_deps.h"
+#include "TownAreaScript.h"   // TownAreaScript（map<int, TownAreaScript> 显式实例化）
 #include "WarField.h"
 #include <iterator>
 #include "CTraceMobDieHack.h"

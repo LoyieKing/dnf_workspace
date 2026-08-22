@@ -28,12 +28,9 @@ private:
 };
 
 // ============================================================================
-// 外部方法（asm-label extern；避免依赖并行批次未定稿的权威头）
+// 外部方法（权威头已提供：MazeScript::getGridR 见 CDungeon.h，
+// CBattle_Field::getCurrentLayeredMapInfo 见 CBattle_Field.h）
 // ============================================================================
-extern "C" GridScript* sub_MazeScript_getGridR(void* maze, int x, int y)
-    asm("_ZNK10MazeScript8getGridREii");
-extern "C" MapInfo* sub_CBattle_Field_getCurrentLayeredMapInfo(void* self)
-    asm("_ZN13CBattle_Field24getCurrentLayeredMapInfoEv");
 
 // ============================================================================
 // 小访问器（ORIG 弱符号，直接读反汇编实现）
@@ -74,13 +71,13 @@ MapInfo* CBattle_Field::GetMapInfoFromPos(int x, int y, bool create)
         }
         if (m_gridMaze != 0)
         {
-            GridScript* grid = sub_MazeScript_getGridR(m_gridMaze, x, y);
+            const GridScript* grid = &m_gridMaze->getGridR(x, y);
             if (grid != 0 && grid->m_layeredMapIndexes.size() != 0)
             {
-                MapInfo* cur = sub_CBattle_Field_getCurrentLayeredMapInfo(this);
+                MapInfo* cur = getCurrentLayeredMapInfo();
                 if (cur->m_layeredMap != 0)
                 {
-                    return sub_CBattle_Field_getCurrentLayeredMapInfo(this);
+                    return getCurrentLayeredMapInfo();
                 }
             }
         }
