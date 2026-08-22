@@ -27576,3 +27576,4 @@ MISSING	xp_cmp	0x883dfc0	0x11
 MISSING	xptable_free	0x883e1d0	0x53			
 DIFF	_Z11IsEquipableP5CUserPK5CItemi	0x85003be	0x2ca	0x8299675	0x2c4	_Z11IsEquipableP5CUserPK5CItemi.md
 DIFF	_ZNK8CDungeon14get_clear_itemEv	0x834c8c0	0x9c	0x815b438	0x7c	_ZNK8CDungeon14get_clear_itemEv.md
+MISSING_ORIG	_ZN11IsEquipableP5CUserPK5CItemi	0x0	0x0	0x0	0x0	_ZN11IsEquipableP5CUserPK5CItemi.md

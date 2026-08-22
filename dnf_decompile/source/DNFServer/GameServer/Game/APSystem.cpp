@@ -57,6 +57,4 @@ void CActionPointManager::Reset()
 
 class _MSG_ACTION_POINT_ACTION_CLEAR { public: _MSG_ACTION_POINT_ACTION_CLEAR(); };
 _MSG_ACTION_POINT_ACTION_CLEAR::_MSG_ACTION_POINT_ACTION_CLEAR() {}
-class DB_UpdateActionPoint { public: void makeRequest(int, const _SIG_LOAD_ACTION_POINT&, bool); };
-void DB_UpdateActionPoint::makeRequest(int, const _SIG_LOAD_ACTION_POINT&, bool) {}
 } // namespace APSystem

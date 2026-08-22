@@ -285,3 +285,43 @@ near=1163，diff=5588，非identical=6751，仅ORIG=28304，仅NEW=1264。已抽
 - **identical +400；diff -169；共同 +111；非identical -289**
 - nsl（ServerLib）：identical 726/729（99.6%），diff=1
 - 全量构建 df_game_r：0 错误，有效 ELF（32 位，not stripped）
+
+## 14. 快脚本 + 正向修复（2026-08-22）
+
+### 新增 game_func_report.py（单函数快速验证脚本，子代理专用）
+`source/toolchain/game_func_report.py`：单 TU 编译（不链接）+ 读 `docs/class_func_reports/<类>/<方法>.md`
+（ORIG 汇编 + Ghidra C）+ 生成合并报告（ORIG asm / Ghidra C / 我们 asm / diff / 分类）。
+- `--no-compile` 模式 <1.5s（用 build/game/df_game_r 的 load_disasm_cached 切片）。
+- 自动定位绝大多数符号；错拼 mangled（ORIG 长度前缀错，如 CLog/logCritical、CGMAccounts/removeGM、
+  CInventory/MakeItemList）用 `--method`/`--class-override` 显式指定。
+- 判定：IDENTICAL / IDENTICAL_AE / NEAR / DIFF。
+
+### 验证指南（4 条核心要求固化）
+`source/toolchain/game_verify_guide.md`：
+1. 验证只用 game_func_report.py（禁慢的 gen_function_md --function）。
+2. 汇编/Ghidra C 只用 docs/class_func_reports/。
+3. 不允许编造导出符号不存在的函数（发明符号按 ORIG 真名修正调用）。
+4. 函数参数/返回值类型可改（二进制无法推导时）。
+5. padding/data 等无语义字段的偏移访问 → 按语义建真实字段，getter/setter 函数名为权威。
+
+### 正向修复（不允许回退，修复被取消子代理的半成品/破坏）
+- advancealtar::ActionDefine/TimeLine 重复定义 → 删 CMap.h 重复，统一 advancealtar.h（CMap.h include advancealtar.h）。
+- item_lock::stItemLockRef / CItemLock 三处重复 → 权威统一 CTitleBook.h（含 CItemLock 类）。
+- stIndependentDropInfo / BuyUpgradeData / BuyShopData 重复 → 权威提升 CDataManager.h。
+- CerashopAddRestrict::LoadScriptDaily/FindIpgNo/CheckBuyableProduct、ServerParameterScript::GetPvPPenaltyRevision
+  签名（void/int/bool/float）按 ORIG 修正。
+- cUserHistoryLog::EnterDungeon 缺 2 参声明 → CUser.h 补。
+- advancealtar::TimeLine ctor/dtor/op= 定义移入构建内 advancealtar_StageControl.cpp。
+- stDeathTower_t/live_server_info_t ctor 缺定义 → CDataManagerScripts.cpp 补。
+- FixUndefinedSymbols：18 个真实 ORIG 符号补定义（CInventory::MakeItemList/SendItemLockListInven、
+  CUser::ChangeCharacSlot/UpdateCharacView/setLinkCharacDisconnectFlag/_postCheckForceChangeGrowType、
+  CDataManager::GetExpertJobEtcScript、STExpertJobScript::isBoundaryExpValue、CAssaultMgr::OnLeaveAssaultPlace、
+  CGMAccounts::removeGM、CUserGlobalInfoHandle::reset_uniqueid_flag、CCreatureMgr::SendCreatureItemList、
+  IsLightServer、importNpcScript、DB_* makeRequest×4）+ 3 个发明符号修正
+  （CUserGlobalInfoHandleIns→Instance()、STExpertJobScri::operator->→STExpertJobScript::GetLevel、DB_* const）。
+- reset_uniqueid_flag asm 桥 17→19 长度修正；CCreature.cpp 不入 CMake（类未建模），
+  SendCreatureItemList 迁至 CCreatureMgr.cpp。
+
+### 度量（compare_game_full）
+共同 19274 / identical=12636 / near=1135 / diff=5503 / 非identical=6638。
+构建 0 错误，df_game_r = 有效 ELF。

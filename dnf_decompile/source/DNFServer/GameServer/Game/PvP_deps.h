@@ -227,7 +227,9 @@ private:
     char m_pad[0x44];
 };
 
-// ---- CMatchingSystem（0x18） ----
+// ---- CMatchingSystem（0x18 = IMatch* m_systems[6]，懒加载匹配子系统单例） ----
+// 布局依据 ORIG 0x085dfac6/0x085dfaf4/0x085dfba0：对象 = 6 个 IMatch* 槽位（type 0..5）。
+class IMatch;
 class CMatchingSystem
 {
 public:
@@ -235,7 +237,7 @@ public:
     ~CMatchingSystem();
     void* GetMatchingSystem(ENUM_PVP_MATCHING_TYPE type);
 private:
-    char m_pad[0x18];
+    IMatch* m_systems[6];   // +0x00（0x18）
 };
 
 // ---- WarField（0xf8，WarRoom +0x34；复杂方法经 asm-label extern 调用） ----
