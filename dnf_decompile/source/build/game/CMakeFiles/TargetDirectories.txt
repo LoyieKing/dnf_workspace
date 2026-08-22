@@ -1,3 +1,0 @@
-/home/wangyilei/dnf_workspace/dnf_decompile/source/build/game/CMakeFiles/game.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/source/build/game/CMakeFiles/edit_cache.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/source/build/game/CMakeFiles/rebuild_cache.dir

@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/wangyilei/dnf_workspace/dnf_decompile/build/monitor/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

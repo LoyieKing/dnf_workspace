@@ -1,3 +1,0 @@
-CMakeFiles/game.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/DefGlobal.cpp.o: \
- /home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/DefGlobal.cpp \
- /home/wangyilei/dnf_workspace/dnf_decompile/source/cmake/game/../../DNFServer/GameServer/ServerLab/ServerLib/basic_header/DefGlobal.h

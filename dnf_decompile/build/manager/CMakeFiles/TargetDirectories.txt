@@ -1,4 +1,0 @@
-/home/wangyilei/dnf_workspace/dnf_decompile/build/manager/CMakeFiles/manager.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/manager/CMakeFiles/mysqlclient_manager.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/manager/CMakeFiles/edit_cache.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/manager/CMakeFiles/rebuild_cache.dir

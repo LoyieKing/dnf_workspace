@@ -1,9 +1,0 @@
-===== monitor (c6444r, tc=dnf_toolchain_monitor.cmake, DNF_TC_ROOT=/home/wangyilei/dnf_workspace/dnf_decompile/toolchains, -j6) =====
-[1/5] Building CXX object CMakeFiles/monitor.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp.o
-[2/5] Building CXX object CMakeFiles/monitor.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp.o
-[3/5] Building CXX object CMakeFiles/monitor.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Monitor/DNFUserManager.cpp.o
-[4/5] Building CXX object CMakeFiles/monitor.dir/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp.o
-/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp: In static member function ‘static void CPacketTranslater::OnLogin(PacketHeader*)’:
-/home/wangyilei/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp:217: 警告： 已弃用从字符串常量到‘char*’的转换
-[5/5] Linking CXX executable df_monitor_r
-OK -> /home/wangyilei/dnf_workspace/dnf_decompile/build/monitor/df_monitor_r

@@ -1,3 +1,0 @@
-/home/wangyilei/dnf_workspace/dnf_decompile/build/statics/CMakeFiles/statics.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/statics/CMakeFiles/edit_cache.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/statics/CMakeFiles/rebuild_cache.dir

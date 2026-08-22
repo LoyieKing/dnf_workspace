@@ -1,3 +1,0 @@
-/home/wangyilei/dnf_workspace/dnf_decompile/build/guild/CMakeFiles/guild.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/guild/CMakeFiles/edit_cache.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/guild/CMakeFiles/rebuild_cache.dir

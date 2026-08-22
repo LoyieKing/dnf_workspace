@@ -1,4 +1,0 @@
-/home/wangyilei/dnf_workspace/dnf_decompile/build/dbmw/CMakeFiles/dbmw.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/dbmw/CMakeFiles/mysqlclient_dbmw.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/dbmw/CMakeFiles/edit_cache.dir
-/home/wangyilei/dnf_workspace/dnf_decompile/build/dbmw/CMakeFiles/rebuild_cache.dir
